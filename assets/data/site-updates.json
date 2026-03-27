@@ -1,0 +1,37 @@
+[
+  {
+    "type": "changelog",
+    "title": "Header, Archive, Recent posts",
+    "url": "/changelog.html",
+    "date": "2026-03-26T11:25:00+00:00",
+    "summary": "Added new archival pages, updates JS, new header design, and added recent posts and posts I like tabs to site."
+  },
+  {
+    "type": "site",
+    "title": "Webmentions, Brid.gy, Blog post design",
+    "url": "/changelog.html",
+    "date": "2026-03-20T12:00:00+00:00",
+    "summary": "Wrangled Webmentions, set up Brid.gy for website and socials, and created a new blog post design."
+  },
+  {
+    "type": "changelog",
+    "title": "Verified on IndieWeb, added buttons",
+    "url": "/changelog.html",
+    "date": "2026-03-18T12:00:00+00:00",
+    "summary": "Verified accounts and made website tweaks."
+  },
+  {
+    "type": "changelog",
+    "title": "RSS Feed and Website Standardised",
+    "url": "/changelog.html",
+    "date": "2026-03-18T12:00:00+00:00",
+    "summary": "RSS, Atom, JSON and website standardised."
+  },
+  {
+    "type": "site",
+    "title": "Feed System Added",
+    "url": "/changelog.html",
+    "date": "2026-03-16T12:00:00+00:00",
+    "summary": "Added RSS and Atom feeds to the site."
+  }
+]

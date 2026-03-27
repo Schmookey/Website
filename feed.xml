@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+
+<channel>
+
+<title>Schmookey's World</title>
+<link>https://schmookey.neocities.org/</link>
+
+<description>
+Retro personal website — music, gaming, tech, and updates.
+</description>
+
+<language>en-gb</language>
+
+<atom:link
+  href="https://schmookey.neocities.org/feed.xml"
+  rel="self"
+  type="application/rss+xml" />
+
+<lastBuildDate>Mon, 16 Mar 2026 12:00:00 GMT</lastBuildDate>
+
+<image>
+  <url>https://schmookey.neocities.org/assets/images/Schmookey.jpg</url>
+  <title>Schmookey's World</title>
+  <link>https://schmookey.neocities.org/</link>
+</image>
+
+<!-- ENTRY -->
+<item>
+
+<title>Site Update: Feed System Added</title>
+
+<link>
+https://schmookey.neocities.org/changelog.html
+</link>
+
+<guid>
+https://schmookey.neocities.org/changelog.html#feed-update-001
+</guid>
+
+<pubDate>Mon, 16 Mar 2026 12:00:00 GMT</pubDate>
+
+<description>
+Added RSS and Atom feeds to the site.
+</description>
+
+</item>
+
+</channel>
+</rss>

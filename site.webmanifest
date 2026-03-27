@@ -1,0 +1,77 @@
+[
+  {
+    "file": "index.html",
+    "corrected_file": "index_corrected.html",
+    "changed": true
+  },
+  {
+    "file": "about.html",
+    "corrected_file": "about_corrected.html",
+    "changed": false
+  },
+  {
+    "file": "now.html",
+    "corrected_file": "now_corrected.html",
+    "changed": true
+  },
+  {
+    "file": "guestbook.html",
+    "corrected_file": "guestbook_corrected.html",
+    "changed": true
+  },
+  {
+    "file": "privacy.html",
+    "corrected_file": "privacy_corrected.html",
+    "changed": true
+  },
+  {
+    "file": "changelog.html",
+    "corrected_file": "changelog_corrected.html",
+    "changed": true
+  },
+  {
+    "file": "webrings.html",
+    "corrected_file": "webrings_corrected.html",
+    "changed": true
+  },
+  {
+    "file": "blog-archive.html",
+    "corrected_file": "blog-archive_corrected.html",
+    "changed": true
+  },
+  {
+    "file": "offline.html",
+    "corrected_file": "offline_corrected.html",
+    "changed": false
+  },
+  {
+    "file": "page-template.html",
+    "corrected_file": "page-template_corrected.html",
+    "changed": false
+  },
+  {
+    "file": "blog-template.html",
+    "corrected_file": "blog-template_corrected.html",
+    "changed": true
+  },
+  {
+    "file": "post1.html",
+    "corrected_file": "post1_corrected.html",
+    "changed": true
+  },
+  {
+    "file": "post2.html",
+    "corrected_file": "post2_corrected.html",
+    "changed": true
+  },
+  {
+    "file": "404.html",
+    "corrected_file": "404_corrected.html",
+    "changed": false
+  },
+  {
+    "file": "test-mention.html",
+    "corrected_file": "test-mention_corrected.html",
+    "changed": false
+  }
+]

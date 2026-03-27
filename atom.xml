@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+<title>Schmookey's World</title>
+<link href="https://schmookey.neocities.org/"/>
+<link href="https://schmookey.neocities.org/atom.xml" rel="self"/>
+
+<updated>2026-03-16T12:00:00Z</updated>
+<id>https://schmookey.neocities.org/</id>
+
+<author>
+  <name>Schmookey</name>
+</author>
+
+<entry>
+<title>Site Update: Feed System Added</title>
+<link href="https://schmookey.neocities.org/changelog.html"/>
+<id>tag:schmookey.neocities.org,2026:feed-update-001</id>
+<updated>2026-03-16T12:00:00Z</updated>
+
+<summary>
+Added RSS and Atom feeds to the site.
+</summary>
+</entry>
+
+</feed>
