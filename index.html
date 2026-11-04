@@ -2,7 +2,10 @@
 <html lang="en-GB">
 
 <head>
-
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
 <!-- =========================================
 CHARSET (MUST BE FIRST)
 ========================================= -->
@@ -23,7 +26,7 @@ PRIMARY SEO (EDIT PER PAGE)
 <meta name="author" content="Schmookey">
 
 <link rel="canonical"
-      href="https://schmookey.neocities.org">
+      href="https://schmookey.xyz">
 
 <!-- =========================================
 OPEN GRAPH
@@ -38,13 +41,13 @@ OPEN GRAPH
 <meta property="og:type" content="website">
 
 <meta property="og:url"
-      content="https://schmookey.neocities.org">
+      content="https://schmookey.xyz">
 
 <meta property="og:site_name"
       content="SCHMOOKEY">
 
 <meta property="og:image"
-      content="https://schmookey.neocities.org/assets/images/Schmookey.jpg">
+      content="https://schmookey.xyz/assets/images/Schmookey.jpg">
 
 <!-- =========================================
 SOCIAL / FEDIVERSE
@@ -77,53 +80,18 @@ FEED DISCOVERY (SAFE)
       title="Schmookey's World JSON Feed"
       href="/feed.json">
 
-<!-- =========================================
-INDIEWEB IDENTITY (BRIDGY + VERIFICATION)
-========================================= -->
-
-<div class="h-card" hidden>
-
-  <a class="p-name u-url"
-     href="https://schmookey.neocities.org">
-     Schmookey
-  </a>
-
-  <img class="u-photo"
-       src="https://schmookey.neocities.org/assets/images/Schmookey.jpg"
-       alt="Schmookey">
-     
-         <!-- Website -->
-  <a rel="me"
-     href="https://schmookey.neocities.org">"></a>
-
-  <!-- Mastodon -->
-  <a rel="me"
-     href="https://mastodon.social/@schmookey"></a>
-
-  <!-- Bluesky -->
-  <a rel="me"
-     href="https://bsky.app/profile/schmookey.neocities.org"></a>
-
-  <!-- Optional extras -->
-  <a rel="me"
-     href="https://codeberg.org/schmookey"></a>
-
-  <a rel="me"
-     href="https://github.com/Schmookey"></a>
-
-  <!-- Webmention -->
-<link rel="webmention"
-      href="https://webmention.io/schmookey.neocities.org/webmention">
-
-<link rel="pingback"
-      href="https://webmention.io/schmookey.neocities.org/xmlrpc">
-</div>
+<!-- IndieWeb identity and verification -->
+<link rel="me" href="https://schmookey.xyz">
+<link rel="me" href="https://mastodon.social/@schmookey">
+<link rel="me" href="https://bsky.app/profile/schmookey.xyz">
+<link rel="webmention" href="https://webmention.io/schmookey.xyz/webmention">
+<link rel="pingback" href="https://webmention.io/schmookey.xyz/xmlrpc">
 
 <!-- =========================================
 STYLES
 ========================================= -->
 
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap"
       rel="stylesheet">
 
 <link rel="stylesheet"
@@ -133,10 +101,14 @@ STYLES
 
 <body class="h-card light">
 
-<!-- IndieWeb identity -->
+<!-- IndieWeb identity: retain the original hidden About-page URL -->
 <a class="u-url"
-   href="https://schmookey.neocities.org/about.html"
+   href="https://schmookey.xyz/about.html"
    hidden></a>
+<div class="h-card" hidden>
+  <a class="p-name u-url" href="https://schmookey.xyz/">Schmookey</a>
+  <img class="u-photo" src="/assets/images/Schmookey.jpg" alt="Schmookey">
+</div>
 
 
 <!-- =========================================
@@ -165,9 +137,9 @@ NAVIGATION
 <nav class="menu">
   <a href="/index.html" class="active">Home</a>
   <a href="/about.html">About</a>
-  <a href="/blog.html">Blog</a>
-  <a href="/music.html">Music</a>
-  <a href="/random.html">Random</a>
+  <a href="/blog/">Blog</a>
+  <a href="/music/">Music</a>
+  <a href="/random/">Random</a>
   <a href="/now.html">Now</a>
 </nav>
 
@@ -190,8 +162,8 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
       <img src="/assets/images/mastodon_button_1.gif" alt="My Mastodon">
     </a>
 
-    <a href="https://schmookey.neocities.org/guestbook" title="Sign my guestbook">
-      <img src="assets/images/guestbook-button.gif" alt="Sign my guestbook">
+    <a href="https://bsky.app/profile/schmookey.xyz" title="Follow me on Bluesky">
+      <img src="assets/images/bluesky.gif"alt="Follow me on Bluesky">
     </a>
 
     <a href="https://bandcamp.com/patientzero90" title="My Bandcamp Collection">
@@ -219,9 +191,7 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
 
   <div id="site-updates"></div>
   
-<div class="h-card">
 
-</div>
 
 </main>
 <!-- =========================================
@@ -236,47 +206,47 @@ RIGHT SIDEBAR (DO NOT TOUCH STRUCTURE)
 
       <article class="article">
         <h4 class="title">
-          <a href="https://joelchrono.xyz/blog/pc-games-on-cereal-boxes/" target="_blank" rel="noopener">
-            PC Games on Cereal Boxes
+          <a href="https://www.wheresyoured.at/the-ai-demand-bubble/" target="_blank" rel="noopener">
+            The AI Demand Bubble
           </a>
         </h4>
         <p class="summary">
-         I mentioned a bit of this a few years back in a post where I shared some early computing memories.
+         The question I want to ask anyone reading this who might have invested in or in some way backed the hyperscalers and the greater AI industry:
         </p>
         <small class="source">
-          via <a href="http://joelchrono.xyz/" target="_blank" rel="noopener">Joelchrono/</a>
+          via <a href="https://www.wheresyoured.at/" target="_blank" rel="noopener">Ed Zitron</a>
         </small>
-        <small class="date">March 21, 2026</small>
+        <small class="date">August 4, 2026</small>
       </article>
 
       <article class="article">
         <h4 class="title">
-          <a href="https://james.cridland.net/blog/2026/radiodays-europe-2026" target="_blank" rel="noopener">
-            The world of radio goes to Rīga
+          <a href="https://www.usermag.co/p/my-journey-into-the-slop-factory"target="_blank" rel="noopener">
+           My Journey Into The Slop Factory
           </a>
         </h4>
         <p class="summary">
-          The radio world is in Rīga, Latvia - including me - for Radiodays Europe.
+           There is a particular kind of video that has plagued my timeline for the last eighteen months. It could best be described as AI slop, but it’s not quite AI slop.
         </p>
         <small class="source">
-          via <a href="https://james.cridland.net/" target="_blank" rel="noopener">James Cridland</a>
+          via <a href="https://www.usermag.co/" target="_blank" rel="noopener">Taylor Lorenz</a>
         </small>
-        <small class="date">March 22, 2026</small>
+        <small class="date">July 30, 2026</small>
       </article>
 
       <article class="article">
         <h4 class="title">
-          <a href="https://disassociated.com/twitter-upstart-social-media-platform-stunted-growth-web/" target="_blank" rel="noopener">
-            Twitter, the upstart social media platform that stunted the growth, and more, of the web
+          <a href="https://www.gamefile.news/p/sony-drops-playstation-discs-2028-ps3-vita-stores-closing"target="_blank" rel="noopener">
+            Sony will cease production of discs for new PlayStation games in 2028
           </a>
         </h4>
         <p class="summary">
-          A bit of history. Read this post from 20 years ago by Phil Jones..
+          New games sold for PlayStation consoles will only be available digitally and won’t be sold on discs effective January 2028, Sony has announced.
         </p>
         <small class="source">
-          via <a href="https://disassociated.com " target="_blank" rel="noopener">disassociated</a>
+          via <a href="https://substack.com/@stephentotilo" target="_blank" rel="noopener">Stephen Totilo</a>
         </small>
-        <small class="date">March 24, 2026</small>
+        <small class="date">July 1, 2026</small>
       </article>
 
     </section>
@@ -301,7 +271,7 @@ FOOTER
   <div class="footer-inner">
 
     <nav>
-      <a href="/guestbook.html">GUESTBOOK</a> •
+      <a href="/listening.html">NOW LISTENING</a> •
       <a href="/webrings.html">WEBRINGS</a> •
       <a href="/sitemap.xml">SITEMAP</a> •
       <a href="/changelog.html">CHANGELOG</a> •

@@ -22,7 +22,7 @@ PRIMARY SEO (EDIT PER PAGE)
 <meta name="author" content="Schmookey">
 
 <link rel="canonical"
-      href="https://schmookey.neocities.org/blog/posts/post1.">
+      href="https://schmookey.xyz/blog/posts/post1.html">
 
 <!-- =========================================
 OPEN GRAPH
@@ -33,16 +33,16 @@ OPEN GRAPH
 
 <meta property="og:description"
       content="I initially set up this website/blog again because I really want to...">
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 
 <meta property="og:url"
-      content="https://schmookey.neocities.org/blog/posts/post1">
+      content="https://schmookey.xyz/blog/posts/post1.html">
 
 <meta property="og:site_name"
       content="SCHMOOKEY">
 
 <meta property="og:image"
-      content="https://schmookey.neocities.org/assets/images/Schmookey.jpg">
+      content="https://schmookey.xyz/assets/images/Schmookey.jpg">
 
 <!-- =========================================
 SOCIAL / FEDIVERSE
@@ -77,7 +77,7 @@ INDIEWEB
 ========================================= -->
 
 <link rel="me"
-      href="https://schmookey.neocities.org/about.html">
+      href="https://schmookey.xyz/about.html">
 
 <link rel="me"
       href="https://mastodon.social/@schmookey">
@@ -86,16 +86,16 @@ INDIEWEB
       href="https://codeberg.org/schmookey">
 
 <link rel="webmention"
-      href="https://webmention.io/schmookey.neocities.org/webmention">
+      href="https://webmention.io/schmookey.xyz/webmention">
 
 <link rel="pingback"
-      href="https://webmention.io/schmookey.neocities.org/xmlrpc">
+      href="https://webmention.io/schmookey.xyz/xmlrpc">
 
 <!-- =========================================
 STYLES
 ========================================= -->
 
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap"
       rel="stylesheet">
 
 <link rel="stylesheet"
@@ -107,7 +107,7 @@ STYLES
 
 <!-- IndieWeb identity -->
 <a class="u-url"
-   href="https://schmookey.neocities.org/about.html"
+   href="https://schmookey.xyz/about.html"
    hidden></a>
 
 
@@ -137,9 +137,9 @@ NAVIGATION
 <nav class="menu">
   <a href="/index.html">Home</a>
   <a href="/about.html">About</a>
-  <a href="/blog.html"  class="active">Blog</a>
-  <a href="/music.html">Music</a>
-  <a href="/random.html">Random</a>
+  <a href="/blog/"  class="active">Blog</a>
+  <a href="/music/">Music</a>
+  <a href="/random/">Random</a>
   <a href="/now.html">Now</a>
 </nav>
 
@@ -152,7 +152,7 @@ MAIN LAYOUT (DO NOT TOUCH STRUCTURE)
 <!-- =========================================
 LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
 ========================================= -->
-  <aside class="sidebar left">
+ <aside class="sidebar left">
 
     <h2>SOCIALS</h2>
 
@@ -162,9 +162,9 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
       <img src="/assets/images/mastodon_button_1.gif" alt="My Mastodon">
     </a>
 
-    <a href="https://schmookey.neocities.org/guestbook" title="Sign my guestbook">
-      <img src="/assets/images/guestbook-button.gif" alt="Sign my guestbook">
-    </a>
+        <a href="https://bsky.app/profile/schmookey.xyz" title="Follow me on Bluesky">
+      <img src="/assets/images/bluesky.gif" alt="Follow me on Bluesky">
+      </a>
 
     <a href="https://bandcamp.com/patientzero90" title="My Bandcamp Collection">
       <img src="/assets/images/bandcamp1.png" alt="My Bandcamp Collection">
@@ -180,119 +180,199 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
     </div>
 
   </aside>
-  <!-- =====================================
+  
+<!-- =====================================
   CENTER CONTENT
   ⭐ EDIT ONLY INSIDE THIS AREA
   ====================================== -->
 <main>
+  <article class="post-container h-entry">
 
-<div class="post-container">
-<!--Header-->
-<header class="retro-post-hud h-entry"
-        id="postHeader"
-        data-post-header>
+    <!-- canonical post URL for microformats / Bridgy -->
+    <a class="u-url"
+       href="https://schmookey.xyz/blog/posts/post1.html"
+       hidden></a>
 
-  <!-- progress -->
-  <div class="reading-progress" aria-hidden="true">
-    <div class="reading-progress-bar" id="progressBar"></div>
-  </div>
+    <!-- Header -->
+    <header class="retro-post-hud"
+            id="postHeader"
+            data-post-header>
 
-  <div class="hud-grid">
-
-    <!-- PHOTO MODULE -->
-    <div class="hud-photo p-author h-card">
-      <img src="/assets/images/Schmookey.jpg"
-           alt="SCHMOOKEY avatar"
-           class="u-photo">
-      <span class="p-name">SCHMOOKEY</span>
-    </div>
-
-    <!-- TITLE MODULE -->
-    <div class="hud-title">
-      <h1 class="p-name post-title">My First Post</h1>
-    </div>
-
-    <!-- CLOCK + DATE -->
-    <div class="hud-clock">
-      <div id="hudDate" class="dt-published"
-           datetime="2026-03-07T10:30:00+00:00">
-        Loading date…
+      <!-- progress -->
+      <div class="reading-progress" aria-hidden="true">
+        <div class="reading-progress-bar" id="progressBar"></div>
       </div>
-      <div id="hudTime">10:30:00</div>
-    </div>
 
-       <!-- META MODULE -->
-      <div class="hud-meta">
+      <div class="hud-grid">
 
-  <span class="meta-pill">
-    ⏱ <span id="reading-time">– min read</span>
-  </span>
+        <!-- PHOTO MODULE -->
+        <div class="hud-photo p-author h-card">
+          <img src="/assets/images/Schmookey.jpg"
+               alt="SCHMOOKEY avatar"
+               class="u-photo">
+          <span class="p-name">SCHMOOKEY</span>
+        </div>
 
-  <span class="meta-pill">
-    💬 <span id="mention-count">0 mentions</span>
-  </span>
+        <!-- Author/Summary -->
+        <a class="u-author" href="https://schmookey.xyz" hidden></a>
+        <p class="p-summary" hidden>
+          My first post.
+        </p>
 
-  <span class="meta-pill">
-    ❤️ <span id="wm-likes">0</span>
-  </span>
+        <!-- TITLE MODULE -->
+        <div class="hud-title">
+          <h1 class="p-name post-title">My First Post</h1>
+        </div>
 
-  <span class="meta-pill">
-    🔁 <span id="wm-reposts">0</span>
-  </span>
+        <!-- CLOCK + DATE -->
+        <div class="hud-clock">
+          <time id="hudDate"
+                class="dt-published"
+                datetime="2026-03-07T10:30:00+00:00">
+            Loading date…
+          </time>
+          <div id="hudTime">19:37:00</div>
+        </div>
 
-  <span class="meta-pill">
-    🔗 <span id="wm-replies">0 replies</span>
-  </span>
+        <!-- META MODULE -->
+        <div class="hud-meta">
+          <span class="meta-pill">
+            ⏱ <span id="reading-time">– min read</span>
+          </span>
 
-</div>
+          <span class="meta-pill">
+            💬 <span id="mention-count">0 mentions</span>
+          </span>
 
-  </div>
-</header>
+          <span class="meta-pill">
+            ❤️ <span id="wm-likes">0</span>
+          </span>
 
-<div class="e-content">
-<!--Brid.gy-->
-<a href="https://brid.gy/publish/mastodon" hidden></a>
+          <span class="meta-pill">
+            🔁 <span id="wm-reposts">0</span>
+          </span>
 
-<p>Hi! This is my first post… well, here goes! I decided to set up a personal blog again for the first time in years. Lately, I’ve been diving deep into FOSS (Free and Open Source Software) applications ever since I switched to Linux.</p> 
+          <span class="meta-pill">
+            🔗 <span id="wm-replies">0 replies</span>
+          </span>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="e-content">
+
+      <!-- syndication -->
+      <a rel="syndication"
+         class="u-syndication"
+         href="https://mastodon.social/@schmookey/116262126154443969"
+         hidden></a>
+
+      <a rel="syndication"
+         class="u-syndication"
+         href="https://bsky.app/profile/schmookey.xyz/post/abc123"
+         hidden></a>
+
+      <!-- Brid.gy publish triggers -->
+      <a href="https://brid.gy/publish/mastodon" hidden></a>
+      <a href="https://brid.gy/publish/bluesky" hidden></a>
+
+      <p>Hi! This is my first post… well, here goes! I decided to set up a personal blog again for the first time in years. Lately, I’ve been diving deep into FOSS (Free and Open Source Software) applications ever since I switched to Linux.</p> 
 <p>I finally made the switch, and honestly, it wasn’t as painful as I expected. Even better, I haven’t had to go back to Windows for any apps — which was my biggest worry. I’ve been trying out a bunch of open-source applications and keeping the ones that really work for me. My goal is to free myself from big tech wherever I can and preserve my sanity. Aside from that, I love retro tech, video games, and all things music — so expect some of that here too!.</p>
   
-   <img src="../../assets/images/retro-gamepad.png"
-     alt="Retro gamepad"
-     style="max-width:100%;">
+   <figure class="post-image">
+    <img src="../../assets/images/retro-gamepad.png" alt="Retro Gamepad">
+    <figcaption>Retro Gamepad</figcaption>
+  </figure>
 
-<footer class="retro-post-footer">
+
+    </div>
+
+    <!-- categories -->
+    <h3 class="tag-heading"></h3>
+
+    <ul class="post-tags">
+      <li><span class="p-category">Blog</span></li>
+      <li><span class="p-category">First</span></li>
+      <li><span class="p-category">FOSS</span></li>
+    </ul>
+
+    <!-- Footer -->
+    <footer class="retro-post-footer">
 
   <!-- 88x31 BUTTONS -->
-  <div class="footer-buttons">
-    <a href="#"><img src="/assets/images/valid-rss-rogers.png" alt="This site has a valid RSS Feed"></a>
-    <a href="#"><img src="/assets/images/CC_BY-NC_icon-88x31.png" alt="Attribution-NonCommercial 4.0 International"></a>
-    <a href="#"><img src="/assets/images/webmention88x31-flat.png" alt="This site uses Webmentions"></a>
+  <div class="footer-buttons footer-buttons-vertical">
+    <a href="/feed.xml">
+      <img src="/assets/images/valid-rss-rogers.png" alt="Valid RSS">
+    </a>
+    <a href="https://creativecommons.org/licenses/by-nc/4.0/">
+      <img src="/assets/images/CC_BY-NC_icon-88x31.png" alt="CC BY-NC">
+    </a>
+    <a href="https://webmention.io/">
+      <img src="/assets/images/webmention88x31-flat.png" alt="Webmentions enabled">
+    </a>
   </div>
 
   <div class="footer-divider"></div>
 
-  <!-- NAV -->
-  <nav class="footer-nav">
-    <a href="../index.html" class="footer-btn">⬅ Back</a>
-    <a href="/" class="footer-btn">🏠 Home</a>
+  <!-- NAV BUTTONS -->
+  <nav class="footer-nav footer-nav-buttons" aria-label="Post navigation">
+    <a href="/blog/" class="footer-btn">⬅ Back</a>
+    <a href="/index.html" class="footer-btn">🏠 Home</a>
     <a href="/blog-archive.html" class="footer-btn">📜 Blog Archive</a>
   </nav>
 
-  <!-- WEBMENTIONS -->
-  <section class="webmention-area h-feed">
-    <h2>Replies</h2>
+    <!-- COMMENTS / REPLIES -->
+  <section class="comments-panel" aria-labelledby="comments">
+    <h2 id="comments" class="comments-title">💬 Replies</h2>
 
-   <div id="webmentions">
-  <p>Loading replies…</p>
-</div>
-  </section>
+    <p class="comment-intro">
+  Replies from the Fediverse and other webmention-enabled sites appear below.
+</p>
 
-</footer>
-</div>
+    <div id="comments-list" class="comments-list" aria-live="polite">
+      <noscript>
+        <p class="system-msg">JavaScript is required to load replies.</p>
+      </noscript>
+    </div>
+
+    <div class="comment-options">
+      <a
+        class="comment-button"
+        href="https://share.joinmastodon.org/#text=Check%20out%20this%20post%20by%20%40schmookey!%20https://schmookey.xyz/blog/posts/post1.html"
+        target="_blank"
+        rel="noopener noreferrer">
+        Share on Mastodon
+      </a>
+
+     <button class="comment-button" id="load-comments-btn" type="button">
+  Load Replies
+</button>
+    </div>
+
+    <details class="fediverse-details">
+      <summary>Reply on Fediverse</summary>
+      <p>Paste this URL into your client:</p>
+      <pre class="fediverse-link-box">https://schmookey.xyz/blog/posts/post1.html</pre>
+      <p>
+        <a
+          class="u-syndication fediverse-thread-link"
+          rel="syndication"
+          href="https://mastodon.social/@schmookey/116262126154443969"
+        >
+          Open original thread
+            </a>
+    </p>
+  </details>
+</section>
+
+    </footer>
+  </article>
 </main>
 
 <!-- =========================================
-RIGHT SIDEBAR (DO NOT TOUCH STRUCTURE)
+RIGHT SIDEBAR
 ========================================= -->
 <aside class="sidebar right">
   <section class="related-posts">
@@ -305,15 +385,12 @@ RIGHT SIDEBAR (DO NOT TOUCH STRUCTURE)
 </div>
 <!-- =========================================
 FOOTER
-(Edit ACTIVE link only) class= "active"
+(Edit ACTIVE link only) class="active"
 ========================================= -->
-
 <footer class="footer">
-
   <div class="footer-inner">
-
-    <nav>
-      <a href="../../guestbook.html">GUESTBOOK</a> •
+    <nav aria-label="Footer navigation">
+      <a href="../../listening.html">NOW LISTENING</a> •
       <a href="../../webrings.html">WEBRINGS</a> •
       <a href="../../sitemap.xml">SITEMAP</a> •
       <a href="../../changelog.html">CHANGELOG</a> •
@@ -321,13 +398,9 @@ FOOTER
     </nav>
 
     <p>© Schmookey 2026</p>
-
   </div>
-
 </footer>
 
-
 <script src="../../assets/js/main.js"></script>
-<script src="../../assets/js/webmentions.js"></script>
 </body>
 </html>

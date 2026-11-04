@@ -1,5 +1,37 @@
 [
   {
+     "title": "August Updates",
+    "url": "/blog/posts/august_updates.html",
+    "date": "2026-08-12T20:45:00+00:00",
+    "readingTime": 2,
+    "section": "blog",
+    "tags": ["blog", "aaron lee tasjan", "yakuza", "update", "bookwyrm"]
+  },
+  {
+    "title": "Physical media",
+    "url": "/blog/posts/physical-media.html",
+    "date": "2026-04-17T22:40:00+00:00",
+    "readingTime": 4,
+    "section": "blog",
+    "tags": ["blog", "physical media", "film", "television", "boxsets", "ownership"]
+  },
+  {
+    "title": "Podcast blah blah",
+    "url": "/blog/posts/podcast-blah-blah.html",
+    "date": "2026-04-01T16:20:00+00:00",
+    "readingTime": 6,
+    "section": "blog",
+    "tags": ["blog", "podcasts", "streaming", "media"]
+  },
+  {
+    "title": "My week 23-29 March",
+    "url": "/blog/posts/this-week-23-29-march.html",
+    "date": "2026-03-29T22:20:00+00:00",
+    "readingTime": 3,
+    "section": "blog",
+    "tags": ["blog", "website", "tower", "listenbrainz", "bookwyrm"]
+  },
+  {
     "title": "ListenBrainz",
     "url": "/music/posts/listenbrainz.html",
     "date": "2026-03-25T22:00:00+00:00",
@@ -29,6 +61,6 @@
     "date": "2026-03-07T09:10:30+00:00",
     "readingTime": 2,
     "section": "blog",
-    "tags": ["blog", "first"]
+    "tags": ["blog", "first", "FOSS"]
   }
 ]

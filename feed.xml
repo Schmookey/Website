@@ -1,52 +1,116 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<rss version="2.0"
-     xmlns:atom="http://www.w3.org/2005/Atom">
-
-<channel>
-
-<title>Schmookey's World</title>
-<link>https://schmookey.neocities.org/</link>
-
-<description>
-Retro personal website — music, gaming, tech, and updates.
-</description>
-
-<language>en-gb</language>
-
-<atom:link
-  href="https://schmookey.neocities.org/feed.xml"
-  rel="self"
-  type="application/rss+xml" />
-
-<lastBuildDate>Mon, 16 Mar 2026 12:00:00 GMT</lastBuildDate>
-
-<image>
-  <url>https://schmookey.neocities.org/assets/images/Schmookey.jpg</url>
-  <title>Schmookey's World</title>
-  <link>https://schmookey.neocities.org/</link>
-</image>
-
-<!-- ENTRY -->
-<item>
-
-<title>Site Update: Feed System Added</title>
-
-<link>
-https://schmookey.neocities.org/changelog.html
-</link>
-
-<guid>
-https://schmookey.neocities.org/changelog.html#feed-update-001
-</guid>
-
-<pubDate>Mon, 16 Mar 2026 12:00:00 GMT</pubDate>
-
-<description>
-Added RSS and Atom feeds to the site.
-</description>
-
-</item>
-
-</channel>
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:ns0="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Schmookey's World</title>
+    <link>https://schmookey.xyz/</link>
+    <description>Retro personal website — music, gaming, tech, and updates.</description>
+    <language>en-gb</language>
+    <lastBuildDate>Wed, 12 Aug 2026 20:45:00 GMT</lastBuildDate>
+    <ns0:link href="https://schmookey.xyz/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>August Updates</title>
+      <link>https://schmookey.xyz/blog/posts/august_updates.html</link>
+      <guid isPermaLink="false">urn:schmookey:post:august_updates</guid>
+      <pubDate>Wed, 12 Aug 2026 20:45:00 GMT</pubDate>
+      <description>Hello! I fear it's been a little while, I have updated my NOW page but aside from that I haven't really been online. I tried to write something for the World Cup but it was…</description>
+    </item>
+    <item>
+      <title>Now</title>
+      <link>https://schmookey.xyz/now.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:now:2026-08-07T19:35:00+00:00</guid>
+      <pubDate>Fri, 07 Aug 2026 19:35:00 GMT</pubDate>
+      <description>What I'm currently doing.</description>
+    </item>
+    <item>
+      <title>Physical media</title>
+      <link>https://schmookey.xyz/blog/posts/physical-media.html</link>
+      <guid isPermaLink="false">urn:schmookey:post:physical-media</guid>
+      <pubDate>Fri, 17 Apr 2026 22:40:00 GMT</pubDate>
+      <description>For a while I’ve just been coasting along with movies and TV. I used to purchase plenty of DVDs – mainly Asian cinema like Oldboy, Battle Royale, I’m a Cyborg, But That’s OK.…</description>
+    </item>
+    <item>
+      <title>Podcast blah blah</title>
+      <link>https://schmookey.xyz/blog/posts/podcast-blah-blah.html</link>
+      <guid isPermaLink="false">urn:schmookey:post:podcast-blah-blah</guid>
+      <pubDate>Wed, 01 Apr 2026 16:20:00 GMT</pubDate>
+      <description>I have been listening to podcasts now for the past 20 years, give or take. It all started with an iPod Classic and finding my favourite weekend radio show was releasing their…</description>
+    </item>
+    <item>
+      <title>Widgets, Music, Domain</title>
+      <link>https://schmookey.xyz/changelog.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:widgets-music-domain:2026-03-31T21:30:00+00:00</guid>
+      <pubDate>Tue, 31 Mar 2026 21:30:00 GMT</pubDate>
+      <description>Added 'as live' Music widget, book and movie ones local/intentional, Custom domain.</description>
+    </item>
+    <item>
+      <title>My week 23-29 March</title>
+      <link>https://schmookey.xyz/blog/posts/this-week-23-29-march.html</link>
+      <guid isPermaLink="false">urn:schmookey:post:this-week-23-29-march</guid>
+      <pubDate>Sun, 29 Mar 2026 22:20:00 GMT</pubDate>
+      <description>This has been a productive week for me online, whislt I have been particularly fiddly with the website, I am in a somewhat happy place with it. I really now just need to get…</description>
+    </item>
+    <item>
+      <title>Header, Archive, Recent posts</title>
+      <link>https://schmookey.xyz/changelog.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:header-archive-recent-posts:2026-03-26T11:25:00+00:00</guid>
+      <pubDate>Thu, 26 Mar 2026 11:25:00 GMT</pubDate>
+      <description>Added new archival pages, updates JS, new header design, and added recent posts and posts I like tabs to site.</description>
+    </item>
+    <item>
+      <title>ListenBrainz</title>
+      <link>https://schmookey.xyz/music/posts/listenbrainz.html</link>
+      <guid isPermaLink="false">urn:schmookey:post:listenbrainz</guid>
+      <pubDate>Wed, 25 Mar 2026 22:00:00 GMT</pubDate>
+      <description>Ever since I can remember, I've always had a strong connection with music; I feel emotionally invested. I find it difficult just to have it on passively. I am that person who…</description>
+    </item>
+    <item>
+      <title>My thoughts on SNL UK</title>
+      <link>https://schmookey.xyz/blog/posts/snluk.html</link>
+      <guid isPermaLink="false">urn:schmookey:post:snluk</guid>
+      <pubDate>Tue, 24 Mar 2026 22:30:00 GMT</pubDate>
+      <description>This weekend, the first episode of the British Saturday Night Live aired. There was an SNL-like show in the 80s called Friday Night Live, before being retitled Saturday Live.…</description>
+    </item>
+    <item>
+      <title>Webmentions, Brid.gy, Blog post design</title>
+      <link>https://schmookey.xyz/changelog.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:webmentions-brid-gy-blog-post-design:2026-03-20T12:00:00+00:00</guid>
+      <pubDate>Fri, 20 Mar 2026 12:00:00 GMT</pubDate>
+      <description>Wrangled Webmentions, set up Brid.gy for website and socials, and created a new blog post design.</description>
+    </item>
+    <item>
+      <title>Verified on IndieWeb, added buttons</title>
+      <link>https://schmookey.xyz/changelog.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:verified-on-indieweb-added-buttons:2026-03-18T12:00:00+00:00</guid>
+      <pubDate>Wed, 18 Mar 2026 12:00:00 GMT</pubDate>
+      <description>Verified accounts and made website tweaks.</description>
+    </item>
+    <item>
+      <title>RSS Feed and Website Standardised</title>
+      <link>https://schmookey.xyz/changelog.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:rss-feed-and-website-standardised:2026-03-18T12:00:00+00:00</guid>
+      <pubDate>Wed, 18 Mar 2026 12:00:00 GMT</pubDate>
+      <description>RSS, Atom, JSON and website standardised.</description>
+    </item>
+    <item>
+      <title>Feed System Added</title>
+      <link>https://schmookey.xyz/changelog.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:feed-system-added:2026-03-16T12:00:00+00:00</guid>
+      <pubDate>Mon, 16 Mar 2026 12:00:00 GMT</pubDate>
+      <description>Added RSS and Atom feeds to the site.</description>
+    </item>
+    <item>
+      <title>Enter The Fediverse</title>
+      <link>https://schmookey.xyz/blog/posts/post2.html</link>
+      <guid isPermaLink="false">urn:schmookey:post:post2</guid>
+      <pubDate>Wed, 11 Mar 2026 19:37:00 GMT</pubDate>
+      <description>I initially set up this website/blog again because I really want to try and fall back in love with the internet—bizarre, I know! The internet has definitely lost something…</description>
+    </item>
+    <item>
+      <title>My First Post</title>
+      <link>https://schmookey.xyz/blog/posts/post1.html</link>
+      <guid isPermaLink="false">urn:schmookey:post:post1</guid>
+      <pubDate>Sat, 07 Mar 2026 09:10:30 GMT</pubDate>
+      <description>Hi! This is my first post… well, here goes! I decided to set up a personal blog again for the first time in years. Lately, I’ve been diving deep into FOSS (Free and Open…</description>
+    </item>
+  </channel>
 </rss>

@@ -2,7 +2,7 @@
 <html lang="en-GB">
 
 <head>
-
+<link rel="stylesheet" href="https://cdring.neocities.org/cdring/onionring.css">
 <!-- =========================================
 CHARSET (MUST BE FIRST)
 ========================================= -->
@@ -24,7 +24,7 @@ PRIMARY SEO (EDIT PER PAGE)
 <meta name="author" content="Schmookey">
 
 <link rel="canonical"
-      href="https://schmookey.neocities.org/webrings.html">
+      href="https://schmookey.xyz/webrings.html">
 
 <!-- =========================================
 OPEN GRAPH
@@ -39,13 +39,13 @@ OPEN GRAPH
 <meta property="og:type" content="website">
 
 <meta property="og:url"
-      content="https://schmookey.neocities.org/webrings.html">
+      content="https://schmookey.xyz/webrings.html">
 
 <meta property="og:site_name"
       content="SCHMOOKEY">
 
 <meta property="og:image"
-      content="https://schmookey.neocities.org/assets/images/Schmookey.jpg">
+      content="https://schmookey.xyz/assets/images/Schmookey.jpg">
 
 <!-- =========================================
 SOCIAL / FEDIVERSE
@@ -80,22 +80,22 @@ INDIEWEB
 ========================================= -->
 
 <link rel="me"
-      href="https://schmookey.neocities.org/about.html">
+      href="https://schmookey.xyz/about.html">
 
 <link rel="me"
       href="https://mastodon.social/@schmookey">
 
 <link rel="webmention"
-      href="https://webmention.io/schmookey.neocities.org/webmention">
+      href="https://webmention.io/schmookey.xyz/webmention">
 
 <link rel="pingback"
-      href="https://webmention.io/schmookey.neocities.org/xmlrpc">
+      href="https://webmention.io/schmookey.xyz/xmlrpc">
 
 <!-- =========================================
 STYLES
 ========================================= -->
 
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap"
       rel="stylesheet">
 
 <link rel="stylesheet"
@@ -107,7 +107,7 @@ STYLES
 
 <!-- IndieWeb identity -->
 <a class="u-url"
-   href="https://schmookey.neocities.org/page.html"
+   href="https://schmookey.xyz/webrings.html"
    hidden></a>
 
 
@@ -136,12 +136,13 @@ NAVIGATION
 ========================================= -->
 <nav class="menu">
   <a href="/index.html">Home</a>
-  <a href="/about.html" class="active">About</a>
-  <a href="/blog.html">Blog</a>
-  <a href="/music.html">Music</a>
-  <a href="/random.html">Random</a>
+  <a href="/about.html">About</a>
+  <a href="/blog/">Blog</a>
+  <a href="/music/">Music</a>
+  <a href="/random/">Random</a>
   <a href="/now.html">Now</a>
 </nav>
+
 
 <!-- =========================================
 MAIN LAYOUT (DO NOT TOUCH STRUCTURE)
@@ -162,8 +163,8 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
       <img src="/assets/images/mastodon_button_1.gif" alt="My Mastodon">
     </a>
 
-    <a href="https://schmookey.neocities.org/guestbook" title="Sign my guestbook">
-      <img src="/assets/images/guestbook-button.gif" alt="Sign my guestbook">
+     <a href="https://bsky.app/profile/schmookey.xyz" title="Follow me on Bluesky">
+      <img src="/assets/images/bluesky.gif" alt="Follow me on Bluesky">
     </a>
 
     <a href="https://bandcamp.com/patientzero90" title="My Bandcamp Collection">
@@ -202,8 +203,8 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
 <div class="trophy">
 <div class="trophy-title">🏆 Dinhe</div>
 <div class="webring-content">
-<a href="https://webring.dinhe.net/prev/https://www.schmookey.neocities.org/webrings">Prev</a> •
-<a href="https://webring.dinhe.net/next/https://www.schmookey.neocities.org/webrings">Next</a>
+<a href="https://webring.dinhe.net/prev/https://schmookey.xyz/webrings.html">Prev</a> •
+<a href="https://webring.dinhe.net/next/https://schmookey.xyz/webrings.html">Next</a>
 </div>
 </div>
 
@@ -260,17 +261,40 @@ style="border:0;width:88px;height:82px">
 <div class="trophy">
   <div class="trophy-title">🏆 Fediring</div>
   <div class="webring-content">
-    <a href="https://fediring.net/previous?host=schmookey.neocities.org">←</a>
+    <a href="https://fediring.net/previous?host=schmookey.xyz">←</a>
     <a href="https://fediring.net/">Fediring</a>
-    <a href="https://fediring.net/next?host=schmookey.neocities.org">→</a>
+    <a href="https://fediring.net/next?host=schmookey.xyz">→</a>
   </div>
 </div>
 
-<div class="trophy"><div class="trophy-title">🏆 Ring 8</div></div>
-<div class="trophy"><div class="trophy-title">🏆 Ring 9</div></div>
+<!-- JS TYPE -->
+<div class="trophy">
+  <div class="trophy-title">🏆 CDRing</div>
 
+  <div class="webring-content">
+    <div id="cdr"></div>
+  </div>
 </div>
 
+<script src="https://cdring.neocities.org/cdring/onionring-variables.js"></script>
+<script src="https://cdring.neocities.org/cdring/onionring-widget.js"></script>
+
+<!-- IFRAME TYPE -->
+<div class="trophy">
+  <div class="trophy-title">🏆 Wii Ring</div>
+
+  <div class="webring-content">
+    <div style="width: 135px;">
+      <iframe
+        style="border: none; width: 100%;"
+        src="https://wiiring.jeith.com/snippet?site=https://schmookey.xyz&amp;variant=standard">
+      </iframe>
+    </div>
+  </div>
+</div>
+</div> <!-- trophy-grid -->
+</div> <!-- trophy-room -->
+</article>
 </main>
 
 <!-- =========================================
@@ -317,7 +341,7 @@ FOOTER
   <div class="footer-inner">
 
     <nav>
-      <a href="/guestbook.html">GUESTBOOK</a> •
+      <a href="/listening.html">NOW LISTENING</a> •
       <a href="/webrings.html" class="active">WEBRINGS</a> •
       <a href="/sitemap.xml">SITEMAP</a> •
       <a href="/changelog.html">CHANGELOG</a> •

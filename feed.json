@@ -1,37 +1,119 @@
 {
   "version": "https://jsonfeed.org/version/1.1",
   "title": "Schmookey's World",
-  "home_page_url": "https://schmookey.neocities.org/",
-  "feed_url": "https://schmookey.neocities.org/feed.json",
+  "home_page_url": "https://schmookey.xyz/",
+  "feed_url": "https://schmookey.xyz/feed.json",
   "description": "Retro personal website — music, gaming, tech, and updates.",
-  "icon": "https://schmookey.neocities.org/assets/images/Schmookey.jpg",
-
+  "icon": "https://schmookey.xyz/assets/images/Schmookey.jpg",
   "author": {
     "name": "Schmookey",
-    "url": "https://schmookey.neocities.org/about.html"
+    "url": "https://schmookey.xyz/about.html"
   },
-
   "items": [
     {
-      "id": "feed-update-003",
-      "url": "https://schmookey.neocities.org/music/posts/listenbrainz.html",
+      "id": "urn:schmookey:post:august_updates",
+      "url": "https://schmookey.xyz/blog/posts/august_updates.html",
+      "title": "August Updates",
+      "content_text": "Hello! I fear it's been a little while, I have updated my NOW page but aside from that I haven't really been online. I tried to write something for the World Cup but it was…",
+      "date_published": "2026-08-12T20:45:00Z"
+    },
+    {
+      "id": "urn:schmookey:update:now:2026-08-07T19:35:00+00:00",
+      "url": "https://schmookey.xyz/now.html",
+      "title": "Now",
+      "content_text": "What I'm currently doing.",
+      "date_published": "2026-08-07T19:35:00Z"
+    },
+    {
+      "id": "urn:schmookey:post:physical-media",
+      "url": "https://schmookey.xyz/blog/posts/physical-media.html",
+      "title": "Physical media",
+      "content_text": "For a while I’ve just been coasting along with movies and TV. I used to purchase plenty of DVDs – mainly Asian cinema like Oldboy, Battle Royale, I’m a Cyborg, But That’s OK.…",
+      "date_published": "2026-04-17T22:40:00Z"
+    },
+    {
+      "id": "urn:schmookey:post:podcast-blah-blah",
+      "url": "https://schmookey.xyz/blog/posts/podcast-blah-blah.html",
+      "title": "Podcast blah blah",
+      "content_text": "I have been listening to podcasts now for the past 20 years, give or take. It all started with an iPod Classic and finding my favourite weekend radio show was releasing their…",
+      "date_published": "2026-04-01T16:20:00Z"
+    },
+    {
+      "id": "urn:schmookey:update:widgets-music-domain:2026-03-31T21:30:00+00:00",
+      "url": "https://schmookey.xyz/changelog.html",
+      "title": "Widgets, Music, Domain",
+      "content_text": "Added 'as live' Music widget, book and movie ones local/intentional, Custom domain.",
+      "date_published": "2026-03-31T21:30:00Z"
+    },
+    {
+      "id": "urn:schmookey:post:this-week-23-29-march",
+      "url": "https://schmookey.xyz/blog/posts/this-week-23-29-march.html",
+      "title": "My week 23-29 March",
+      "content_text": "This has been a productive week for me online, whislt I have been particularly fiddly with the website, I am in a somewhat happy place with it. I really now just need to get…",
+      "date_published": "2026-03-29T22:20:00Z"
+    },
+    {
+      "id": "urn:schmookey:update:header-archive-recent-posts:2026-03-26T11:25:00+00:00",
+      "url": "https://schmookey.xyz/changelog.html",
+      "title": "Header, Archive, Recent posts",
+      "content_text": "Added new archival pages, updates JS, new header design, and added recent posts and posts I like tabs to site.",
+      "date_published": "2026-03-26T11:25:00Z"
+    },
+    {
+      "id": "urn:schmookey:post:listenbrainz",
+      "url": "https://schmookey.xyz/music/posts/listenbrainz.html",
       "title": "ListenBrainz",
-      "content_text": "My exploration of music.",
+      "content_text": "Ever since I can remember, I've always had a strong connection with music; I feel emotionally invested. I find it difficult just to have it on passively. I am that person who…",
       "date_published": "2026-03-25T22:00:00Z"
     },
     {
-      "id": "feed-update-002",
-      "url": "https://schmookey.neocities.org/blog/posts/snluk.html",
+      "id": "urn:schmookey:post:snluk",
+      "url": "https://schmookey.xyz/blog/posts/snluk.html",
       "title": "My thoughts on SNL UK",
-      "content_text": "Thoughts on the first episode of the British Saturday Night Live and other comedy shows.",
+      "content_text": "This weekend, the first episode of the British Saturday Night Live aired. There was an SNL-like show in the 80s called Friday Night Live, before being retitled Saturday Live.…",
       "date_published": "2026-03-24T22:30:00Z"
     },
     {
-      "id": "feed-update-001",
-      "url": "https://schmookey.neocities.org/changelog.html",
-      "title": "Site Update: Feed System Added",
-      "content_text": "Added RSS, Atom, and JSON feeds to the website.",
+      "id": "urn:schmookey:update:webmentions-brid-gy-blog-post-design:2026-03-20T12:00:00+00:00",
+      "url": "https://schmookey.xyz/changelog.html",
+      "title": "Webmentions, Brid.gy, Blog post design",
+      "content_text": "Wrangled Webmentions, set up Brid.gy for website and socials, and created a new blog post design.",
+      "date_published": "2026-03-20T12:00:00Z"
+    },
+    {
+      "id": "urn:schmookey:update:verified-on-indieweb-added-buttons:2026-03-18T12:00:00+00:00",
+      "url": "https://schmookey.xyz/changelog.html",
+      "title": "Verified on IndieWeb, added buttons",
+      "content_text": "Verified accounts and made website tweaks.",
+      "date_published": "2026-03-18T12:00:00Z"
+    },
+    {
+      "id": "urn:schmookey:update:rss-feed-and-website-standardised:2026-03-18T12:00:00+00:00",
+      "url": "https://schmookey.xyz/changelog.html",
+      "title": "RSS Feed and Website Standardised",
+      "content_text": "RSS, Atom, JSON and website standardised.",
+      "date_published": "2026-03-18T12:00:00Z"
+    },
+    {
+      "id": "urn:schmookey:update:feed-system-added:2026-03-16T12:00:00+00:00",
+      "url": "https://schmookey.xyz/changelog.html",
+      "title": "Feed System Added",
+      "content_text": "Added RSS and Atom feeds to the site.",
       "date_published": "2026-03-16T12:00:00Z"
+    },
+    {
+      "id": "urn:schmookey:post:post2",
+      "url": "https://schmookey.xyz/blog/posts/post2.html",
+      "title": "Enter The Fediverse",
+      "content_text": "I initially set up this website/blog again because I really want to try and fall back in love with the internet—bizarre, I know! The internet has definitely lost something…",
+      "date_published": "2026-03-11T19:37:00Z"
+    },
+    {
+      "id": "urn:schmookey:post:post1",
+      "url": "https://schmookey.xyz/blog/posts/post1.html",
+      "title": "My First Post",
+      "content_text": "Hi! This is my first post… well, here goes! I decided to set up a personal blog again for the first time in years. Lately, I’ve been diving deep into FOSS (Free and Open…",
+      "date_published": "2026-03-07T09:10:30Z"
     }
   ]
 }
