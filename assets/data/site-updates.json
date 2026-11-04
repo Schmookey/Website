@@ -1,5 +1,19 @@
 [
   {
+    "type": "Now",
+    "title": "Now",
+    "url": "/now.html",
+    "date": "2026-08-07T19:35:00+00:00",
+    "summary": "What I'm currently doing."
+  },
+  {
+    "type": "changelog",
+    "title": "Widgets, Music, Domain",
+    "url": "/changelog.html",
+    "date": "2026-03-31T21:30:00+00:00",
+    "summary": "Added 'as live' Music widget, book and movie ones local/intentional, Custom domain."
+  },
+  {
     "type": "changelog",
     "title": "Header, Archive, Recent posts",
     "url": "/changelog.html",

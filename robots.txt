@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 
+
 User-agent: AI2Bot
 Disallow: /
 
@@ -124,4 +125,5 @@ Disallow: /
 User-agent: YouBot
 Disallow: /
 
-Sitemap: https://schmookey.neocities.org/sitemap.xml
+
+Sitemap: https://schmookey.xyz/sitemap.xml

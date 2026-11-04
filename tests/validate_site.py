@@ -20,6 +20,16 @@ from lxml import html
 from PIL import Image
 import tinycss2
 
+# Older libxml2 versions report standard HTML5 elements as unknown.
+# Do not suppress warnings for unrecognised/non-HTML5 tag names.
+HTML5_ELEMENTS = frozenset({
+    "article", "aside", "audio", "bdi", "canvas", "data", "datalist",
+    "details", "dialog", "figcaption", "figure", "footer", "header",
+    "main", "mark", "meter", "nav", "output", "picture", "progress",
+    "rp", "rt", "ruby", "section", "source", "summary", "template",
+    "time", "track", "video", "wbr",
+})
+
 ROOT = Path(__file__).resolve().parent.parent
 FILES = {p.relative_to(ROOT).as_posix(): p for p in ROOT.rglob("*") if p.is_file()}
 ERRORS: list[str] = []
@@ -71,8 +81,13 @@ def check_html() -> int:
         parser = html.HTMLParser(recover=True)
         doc = html.document_fromstring(contents, parser=parser)
         for item in parser.error_log:
-            if item.level_name in {"ERROR", "FATAL"}:
-                error(f"{page}: HTML parser: {item}")
+            if item.level_name not in {"ERROR", "FATAL"}:
+                continue
+            if item.type_name == "HTML_UNKNOWN_TAG":
+                match = re.fullmatch(r"Tag ([A-Za-z][A-Za-z0-9-]*) invalid", item.message)
+                if match and match.group(1).lower() in HTML5_ELEMENTS:
+                    continue
+            error(f"{page}: HTML parser: {item}")
 
         ids = [node.get("id") for node in doc.xpath("//*[@id]")]
         duplicates = [id_value for id_value, found in Counter(ids).items() if found > 1]

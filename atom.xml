@@ -1,26 +1,131 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-
-<title>Schmookey's World</title>
-<link href="https://schmookey.neocities.org/"/>
-<link href="https://schmookey.neocities.org/atom.xml" rel="self"/>
-
-<updated>2026-03-16T12:00:00Z</updated>
-<id>https://schmookey.neocities.org/</id>
-
-<author>
-  <name>Schmookey</name>
-</author>
-
-<entry>
-<title>Site Update: Feed System Added</title>
-<link href="https://schmookey.neocities.org/changelog.html"/>
-<id>tag:schmookey.neocities.org,2026:feed-update-001</id>
-<updated>2026-03-16T12:00:00Z</updated>
-
-<summary>
-Added RSS and Atom feeds to the site.
-</summary>
-</entry>
-
-</feed>
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:feed xmlns:ns0="http://www.w3.org/2005/Atom">
+  <ns0:title>Schmookey's World</ns0:title>
+  <ns0:link href="https://schmookey.xyz/" rel="alternate" />
+  <ns0:link href="https://schmookey.xyz/atom.xml" rel="self" />
+  <ns0:updated>2026-08-12T20:45:00Z</ns0:updated>
+  <ns0:id>https://schmookey.xyz/</ns0:id>
+  <ns0:author>
+    <ns0:name>Schmookey</ns0:name>
+  </ns0:author>
+  <ns0:entry>
+    <ns0:title>August Updates</ns0:title>
+    <ns0:link href="https://schmookey.xyz/blog/posts/august_updates.html" rel="alternate" />
+    <ns0:id>urn:schmookey:post:august_updates</ns0:id>
+    <ns0:updated>2026-08-12T20:45:00Z</ns0:updated>
+    <ns0:published>2026-08-12T20:45:00Z</ns0:published>
+    <ns0:summary>Hello! I fear it's been a little while, I have updated my NOW page but aside from that I haven't really been online. I tried to write something for the World Cup but it was…</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Now</ns0:title>
+    <ns0:link href="https://schmookey.xyz/now.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:now:2026-08-07T19:35:00+00:00</ns0:id>
+    <ns0:updated>2026-08-07T19:35:00Z</ns0:updated>
+    <ns0:published>2026-08-07T19:35:00Z</ns0:published>
+    <ns0:summary>What I'm currently doing.</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Physical media</ns0:title>
+    <ns0:link href="https://schmookey.xyz/blog/posts/physical-media.html" rel="alternate" />
+    <ns0:id>urn:schmookey:post:physical-media</ns0:id>
+    <ns0:updated>2026-04-17T22:40:00Z</ns0:updated>
+    <ns0:published>2026-04-17T22:40:00Z</ns0:published>
+    <ns0:summary>For a while I’ve just been coasting along with movies and TV. I used to purchase plenty of DVDs – mainly Asian cinema like Oldboy, Battle Royale, I’m a Cyborg, But That’s OK.…</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Podcast blah blah</ns0:title>
+    <ns0:link href="https://schmookey.xyz/blog/posts/podcast-blah-blah.html" rel="alternate" />
+    <ns0:id>urn:schmookey:post:podcast-blah-blah</ns0:id>
+    <ns0:updated>2026-04-01T16:20:00Z</ns0:updated>
+    <ns0:published>2026-04-01T16:20:00Z</ns0:published>
+    <ns0:summary>I have been listening to podcasts now for the past 20 years, give or take. It all started with an iPod Classic and finding my favourite weekend radio show was releasing their…</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Widgets, Music, Domain</ns0:title>
+    <ns0:link href="https://schmookey.xyz/changelog.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:widgets-music-domain:2026-03-31T21:30:00+00:00</ns0:id>
+    <ns0:updated>2026-03-31T21:30:00Z</ns0:updated>
+    <ns0:published>2026-03-31T21:30:00Z</ns0:published>
+    <ns0:summary>Added 'as live' Music widget, book and movie ones local/intentional, Custom domain.</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>My week 23-29 March</ns0:title>
+    <ns0:link href="https://schmookey.xyz/blog/posts/this-week-23-29-march.html" rel="alternate" />
+    <ns0:id>urn:schmookey:post:this-week-23-29-march</ns0:id>
+    <ns0:updated>2026-03-29T22:20:00Z</ns0:updated>
+    <ns0:published>2026-03-29T22:20:00Z</ns0:published>
+    <ns0:summary>This has been a productive week for me online, whislt I have been particularly fiddly with the website, I am in a somewhat happy place with it. I really now just need to get…</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Header, Archive, Recent posts</ns0:title>
+    <ns0:link href="https://schmookey.xyz/changelog.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:header-archive-recent-posts:2026-03-26T11:25:00+00:00</ns0:id>
+    <ns0:updated>2026-03-26T11:25:00Z</ns0:updated>
+    <ns0:published>2026-03-26T11:25:00Z</ns0:published>
+    <ns0:summary>Added new archival pages, updates JS, new header design, and added recent posts and posts I like tabs to site.</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>ListenBrainz</ns0:title>
+    <ns0:link href="https://schmookey.xyz/music/posts/listenbrainz.html" rel="alternate" />
+    <ns0:id>urn:schmookey:post:listenbrainz</ns0:id>
+    <ns0:updated>2026-03-25T22:00:00Z</ns0:updated>
+    <ns0:published>2026-03-25T22:00:00Z</ns0:published>
+    <ns0:summary>Ever since I can remember, I've always had a strong connection with music; I feel emotionally invested. I find it difficult just to have it on passively. I am that person who…</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>My thoughts on SNL UK</ns0:title>
+    <ns0:link href="https://schmookey.xyz/blog/posts/snluk.html" rel="alternate" />
+    <ns0:id>urn:schmookey:post:snluk</ns0:id>
+    <ns0:updated>2026-03-24T22:30:00Z</ns0:updated>
+    <ns0:published>2026-03-24T22:30:00Z</ns0:published>
+    <ns0:summary>This weekend, the first episode of the British Saturday Night Live aired. There was an SNL-like show in the 80s called Friday Night Live, before being retitled Saturday Live.…</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Webmentions, Brid.gy, Blog post design</ns0:title>
+    <ns0:link href="https://schmookey.xyz/changelog.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:webmentions-brid-gy-blog-post-design:2026-03-20T12:00:00+00:00</ns0:id>
+    <ns0:updated>2026-03-20T12:00:00Z</ns0:updated>
+    <ns0:published>2026-03-20T12:00:00Z</ns0:published>
+    <ns0:summary>Wrangled Webmentions, set up Brid.gy for website and socials, and created a new blog post design.</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Verified on IndieWeb, added buttons</ns0:title>
+    <ns0:link href="https://schmookey.xyz/changelog.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:verified-on-indieweb-added-buttons:2026-03-18T12:00:00+00:00</ns0:id>
+    <ns0:updated>2026-03-18T12:00:00Z</ns0:updated>
+    <ns0:published>2026-03-18T12:00:00Z</ns0:published>
+    <ns0:summary>Verified accounts and made website tweaks.</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>RSS Feed and Website Standardised</ns0:title>
+    <ns0:link href="https://schmookey.xyz/changelog.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:rss-feed-and-website-standardised:2026-03-18T12:00:00+00:00</ns0:id>
+    <ns0:updated>2026-03-18T12:00:00Z</ns0:updated>
+    <ns0:published>2026-03-18T12:00:00Z</ns0:published>
+    <ns0:summary>RSS, Atom, JSON and website standardised.</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Feed System Added</ns0:title>
+    <ns0:link href="https://schmookey.xyz/changelog.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:feed-system-added:2026-03-16T12:00:00+00:00</ns0:id>
+    <ns0:updated>2026-03-16T12:00:00Z</ns0:updated>
+    <ns0:published>2026-03-16T12:00:00Z</ns0:published>
+    <ns0:summary>Added RSS and Atom feeds to the site.</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Enter The Fediverse</ns0:title>
+    <ns0:link href="https://schmookey.xyz/blog/posts/post2.html" rel="alternate" />
+    <ns0:id>urn:schmookey:post:post2</ns0:id>
+    <ns0:updated>2026-03-11T19:37:00Z</ns0:updated>
+    <ns0:published>2026-03-11T19:37:00Z</ns0:published>
+    <ns0:summary>I initially set up this website/blog again because I really want to try and fall back in love with the internet—bizarre, I know! The internet has definitely lost something…</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>My First Post</ns0:title>
+    <ns0:link href="https://schmookey.xyz/blog/posts/post1.html" rel="alternate" />
+    <ns0:id>urn:schmookey:post:post1</ns0:id>
+    <ns0:updated>2026-03-07T09:10:30Z</ns0:updated>
+    <ns0:published>2026-03-07T09:10:30Z</ns0:published>
+    <ns0:summary>Hi! This is my first post… well, here goes! I decided to set up a personal blog again for the first time in years. Lately, I’ve been diving deep into FOSS (Free and Open…</ns0:summary>
+  </ns0:entry>
+</ns0:feed>
