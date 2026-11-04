@@ -79,7 +79,7 @@ HEADER
 ========================================= -->
 <header class="header">
   <div class="site-banner">
-    <img src="/assets/images/header-banner.png"
+    <img src="/assets/images/header-banner.webp"
          alt="Schmookey's World banner">
   </div>
 </header>
@@ -140,7 +140,7 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
     <p>
       <a href="https://schmookey.xyz/" target="_blank" rel="noopener noreferrer">
         <img
-          src="https://schmookey.xyz/assets/images/schmookey-88x31.gif"
+          src="/assets/images/schmookey-88x31.gif"
           alt="Visit Schmookey's World"
           width="88"
           height="31"
@@ -148,11 +148,12 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
       </a>
     </p>
 
-    <textarea readonly rows="6">
-<a href="https://schmookey.xyz/" target="_blank" rel="noopener noreferrer">
+    <label for="site-button-code" class="visually-hidden">HTML code for my 88 by 31 website button</label>
+    <textarea id="site-button-code" readonly rows="5" spellcheck="false"><a href="https://schmookey.xyz/" target="_blank" rel="noopener noreferrer">
   <img src="https://schmookey.xyz/assets/images/schmookey-88x31.gif" alt="Visit Schmookey's World" width="88" height="31">
-</a>
-    </textarea>
+</a></textarea>
+    <button type="button" class="copy-button" id="copy-site-button">Copy HTML</button>
+    <span id="copy-site-button-status" class="copy-status" role="status" aria-live="polite"></span>
   </section>
 
 </aside>
