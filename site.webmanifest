@@ -15,11 +15,6 @@
     "changed": true
   },
   {
-    "file": "guestbook.html",
-    "corrected_file": "guestbook_corrected.html",
-    "changed": true
-  },
-  {
     "file": "privacy.html",
     "corrected_file": "privacy_corrected.html",
     "changed": true
