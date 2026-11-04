@@ -2315,3 +2315,111 @@ RESPONSIVE
     height:80px;
   }
 }
+
+/* =========================================
+   V1 POLISH: readability, keyboard access and compact mobile sidebars
+   Scoped refinements retain the original console layout and colour scheme.
+========================================= */
+
+/* Browser default blue (#0000ee) is hard to read against #0b0f1f.
+   Keep the bespoke navigation and panel button colours unchanged. */
+a:link { color: #8fd5ff; }
+a:visited { color: #c7b6ff; }
+a:hover { color: #ffffff; }
+a:focus-visible,
+button:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #ffe27a;
+  outline-offset: 3px;
+}
+
+/* Dense retro descriptions: prevent tiny type without changing headings. */
+.sidebar.right .webring .title,
+.sidebar.right .webring .summary { font-size: 11px; }
+.sidebar.right .webring .source,
+.sidebar.right .webring .date,
+.sidebar.right .webring .attribution { font-size: 10px; }
+.post-image figcaption,
+.tag-heading,
+.privacy-label,
+.listen-entry-time,
+.listening-hud span,
+.hud-stamp-label { font-size: 11px; }
+.media-label, .media-status,
+#latest-listen .media-label,
+#latest-listen .media-status,
+#latest-listen .media-subtitle,
+#latest-listen .media-submeta { font-size: 11px; }
+#latest-listen .media-title { font-size: 12px; }
+
+/* About page: a code-sharing panel that belongs to the 16-bit UI. */
+.button-share {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px dashed #5e7bce;
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+}
+.button-share p { margin: 0; }
+.button-share > p:first-child {
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: .03em;
+}
+.button-share textarea {
+  width: 100%;
+  max-width: 100%;
+  min-height: 118px;
+  padding: 10px;
+  color: #e6ecff;
+  background: #050917;
+  border: 2px solid #4d80ff;
+  border-radius: 5px;
+  font: 12px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
+  resize: vertical;
+  overflow-wrap: anywhere;
+}
+.button-share .copy-button {
+  padding: 10px 13px;
+  color: #fff;
+  background: linear-gradient(#3a6fd9, #1e40aa);
+  border: 2px solid #77abff;
+  border-bottom-color: #0a1f55;
+  border-right-color: #0a1f55;
+  border-radius: 5px;
+  box-shadow: 0 3px 0 #000;
+  cursor: pointer;
+  font: 11px/1.5 "Press Start 2P", monospace;
+}
+.button-share .copy-button:hover { background: linear-gradient(#4b82f4,#2d55c2); }
+.button-share .copy-status {
+  display: block;
+  min-height: 1.5em;
+  font-size: 11px;
+  color: #b9e6ff;
+}
+
+@media (max-width: 768px) {
+  /* Previously min-height:400px left large blank panels on phones. */
+  .layout .sidebar { min-height: 0; height: auto; }
+  .layout .center { min-height: 0; }
+  .layout .sidebar.left .badge-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px 14px;
+  }
+  .layout .sidebar.left .badge-grid img { margin: 2px auto; }
+  .sidebar.right .webring .title,
+  .sidebar.right .webring .summary { font-size: 12px; }
+  .sidebar.right .webring .source,
+  .sidebar.right .webring .date,
+  .sidebar.right .webring .attribution { font-size: 11px; }
+  .menu a { font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}

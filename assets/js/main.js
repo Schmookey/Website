@@ -1186,3 +1186,41 @@ window.SCHMOOKEY_initPage = initPage;
   }
 })();
 
+
+
+/* =====================================================
+   ABOUT: COPY 88x31 BADGE MARKUP
+   Clipboard API on HTTPS, with a selection fallback.
+===================================================== */
+(function setupCopySiteButton() {
+  const copyButton = document.getElementById("copy-site-button");
+  const codeField = document.getElementById("site-button-code");
+  const status = document.getElementById("copy-site-button-status");
+  if (!copyButton || !codeField || !status) return;
+
+  copyButton.addEventListener("click", async () => {
+    const code = codeField.value.trim();
+    let copied = false;
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      try {
+        await navigator.clipboard.writeText(code);
+        copied = true;
+      } catch (error) {
+        // Permissions and non-secure contexts can prevent clipboard writes.
+      }
+    }
+    if (!copied) {
+      codeField.focus();
+      codeField.select();
+      try {
+        copied = document.execCommand("copy");
+      } catch (error) {
+        copied = false;
+      }
+      codeField.setSelectionRange(0, 0);
+    }
+    status.textContent = copied
+      ? "Copied! You can paste the HTML into your own site."
+      : "Could not copy automatically. Select the code and copy it manually.";
+  });
+})();
