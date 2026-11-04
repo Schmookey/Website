@@ -306,47 +306,6 @@ function initWebringScripts() {
 }
 
 /* =====================================================
-   SECTION 08: GUESTBOOK
-===================================================== */
-
-function initGuestbook() {
-  const guestbook = document.getElementById("guestbook-entries");
-  if (!guestbook) return;
-
-  const sheetURL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1773532151067/pub?output=csv";
-
-  fetch(sheetURL)
-    .then(r => r.text())
-    .then(text => {
-      const rows = text.trim().split("\n").slice(1);
-      guestbook.innerHTML = "";
-
-      rows.reverse().forEach(row => {
-        const cols = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
-
-        const name = escapeHTML(cols[1]?.replace(/"/g, "") || "Anonymous");
-        const site = escapeHTML(cols[2]?.replace(/"/g, "") || "");
-        const message = escapeHTML(cols[3]?.replace(/"/g, "") || "");
-
-        const entry = document.createElement("div");
-        entry.className = "guestbook-entry";
-
-        entry.innerHTML = `
-          <strong>${name}</strong>
-          ${site ? `<a href="${site}" target="_blank" rel="noopener noreferrer">[site]</a>` : ""}
-          <p>${message}</p>
-        `;
-
-        guestbook.appendChild(entry);
-      });
-    })
-    .catch(() => {
-      guestbook.textContent = "Guestbook failed to load.";
-    });
-}
-
-/* =====================================================
    SECTION 09: SMART DATES
 ===================================================== */
 
@@ -502,7 +461,6 @@ function initReadingCounter() {
 
 function initPage() {
   initWebringScripts();
-  initGuestbook();
   initSmartDates();
   initPostHUD();
   initReadingTime();
