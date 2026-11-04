@@ -16,6 +16,23 @@ function escapeHTML(str = "") {
     .replaceAll('"', "&quot;");
 }
 
+// Archive entries must be links to local article pages, never executable URL schemes.
+// A compromised or accidentally edited posts.json must not create javascript: links.
+function safeArchivePostUrl(value) {
+  if (typeof value !== "string") return "";
+  const raw = value.trim();
+  if (!raw.startsWith("/") || raw.startsWith("//")) return "";
+
+  try {
+    const url = new URL(raw, window.location.origin);
+    if (url.origin !== window.location.origin || url.search || url.hash) return "";
+    if (!/^\/(blog|music)\/posts\/[a-zA-Z0-9_-]+\.html$/.test(url.pathname)) return "";
+    return url.pathname;
+  } catch {
+    return "";
+  }
+}
+
 function formatArchiveDate(dateString) {
   const date = new Date(dateString);
   if (isNaN(date)) return "Unknown date";
@@ -30,12 +47,15 @@ function formatArchiveDate(dateString) {
 function normaliseArchivePost(post) {
   if (!post || !post.url || !post.date) return null;
 
+  const safeUrl = safeArchivePostUrl(post.url);
+  if (!safeUrl) return null;
+
   const parsedDate = new Date(post.date);
   if (isNaN(parsedDate)) return null;
 
   return {
     title: post.title || "Untitled post",
-    url: post.url,
+    url: safeUrl,
     date: parsedDate.toISOString(),
     readingTime: Number(post.readingTime || 1),
     section: String(post.section || "").toLowerCase(),

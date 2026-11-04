@@ -1,0 +1,35 @@
+name: Static website checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install static-check dependencies
+        run: python -m pip install lxml tinycss2 Pillow
+      - name: Verify site assets and links
+        run: python tests/validate_site.py
+      - name: Check JavaScript syntax
+        run: |
+          node --check assets/js/main.js
+          node --check assets/js/archive.js
+      - name: Test URL validation and script loading safeguards
+        run: node tests/test_security.js
