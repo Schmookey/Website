@@ -158,6 +158,33 @@ def check_css_and_images() -> tuple[int, int]:
     return css_count, images
 
 
+def check_social_metadata() -> None:
+    """Prevent broken social previews and fabricated syndication destinations."""
+    pages = ["index.html", "about.html"] + sorted(
+        p for p in FILES if p.startswith(("blog/posts/", "music/posts/"))
+        and p.endswith(".html")
+    )
+    for page in pages:
+        doc = html.fromstring(FILES[page].read_text(encoding="utf-8-sig"))
+        for property_name in ("og:image", "og:image:alt", "og:locale"):
+            values = doc.xpath(f'//meta[@property="{property_name}"]/@content')
+            if len(values) != 1 or not values[0].strip():
+                error(f"{page}: expected one non-empty {property_name} meta tag")
+        if page.startswith(("blog/posts/", "music/posts/")):
+            creator = doc.xpath('//meta[@name="fediverse:creator"]/@content')
+            if creator != ["@schmookey@mastodon.social"]:
+                error(f"{page}: missing or mismatched fediverse:creator")
+            links = doc.xpath('//a[contains(concat(" ", normalize-space(@class), " "), " u-syndication ")]/@href')
+            for url in links:
+                parsed = urlsplit(url)
+                if parsed.scheme != "https" or not parsed.netloc or not parsed.path:
+                    error(f"{page}: incomplete syndication URL: {url}")
+                if parsed.hostname == "mastodon.social" and not re.fullmatch(r"/@[^/]+/\d{15,20}/?", parsed.path):
+                    error(f"{page}: incomplete Mastodon status URL: {url}")
+                if parsed.hostname == "bsky.app" and not re.fullmatch(r"/profile/[^/]+/post/[a-zA-Z0-9]+/?", parsed.path):
+                    error(f"{page}: incomplete Bluesky post URL: {url}")
+
+
 def check_metadata() -> None:
     home = (ROOT / "index.html").read_text(encoding="utf-8")
     doc = html.fromstring(home)
@@ -181,6 +208,7 @@ def main() -> int:
     json_count, xml_count = check_data()
     css_count, image_count = check_css_and_images()
     check_metadata()
+    check_social_metadata()
     print(f"Checked {html_pages} HTML pages, {json_count} JSON/manifest files, "
           f"{xml_count} XML files, {css_count} stylesheets, and {image_count} images")
     if ERRORS:
