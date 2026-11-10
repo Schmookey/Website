@@ -1,5 +1,13 @@
 [
   {
+     "title": "Coding Vibes",
+    "url": "/blog/posts/coding_vibes.html",
+    "date": "2026-11-06T21:30:00+00:00",
+    "readingTime": 6,
+    "section": "blog",
+    "tags": ["blog", "artificial intelligence", "github", "opensource", "vibe coding", "linux", "artcraft"]
+ },
+ {
      "title": "August Updates",
     "url": "/blog/posts/august_updates.html",
     "date": "2026-08-12T20:45:00+00:00",

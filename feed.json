@@ -11,6 +11,13 @@
   },
   "items": [
     {
+      "id": "urn:schmookey:post:coding_vibes",
+      "url": "https://schmookey.xyz/blog/posts/coding_vibes.html",
+      "title": "Coding Vibes",
+      "content_text": "A personal look at AI-assisted coding, open-source alternatives and building a bespoke offline ebook reader.",
+      "date_published": "2026-11-06T21:30:00Z"
+    },
+    {
       "id": "urn:schmookey:post:august_updates",
       "url": "https://schmookey.xyz/blog/posts/august_updates.html",
       "title": "August Updates",
