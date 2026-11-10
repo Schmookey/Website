@@ -1,0 +1,116 @@
+name: One-off verified Neocities snapshot sync
+on:
+  push:
+    branches:
+      - feature/sync-neocities-2026-11-10
+    paths:
+      - .github/workflows/_snapshot-sync-2026-11-10.yml
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Import exactly the files from the uploaded site ZIP
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+          import hashlib, sys, time
+
+          PINNED = """
+          eed62d05dd6e24fb9d9cd3ebd421bb05d16b147d347a6fedc0a7feae72fceaf3 404.html
+          4512b6ff521de5c0c629ff73785ced3ca694e7470b4f296c4f1064b5d3bb5752 README.md
+          32f16267d086bfc4c146b86fd897cd44605fae6773d2ae25a378c1e50e91077b assets/data/posts.json
+          7cff0aa1f7324509121afa3fe2d377c90c7f9bdea3d3443cabcdbc90456c8f1f assets/images/Walking Practice by Dolki Min.jpeg
+          e52cba4925bb72bb3752d2a5989129c3b5e276e4007be8f6c3664763f9f6cd63 assets/images/audiobook.png
+          1d4fb0060dbbc59bc19fc7b98730525b2d04196268984d79f5a39fe1e24ed7aa assets/images/ebook.png
+          b3cd677e99092d4d0c63a5e94ed096e5ebb271064415d4aa5bb549cb67a3112a assets/images/home.png
+          50ae33381dfced65934f373faab90345367792a9d8a1756ef87e4d695ee9a56b assets/images/occupysaas.jpeg
+          cbbc808acf804576e45d05ab746780ee6f7d55d2b34fa666577fc8f220f883b8 assets/images/trakt/industry.jpg
+          89d2963685c197720dbb86a0c9d0fa900b37b520e5881bab93d9b89402fee01d atom.xml
+          a6fe57bcb1f8a7d8e7c4521528006bef50b2014c20ad35ea1b01cfdddb6ee308 blog-archive.html
+          bab6ca09de8bd402672a9c423fd63182ad11c1d756e095e69687413d106bfa05 blog/index.html
+          77e0fb60cf7c66d932d9c29cb2af906ce4f04d745c963ad76918b410bf8c02c1 blog/posts/august_updates.html
+          fa5663d3b0a12b2ca8fbc0c2e980f144c7e33edae6070796f6bb9d65e8464fd4 blog/posts/blog-template.html
+          bbea26b380ac96b90115b8e29395e54574095ac7eae038d96569b526a239780e blog/posts/coding_vibes.html
+          26d97cc47a15c8d859e0d07ee3b2e32de72db8aa9839ee43eb8821d5c4dc8004 blog/posts/physical-media.html
+          0e3d66e65e7a4ad5f32ecabac8e5a70286a25b155a517064b68b32f523750bfb blog/posts/podcast-blah-blah.html
+          c0e5ecae6c6d9ee2b93f584bc3cdd447319ca9cafc9e3cbbb69c665b6285cf32 blog/posts/post1.html
+          322a95c8ec0eee817b8b0b52ee4709c93ae2fd25f6348f736bc032cbab9f8daf blog/posts/post2.html
+          f832e82b5ed2864530af252a4c166550acd3ba267dbf0e438e69e3e14c853cb0 blog/posts/snluk.html
+          489995b2c4dd73fac46897d39e930643130bc912cf72ebfb6e248c506f9530d6 blog/posts/this-week-23-29-march.html
+          233f1728cfb39d3e7d9491a027043b9a67e30f6053e952673f4b5860faeb9e17 changelog.html
+          20073aa5273e2cc0a787d1cfe2c4be361b78274c97b88a5cf8045d5fc29555c6 feed.json
+          2083214288ac0eb5dd21f9d354860b223c04af7485b2edc488b1596491487b83 feed.xml
+          3c6402651ff19f8f3e51d717a8c624e707df24cd250dac80d3c63ab965b86d62 listening.html
+          f2f27a982cbd16984b729ba82ee35f9837ff1c4b7f5e821832d53cf22ad1efd1 music-archive.html
+          3de51c455d9cd5ffb50db02b1306379b0766efe861d91c6e2ba75804b1d3b1d9 music/index.html
+          8157ac0bf08c7f22b9d8b23016fe86284ccd1f613a6d5533bde1175d6b7d332a music/posts/listenbrainz.html
+          98ef67891b52a851a928b8405137f1e355db4020efaa84296f2fc9d14b38151f now.html
+          cdd77286865abf69fe310d02804ebf1a71b326eda804ffac1dd222c4d95841e7 offline.html
+          502d1e75b4bba0f1dcb11295faf49ed71c5b918f6 page-template.html
+          0f5b87fb5d9b16172642ae2df1936f3fd583bc8b2f62ee7cef373236f0a55527 privacy.html
+          5dba74a72284a72904cf90bbc0c67583a69e43988474803c607afdc81cfb9669 random/index.html
+          8b79a19d1db25da42616eb27f2695a381a3dc574940478605bdb8d192882cec3 sitemap.xml
+          ae3fcacf287700215919a32aee259b9081fc05b7e4097c7599a54464b477f688 tests/validate_site.py
+          839ea11a762b56d4b1ab632cd0b5a20633045314b9e5ea125c0e4a6af1bc953c webrings.html
+          """.strip().splitlines()
+          root = Path.cwd().resolve()
+          changes = {}
+          for line in PINNED:
+              digest, path = line.split(" ", 1)
+              target = root / path
+              if target.is_file() and hashlib.sha256(target.read_bytes()).hexdigest() == digest:
+                  continue
+              url = "https://schmookey.xyz/" + quote(path, safe="/")
+              last_error = None
+              for attempt in range(3):
+                  try:
+                      request = Request(url, headers={"User-Agent": "Schmookey-site-archive-sync/1.0"})
+                      with urlopen(request, timeout=35) as response:
+                          data = response.read()
+                      actual = hashlib.sha256(data).hexdigest()
+                      if actual != digest:
+                          raise ValueError(f"Content differs from supplied ZIP (expected {digest}, got {actual})")
+                      changes[path] = data
+                      print(f"VERIFIED {path} ({len(data)} bytes)", flush=True)
+                      break
+                  except Exception as exc:
+                      last_error = exc
+                      if attempt < 2:
+                          time.sleep(3)
+              else:
+                  print(f"STOP: {path}: {last_error}", file=sys.stderr)
+                  sys.exit(1)
+          for path, data in changes.items():
+              target = root / path
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(data)
+          print(f"SUCCESS: {len(changes)} changed files exactly match the uploaded Neocities ZIP")
+          PY
+      - name: Validate the resulting website
+        run: |
+          python3 -m pip install lxml pillow tinycss2
+          python3 tests/validate_site.py
+          node --check assets/js/main.js
+          node --check assets/js/archive.js
+          node tests/test_security.js
+      - name: Commit only to the review branch
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          if ! git diff --cached --quiet; then
+            git commit -m 'Sync November 2026 Neocities website snapshot'
+            git push origin HEAD:refs/heads/feature/sync-neocities-2026-11-10
+          fi
