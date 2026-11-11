@@ -12,6 +12,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 from urllib.parse import quote
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError, URLError
 
 USER = "pat13nt_z3r0"
 OUT = Path(__file__).resolve().parent.parent / "assets/data/trakt-history.json"
@@ -19,6 +20,7 @@ HEADERS = {
     "Accept": "application/json",
     "Content-Type": "application/json",
     "trakt-api-version": "2",
+    "User-Agent": "SchmookeysWorld-TraktWidget/1.0 (https://schmookey.xyz)",
 }
 TMDB_IMAGE = "https://image.tmdb.org/t/p/w200"
 
@@ -96,7 +98,28 @@ def main() -> None:
         raise SystemExit("TRAKT_CLIENT_ID not configured; retaining existing snapshot.")
     headers = {**HEADERS, "trakt-api-key": client}
     token = os.environ.get("TMDB_ACCESS_TOKEN", "").strip()
-    data = get_json("https://api.trakt.tv/users/" + USER + "/history?limit=30", headers)
+    try:
+        data = get_json("https://api.trakt.tv/users/" + USER + "/history?limit=30", headers)
+    except HTTPError as exc:
+        # Never print request headers or response bodies: they might contain secrets.
+        if exc.code == 403:
+            raise SystemExit(
+                "Trakt returned HTTP 403 (Forbidden). Verify TRAKT_CLIENT_ID is "
+                "the Production Client ID for an approved API app. If it is, "
+                "check the app's API access status with Trakt. The existing "
+                "history snapshot was not changed."
+            ) from None
+        if exc.code == 401:
+            raise SystemExit(
+                "Trakt returned HTTP 401 (Unauthorised). This endpoint may "
+                "require an OAuth token, or the application credentials "
+                "may be incorrect. Snapshot preserved."
+            ) from None
+        raise SystemExit(f"Trakt returned HTTP {exc.code}; snapshot preserved.") from None
+    except (URLError, TimeoutError, ValueError) as exc:
+        raise SystemExit(
+            f"Trakt request failed ({type(exc).__name__}); snapshot preserved."
+        ) from None
     if not isinstance(data, list):
         raise SystemExit("Unexpected Trakt response: not a list; retaining snapshot.")
     cache = {}
