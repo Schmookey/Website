@@ -248,55 +248,26 @@ RIGHT SIDEBAR
 ===================================== -->
 <aside class="sidebar right">
 
- <!-- ListenBrainz -->
-<div id="latest-listen" class="media-widget">
-  <article class="media-card">
-    <div class="media-thumb-wrap">
-      <img
-        id="listen-cover"
-        class="media-thumb"
-        src="/assets/images/listenbrainz_logo.png"
-        alt="Album artwork"
-        loading="lazy"
-      >
+ <!-- ListenBrainz: Trakt-style live/recent music widget -->
+<div class="media-widget listen-feature listen-feature-compact" data-listenbrainz-feature aria-label="Latest music on ListenBrainz">
+  <div class="listen-feature-heading">
+    <h2>NOW LISTENING</h2>
+    <span class="listen-feature-status" data-listen-state aria-live="polite">LOADING</span>
+  </div>
+  <article class="listen-feature-card">
+    <div class="listen-feature-art">
+      <img data-listen-cover src="/assets/images/listenbrainz_logo.png" alt="ListenBrainz logo" width="80" height="80" loading="lazy">
     </div>
-    <div class="media-meta">
-      <p class="media-label">Currently Listening</p>
-      <h3 id="listen-track" class="media-title">Loading…</h3>
-      <p id="listen-artist" class="media-subtitle"></p>
-      <p id="listen-album" class="media-submeta"></p>
-      <p class="media-status">
-        <a
-          id="listen-link"
-          href="https://listenbrainz.org/user/jon_cass"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ListenBrainz
-        </a>
-      </p>
+    <div class="listen-feature-details">
+      <h3 data-listen-track>Loading latest listen…</h3>
+      <p class="listen-feature-artist" data-listen-artist></p>
+      <p class="listen-feature-album" data-listen-album></p>
+      <time class="listen-feature-time" data-listen-time></time>
+      <a data-listen-link href="https://listenbrainz.org/user/jon_cass" target="_blank" rel="noopener noreferrer">View on ListenBrainz</a>
     </div>
   </article>
 </div>
 
-    <!-- Bookwyrm -->
-  <div class="media-widget">
-  <article class="media-card">
-    <div class="media-thumb-wrap">
-       <img src="/assets/images/automatic_noodle.jpg" alt="Automatic Noodle book cover">
-</div>
-    <div class="media-meta">
-      <p class="media-label">Currently Reading</p>
-      <p class="media-title">Automatic Noodle</p>
-      <p class="media-subtitle">Annalee Newitz</p>
-      <p class="media-status">
-        <a href="https://bookwyrm.social/user/Schmookey" target="_blank" rel="noopener">
-          From BookWyrm
-        </a>
-      </p>
-    </div>
-  </article>
-</div>
 <!-- Trakt -->
 <div class="media-widget">
   <article class="media-card">
@@ -344,6 +315,7 @@ FOOTER CONTENT
 
 
 <script src="/assets/js/main.js"></script>
+<script src="/assets/js/listenbrainz-embed.js" defer></script>
 
 </body>
 </html>
