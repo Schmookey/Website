@@ -41,6 +41,28 @@ function testMainHelpers() {
   assert.equal(ctx.safeApprovedScriptUrl("https://cdring.neocities.org/cdring/onionring-widget.js?surprise=1"), "");
 }
 
+function testListenBrainzEmbed() {
+  const listen = require("../assets/js/listenbrainz-embed.js");
+  const release = "12345678-1234-1234-1234-123456789abc";
+  assert.equal(listen.validUuid(release), release);
+  assert.equal(listen.validUuid("javascript:alert(1)"), "");
+  assert.equal(listen.getCoverUrl({
+    track_metadata: {additional_info: {release_mbid: release}}
+  }), "https://coverartarchive.org/release/" + release + "/front-250");
+  assert.equal(listen.getCoverUrl({
+    track_metadata: {additional_info: {release_mbid: "https://evil.example"}}
+  }), "");
+  const entry = listen.normaliseListen({
+    listened_at: 1794379500,
+    track_metadata: {track_name: "<img src=x onerror=alert(1)>", artist_name: "Artist", release_name: "Album"}
+  }, false);
+  assert.equal(entry.track, "<img src=x onerror=alert(1)>");
+  assert.equal(entry.playingNow, false);
+  assert.ok(entry.timestamp instanceof Date);
+  assert.equal(listen.normaliseListen(null, false), null);
+}
+
 testArchiveLinks();
 testMainHelpers();
+testListenBrainzEmbed();
 console.log("PASS: JavaScript URL and dynamic-script security tests");
