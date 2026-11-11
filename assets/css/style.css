@@ -1964,6 +1964,30 @@ body.light .listen-day-heading{
   border-color:#ff6b6b;
 }
 
+/* ListenBrainz journal artwork; the About card already has a 56px image slot. */
+.listen-entry-content {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+}
+.listen-entry-details { min-width: 0; }
+.listen-entry-cover {
+  display: block;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border: 2px solid #7dd3fc;
+  border-radius: 3px;
+  background: #111827;
+  box-sizing: border-box;
+}
+body.light .listen-entry-cover { border-color: #ff9a9a; }
+@media (max-width: 420px) {
+  .listen-entry-content { grid-template-columns: 56px minmax(0, 1fr); gap: 9px; }
+  .listen-entry-cover { width: 56px; height: 56px; }
+}
+
 /* =========================================
 ARCHIVE ENTRIES — RED TAB STYLE
 ========================================= */

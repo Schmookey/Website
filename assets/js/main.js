@@ -743,10 +743,65 @@ function initWebmentions() {
 }
 
 /* =====================================================
-   SECTION 13: LISTENBRAINZ WIDGET (STABLE VERSION)
-   - No cover art lookup
-   - Always uses ListenBrainz logo
+   SECTION 13: LISTENBRAINZ WIDGET + ALBUM ART
+   Prefer Cover Art Archive images linked to existing MusicBrainz
+   identifiers; keep the ListenBrainz logo if art is unavailable.
+   No personal API credentials are required.
 ===================================================== */
+
+const LISTEN_COVER_FALLBACK = "/assets/images/listenbrainz_logo.png";
+const LISTEN_MUSICBRAINZ_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function listenCoverCandidates(listen) {
+  const meta = listen?.track_metadata || {};
+  const mapping = meta.mbid_mapping || {};
+  const submitted = meta.additional_info || {};
+  const urls = [];
+
+  // ListenBrainz supplies a specific image ID for some matched listens.
+  const imageId = mapping.caa_id;
+  const imageRelease = mapping.caa_release_mbid;
+  if (LISTEN_MUSICBRAINZ_ID.test(String(imageRelease || "")) &&
+      /^\d{1,16}$/.test(String(imageId ?? ""))) {
+    urls.push(`https://coverartarchive.org/release/${imageRelease}/${imageId}-250.jpg`);
+  }
+  for (const id of [mapping.caa_release_mbid, mapping.release_mbid, submitted.release_mbid]) {
+    if (LISTEN_MUSICBRAINZ_ID.test(String(id || ""))) {
+      urls.push(`https://coverartarchive.org/release/${id}/front-250`);
+    }
+  }
+  for (const id of [mapping.release_group_mbid, submitted.release_group_mbid]) {
+    if (LISTEN_MUSICBRAINZ_ID.test(String(id || ""))) {
+      urls.push(`https://coverartarchive.org/release-group/${id}/front-250`);
+    }
+  }
+  return [...new Set(urls)];
+}
+
+function setListenCover(image, listen) {
+  if (!image) return;
+  const options = listenCoverCandidates(listen);
+  const key = options.join("|");
+  const release = listen?.track_metadata?.release_name || "the album";
+  const artist = listen?.track_metadata?.artist_name || "the artist";
+  // On a 30-second About refresh, do not reload the same artwork.
+  if (image.dataset.listenCoverKey === key) return;
+  image.dataset.listenCoverKey = key;
+  image.referrerPolicy = "no-referrer";
+  let nextIndex = 0;
+  function tryNext() {
+    if (nextIndex < options.length) {
+      image.alt = `Album artwork for ${release} by ${artist}`;
+      image.src = options[nextIndex++];
+      return;
+    }
+    image.onerror = null;
+    image.alt = "ListenBrainz logo (album artwork unavailable)";
+    image.src = LISTEN_COVER_FALLBACK;
+  }
+  image.onerror = tryNext;
+  tryNext();
+}
 
 function initListenBrainzWidget(username = "jon_cass") {
   const coverEl = document.getElementById("listen-cover");
@@ -758,11 +813,10 @@ function initListenBrainzWidget(username = "jon_cass") {
   if (!coverEl || !trackEl || !artistEl || !linkEl) return;
 
   const POLL_MS = 30000;
-  const STATIC_COVER = "/assets/images/listenbrainz_logo.png";
   const PROFILE_URL = `https://listenbrainz.org/user/${encodeURIComponent(username)}`;
 
-  // Always set static image
-  coverEl.src = STATIC_COVER;
+  // Until the API responds, display the existing fallback artwork.
+  coverEl.src = LISTEN_COVER_FALLBACK;
   coverEl.alt = "ListenBrainz logo";
 
   async function fetchListenJSON(url) {
@@ -833,14 +887,13 @@ function initListenBrainzWidget(username = "jon_cass") {
 
         linkEl.href = PROFILE_URL;
         linkEl.textContent = "ListenBrainz";
-
+        setListenCover(coverEl, null);
         return;
       }
 
       renderText(listen, isNowPlaying);
 
-      // Always keep static image (no overrides)
-      coverEl.src = STATIC_COVER;
+      setListenCover(coverEl, listen);
 
     } catch (error) {
       console.warn("ListenBrainz widget error:", error);
@@ -849,7 +902,7 @@ function initListenBrainzWidget(username = "jon_cass") {
       artistEl.textContent = "";
       if (albumEl) albumEl.textContent = "";
 
-      coverEl.src = STATIC_COVER;
+      setListenCover(coverEl, null);
 
       linkEl.href = PROFILE_URL;
       linkEl.textContent = "ListenBrainz";
@@ -919,6 +972,7 @@ async function loadListeningJournal(username, limit = 100) {
     }
 
     const grouped = {};
+    const renderedCoverListens = [];
 
     for (const listen of uniqueListens) {
       const listenedAt = listen.listened_at
@@ -971,15 +1025,22 @@ async function loadListeningJournal(username, limit = 100) {
               })
             : "Unknown time";
 
+        renderedCoverListens.push(listen);
         return `
           <article class="listen-entry">
-            <div class="listen-entry-header">
-              <h3 class="listen-entry-title">${escapeHTML(track)}</h3>
-              <span class="listen-entry-time">${escapeHTML(timeFormatted)}</span>
-            </div>
-            <div class="listen-entry-meta">
-              <span><strong class="listen-label">Artist:</strong> ${escapeHTML(artist)}</span>
-              <span><strong class="listen-label">Release:</strong> ${escapeHTML(release)}</span>
+            <div class="listen-entry-content">
+              <img class="listen-entry-cover" src="/assets/images/listenbrainz_logo.png"
+                   alt="ListenBrainz logo" loading="lazy" referrerpolicy="no-referrer">
+              <div class="listen-entry-details">
+                <div class="listen-entry-header">
+                  <h3 class="listen-entry-title">${escapeHTML(track)}</h3>
+                  <span class="listen-entry-time">${escapeHTML(timeFormatted)}</span>
+                </div>
+                <div class="listen-entry-meta">
+                  <span><strong class="listen-label">Artist:</strong> ${escapeHTML(artist)}</span>
+                  <span><strong class="listen-label">Release:</strong> ${escapeHTML(release)}</span>
+                </div>
+              </div>
             </div>
           </article>
         `;
@@ -996,6 +1057,10 @@ async function loadListeningJournal(username, limit = 100) {
     }).join("");
 
     container.innerHTML = html;
+    // Lazy image loading keeps the journal usable when the archive is slow.
+    container.querySelectorAll(".listen-entry-cover").forEach((image, index) => {
+      setListenCover(image, renderedCoverListens[index]);
+    });
   } catch (error) {
     console.warn("Listening journal error:", error);
     container.innerHTML = `<p class="listening-status">Failed to load listening journal.</p>`;
