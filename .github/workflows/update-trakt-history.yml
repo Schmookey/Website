@@ -1,6 +1,12 @@
 name: Refresh public Trakt watch history
 
 on:
+  # Run once when merged so the initial API connection is verified.
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/update-trakt-history.yml'
+      - 'scripts/update_trakt_history.py'
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:
