@@ -61,36 +61,53 @@
   }
 
   function renderCard(item, compact) {
-    const card = element("article", compact ? "trakt-live-card trakt-live-compact" : "trakt-live-card");
-    if (item.cover) {
-      const cover = element("img","trakt-live-poster");
+    const card = element("article", compact
+      ? "media-card trakt-about-card"
+      : "trakt-live-card");
+    const copy = element("div", compact ? "media-meta" : "trakt-live-copy");
+    if (compact) {
+      const art = element("div", "media-thumb-wrap");
+      if (item.cover) {
+        const img = element("img", "media-thumb");
+        img.src = item.cover;
+        img.alt = "Poster for " + item.title;
+        img.loading = "lazy";
+        img.referrerPolicy = "no-referrer";
+        art.append(img);
+      } else {
+        art.setAttribute("aria-hidden", "true");
+        art.append(element("span", "trakt-about-thumb", "TRAKT"));
+      }
+      card.append(art);
+    } else if (item.cover) {
+      const cover = element("img", "trakt-live-poster");
       cover.src = item.cover;
       cover.alt = "Poster for " + item.title;
       cover.loading = "lazy";
       cover.referrerPolicy = "no-referrer";
       card.append(cover);
     } else {
-      card.append(element("div","trakt-live-poster trakt-live-placeholder","TRAKT"));
+      card.append(element("div", "trakt-live-poster trakt-live-placeholder", "TRAKT"));
     }
-    const copy = element("div","trakt-live-copy");
-    copy.append(element("p","trakt-live-type",item.type));
-    const title = element("h3","trakt-live-title");
-    const a = element("a",null,item.title);
+    copy.append(element("p", compact ? "media-label" : "trakt-live-type",
+      compact ? "Last Watched" : item.type));
+    const title = element(compact ? "p" : "h3", compact ? "media-title" : "trakt-live-title");
+    const a = element("a", null, item.title);
     a.href = item.link;
     a.target = "_blank";
     a.rel = "noopener noreferrer";
     title.append(a);
     copy.append(title);
-    if (details(item)) copy.append(element("p","trakt-live-details",details(item)));
+    if (details(item)) copy.append(element("p", compact ? "media-subtitle" : "trakt-live-details", details(item)));
     if (item.date) {
-      const date = element("time","trakt-live-date",
+      const date = element("time", compact ? "media-submeta" : "trakt-live-date",
         "Watched " + item.date.toLocaleString("en-GB", {
           day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"
         }));
       date.dateTime = item.date.toISOString();
       copy.append(date);
     } else if (item.updated) {
-      copy.append(element("p","trakt-live-date","Updated " + item.updated));
+      copy.append(element("p", compact ? "media-submeta" : "trakt-live-date", "Updated " + item.updated));
     }
     card.append(copy);
     return card;
@@ -111,7 +128,21 @@
   }
 
   function pendingNotice(compact) {
-    const notice = element("div", "trakt-pending" + (compact ? " trakt-pending-compact" : ""));
+    if (compact) {
+      const card = element("article", "media-card trakt-about-card trakt-pending");
+      const art = element("div", "media-thumb-wrap");
+      art.setAttribute("aria-hidden", "true");
+      art.append(element("span", "trakt-about-thumb", "TRAKT"));
+      card.append(art);
+      const copy = element("div", "media-meta");
+      copy.append(element("p", "media-label", "Last Watched"));
+      copy.append(element("p", "media-title", "Coming Soon"));
+      copy.append(element("p", "media-subtitle",
+        "My watching history will appear here once the integration is ready."));
+      card.append(copy);
+      return card;
+    }
+    const notice = element("div", "trakt-pending");
     notice.append(element("p", "trakt-pending-label", "COMING SOON"));
     notice.append(element("p", "trakt-pending-message",
       "My Trakt watching history will appear here when the integration is ready."));

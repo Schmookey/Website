@@ -18,4 +18,15 @@ assert.deepEqual(widget.snapshotEntries({generated_at:"",items:[{title:"Old samp
 const recent = widget.snapshotEntries({generated_at:"2026-11-11T14:00:00Z",items:[{title:"New watch",type:"Movie"}]});
 assert.equal(recent.length, 1);
 assert.equal(recent[0].title, "New watch");
+// Keep the About card aligned with the shared ListenBrainz/BookWyrm styles.
+const fs = require("node:fs");
+const path = require("node:path");
+const about = fs.readFileSync(path.join(__dirname, "..", "about.html"), "utf8");
+const css = fs.readFileSync(path.join(__dirname, "..", "assets/css/style.css"), "utf8");
+assert.match(about, /id="trakt-latest-card"[\s\S]*class="media-card trakt-about-card trakt-pending"/);
+assert.match(about, /class="media-label">Last Watched/);
+assert.match(about, /class="media-title">Coming Soon/);
+assert.match(css, /\.trakt-live-widget \.trakt-about-card \.media-title\s*\{\s*font-size: 12px/);
+assert.match(css, /\.trakt-live-widget \.trakt-about-card \.media-label\s*\{\s*font-size: 11px/);
+
 console.log("PASS: Trakt widget URL allowlists and metadata tests");
