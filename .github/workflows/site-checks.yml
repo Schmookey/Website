@@ -34,5 +34,7 @@ jobs:
           node --check assets/js/trakt-history.js
       - name: Test URL validation and script loading safeguards
         run: node tests/test_security.js
+      - name: Test Trakt history updater and error handling
+        run: python -m unittest discover -s tests -p 'test_trakt_updater.py' -v
       - name: Test Trakt widget data and links
         run: node tests/test_trakt_widget.js
