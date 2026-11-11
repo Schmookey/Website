@@ -2546,3 +2546,76 @@ body.light .trakt-live-poster { border-color: #ff9696; }
   .trakt-live-compact { grid-template-columns: 64px minmax(0,1fr); }
   .trakt-live-compact .trakt-live-poster { width: 64px; min-height: 83px; }
 }
+
+/* About sidebar: match the ListenBrainz and BookWyrm media-card scale.
+   Keep the larger standalone Watching Journal presentation unchanged. */
+.trakt-live-widget .trakt-about-card {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 4px 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  color: inherit;
+}
+body.light .trakt-live-widget .trakt-about-card {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: inherit;
+}
+.trakt-live-widget .trakt-about-card .media-thumb-wrap {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  border: 2px solid currentColor;
+  box-sizing: border-box;
+  background: #111;
+}
+.trakt-live-widget .trakt-about-card .media-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.trakt-about-thumb {
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: .02em;
+  color: #fff;
+  text-align: center;
+}
+.trakt-live-widget .trakt-about-card .media-label {
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 0 0 4px;
+}
+.trakt-live-widget .trakt-about-card .media-title {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0 0 4px;
+  overflow-wrap: anywhere;
+}
+.trakt-live-widget .trakt-about-card .media-subtitle,
+.trakt-live-widget .trakt-about-card .media-submeta,
+.trakt-live-widget .trakt-live-links,
+.trakt-live-widget .trakt-attribution {
+  font-size: 11px;
+  line-height: 1.5;
+}
+.trakt-live-widget .trakt-about-card .media-subtitle,
+.trakt-live-widget .trakt-about-card .media-submeta { margin: 0 0 4px; }
+.trakt-live-widget .trakt-live-links { margin: 8px 0 0; }
+.trakt-live-widget .trakt-attribution { margin: 8px 0 0; opacity: .85; }
+.trakt-live-widget .trakt-about-card .media-title a { color: inherit; }
+.trakt-live-widget .trakt-about-card .media-title a:hover,
+.trakt-live-widget .trakt-about-card .media-title a:focus-visible { text-decoration: underline; }
+@media (max-width: 420px) {
+  .trakt-live-widget .trakt-about-card {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+}
