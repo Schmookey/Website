@@ -2423,3 +2423,105 @@ textarea:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
 }
+
+
+/* ListenBrainz featured cards: shared by About and Now Listening. */
+.listen-feature {
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 14px 0 22px;
+}
+.listen-feature-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.listen-feature-heading h2 {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7;
+  letter-spacing: .04em;
+}
+.listen-feature-status {
+  padding: 4px 7px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font-size: 10px;
+  letter-spacing: .03em;
+}
+.listen-feature-status[data-status="live"] {
+  background: #17552c;
+  color: #e5ffe9;
+  border-color: #69e696;
+}
+.listen-feature-card {
+  display: grid;
+  grid-template-columns: minmax(0, 112px) minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: #111827;
+  color: #f5f7ff;
+  border: 2px solid #6488ff;
+  border-radius: 6px;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,.1), 0 4px 0 rgba(0,0,0,.5);
+}
+.listen-feature-art {
+  width: 112px;
+  height: 112px;
+  max-width: 100%;
+  overflow: hidden;
+  background: #080b15;
+  border: 2px solid #889de9;
+  box-sizing: border-box;
+}
+.listen-feature-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.listen-feature-details { min-width: 0; overflow-wrap: anywhere; }
+.listen-feature-details h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #fff;
+}
+.listen-feature-artist, .listen-feature-album,
+.listen-feature-time, .listen-feature-details a {
+  display: block;
+  margin: 0 0 7px;
+  font-size: 11px;
+  line-height: 1.65;
+  color: #d8e2ff;
+}
+.listen-feature-time { font-variant-numeric: tabular-nums; }
+.listen-feature-details a { color: #b9d7ff; text-decoration: underline; }
+.listen-feature-details a:hover, .listen-feature-details a:focus-visible { color: #fff; }
+body.light .listen-feature-card {
+  background: linear-gradient(#740909, #470404);
+  border-color: #ff8585;
+}
+body.light .listen-feature-art { border-color: #ff9a9a; }
+.listen-feature-compact .listen-feature-card {
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 9px;
+  padding: 9px;
+}
+.listen-feature-compact .listen-feature-art { width: 64px; height: 64px; }
+.listen-feature-compact .listen-feature-heading h2 { font-size: 11px; }
+.listen-feature-compact .listen-feature-details h3 { font-size: 11px; }
+.listen-feature-compact .listen-feature-artist,
+.listen-feature-compact .listen-feature-album,
+.listen-feature-compact .listen-feature-time,
+.listen-feature-compact .listen-feature-details a { font-size: 10px; }
+@media (max-width: 420px) {
+  .listen-feature-card { grid-template-columns: 84px minmax(0, 1fr); gap: 10px; padding: 10px; }
+  .listen-feature-art { width: 84px; height: 84px; }
+  .listen-feature-compact .listen-feature-card { grid-template-columns: 64px minmax(0, 1fr); }
+  .listen-feature-compact .listen-feature-art { width: 64px; height: 64px; }
+}
