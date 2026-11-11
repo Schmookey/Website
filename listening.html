@@ -188,6 +188,25 @@ MAIN LAYOUT (DO NOT TOUCH STRUCTURE)
   <p class="listening-intro">
     A rolling log of recent songs from ListenBrainz</p>
 
+  <section class="listen-feature media-widget" data-listenbrainz-feature aria-label="Featured recent music">
+    <div class="listen-feature-heading">
+      <h2>NOW PLAYING / LAST PLAYED</h2>
+      <span class="listen-feature-status" data-listen-state aria-live="polite">LOADING</span>
+    </div>
+    <article class="listen-feature-card">
+      <div class="listen-feature-art">
+        <img data-listen-cover src="/assets/images/listenbrainz_logo.png" alt="ListenBrainz logo" width="112" height="112" loading="lazy">
+      </div>
+      <div class="listen-feature-details">
+        <h3 data-listen-track>Loading latest listen…</h3>
+        <p class="listen-feature-artist" data-listen-artist></p>
+        <p class="listen-feature-album" data-listen-album></p>
+        <time class="listen-feature-time" data-listen-time></time>
+        <a data-listen-link href="https://listenbrainz.org/user/jon_cass" target="_blank" rel="noopener noreferrer">View on ListenBrainz</a>
+      </div>
+    </article>
+  </section>
+
   <div class="listening-hud">
     <span>USER: Schmookey</span>
     <span>SOURCE: LISTENBRAINZ</span>
@@ -255,6 +274,7 @@ FOOTER
 
 
 <script src="/assets/js/main.js"></script>
+<script src="/assets/js/listenbrainz-embed.js" defer></script>
 
 </body>
 </html>
