@@ -1,0 +1,43 @@
+name: Refresh public Trakt watch history
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trakt-watch-history
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Refresh snapshot when credentials are configured
+        env:
+          TRAKT_CLIENT_ID: ${{ secrets.TRAKT_CLIENT_ID }}
+          TMDB_ACCESS_TOKEN: ${{ secrets.TMDB_ACCESS_TOKEN }}
+        shell: bash
+        run: |
+          if [ -z "$TRAKT_CLIENT_ID" ]; then
+            echo "TRAKT_CLIENT_ID is not configured; keeping the existing snapshot."
+            exit 0
+          fi
+          python3 scripts/update_trakt_history.py
+      - name: Commit updated public snapshot
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/data/trakt-history.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh public Trakt watch history"
+            git push
+          fi
