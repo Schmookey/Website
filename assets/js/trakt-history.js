@@ -96,12 +96,26 @@
     return card;
   }
 
+  function snapshotEntries(payload) {
+    if (!payload || !Array.isArray(payload.items)) throw new Error("Invalid history data");
+    // A null generated_at marks the pre-approval sample, not real watch history.
+    if (typeof payload.generated_at !== "string" ||
+        Number.isNaN(Date.parse(payload.generated_at))) return [];
+    return payload.items.map(normalise).filter(Boolean);
+  }
+
   async function loadSnapshot() {
     const res = await fetch("/assets/data/trakt-history.json", {cache:"no-store",headers:{Accept:"application/json"}});
     if (!res.ok) throw new Error("History unavailable");
-    const payload = await res.json();
-    if (!payload || !Array.isArray(payload.items)) throw new Error("Invalid history data");
-    return payload.items.map(normalise).filter(Boolean);
+    return snapshotEntries(await res.json());
+  }
+
+  function pendingNotice(compact) {
+    const notice = element("div", "trakt-pending" + (compact ? " trakt-pending-compact" : ""));
+    notice.append(element("p", "trakt-pending-label", "COMING SOON"));
+    notice.append(element("p", "trakt-pending-message",
+      "My Trakt watching history will appear here when the integration is ready."));
+    return notice;
   }
 
   async function render() {
@@ -112,21 +126,21 @@
       const items = await loadSnapshot();
       if (about) {
         about.replaceChildren(...(items.length ? [renderCard(items[0], true)] :
-          [element("p","trakt-live-empty","No recent watches available.")]));
+          [pendingNotice(true)]));
       }
       if (journal) {
         journal.replaceChildren(...(items.length ?
           items.slice(0, MAX_ENTRIES).map(item => renderCard(item,false)) :
-          [element("p","trakt-live-empty","No recent watches available.")]));
+          [pendingNotice(false)]));
       }
     } catch (error) {
       console.warn("Trakt snapshot:", error);
-      if (about) about.replaceChildren(element("p","trakt-live-empty","Latest watch unavailable. See my Trakt profile."));
-      if (journal) journal.replaceChildren(element("p","trakt-live-empty","Watch history unavailable. See my Trakt profile."));
+      if (about) about.replaceChildren(pendingNotice(true));
+      if (journal) journal.replaceChildren(pendingNotice(false));
     }
   }
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = {allowedLink,allowedPoster,normalise};
+    module.exports = {allowedLink,allowedPoster,normalise,snapshotEntries};
   }
   if (typeof document !== "undefined") {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded",render);

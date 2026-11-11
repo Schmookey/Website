@@ -2426,6 +2426,37 @@ textarea:focus-visible {
 
 
 /* TRAKT WATCHING JOURNAL AND ABOUT WIDGET */
+/* Pending approval: readable without JavaScript, replaced on live data. */
+.trakt-pending {
+  padding: 18px;
+  background: #101827;
+  border: 2px solid #6488ff;
+  border-radius: 6px;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,.08), 0 4px 0 rgba(0,0,0,.48);
+  color: #f2f5ff;
+  text-align: left;
+}
+.trakt-pending-label {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: #b4d7ff;
+}
+.trakt-pending-message {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.trakt-pending-compact { padding: 12px; }
+body.light .trakt-pending {
+  background: linear-gradient(#710808,#400404);
+  border-color: #ff8282;
+  color: #fff;
+}
+body.light .trakt-pending-label { color: #ffdfdf; }
+
+
 .trakt-live-widget { min-width: 0; }
 .trakt-live-heading {
   margin: 0 0 10px;

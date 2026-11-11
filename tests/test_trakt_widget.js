@@ -13,4 +13,9 @@ assert.equal(widget.allowedPoster("https://image.tmdb.org/t/p/w200/abc.jpg"), "h
 assert.equal(widget.normalise({}), null);
 assert.equal(widget.normalise({title:"<script>alert(1)</script>",type:"TV Show",season:1,episode_number:2}).title, "<script>alert(1)</script>");
 assert.equal(widget.normalise({title:"Test",type:"Movie",watched_at:"2026-11-11T12:00:00Z"}).date.toISOString(), "2026-11-11T12:00:00.000Z");
+assert.deepEqual(widget.snapshotEntries({generated_at:null,items:[{title:"Old sample",type:"TV Show"}]}), []);
+assert.deepEqual(widget.snapshotEntries({generated_at:"",items:[{title:"Old sample",type:"TV Show"}]}), []);
+const recent = widget.snapshotEntries({generated_at:"2026-11-11T14:00:00Z",items:[{title:"New watch",type:"Movie"}]});
+assert.equal(recent.length, 1);
+assert.equal(recent[0].title, "New watch");
 console.log("PASS: Trakt widget URL allowlists and metadata tests");
