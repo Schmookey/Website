@@ -96,15 +96,18 @@
     return card;
   }
 
-  async function loadSnapshot() {
-    const res = await fetch("/assets/data/trakt-history.json", {cache:"no-store",headers:{Accept:"application/json"}});
-    if (!res.ok) throw new Error("History unavailable");
-    const payload = await res.json();
+  function snapshotEntries(payload) {
     if (!payload || !Array.isArray(payload.items)) throw new Error("Invalid history data");
     // A null generated_at marks the pre-approval sample, not real watch history.
     if (typeof payload.generated_at !== "string" ||
         Number.isNaN(Date.parse(payload.generated_at))) return [];
     return payload.items.map(normalise).filter(Boolean);
+  }
+
+  async function loadSnapshot() {
+    const res = await fetch("/assets/data/trakt-history.json", {cache:"no-store",headers:{Accept:"application/json"}});
+    if (!res.ok) throw new Error("History unavailable");
+    return snapshotEntries(await res.json());
   }
 
   function pendingNotice(compact) {
@@ -137,7 +140,7 @@
     }
   }
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = {allowedLink,allowedPoster,normalise};
+    module.exports = {allowedLink,allowedPoster,normalise,snapshotEntries};
   }
   if (typeof document !== "undefined") {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded",render);
