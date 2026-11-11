@@ -31,5 +31,8 @@ jobs:
         run: |
           node --check assets/js/main.js
           node --check assets/js/archive.js
+          node --check assets/js/trakt-history.js
       - name: Test URL validation and script loading safeguards
         run: node tests/test_security.js
+      - name: Test Trakt widget data and links
+        run: node tests/test_trakt_widget.js

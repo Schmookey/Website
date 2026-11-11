@@ -2423,3 +2423,95 @@ textarea:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
 }
+
+
+/* TRAKT WATCHING JOURNAL AND ABOUT WIDGET */
+.trakt-live-widget { min-width: 0; }
+.trakt-live-heading {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.trakt-live-history {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.trakt-live-card {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 12px;
+  background: #101827;
+  color: #f2f5ff;
+  border: 2px solid #6488ff;
+  border-radius: 6px;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,.08), 0 4px 0 rgba(0,0,0,.48);
+}
+.trakt-live-poster {
+  display: block;
+  box-sizing: border-box;
+  width: 92px;
+  min-height: 120px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid #899cff;
+  background: #070b12;
+}
+.trakt-live-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c6d8ff;
+  font-size: 12px;
+  letter-spacing: .05em;
+}
+.trakt-live-copy { min-width: 0; overflow-wrap: anywhere; }
+.trakt-live-type {
+  margin: 0 0 6px;
+  color: #accdff;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.trakt-live-title { margin: 0 0 7px; font-size: 13px; line-height: 1.5; }
+.trakt-live-title a, .trakt-live-links a {
+  color: #b4d7ff;
+  text-decoration: underline;
+}
+.trakt-live-title a:hover, .trakt-live-links a:hover,
+.trakt-live-title a:focus-visible, .trakt-live-links a:focus-visible { color: #fff; }
+.trakt-live-details, .trakt-live-date {
+  display: block;
+  margin: 0 0 6px;
+  color: #e1e9ff;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.trakt-live-empty { font-size: 11px; line-height: 1.6; }
+.trakt-live-links { font-size: 11px; line-height: 1.7; margin-top: 10px; }
+.trakt-live-compact {
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px;
+}
+.trakt-live-compact .trakt-live-poster { width: 64px; min-height: 83px; }
+.trakt-live-compact .trakt-live-title { font-size: 11px; }
+.trakt-live-compact .trakt-live-type,
+.trakt-live-compact .trakt-live-details,
+.trakt-live-compact .trakt-live-date { font-size: 10px; }
+.watching-page h1 { font-size: 16px; line-height: 1.6; text-align: center; }
+.watching-page .listening-hud a { color: #c4dcff; }
+body.light .trakt-live-card {
+  background: linear-gradient(#710808,#400404);
+  border-color: #ff8282;
+}
+body.light .trakt-live-poster { border-color: #ff9696; }
+@media (max-width: 420px) {
+  .trakt-live-card { grid-template-columns: 70px minmax(0,1fr); gap: 9px; padding: 9px; }
+  .trakt-live-poster { width: 70px; min-height: 91px; }
+  .trakt-live-compact { grid-template-columns: 64px minmax(0,1fr); }
+  .trakt-live-compact .trakt-live-poster { width: 64px; min-height: 83px; }
+}
