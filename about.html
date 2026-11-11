@@ -297,25 +297,16 @@ RIGHT SIDEBAR
     </div>
   </article>
 </div>
-<!-- Trakt -->
-<div class="media-widget">
-  <article class="media-card">
-    <div class="media-thumb-wrap">
-     <div class="media-cover">
-  <img src="/assets/images/trakt/the-sopranos.jpg" alt="The Sopranos">
-</div>
-    </div>
-    <div class="media-meta">
-      <p class="media-label">Currently Watching</p>
-      <h3 class="media-title">The Sopranos</h3>
-      <p class="media-subtitle">Season 1</p>
-      <p class="media-status">
-        <a href="https://trakt.tv/users/pat13nt_z3r0" target="_blank" rel="noopener">
-          From Trakt
-        </a>
-      </p>
-    </div>
-  </article>
+<!-- Trakt: last watch from a generated public snapshot -->
+<div class="media-widget trakt-live-widget">
+  <h2 class="trakt-live-heading">LAST WATCHED</h2>
+  <div id="trakt-latest-card" aria-live="polite">
+    <p class="trakt-live-empty">Loading watch history…</p>
+  </div>
+  <p class="trakt-live-links">
+    <a href="/now-watching.html">Full watching journal</a> ·
+    <a href="https://trakt.tv/users/pat13nt_z3r0" target="_blank" rel="noopener noreferrer">Trakt profile</a>
+  </p>
 </div>
   </aside>
 
@@ -344,6 +335,7 @@ FOOTER CONTENT
 
 
 <script src="/assets/js/main.js"></script>
+<script src="/assets/js/trakt-history.js" defer></script>
 
 </body>
 </html>
