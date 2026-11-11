@@ -1,0 +1,15 @@
+{
+  "generated_at": null,
+  "source": "Existing manually maintained website snapshot; configure TRAKT_CLIENT_ID for automatic updates.",
+  "items": [
+    {
+      "title": "The Sopranos",
+      "type": "TV Show",
+      "season": 1,
+      "year": 1999,
+      "link": "https://trakt.tv/shows/the-sopranos",
+      "cover": "/assets/images/trakt/the-sopranos.jpg",
+      "updated": "31 Mar 2026"
+    }
+  ]
+}
