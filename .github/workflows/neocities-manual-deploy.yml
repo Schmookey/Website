@@ -1,0 +1,71 @@
+name: Neocities manual deployment (disabled by default)
+
+# No push, schedule, or pull_request trigger. Never uploads unless deliberately armed.
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Inspect differences only, or request an explicitly enabled upload"
+        required: true
+        default: preview
+        type: choice
+        options:
+          - preview
+          - deploy
+      confirmation:
+        description: "For deploy only: type DEPLOY SCHMOOKEY.XYZ"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neocities-deployment
+  cancel-in-progress: false
+
+jobs:
+  inspect-or-upload:
+    name: Inspect files / guarded deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check deployment safety switch
+        env:
+          ACTION: ${{ inputs.action }}
+          CONFIRMATION: ${{ inputs.confirmation }}
+          DEPLOY_ENABLED: ${{ vars.NEOCITIES_DEPLOY_ENABLED }}
+        shell: bash
+        run: |
+          if [[ "$ACTION" == "deploy" ]]; then
+            if [[ "$DEPLOY_ENABLED" != "true" ]]; then
+              echo "::error::Deployment is disabled. No files uploaded. Keep NEOCITIES_DEPLOY_ENABLED unset until the live site is backed up."
+              exit 1
+            fi
+            if [[ "$CONFIRMATION" != "DEPLOY SCHMOOKEY.XYZ" ]]; then
+              echo "::error::Confirmation did not match. No files uploaded."
+              exit 1
+            fi
+          fi
+      - name: Compare selected repository files with Neocities
+        env:
+          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+          ACTION: ${{ inputs.action }}
+        shell: bash
+        run: |
+          if [[ -z "$NEOCITIES_API_KEY" ]]; then
+            echo "::error::NEOCITIES_API_KEY secret is not set."
+            exit 1
+          fi
+          if [[ "$ACTION" == "deploy" ]]; then
+            python3 scripts/neocities_manual_deploy.py --deploy
+          else
+            python3 scripts/neocities_manual_deploy.py --preview
+          fi
