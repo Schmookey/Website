@@ -112,6 +112,41 @@ def describe_history_rows(data: list) -> None:
     )
 
 
+def diagnose_public_account(headers: dict[str, str]) -> None:
+    """Verify Trakt resolves the configured public user identifier.
+
+    Only report a match, status code, and public privacy flag. This deliberately
+    avoids logging profile details, titles, raw responses or API headers.
+    """
+    url = "https://api.trakt.tv/users/" + quote(USER, safe="") + "?extended=full"
+    try:
+        profile = get_json(url, headers)
+    except HTTPError as exc:
+        print("Public Trakt profile lookup: HTTP", exc.code)
+        return
+    except (OSError, ValueError, TypeError) as exc:
+        print("Public Trakt profile lookup: unavailable", type(exc).__name__)
+        return
+
+    if not isinstance(profile, dict):
+        print("Public Trakt profile lookup: unexpected JSON shape")
+        return
+    ids = profile.get("ids")
+    slug = ids.get("slug") if isinstance(ids, dict) else None
+    if isinstance(slug, str) and slug:
+        matches = slug.casefold() == USER.casefold()
+        print("Public Trakt profile: resolved; configured slug matches:",
+              "yes" if matches else "NO")
+    else:
+        print("Public Trakt profile: returned without a slug")
+    private = profile.get("private")
+    if type(private) is bool:
+        print("Public Trakt profile privacy flag:",
+              "private" if private else "public")
+    else:
+        print("Public Trakt profile privacy flag: unavailable")
+
+
 def diagnose_public_watch_visibility(headers: dict[str, str]) -> None:
     """Probe two documented public watched endpoints and public aggregate stats.
 
@@ -190,6 +225,7 @@ def main() -> None:
     # An empty result may mean no history, a visibility restriction, or a
     # changed response shape. Never overwrite a valid snapshot or assume why.
     if not items:
+        diagnose_public_account(headers)
         diagnose_public_watch_visibility(headers)
         raise SystemExit(
             "No usable public history; existing snapshot preserved. "

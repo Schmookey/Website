@@ -66,6 +66,8 @@ class TraktUpdaterTests(unittest.TestCase):
             def reply(url, headers):
                 if "/history" in url:
                     return []
+                if "extended=full" in url:
+                    return {"ids": {"slug": "pat13nt_z3r0"}, "private": False}
                 if "/watched/movies" in url:
                     return [{"movie": {"title": "never-print-this-title"}}]
                 if "/watched/shows" in url:
@@ -82,6 +84,8 @@ class TraktUpdaterTests(unittest.TestCase):
                 with self.assertRaises(SystemExit) as exc:
                     updater.main()
             report = output.getvalue()
+            self.assertIn("Public Trakt profile: resolved; configured slug matches: yes", report)
+            self.assertIn("Public Trakt profile privacy flag: public", report)
             self.assertIn("Public watched movies: visible", report)
             self.assertIn("Public watched shows: empty", report)
             self.assertIn("movies plays = 17", report)
@@ -101,6 +105,8 @@ class TraktUpdaterTests(unittest.TestCase):
                 calls.append(url)
                 if "/history" in url:
                     return [{"type": "something-new", "title": "private-watch-title"}]
+                if "extended=full" in url:
+                    return {"ids": {"slug": "different-account"}, "private": False}
                 return []
             output = StringIO()
             with patch.dict(os.environ, {"TRAKT_CLIENT_ID": "private-test-client-id"}), \
@@ -113,7 +119,35 @@ class TraktUpdaterTests(unittest.TestCase):
             self.assertIn("usable items: 0", output.getvalue())
             self.assertNotIn("private-watch-title", output.getvalue())
             self.assertEqual(target.read_text(encoding="utf-8"), "keep")
-            self.assertEqual(len(calls), 4)
+            self.assertIn("configured slug matches: NO", output.getvalue())
+            self.assertEqual(len(calls), 5)
+
+    def test_profile_probe_is_sanitised(self):
+        from contextlib import redirect_stdout
+        from io import StringIO
+        output = StringIO()
+        with patch.object(updater, "get_json", return_value={
+            "ids": {"slug": "pat13nt_z3r0"},
+            "private": False,
+            "name": "private-profile-name",
+        }), redirect_stdout(output):
+            updater.diagnose_public_account({"trakt-api-key": "secret"})
+        report = output.getvalue()
+        self.assertIn("configured slug matches: yes", report)
+        self.assertIn("privacy flag: public", report)
+        self.assertNotIn("private-profile-name", report)
+        self.assertNotIn("secret", report)
+
+    def test_profile_probe_http_error_only_logs_code(self):
+        from contextlib import redirect_stdout
+        from io import StringIO
+        output = StringIO()
+        def reject(url, headers):
+            raise HTTPError(url, 404, "Not Found", {}, None)
+        with patch.object(updater, "get_json", side_effect=reject), redirect_stdout(output):
+            updater.diagnose_public_account({"trakt-api-key": "secret"})
+        self.assertIn("Public Trakt profile lookup: HTTP 404", output.getvalue())
+        self.assertNotIn("secret", output.getvalue())
 
     def test_public_probe_http_error_is_sanitised(self):
         from contextlib import redirect_stdout
