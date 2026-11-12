@@ -195,19 +195,21 @@
   gap: 8px;
 }
 .about-page .profile-card-socials .profile-card-link { padding-inline: 6px; }
-.about-page .profile-card-social-icon {
-  display: inline-flex;
+/* Transparent social service logos, scaled without stretching. */
+.about-page .profile-card-link .profile-card-logo {
+  display: block;
   flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  background: #3674db;
-  border-radius: 6px;
-  width: 24px;
-  height: 24px;
-  font-weight: 900;
-  font-size: .85rem;
+  width: 28px;
+  height: 28px;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 0;
+  background: transparent;
 }
-.about-page .profile-card-social-icon.bluesky { background: #2087d4; }
+.about-page .profile-card-link-primary .profile-card-logo {
+  width: 30px;
+  height: 30px;
+}
 .about-page .profile-card-section-title {
   color: #25143d;
   background: linear-gradient(#fff2a6, #fdbd20);
