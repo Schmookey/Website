@@ -51,6 +51,31 @@ TMDb poster images are optional. Without TMDb credentials the widget displays
 a labelled fallback when Trakt does not supply artwork. Existing cached
 `The Sopranos` artwork is used in the initial snapshot.
 
+## Diagnosing an approved app that returns no history
+
+After confirming that the GitHub Actions secret `TRAKT_CLIENT_ID` is the
+approved Production Client ID, run **Actions → Refresh public Trakt watch
+history → Run workflow** (branch `main`). The script now logs:
+
+- The number and type of rows returned by the public history endpoint.
+- The number of entries that the widget can actually use.
+- Whether the public watched-movies and watched-shows endpoints return any
+  entries or an HTTP error (without printing film or programme titles).
+- Public aggregate watch counts if the account's public stats endpoint exposes
+  them.
+
+If history returns zero rows but watched lists or stats are non-empty, the
+problem is likely specific to history visibility or endpoint behaviour rather
+than having no recorded watches. If all probes return empty data, that result
+alone **does not prove** the profile or history is private. An HTTP 401 or 403
+on the diagnostic endpoints is recorded as a status code without leaking keys.
+
+These probes use only public endpoints and the configured Client ID. They do
+**not** authorise private history access, use OAuth, print raw API responses,
+or publish new JSON when the history is unusable. The existing snapshot is
+preserved on failure. If viewing activity is not publicly retrievable, obtain
+explicit permission before configuring user-authorised OAuth credentials.
+
 ## Deployment
 
 GitHub changes do not automatically update Neocities. Deploy the new HTML,

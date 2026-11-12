@@ -92,6 +92,66 @@ def normalise(row: dict, token: str, cache: dict) -> dict | None:
     return result
 
 
+def describe_history_rows(data: list) -> None:
+    """Print safe structure counts only; never reveal titles or API responses."""
+    types = {"movie": 0, "episode": 0, "show": 0}
+    other = 0
+    for row in data:
+        kind = row.get("type") if isinstance(row, dict) else None
+        if kind in types:
+            types[kind] += 1
+        else:
+            other += 1
+    print(
+        "Trakt history response:",
+        len(data), "rows;",
+        "movie=", types["movie"],
+        "episode=", types["episode"],
+        "show=", types["show"],
+        "other=", other,
+    )
+
+
+def diagnose_public_watch_visibility(headers: dict[str, str]) -> None:
+    """Probe two documented public watched endpoints and public aggregate stats.
+
+    No OAuth is used; probes only run after an unusable history response.
+    Never log watch titles, raw JSON, credentials, or request headers. A zero
+    result does not establish whether history is private or genuinely empty.
+    """
+    base = "https://api.trakt.tv/users/" + quote(USER, safe="")
+    for kind in ("movies", "shows"):
+        try:
+            data = get_json(base + "/watched/" + kind + "?page=1&limit=1", headers)
+        except HTTPError as exc:
+            print("Public watched", kind + ":", "HTTP", exc.code)
+        except (OSError, ValueError, TypeError) as exc:
+            print("Public watched", kind + ":", "unavailable", type(exc).__name__)
+        else:
+            if isinstance(data, list):
+                print("Public watched", kind + ":", "visible" if data else "empty")
+            else:
+                print("Public watched", kind + ":", "unexpected JSON shape")
+
+    try:
+        stats = get_json(base + "/stats", headers)
+    except HTTPError as exc:
+        print("Public watch statistics: HTTP", exc.code)
+    except (OSError, ValueError, TypeError) as exc:
+        print("Public watch statistics: unavailable", type(exc).__name__)
+    else:
+        if not isinstance(stats, dict):
+            print("Public watch statistics: unexpected JSON shape")
+            return
+        for category, metric in (("movies", "plays"), ("episodes", "plays"), ("shows", "watched")):
+            section = stats.get(category)
+            count = section.get(metric) if isinstance(section, dict) else None
+            if type(count) is int and count >= 0:
+                print("Public watch statistics:", category, metric, "=", count)
+            else:
+                print("Public watch statistics:", category, metric, "= unavailable")
+
+
 def main() -> None:
     client = os.environ.get("TRAKT_CLIENT_ID", "").strip()
     if not client:
@@ -122,12 +182,19 @@ def main() -> None:
         ) from None
     if not isinstance(data, list):
         raise SystemExit("Unexpected Trakt response: not a list; retaining snapshot.")
+    describe_history_rows(data)
     cache = {}
     items = [item for row in data if isinstance(row, dict)
              if (item := normalise(row, token, cache)) is not None]
-    # Empty data can mean history is private. Never overwrite a valid snapshot.
+    print("Trakt history usable items:", len(items))
+    # An empty result may mean no history, a visibility restriction, or a
+    # changed response shape. Never overwrite a valid snapshot or assume why.
     if not items:
-        raise SystemExit("No public watches returned; retaining existing snapshot.")
+        diagnose_public_watch_visibility(headers)
+        raise SystemExit(
+            "No usable public history; existing snapshot preserved. "
+            "Compare the public watched checks above before considering OAuth."
+        )
     output = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "source": "Trakt public watch history (cached by GitHub Actions)",
