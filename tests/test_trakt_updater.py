@@ -170,6 +170,35 @@ class TraktUpdaterTests(unittest.TestCase):
         self.assertIn("Public watch statistics: HTTP 403", report)
         self.assertNotIn("secret", report)
 
+    def test_poster_coverage_log_does_not_expose_credentials(self):
+        from contextlib import redirect_stdout
+        from io import StringIO
+        response = [{"type": "movie", "movie": {
+            "title": "Sample Film", "ids": {"tmdb": 123, "slug": "sample-film"}
+        }}]
+        def reply(url, headers):
+            if "api.themoviedb.org" in url:
+                return {"poster_path": "/poster.jpg"}
+            return response
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / "trakt-history.json"
+            output = StringIO()
+            with patch.dict(os.environ, {
+                "TRAKT_CLIENT_ID": "private-client-test",
+                "TMDB_ACCESS_TOKEN": "private-tmdb-test",
+            }), patch.object(updater, "OUT", target), \
+                 patch.object(updater, "get_json", side_effect=reply), \
+                 redirect_stdout(output):
+                updater.main()
+            report = output.getvalue()
+            self.assertIn("TMDB artwork: token configured ; poster links: 1 of 1", report)
+            self.assertNotIn("private-client-test", report)
+            self.assertNotIn("private-tmdb-test", report)
+            self.assertEqual(
+                json.loads(target.read_text(encoding="utf-8"))["items"][0]["cover"],
+                "https://image.tmdb.org/t/p/w200/poster.jpg",
+            )
+
     def test_no_results_do_not_erase_snapshot(self):
         with tempfile.TemporaryDirectory() as temp:
             target = Path(temp) / "trakt-history.json"
