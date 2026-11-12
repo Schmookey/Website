@@ -14,7 +14,7 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
-USER = "pat13nt_z3r0"
+USER = "Pati3nt_Z3ro"
 OUT = Path(__file__).resolve().parent.parent / "assets/data/trakt-history.json"
 HEADERS = {
     "Accept": "application/json",
@@ -64,7 +64,7 @@ def normalise(row: dict, token: str, cache: dict) -> dict | None:
         if not title:
             return None
         slug = ids.get("slug")
-        link = "https://trakt.tv/movies/" + quote(str(slug)) if slug else "https://trakt.tv/users/" + USER
+        link = "https://trakt.tv/movies/" + quote(str(slug)) if slug else "https://app.trakt.tv/profile/" + quote(USER, safe="")
         return {
             "title": str(title), "type": "Movie",
             "year": movie.get("year"), "link": link,
@@ -78,7 +78,7 @@ def normalise(row: dict, token: str, cache: dict) -> dict | None:
         return None
     ids = show.get("ids") or {}
     slug = ids.get("slug")
-    link = "https://trakt.tv/shows/" + quote(str(slug)) if slug else "https://trakt.tv/users/" + USER
+    link = "https://trakt.tv/shows/" + quote(str(slug)) if slug else "https://app.trakt.tv/profile/" + quote(USER, safe="")
     result = {
         "title": str(title), "type": "TV Show",
         "episode": episode.get("title") or "",

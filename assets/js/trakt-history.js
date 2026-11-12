@@ -3,7 +3,7 @@
    All remote strings are inserted with textContent and URLs are restricted. */
 (() => {
   "use strict";
-  const PROFILE = "https://trakt.tv/users/pat13nt_z3r0";
+  const PROFILE = "https://app.trakt.tv/profile/Pati3nt_Z3ro";
   const MAX_ENTRIES = 30;
   const SAFE_POSTER = /^https:\/\/image\.tmdb\.org\/t\/p\/w(?:92|154|185|200|300|342|500)\/[A-Za-z0-9._-]+\.(?:jpg|jpeg|png|webp)$/i;
 

@@ -1,11 +1,13 @@
 "use strict";
 const assert = require("node:assert/strict");
 const widget = require("../assets/js/trakt-history.js");
+// The URL is copied from the owner’s actual Trakt account, not a guessed slug.
+assert.equal(widget.allowedLink(""), "https://app.trakt.tv/profile/Pati3nt_Z3ro");
 
-assert.equal(widget.allowedLink("javascript:alert(1)"), "https://trakt.tv/users/pat13nt_z3r0");
-assert.equal(widget.allowedLink("https://evil.example/test"), "https://trakt.tv/users/pat13nt_z3r0");
+assert.equal(widget.allowedLink("javascript:alert(1)"), "https://app.trakt.tv/profile/Pati3nt_Z3ro");
+assert.equal(widget.allowedLink("https://evil.example/test"), "https://app.trakt.tv/profile/Pati3nt_Z3ro");
 assert.equal(widget.allowedLink("https://trakt.tv/shows/the-sopranos"), "https://trakt.tv/shows/the-sopranos");
-assert.equal(widget.allowedLink("https://trakt.tv.evil.example"), "https://trakt.tv/users/pat13nt_z3r0");
+assert.equal(widget.allowedLink("https://trakt.tv.evil.example"), "https://app.trakt.tv/profile/Pati3nt_Z3ro");
 assert.equal(widget.allowedPoster("javascript:alert(1)"), "");
 assert.equal(widget.allowedPoster("https://evil.example/poster.jpg"), "");
 assert.equal(widget.allowedPoster("/assets/images/trakt/the-sopranos.jpg"), "/assets/images/trakt/the-sopranos.jpg");
