@@ -1,7 +1,18 @@
 {
-  "generated_at": "2026-11-12T16:41:23+00:00",
+  "generated_at": "2026-11-12T23:38:07+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "LOL: Last One Laughing Halloween UK",
+      "type": "TV Show",
+      "episode": "The Locker Room of Doom",
+      "season": 1,
+      "episode_number": 4,
+      "year": 2026,
+      "link": "https://trakt.tv/shows/lol-last-one-laughing-halloween-uk",
+      "cover": "https://image.tmdb.org/t/p/w200/87WpCARyaNZrKMMgtQcmT6fHD6j.jpg",
+      "watched_at": "2026-11-12T22:19:00.000Z"
+    },
     {
       "title": "LOL: Last One Laughing Halloween UK",
       "type": "TV Show",
@@ -320,17 +331,6 @@
       "link": "https://trakt.tv/shows/have-you-been-paying-attention",
       "cover": "https://image.tmdb.org/t/p/w200/8UrQBNGHJJ71M4qD980CiE0VFup.jpg",
       "watched_at": "2026-10-12T19:03:00.000Z"
-    },
-    {
-      "title": "Mock the Week",
-      "type": "TV Show",
-      "episode": "Rhys James, Hugh Dennis, Sarah Keyworth, Sara Pascoe, Glenn Moore and Emmanuel Sonubi",
-      "season": 2,
-      "episode_number": 5,
-      "year": 2026,
-      "link": "https://trakt.tv/shows/mock-the-week-2026",
-      "cover": "https://image.tmdb.org/t/p/w200/gou7RoRz88v58UYeSiTMp5OS1iy.jpg",
-      "watched_at": "2026-10-12T18:18:00.000Z"
     }
   ]
 }
