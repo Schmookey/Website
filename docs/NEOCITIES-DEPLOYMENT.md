@@ -8,6 +8,22 @@ after a complete copy of the current live Neocities site has been saved.
 anything to Neocities.** It has no push or timer triggers, and it will not run
 merely because a commit is merged.
 
+## Backup received and checked — 12 November 2026
+
+A ZIP download of the live Neocities website was provided on 12 November 2026.
+Its archive integrity check passed (118 website files), and its copies of all
+three deployable paths below match the corresponding files in GitHub `main`
+after the backup reconciliation in pull request #15.
+
+This **does not verify that the live Neocities server has remained unchanged**
+since the download. Before enabling any upload, run the read-only **preview**
+action and check the returned live-file differences. If the preview reports
+differences, review those individually against the backup and GitHub.
+If all three files say **UNCHANGED**, no deployment is necessary.
+
+The backup ZIP was provided separately; **it is not committed to GitHub**.
+Retain your own copy outside Neocities and GitHub.
+
 ## What is protected
 
 Only these three paths can ever be uploaded by this workflow:
@@ -50,9 +66,10 @@ Removing the variable or changing its value away from `true` disables
 uploads again. No API key value should ever be committed, pasted into an
 issue, or printed to Actions logs.
 
-The workflow does not create backups, and it does not prove that GitHub is a
-complete copy of your live Neocities website. Do not enable deployment while
-your latest live-site backup is unavailable.
+The workflow does not create backups and does not guarantee that GitHub is
+synchronised with any later remote edits. Before each deployment, confirm that
+a fresh copy of live-site content exists, review the preview output and make
+sure no remote manual changes will be overwritten.
 
 Implementation: `.github/workflows/neocities-manual-deploy.yml` and
 `scripts/neocities_manual_deploy.py`. The API endpoints are documented at
