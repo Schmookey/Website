@@ -15,6 +15,14 @@ spec.loader.exec_module(updater)
 
 
 class TraktUpdaterTests(unittest.TestCase):
+    def test_actual_public_account_identifier(self):
+        self.assertEqual(updater.USER, "Pati3nt_Z3ro")
+        row = {"type": "movie", "movie": {"title": "Sample", "ids": {}}}
+        self.assertEqual(
+            updater.normalise(row, "", {})["link"],
+            "https://app.trakt.tv/profile/Pati3nt_Z3ro",
+        )
+
     def test_episode_metadata_is_retained(self):
         row = {
             "type": "episode", "watched_at": "2026-11-10T12:00:00Z",
@@ -67,7 +75,7 @@ class TraktUpdaterTests(unittest.TestCase):
                 if "/history" in url:
                     return []
                 if "extended=full" in url:
-                    return {"ids": {"slug": "pat13nt_z3r0"}, "private": False}
+                    return {"ids": {"slug": "Pati3nt_Z3ro"}, "private": False}
                 if "/watched/movies" in url:
                     return [{"movie": {"title": "never-print-this-title"}}]
                 if "/watched/shows" in url:
@@ -127,7 +135,7 @@ class TraktUpdaterTests(unittest.TestCase):
         from io import StringIO
         output = StringIO()
         with patch.object(updater, "get_json", return_value={
-            "ids": {"slug": "pat13nt_z3r0"},
+            "ids": {"slug": "Pati3nt_Z3ro"},
             "private": False,
             "name": "private-profile-name",
         }), redirect_stdout(output):
