@@ -23,6 +23,18 @@ PUBLISH_FILES = (
     "assets/css/style.css",
     "privacy.html",
 )
+# Narrow Trakt scopes are separate from the legacy site allowlist. Never
+# silently upload about.html, now-watching.html, or manually edited content.
+TRAKT_SNAPSHOT_FILES = ("assets/data/trakt-history.json",)
+TRAKT_WIDGET_FILES = (
+    "assets/data/trakt-history.json",
+    "assets/js/trakt-history.js",
+)
+DEPLOYMENT_GROUPS = {
+    "site": PUBLISH_FILES,
+    "trakt-snapshot": TRAKT_SNAPSHOT_FILES,
+    "trakt-widget": TRAKT_WIDGET_FILES,
+}
 
 
 def request(path: str, key: str, *, method: str = "GET",
@@ -81,7 +93,10 @@ def build_upload_payload(paths: list[str]) -> tuple[bytes, str]:
     return b"".join(pieces), "multipart/form-data; boundary=" + boundary
 
 
-def run(deploy: bool = False) -> None:
+def run(deploy: bool = False, group: str = "site") -> None:
+    if group not in DEPLOYMENT_GROUPS:
+        raise RuntimeError("Unknown deployment group; refusing to upload.")
+    allowed = DEPLOYMENT_GROUPS[group]
     key = os.environ.get("NEOCITIES_API_KEY", "").strip()
     if not key:
         raise RuntimeError("NEOCITIES_API_KEY secret has not been configured.")
@@ -97,7 +112,7 @@ def run(deploy: bool = False) -> None:
         and not item.get("is_directory")
     }
     changes = []
-    for relative in PUBLISH_FILES:
+    for relative in allowed:
         path = ROOT / relative
         if not path.is_file() or path.is_symlink():
             raise RuntimeError(f"Missing or unsafe local file: {relative}")
@@ -106,7 +121,8 @@ def run(deploy: bool = False) -> None:
         else:
             changes.append(relative)
             print("DIFFERS   " + relative)
-    print(f"Files selected: {len(PUBLISH_FILES)}; differing: {len(changes)}.")
+    print(f"Deployment group: {group}.")
+    print(f"Files selected: {len(allowed)}; differing: {len(changes)}.")
     if not deploy:
         print("PREVIEW ONLY: No changes made to Neocities.")
         return
@@ -124,8 +140,12 @@ if __name__ == "__main__":
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--preview", action="store_true", help="Read-only comparison")
     modes.add_argument("--deploy", action="store_true", help="Upload allowlisted changes")
+    parser.add_argument(
+        "--group", choices=tuple(DEPLOYMENT_GROUPS), default="site",
+        help="Fixed, narrowly scoped publish list (default: site)",
+    )
     args = parser.parse_args()
     try:
-        run(deploy=args.deploy)
+        run(deploy=args.deploy, group=args.group)
     except RuntimeError as exc:
         raise SystemExit(str(exc)) from None
