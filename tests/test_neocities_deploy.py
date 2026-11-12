@@ -84,7 +84,7 @@ class ManualDeploymentTests(unittest.TestCase):
             self.assertIn(b'name="assets/data/trakt-history.json"', uploads[0])
             self.assertNotIn(b"site-updates.json", uploads[0])
             self.assertNotIn(b'filename="about.html"', uploads[0])
-            self.assertNotIn(b"trakt-history.js", uploads[0])
+            self.assertNotIn(b'name="assets/js/trakt-history.js"', uploads[0])
 
     def test_unknown_deploy_group_is_rejected_before_api_access(self):
         with self.assertRaisesRegex(RuntimeError, "Unknown deployment group"):
