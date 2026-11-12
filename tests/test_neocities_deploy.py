@@ -15,6 +15,21 @@ spec.loader.exec_module(deploy)
 
 
 class ManualDeploymentTests(unittest.TestCase):
+    def test_variable_free_trakt_workflow_has_strict_safeguards(self):
+        workflow = (SCRIPT.parent.parent / ".github/workflows/"
+                    "neocities-trakt-confirmed-deploy.yml").read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertNotIn("  push:", workflow)
+        self.assertNotIn("  schedule:", workflow)
+        self.assertIn('refs/heads/main', workflow)
+        self.assertIn('BACKUP VERIFIED SCHMOOKEY.XYZ', workflow)
+        self.assertIn('DEPLOY TRAKT TO SCHMOOKEY.XYZ', workflow)
+        self.assertIn('trakt-widget', workflow)
+        self.assertIn('trakt-snapshot', workflow)
+        self.assertNotIn('NEOCITIES_DEPLOY_ENABLED', workflow)
+        self.assertIn('scripts/neocities_manual_deploy.py --deploy --group "$GROUP"', workflow)
+        self.assertIn('secrets.NEOCITIES_API_KEY', workflow)
+
     def test_only_explicit_files_are_eligible(self):
         self.assertEqual(
             deploy.PUBLISH_FILES,
