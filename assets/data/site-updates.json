@@ -3,6 +3,20 @@
     "type": "Now",
     "title": "Now",
     "url": "/now.html",
+    "date": "2026-11-11T21:20:00+00:00",
+    "summary": "What I'm doing IRL."
+  },
+  {
+    "type": "Changelog",
+    "title": "Privacy, Album Artowrk, Trakt",
+    "url": "/changelog.html",
+    "date": "2026-11-11T21:00:00+00:00",
+    "summary": "Updated privacy policy, added album artwork to music widget, trying to add Trakt widget."
+  },
+  {
+    "type": "Now",
+    "title": "Now",
+    "url": "/now.html",
     "date": "2026-08-07T19:35:00+00:00",
     "summary": "What I'm currently doing."
   },
