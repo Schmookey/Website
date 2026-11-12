@@ -19,20 +19,63 @@ This **does not verify that the live Neocities server has remained unchanged**
 since the download. Before enabling any upload, run the read-only **preview**
 action and check the returned live-file differences. If the preview reports
 differences, review those individually against the backup and GitHub.
-If all three files say **UNCHANGED**, no deployment is necessary.
+If all selected files say **UNCHANGED**, no deployment is necessary.
 
 The backup ZIP was provided separately; **it is not committed to GitHub**.
 Retain your own copy outside Neocities and GitHub.
 
+## Trakt-only publishing (new, deliberately manual)
+
+The Trakt API connection now works: GitHub refreshes
+`assets/data/trakt-history.json` from the verified public Trakt account
+`Pati3nt_Z3ro`. **GitHub commits do not automatically publish to Neocities.**
+
+The existing guarded deployment workflow now has a **group** selector:
+
+- `trakt-widget` (recommended for the first deployment): only
+  `assets/data/trakt-history.json` and `assets/js/trakt-history.js`.
+- `trakt-snapshot` (recommended for later history refreshes): only
+  `assets/data/trakt-history.json`.
+- `site` (the original legacy allowlist): only
+  `assets/js/main.js`, `assets/css/style.css` and `privacy.html`.
+
+The Trakt groups **never upload** `about.html`, `now-watching.html`,
+`assets/data/site-updates.json`, social icons, or any other edited files.
+The new history JSON already contains real viewing data. Confirm you're
+comfortable publishing that data before deploying.
+
+**First run a read-only comparison:** in Actions, open
+**Neocities manual deployment (disabled by default)** → **Run workflow**,
+choose `action=preview`, `group=trakt-widget`, branch `main`.
+Check the two statuses and that the remote domain is `schmookey.xyz`.
+No upload occurs in preview mode.
+
+**Only after a fresh live-site backup and reviewing the preview:** set the
+Actions repository variable `NEOCITIES_DEPLOY_ENABLED=true`, then manually
+run the workflow with `action=deploy`, `group=trakt-widget` and the exact
+confirmation `DEPLOY SCHMOOKEY.XYZ`. It uploads only selected differing
+files, never deletes remote content, and preserves unrelated edits.
+
+After the initial widget deployment, use `trakt-snapshot` to publish
+subsequent JSON updates without replacing the browser script again.
+This is manual; scheduled GitHub history refreshes do **not** trigger a
+Neocities upload. Automatic publishing is intentionally not enabled.
+
+If your live pages do not yet load `/assets/js/trakt-history.js`, updating
+only those two files will not create the widget. Review `about.html` and
+`now-watching.html` separately rather than overwriting manually edited
+Neocities HTML blindly.
+
 ## What is protected
 
-Only these three paths can ever be uploaded by this workflow:
+Only these three paths can be uploaded by the legacy `site` group:
 
 - `assets/js/main.js`
 - `assets/css/style.css`
 - `privacy.html`
 
-In particular, `assets/data/site-updates.json` and all other JSON/content,
+The separate Trakt groups above additionally allow only the Trakt JSON and
+Trakt widget JavaScript. In particular, `assets/data/site-updates.json` and all other JSON/content,
 images, HTML articles and manually edited remote files are **not touched**.
 There is no delete, prune, or site-wide synchronisation operation.
 
@@ -41,10 +84,11 @@ There is no delete, prune, or site-wide synchronisation operation.
 After the workflow appears in the Actions tab:
 
 1. Open **Actions → Neocities manual deployment (disabled by default)**.
-2. Choose **Run workflow**, leaving **action = preview**.
+2. Choose **Run workflow**, leaving **action = preview**, and choose the
+   appropriate **group** (`trakt-widget`, `trakt-snapshot`, or legacy `site`).
 3. The workflow uses the `NEOCITIES_API_KEY` secret to check the destination
-   site and compare file hashes. It lists only which of the three allowlisted
-   files differ. **Preview never uploads or modifies files.**
+   site and compare file hashes. It lists only the files in the selected group
+   which differ. **Preview never uploads or modifies files.**
 
 The API key must belong to the custom domain `schmookey.xyz`; a mismatched
 site identity causes the check to stop rather than risk publishing elsewhere.

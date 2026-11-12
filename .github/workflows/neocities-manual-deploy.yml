@@ -16,6 +16,15 @@ on:
         description: "For deploy only: type DEPLOY SCHMOOKEY.XYZ"
         required: false
         type: string
+      group:
+        description: "Files to inspect or upload (Trakt options never touch page HTML)"
+        required: true
+        default: trakt-widget
+        type: choice
+        options:
+          - trakt-widget
+          - trakt-snapshot
+          - site
 
 permissions:
   contents: read
@@ -58,6 +67,7 @@ jobs:
         env:
           NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
           ACTION: ${{ inputs.action }}
+          GROUP: ${{ inputs.group }}
         shell: bash
         run: |
           if [[ -z "$NEOCITIES_API_KEY" ]]; then
@@ -65,7 +75,7 @@ jobs:
             exit 1
           fi
           if [[ "$ACTION" == "deploy" ]]; then
-            python3 scripts/neocities_manual_deploy.py --deploy
+            python3 scripts/neocities_manual_deploy.py --deploy --group "$GROUP"
           else
-            python3 scripts/neocities_manual_deploy.py --preview
+            python3 scripts/neocities_manual_deploy.py --preview --group "$GROUP"
           fi
