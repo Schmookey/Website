@@ -1,0 +1,99 @@
+name: Publish Trakt to Neocities (manual backup-confirmed)
+
+# No automatic triggers. Dedicated Trakt-only option if repository variables cannot be created.
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "Preview changes or deploy exactly the selected Trakt files"
+        type: choice
+        options:
+          - preview
+          - deploy
+        default: preview
+        required: true
+      group:
+        description: "Only the Trakt data or the Trakt data and widget script"
+        type: choice
+        options:
+          - trakt-widget
+          - trakt-snapshot
+        default: trakt-widget
+        required: true
+      backup_confirmation:
+        description: "For deploy only, type BACKUP VERIFIED SCHMOOKEY.XYZ"
+        required: false
+        type: string
+      confirmation:
+        description: "For deploy only, type DEPLOY TRAKT TO SCHMOOKEY.XYZ"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neocities-deployment
+  cancel-in-progress: false
+
+jobs:
+  verify-and-publish:
+    name: Verify backup acknowledgement and publish selected Trakt files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main without saved GitHub credentials
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check strict manual deployment authorisation
+        env:
+          ACTION: ${{ inputs.action }}
+          GROUP: ${{ inputs.group }}
+          BACKUP_CONFIRMATION: ${{ inputs.backup_confirmation }}
+          CONFIRMATION: ${{ inputs.confirmation }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "::error::Select the main branch. Nothing uploaded."
+            exit 1
+          fi
+          if [[ "$ACTION" != "preview" && "$ACTION" != "deploy" ]]; then
+            echo "::error::Unknown action. Nothing uploaded."
+            exit 1
+          fi
+          if [[ "$GROUP" != "trakt-widget" && "$GROUP" != "trakt-snapshot" ]]; then
+            echo "::error::Only Trakt files are supported. Nothing uploaded."
+            exit 1
+          fi
+          if [[ "$ACTION" == "deploy" ]]; then
+            if [[ "$BACKUP_CONFIRMATION" != "BACKUP VERIFIED SCHMOOKEY.XYZ" ]]; then
+              echo "::error::A current backup must be confirmed. Nothing uploaded."
+              exit 1
+            fi
+            if [[ "$CONFIRMATION" != "DEPLOY TRAKT TO SCHMOOKEY.XYZ" ]]; then
+              echo "::error::The Trakt deployment confirmation did not match. Nothing uploaded."
+              exit 1
+            fi
+          fi
+      - name: Compare or upload only the selected Trakt files
+        env:
+          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+          ACTION: ${{ inputs.action }}
+          GROUP: ${{ inputs.group }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$NEOCITIES_API_KEY" ]]; then
+            echo "::error::NEOCITIES_API_KEY is missing. Nothing uploaded."
+            exit 1
+          fi
+          if [[ "$ACTION" == "deploy" ]]; then
+            python3 scripts/neocities_manual_deploy.py --deploy --group "$GROUP"
+          else
+            python3 scripts/neocities_manual_deploy.py --preview --group "$GROUP"
+          fi
