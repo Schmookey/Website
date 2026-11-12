@@ -55,6 +55,7 @@ FAVICON
 <!-- Styles -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/about-profile-card.css">
 
 </head>
 
@@ -166,81 +167,116 @@ CENTER CONTENT
 ===================================== !-->
 <main class="center panel">
 
-<section class="centre-content h-card">
-<div class="profile-badge">PROFILE v1.0</div>
-<img class="u-photo"
-     src="/assets/images/Schmookey.jpg"
-     alt="Portrait of Schmookey"
-     width="220">
+<!-- Accessible trading-card-style presentation. Text, links and IndieWeb
+     microformats remain real HTML rather than a flat decorative image. -->
+<article class="profile-card h-card" aria-label="Schmookey profile card">
+  <header class="profile-card-banner">
+    <span class="profile-cassette" aria-hidden="true"></span>
+    <span class="profile-card-banner-title">PROFILE CARD</span>
+    <span class="profile-cassette" aria-hidden="true"></span>
+  </header>
 
-<h1 class="p-name">Schmookey</h1>
+  <div class="profile-card-body">
+    <div class="profile-card-hero">
+      <div class="profile-card-portrait">
+        <img class="u-photo"
+             src="/assets/images/Schmookey.jpg"
+             alt="Pixel-art portrait of Schmookey"
+             width="253" height="300">
+      </div>
 
-<a class="u-url visually-hidden"
-   href="https://schmookey.xyz"></a>
+      <div class="profile-card-identity">
+        <h1 class="p-name">Schmookey</h1>
+        <a class="u-url visually-hidden"
+           href="https://schmookey.xyz/">Schmookey's World</a>
 
-<p class="p-note">
-Technology • Music • TV • Podcasts
-</p>
+        <p class="profile-card-tagline p-note">Technology • Music • TV • Podcasts</p>
 
-<p class="p-location h-adr">
-📌
-<span class="p-region">Scotland</span>,
-<span class="p-country-name">UK</span>
-</p>
+        <p class="profile-card-location p-location h-adr">
+          <span aria-hidden="true">📍</span>
+          <span class="p-region">Scotland</span>,
+          <span class="p-country-name">UK</span>
+        </p>
 
-<p class="fediverse-handle">
-  <a
-    href="https://fed.brid.gy/ap/@schmookey@mastodon.social"
-    class="u-url"
-    rel="me"
-  >
-    Fediverse
-  </a>
-</p>
-<br>
-    <div class="fediverse-links">
-      <a href="https://mastodon.social/@schmookey" rel="me">Mastodon</a>
-      <a href="https://bsky.app/profile/schmookey.xyz" rel="me">Bluesky</a>
+        <a class="profile-card-link profile-card-link-primary u-url"
+           href="https://fed.brid.gy/ap/@schmookey@mastodon.social"
+           rel="me"><span aria-hidden="true">✦</span> Fediverse</a>
+
+        <nav class="profile-card-socials" aria-label="Profile social links">
+          <a class="profile-card-link"
+             href="https://mastodon.social/@schmookey" rel="me">
+            <span class="profile-card-social-icon" aria-hidden="true">m</span>
+            Mastodon
+          </a>
+          <a class="profile-card-link"
+             href="https://bsky.app/profile/schmookey.xyz" rel="me">
+            <span class="profile-card-social-icon bluesky" aria-hidden="true">✦</span>
+            Bluesky
+          </a>
+        </nav>
+      </div>
     </div>
 
-<ul class="interests">
-<li class="p-category">Indie Web</li>
-<li class="p-category">Fediverse</li>
-<li class="p-category">Retro</li>
-<li class="p-category">Videogames</li>
-<li class="p-category">Music</li>
-<li class="p-category">Blogging</li>
-</ul>
+    <section class="profile-card-interests" aria-labelledby="profile-interests">
+      <h2 id="profile-interests" class="profile-card-section-title">
+        <span aria-hidden="true">🎮</span> INTERESTS
+      </h2>
+      <ul class="profile-card-interests-list">
+        <li class="p-category">Indie Web</li>
+        <li class="p-category">Fediverse</li>
+        <li class="p-category">Retro</li>
+        <li class="p-category">Videogames</li>
+        <li class="p-category">Music</li>
+        <li class="p-category">Blogging</li>
+      </ul>
+    </section>
 
-<div class="stats">
+    <section class="profile-card-stats" aria-label="Coffee, energy and sleep">
+      <div class="profile-card-stat">
+        <span id="card-coffee" class="profile-card-stat-label">
+          <span class="profile-card-stat-icon" aria-hidden="true">☕</span> COFFEE
+        </span>
+        <span class="profile-card-bar" role="progressbar"
+              aria-labelledby="card-coffee" aria-valuemin="0"
+              aria-valuemax="100" aria-valuenow="85">
+          <span class="profile-card-fill" style="width:85%"></span>
+        </span>
+        <span class="profile-card-stat-value" aria-hidden="true">85%</span>
+      </div>
+      <div class="profile-card-stat">
+        <span id="card-energy" class="profile-card-stat-label">
+          <span class="profile-card-stat-icon" aria-hidden="true">⚡</span> ENERGY
+        </span>
+        <span class="profile-card-bar" role="progressbar"
+              aria-labelledby="card-energy" aria-valuemin="0"
+              aria-valuemax="100" aria-valuenow="70">
+          <span class="profile-card-fill energy" style="width:70%"></span>
+        </span>
+        <span class="profile-card-stat-value" aria-hidden="true">70%</span>
+      </div>
+      <div class="profile-card-stat">
+        <span id="card-sleep" class="profile-card-stat-label">
+          <span class="profile-card-stat-icon" aria-hidden="true">🌙</span> SLEEP
+        </span>
+        <span class="profile-card-bar" role="progressbar"
+              aria-labelledby="card-sleep" aria-valuemin="0"
+              aria-valuemax="100" aria-valuenow="30">
+          <span class="profile-card-fill sleep" style="width:30%"></span>
+        </span>
+        <span class="profile-card-stat-value" aria-hidden="true">30%</span>
+      </div>
+    </section>
 
-<div class="stat">
-<span class="label">☕ COFFEE</span>
-<div class="bar"><div class="fill" style="width:85%"></div></div>
-</div>
-
-<div class="stat">
-<span class="label">🔋 ENERGY</span>
-<div class="bar"><div class="fill" style="width:70%"></div></div>
-</div>
-
-<div class="stat">
-<span class="label">🌙 SLEEP</span>
-<div class="bar"><div class="fill" style="width:30%"></div></div>
-</div>
-
-</div>
-
-</section>
-
-<section class="character-bio">
-
-<h2>Blurb</h2>
-
-<p class="p-note">Welcome traveller… This is my little corner of the internet —
-a personal space for music, technology, and retro exploration.
-Inspired by early web culture and 16-bit aesthetics.</p>
-</section>
+    <section class="profile-card-blurb" aria-labelledby="profile-blurb">
+      <h2 id="profile-blurb" class="profile-card-section-title">
+        <span aria-hidden="true">📖</span> Blurb
+      </h2>
+      <p class="p-note">Welcome traveller… This is my little corner of the internet —
+        a personal space for music, technology, and retro exploration.
+        Inspired by early web culture and 16-bit aesthetics.</p>
+    </section>
+  </div>
+</article>
 </main>
 
 <!-- =====================================
