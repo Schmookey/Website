@@ -222,6 +222,12 @@ def main() -> None:
     items = [item for row in data if isinstance(row, dict)
              if (item := normalise(row, token, cache)) is not None]
     print("Trakt history usable items:", len(items))
+    print(
+        "TMDB artwork:",
+        "token configured" if token else "token missing",
+        "; poster links:", sum(bool(item.get("cover")) for item in items),
+        "of", len(items),
+    )
     # An empty result may mean no history, a visibility restriction, or a
     # changed response shape. Never overwrite a valid snapshot or assume why.
     if not items:
