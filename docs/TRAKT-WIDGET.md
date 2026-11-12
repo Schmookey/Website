@@ -6,7 +6,7 @@ This adds a **Trakt** watching journal (`/now-watching.html`) and a compact
 ## How it works
 
 A GitHub Actions job runs every six hours and on manual dispatch. It calls
-the public Trakt history endpoint for `pat13nt_z3r0` and writes an
+the public Trakt history endpoint for `Pati3nt_Z3ro` (the account identifier in `https://app.trakt.tv/profile/Pati3nt_Z3ro`) and writes an
 `assets/data/trakt-history.json` snapshot for a static site such as Neocities.
 Both widgets load this file and never call Trakt with browser-side credentials.
 The snapshot is public; only include viewing activity you are happy to publish.
