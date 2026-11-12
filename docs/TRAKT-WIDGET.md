@@ -59,12 +59,13 @@ history → Run workflow** (branch `main`). The script now logs:
 
 - The number and type of rows returned by the public history endpoint.
 - The number of entries that the widget can actually use.
+- Whether Trakt resolves the configured public account slug and the public/private flag it reports (without printing profile details).
 - Whether the public watched-movies and watched-shows endpoints return any
   entries or an HTTP error (without printing film or programme titles).
 - Public aggregate watch counts if the account's public stats endpoint exposes
   them.
 
-If history returns zero rows but watched lists or stats are non-empty, the
+If the profile lookup does not resolve, or its returned slug does not match the configured username, correct the account identifier before changing authentication. If history returns zero rows but watched lists or stats are non-empty, the
 problem is likely specific to history visibility or endpoint behaviour rather
 than having no recorded watches. If all probes return empty data, that result
 alone **does not prove** the profile or history is private. An HTTP 401 or 403
