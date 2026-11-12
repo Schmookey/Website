@@ -53,8 +53,8 @@ class ManualDeploymentTests(unittest.TestCase):
                     return {"result": "success",
                             "info": {"sitename": "schmookey", "domain": "schmookey.xyz"}}
                 return {"result": "success", "files": listing}
-            with patch.object(deploy, "ROOT", root), \\
-                 patch.dict(os.environ, {"NEOCITIES_API_KEY": "test-secret"}), \\
+            with patch.object(deploy, "ROOT", root), \
+                 patch.dict(os.environ, {"NEOCITIES_API_KEY": "test-secret"}), \
                  patch.object(deploy, "request", side_effect=api) as calls:
                 deploy.run(deploy=False, group="trakt-widget")
             self.assertEqual(calls.call_count, 2)
@@ -76,8 +76,8 @@ class ManualDeploymentTests(unittest.TestCase):
                 self.assertEqual(path, "/upload")
                 uploads.append(kwargs["data"])
                 return {"result": "success"}
-            with patch.object(deploy, "ROOT", root), \\
-                 patch.dict(os.environ, {"NEOCITIES_API_KEY": "test-secret"}), \\
+            with patch.object(deploy, "ROOT", root), \
+                 patch.dict(os.environ, {"NEOCITIES_API_KEY": "test-secret"}), \
                  patch.object(deploy, "request", side_effect=api):
                 deploy.run(deploy=True, group="trakt-snapshot")
             self.assertEqual(len(uploads), 1)
