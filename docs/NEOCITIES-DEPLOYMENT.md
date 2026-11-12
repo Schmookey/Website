@@ -66,6 +66,32 @@ only those two files will not create the widget. Review `about.html` and
 `now-watching.html` separately rather than overwriting manually edited
 Neocities HTML blindly.
 
+## Trakt publishing when GitHub Actions variables cannot be added
+
+If GitHub returns **“Unable to add variable. Please try again.”** while creating
+`NEOCITIES_DEPLOY_ENABLED`, use the dedicated workflow
+[Publish Trakt to Neocities (manual backup-confirmed)](../.github/workflows/neocities-trakt-confirmed-deploy.yml).
+The original deployment workflow and its required variable remain unchanged.
+
+1. Download and independently keep an up-to-date copy of the **live** Neocities
+   site before publishing. This workflow cannot create a remote backup.
+2. On the `main` branch, run the new workflow with `action=preview` and
+   `group=trakt-widget`; inspect which files differ. Preview never uploads.
+3. To publish, manually run it again on `main`, selecting `action=deploy`
+   and `group=trakt-widget`. Enter **both** exact confirmations:
+   - `BACKUP VERIFIED SCHMOOKEY.XYZ`
+   - `DEPLOY TRAKT TO SCHMOOKEY.XYZ`
+4. Verify the workflow log says that the expected custom domain was confirmed
+   and reports precisely which Trakt files were uploaded.
+
+For later data-only refreshes, choose `trakt-snapshot` and make the same
+explicit confirmations after checking the latest live copy. The new workflow
+has no push or schedule trigger and supports **only** these two Trakt groups:
+`trakt-widget` uploads the history JSON and Trakt widget JavaScript;
+`trakt-snapshot` uploads just the JSON. No HTML, CSS, site updates, icons,
+or other files can be selected through this workflow. The API key stays in
+the existing GitHub Actions secret, never in the website or workflow logs.
+
 ## What is protected
 
 Only these three paths can be uploaded by the legacy `site` group:
