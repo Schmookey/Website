@@ -81,4 +81,11 @@ assert.match(about, /class="media-title">Coming Soon/);
 assert.match(css, /\.trakt-live-widget \.trakt-about-card \.media-title\s*\{\s*font-size: 12px/);
 assert.match(css, /\.trakt-live-widget \.trakt-about-card \.media-label\s*\{\s*font-size: 11px/);
 
+// About sidebar visual consistency: one font scale and no underlined links.
+assert.match(css, /\.sidebar\.right \.media-widget \.media-meta \.media-label\s*\{\s*font-size: 11px/);
+assert.match(css, /\.sidebar\.right \.media-widget \.media-meta \.media-title\s*\{\s*font-size: 12px/);
+assert.match(css, /\.sidebar\.right #latest-listen #listen-link\s*\{\s*white-space: nowrap/);
+assert.match(css, /\.sidebar\.right \.trakt-live-widget \.trakt-live-links\s*\{\s*margin: 6px 0 0 64px/);
+assert.match(css, /\.sidebar\.right \.trakt-live-widget \.trakt-about-card \.media-title a:hover[\s\S]*?text-decoration: none;/);
+
 console.log("PASS: Trakt widget URL allowlists and metadata tests");
