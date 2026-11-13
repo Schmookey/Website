@@ -5,6 +5,10 @@
   "use strict";
   const PROFILE = "https://app.trakt.tv/profile/Pati3nt_Z3ro";
   const MAX_ENTRIES = 30;
+  // GitHub Actions refreshes this public file every six hours. Fetching it from
+  // Neocities needs no Trakt/TMDb credentials, OAuth, or Neocities deployment.
+  const LIVE_HISTORY = "https://raw.githubusercontent.com/Schmookey/Website/main/assets/data/trakt-history.json";
+  const LOCAL_HISTORY = "/assets/data/trakt-history.json";
   const SAFE_POSTER = /^https:\/\/image\.tmdb\.org\/t\/p\/w(?:92|154|185|200|300|342|500)\/[A-Za-z0-9._-]+\.(?:jpg|jpeg|png|webp)$/i;
 
   function allowedLink(value) {
@@ -121,10 +125,28 @@
     return payload.items.map(normalise).filter(Boolean);
   }
 
-  async function loadSnapshot() {
-    const res = await fetch("/assets/data/trakt-history.json", {cache:"no-store",headers:{Accept:"application/json"}});
+  async function fetchSnapshot(url) {
+    // A bounded timeout keeps a remote outage from delaying the local fallback.
+    const signal = typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
+      ? AbortSignal.timeout(6000) : undefined;
+    const res = await fetch(url, {
+      cache: "no-store", credentials: "omit",
+      headers: {Accept: "application/json"}, signal
+    });
     if (!res.ok) throw new Error("History unavailable");
-    return snapshotEntries(await res.json());
+    const entries = snapshotEntries(await res.json());
+    if (!entries.length) throw new Error("No usable history");
+    return entries;
+  }
+
+  async function loadSnapshot() {
+    // Prefer the current GitHub Actions snapshot. If GitHub or CORS is
+    // unavailable, keep the latest manually uploaded Neocities snapshot.
+    try {
+      return await fetchSnapshot(LIVE_HISTORY);
+    } catch {
+      return fetchSnapshot(LOCAL_HISTORY);
+    }
   }
 
   function pendingNotice(compact) {
@@ -171,10 +193,14 @@
     }
   }
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = {allowedLink,allowedPoster,normalise,snapshotEntries};
+    module.exports = {allowedLink,allowedPoster,normalise,snapshotEntries,loadSnapshot};
   }
   if (typeof document !== "undefined") {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded",render);
     else render();
+    // Recheck while the page remains open, without polling Trakt directly.
+    setInterval(() => {
+      if (document.visibilityState !== "hidden") render();
+    }, 30 * 60 * 1000);
   }
 })();
