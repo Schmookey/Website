@@ -77,12 +77,41 @@ or publish new JSON when the history is unusable. The existing snapshot is
 preserved on failure. If viewing activity is not publicly retrievable, obtain
 explicit permission before configuring user-authorised OAuth credentials.
 
+## Automatic live updates on Neocities
+
+The scheduled GitHub Actions updater runs every six hours and commits
+`assets/data/trakt-history.json` to `main`, with optional TMDB posters.
+The browser-side `assets/js/trakt-history.js` now loads that **public GitHub
+snapshot** directly from
+`https://raw.githubusercontent.com/Schmookey/Website/main/assets/data/trakt-history.json`.
+The widget therefore receives new history on later page visits automatically,
+without attempting a GitHub-to-Neocities upload.
+
+To activate this behaviour, **manually upload the updated
+`assets/js/trakt-history.js` file to Neocities once**. Do not upload an entire
+site archive or overwrite manually edited About/Now Watching pages. Both pages
+already reference this script. GitHub's raw file host is intended as a
+public-file source; cross-origin availability and browser/network access still
+need verification on the deployed site. The script falls back to the existing
+`/assets/data/trakt-history.json` on Neocities if remote loading fails.
+Visitors using the old script will continue to see whatever Neocities JSON
+was last uploaded.
+
+The browser makes no direct Trakt/TMDB API calls and never sees the API keys:
+these stay exclusively in GitHub Actions secrets. The snapshot is public and
+contains viewing activity; use this only for watches the account owner wishes
+to publish. An open page refreshes its data about every 30 minutes while
+visible. New entries may take up to the next scheduled GitHub Actions run plus
+hosting cache propagation to appear; this is **not instantaneous**.
+If external GitHub loading is blocked, the local fallback will be older until
+manually replaced.
+
 ## Deployment
 
-GitHub changes do not automatically update Neocities. Deploy the new HTML,
-JavaScript, CSS and JSON to the hosting platform. To receive automated history
-updates on Neocities, also arrange for the refreshed JSON to be uploaded from
-GitHub. A GitHub Action committing JSON is not itself a Neocities deployment.
+The initial widget HTML and CSS must already be present on Neocities, and
+the updated Trakt JavaScript must be uploaded once. Thereafter the browser
+can read GitHub's refreshed JSON directly, without Neocities publishing it.
+No Neocities deployment workflow is needed for routine Trakt updates.
 
 ## References
 
