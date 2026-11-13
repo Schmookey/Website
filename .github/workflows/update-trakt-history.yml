@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/update-trakt-history.yml'
       - 'scripts/update_trakt_history.py'
+      - 'scripts/write_trakt_public_config.py'
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:
@@ -37,12 +38,15 @@ jobs:
             exit 0
           fi
           python3 scripts/update_trakt_history.py
+          # The Client ID is intentionally public for this read-only widget.
+          # Never expose the Client Secret or TMDB access token.
+          python3 scripts/write_trakt_public_config.py
       - name: Commit updated public snapshot
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/data/trakt-history.json
+          git add assets/data/trakt-history.json assets/data/trakt-public-config.json
           if ! git diff --cached --quiet; then
             git commit -m "Refresh public Trakt watch history"
             git push
