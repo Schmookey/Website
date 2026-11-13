@@ -58,7 +58,7 @@ def main() -> None:
             content = response.read(5_000_000)
             if response.read(1):
                 raise ValueError(f"{name}: file exceeds 5 MB")
-        got = hashlib.sha1(f"blob {len(content)}\\0".encode("utf-8") + content).hexdigest()
+        got = hashlib.sha1(f"blob {len(content)}\0".encode("utf-8") + content).hexdigest()
         if got != expected:
             raise ValueError(f"{name}: live site differs from supplied ZIP: expected {expected}, found {got}")
         data[name] = content
