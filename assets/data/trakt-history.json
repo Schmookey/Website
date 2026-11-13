@@ -1,7 +1,40 @@
 {
-  "generated_at": "2026-11-13T17:14:52+00:00",
+  "generated_at": "2026-11-13T22:42:41+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Scrubs",
+      "type": "TV Show",
+      "episode": "My Emergency",
+      "season": 2,
+      "episode_number": 8,
+      "year": 2026,
+      "link": "https://trakt.tv/shows/scrubs-2026",
+      "cover": "https://image.tmdb.org/t/p/w200/l1EzNg0WMaoAu7oPa2oMXLizc4W.jpg",
+      "watched_at": "2026-11-13T20:03:00.000Z"
+    },
+    {
+      "title": "Scrubs",
+      "type": "TV Show",
+      "episode": "My Story",
+      "season": 2,
+      "episode_number": 7,
+      "year": 2026,
+      "link": "https://trakt.tv/shows/scrubs-2026",
+      "cover": "https://image.tmdb.org/t/p/w200/l1EzNg0WMaoAu7oPa2oMXLizc4W.jpg",
+      "watched_at": "2026-11-13T19:39:00.000Z"
+    },
+    {
+      "title": "Scrubs",
+      "type": "TV Show",
+      "episode": "My Halloween",
+      "season": 2,
+      "episode_number": 6,
+      "year": 2026,
+      "link": "https://trakt.tv/shows/scrubs-2026",
+      "cover": "https://image.tmdb.org/t/p/w200/l1EzNg0WMaoAu7oPa2oMXLizc4W.jpg",
+      "watched_at": "2026-11-13T19:06:00.000Z"
+    },
     {
       "title": "LOL: Last One Laughing Halloween UK",
       "type": "TV Show",
@@ -298,39 +331,6 @@
       "link": "https://trakt.tv/shows/the-celebrity-traitors",
       "cover": "https://image.tmdb.org/t/p/w200/uziPOqxQotCE9g0wBgDvHCOvRhP.jpg",
       "watched_at": "2026-10-16T20:27:00.000Z"
-    },
-    {
-      "title": "The Celebrity Traitors",
-      "type": "TV Show",
-      "episode": "Episode 5",
-      "season": 2,
-      "episode_number": 5,
-      "year": 2025,
-      "link": "https://trakt.tv/shows/the-celebrity-traitors",
-      "cover": "https://image.tmdb.org/t/p/w200/uziPOqxQotCE9g0wBgDvHCOvRhP.jpg",
-      "watched_at": "2026-10-15T21:17:00.000Z"
-    },
-    {
-      "title": "Scrubs",
-      "type": "TV Show",
-      "episode": "My Chief",
-      "season": 2,
-      "episode_number": 4,
-      "year": 2026,
-      "link": "https://trakt.tv/shows/scrubs-2026",
-      "cover": "https://image.tmdb.org/t/p/w200/l1EzNg0WMaoAu7oPa2oMXLizc4W.jpg",
-      "watched_at": "2026-10-15T17:35:00.000Z"
-    },
-    {
-      "title": "Have You Been Paying Attention?",
-      "type": "TV Show",
-      "episode": "Kitty Flanagan, Guy Montgomery, Emma Holland, Tammy Hembrow",
-      "season": 14,
-      "episode_number": 24,
-      "year": 2013,
-      "link": "https://trakt.tv/shows/have-you-been-paying-attention",
-      "cover": "https://image.tmdb.org/t/p/w200/8UrQBNGHJJ71M4qD980CiE0VFup.jpg",
-      "watched_at": "2026-10-12T19:03:00.000Z"
     }
   ]
 }
