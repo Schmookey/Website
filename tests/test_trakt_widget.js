@@ -20,6 +20,56 @@ assert.deepEqual(widget.snapshotEntries({generated_at:"",items:[{title:"Old samp
 const recent = widget.snapshotEntries({generated_at:"2026-11-11T14:00:00Z",items:[{title:"New watch",type:"Movie"}]});
 assert.equal(recent.length, 1);
 assert.equal(recent[0].title, "New watch");
+// Refreshes automatically from public GitHub data, falling back to the
+// existing Neocities JSON. No Trakt or TMDB token is sent to the browser.
+(async () => {
+  const realFetch = global.fetch;
+  const remote = "https://raw.githubusercontent.com/Schmookey/Website/main/assets/data/trakt-history.json";
+  const local = "/assets/data/trakt-history.json";
+  const makeResponse = (iso, title) => ({
+    ok: true, json: async () => ({
+      generated_at: iso, items: [{title, type: "TV Show"}]
+    })
+  });
+  try {
+    const remoteCalls = [];
+    global.fetch = async (url, opts) => {
+      remoteCalls.push({url, opts});
+      if (url !== remote) throw new Error("Unexpected secondary request");
+      return makeResponse("2026-11-13T06:43:23Z", "Fresh GitHub watch");
+    };
+    const liveItems = await widget.loadSnapshot();
+    assert.equal(liveItems[0].title, "Fresh GitHub watch");
+    assert.equal(remoteCalls.length, 1);
+    assert.equal(remoteCalls[0].opts.credentials, "omit");
+    assert.equal(remoteCalls[0].opts.cache, "no-store");
+
+    const fallbackCalls = [];
+    global.fetch = async (url) => {
+      fallbackCalls.push(url);
+      if (url === remote) throw new Error("Network or CORS failure");
+      assert.equal(url, local);
+      return makeResponse("2026-11-12T15:30:06Z", "Saved Neocities watch");
+    };
+    const fallbackItems = await widget.loadSnapshot();
+    assert.equal(fallbackItems[0].title, "Saved Neocities watch");
+    assert.deepEqual(fallbackCalls, [remote,local]);
+
+    const badRemoteCalls = [];
+    global.fetch = async (url) => {
+      badRemoteCalls.push(url);
+      if (url === remote) return {ok: true, json: async () => ({generated_at:null, items:[]})};
+      return makeResponse("2026-11-12T15:30:06Z", "Valid local watch");
+    };
+    assert.equal((await widget.loadSnapshot())[0].title,"Valid local watch");
+    assert.deepEqual(badRemoteCalls,[remote,local]);
+  } finally {
+    global.fetch = realFetch;
+  }
+})().catch(error => {
+  console.error(error);
+  process.exitCode = 1;
+});
 // Keep the About card aligned with the shared ListenBrainz/BookWyrm styles.
 const fs = require("node:fs");
 const path = require("node:path");
