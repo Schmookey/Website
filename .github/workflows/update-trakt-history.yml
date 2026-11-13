@@ -8,7 +8,8 @@ on:
       - '.github/workflows/update-trakt-history.yml'
       - 'scripts/update_trakt_history.py'
   schedule:
-    - cron: '17 */6 * * *'
+    # Every hour at :17 UTC (avoids the busy top of the hour).
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 permissions:
