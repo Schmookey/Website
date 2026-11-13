@@ -2644,8 +2644,8 @@ body.light .trakt-live-widget .trakt-about-card {
   }
 }
 
-/* About sidebar: make ListenBrainz, BookWyrm and Trakt match.
-   Scoped to the sidebar so the full watching/listening pages stay unchanged. */
+/* About page: consistent ListenBrainz, BookWyrm and Trakt widgets.
+   Only affects the right-hand media widget sidebar. */
 .sidebar.right .media-widget .media-meta .media-label {
   font-size: 11px;
   line-height: 1.5;
@@ -2668,18 +2668,73 @@ body.light .trakt-live-widget .trakt-about-card {
   overflow-wrap: normal;
   word-break: normal;
 }
-/* Trakt's links sit below the card, so align them with its text column. */
+/* Indent Trakt footer links to line up with the text beside the poster. */
 .sidebar.right .trakt-live-widget .trakt-live-links {
   margin: 6px 0 0 64px;
   font-size: 11px;
   line-height: 1.5;
 }
-/* No underlines in About's compact widgets, including link hover/focus.
-   Leave visible keyboard focus outlines and link colours intact. */
+/* Remove widget link underlines without hiding keyboard focus outlines. */
 .sidebar.right .media-widget .media-status a,
 .sidebar.right .trakt-live-widget .trakt-about-card .media-title a,
 .sidebar.right .media-widget .media-status a:hover,
 .sidebar.right .media-widget .media-status a:focus-visible,
+.sidebar.right .trakt-live-widget .trakt-about-card .media-title a:hover,
+.sidebar.right .trakt-live-widget .trakt-about-card .media-title a:focus-visible {
+  text-decoration: none;
+}
+
+
+/* SCHMOOKEY_WIDGET_FIX_V2_2026_11_13
+   Normalise three About-sidebar media cards; leave main page and journals alone.
+   This marker is searchable in the live CSS to confirm Neocities uploaded it. */
+.sidebar.right .media-widget .media-card,
+.sidebar.right #latest-listen .media-card,
+.sidebar.right .trakt-live-widget .trakt-about-card {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 4px 0;
+}
+.sidebar.right .media-widget .media-card .media-thumb-wrap {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  box-sizing: border-box;
+}
+.sidebar.right .media-widget .media-card .media-meta {
+  min-width: 0;
+}
+.sidebar.right .media-widget .media-card .media-label {
+  font-size: 11px;
+  line-height: 1.5;
+}
+.sidebar.right .media-widget .media-card .media-title {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.sidebar.right .media-widget .media-card .media-subtitle,
+.sidebar.right .media-widget .media-card .media-submeta,
+.sidebar.right .media-widget .media-card .media-status {
+  font-size: 11px;
+  line-height: 1.5;
+}
+.sidebar.right #latest-listen .media-status a {
+  white-space: nowrap;
+}
+/* The long Trakt footer is outside the card; give it a full line rather
+   than indenting it into the narrow 118px text column. */
+.sidebar.right .trakt-live-widget .trakt-live-links {
+  margin: 8px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.sidebar.right .media-widget .media-status a,
+.sidebar.right .media-widget .media-status a:hover,
+.sidebar.right .media-widget .media-status a:focus-visible,
+.sidebar.right .trakt-live-widget .trakt-about-card .media-title a,
 .sidebar.right .trakt-live-widget .trakt-about-card .media-title a:hover,
 .sidebar.right .trakt-live-widget .trakt-about-card .media-title a:focus-visible {
   text-decoration: none;

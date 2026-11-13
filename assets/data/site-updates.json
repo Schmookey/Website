@@ -1,5 +1,12 @@
 [
   {
+    "type": "Changelog",
+    "title": "Trakt Journal, Film Posters, Trading card profile look",
+    "url": "/changelog.html",
+    "date": "2026-11-13T10:00:00+00:00",
+    "summary": "added TV journal, added movie posters, trading card profile look."
+  },
+  {
     "type": "Now",
     "title": "Now",
     "url": "/now.html",
