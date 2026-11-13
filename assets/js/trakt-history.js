@@ -5,8 +5,13 @@
   "use strict";
   const PROFILE = "https://app.trakt.tv/profile/Pati3nt_Z3ro";
   const MAX_ENTRIES = 30;
-  // GitHub Actions refreshes this public file every six hours. Fetching it from
-  // Neocities needs no Trakt/TMDb credentials, OAuth, or Neocities deployment.
+  // Trakt watch data comes straight from its public API, as with ListenBrainz.
+  // The public Trakt Client ID is served locally; never expose a Client Secret
+  // or the private TMDB access token in browser code.
+  const TRAKT_API = "https://api.trakt.tv/users/Pati3nt_Z3ro/history?limit=30";
+  const PUBLIC_CONFIG = "/assets/data/trakt-public-config.json";
+  // GitHub provides pre-resolved TMDB poster URLs (not the viewing history
+  // source); the Neocities snapshot is an offline-friendly fallback.
   const LIVE_HISTORY = "https://raw.githubusercontent.com/Schmookey/Website/main/assets/data/trakt-history.json";
   const LOCAL_HISTORY = "/assets/data/trakt-history.json";
   const SAFE_POSTER = /^https:\/\/image\.tmdb\.org\/t\/p\/w(?:92|154|185|200|300|342|500)\/[A-Za-z0-9._-]+\.(?:jpg|jpeg|png|webp)$/i;
@@ -139,14 +144,90 @@
     return entries;
   }
 
-  async function loadSnapshot() {
-    // Prefer the current GitHub Actions snapshot. If GitHub or CORS is
-    // unavailable, keep the latest manually uploaded Neocities snapshot.
+  async function fetchPosterSnapshot() {
     try {
       return await fetchSnapshot(LIVE_HISTORY);
     } catch {
       return fetchSnapshot(LOCAL_HISTORY);
     }
+  }
+
+  function makePosterMap(items) {
+    const posters = new Map();
+    for (const item of items) {
+      if (!item.cover) continue;
+      // Match by Trakt URL first, then by type and title for unusual slugs.
+      posters.set(item.link, item.cover);
+      posters.set(item.type + "|" + item.title.toLocaleLowerCase("en-GB"), item.cover);
+    }
+    return posters;
+  }
+
+  function normaliseTraktRow(row, posters = new Map()) {
+    if (!row || typeof row !== "object") return null;
+    const movie = row.type === "movie";
+    if (!movie && row.type !== "episode" && row.type !== "show") return null;
+    const media = movie ? row.movie : row.show;
+    if (!media || typeof media.title !== "string" || !media.title.trim()) return null;
+    const ids = media.ids && typeof media.ids === "object" ? media.ids : {};
+    const slug = typeof ids.slug === "string" && /^[a-z0-9-]+$/i.test(ids.slug)
+      ? ids.slug : "";
+    const link = slug
+      ? "https://trakt.tv/" + (movie ? "movies/" : "shows/") + encodeURIComponent(slug)
+      : PROFILE;
+    const type = movie ? "Movie" : "TV Show";
+    const title = media.title.trim();
+    const poster = posters.get(link) || posters.get(type + "|" + title.toLocaleLowerCase("en-GB")) || "";
+    const episode = row.episode && typeof row.episode === "object" ? row.episode : {};
+    return normalise({
+      title, type, link, cover: poster, year: media.year,
+      episode: movie ? "" : episode.title,
+      season: movie ? null : episode.season,
+      episode_number: movie ? null : episode.number,
+      watched_at: row.watched_at
+    });
+  }
+
+  async function fetchDirectHistory() {
+    const settings = await fetch(PUBLIC_CONFIG, {
+      cache: "no-store", credentials: "omit", headers: {Accept:"application/json"}
+    });
+    if (!settings.ok) throw new Error("Public Trakt configuration unavailable");
+    const config = await settings.json();
+    const id = config && config.client_id;
+    if (typeof id !== "string" || !/^[A-Za-z0-9_.-]{8,256}$/.test(id)) {
+      throw new Error("Public Trakt Client ID missing or invalid");
+    }
+    const signal = typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
+      ? AbortSignal.timeout(6000) : undefined;
+    const response = await fetch(TRAKT_API, {
+      credentials: "omit", cache: "no-store", signal,
+      headers: {
+        Accept: "application/json",
+        "trakt-api-version": "2",
+        "trakt-api-key": id
+      }
+    });
+    if (!response.ok) throw new Error("Trakt public history unavailable");
+    const rows = await response.json();
+    if (!Array.isArray(rows) || !rows.length) throw new Error("Empty Trakt public history");
+    return rows;
+  }
+
+  async function loadSnapshot() {
+    // These calls run together so TMDB poster metadata doesn't delay the
+    // direct Trakt request. Neither API credential is sent to GitHub.
+    const [direct, cached] = await Promise.allSettled([
+      fetchDirectHistory(), fetchPosterSnapshot()
+    ]);
+    if (direct.status === "fulfilled") {
+      const posters = cached.status === "fulfilled" ? makePosterMap(cached.value) : new Map();
+      const items = direct.value.map(row => normaliseTraktRow(row, posters)).filter(Boolean);
+      if (items.length) return items;
+    }
+    // CORS, invalid config, or a temporary API failure: preserve a working widget.
+    if (cached.status === "fulfilled") return cached.value;
+    throw new Error("Trakt history temporarily unavailable");
   }
 
   function pendingNotice(compact) {
@@ -193,7 +274,7 @@
     }
   }
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = {allowedLink,allowedPoster,normalise,snapshotEntries,loadSnapshot};
+    module.exports = {allowedLink,allowedPoster,normalise,snapshotEntries,normaliseTraktRow,makePosterMap,loadSnapshot};
   }
   if (typeof document !== "undefined") {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded",render);
