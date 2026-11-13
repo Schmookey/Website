@@ -1,0 +1,60 @@
+About page widget alignment — Neocities manual installation
+
+The GitHub version of assets/css/style.css includes the fix, but replacing
+your entire live stylesheet might overwrite edits made directly on Neocities.
+
+SAFER INSTALLATION
+1. Save a local backup of your existing Neocities assets/css/style.css.
+2. Open that existing file in an editor.
+3. Paste the CSS below at the very END of the stylesheet, and save.
+4. Upload the resulting style.css to Neocities in assets/css/.
+5. Reload https://schmookey.xyz/about.html with Ctrl+Shift+R to clear cache.
+
+The CSS is scoped to the right sidebar on the About page. It makes the label,
+title and small-print sizes consistent; keeps ListenBrainz together on one
+line when space allows; aligns Trakt's footer with its text column; and
+removes all widget link underlines, even on hover/focus. Keyboard focus
+outlines remain visible.
+
+--- CSS TO APPEND ---
+
+/* About sidebar: make ListenBrainz, BookWyrm and Trakt match.
+   Scoped to the sidebar so the full watching/listening pages stay unchanged. */
+.sidebar.right .media-widget .media-meta .media-label {
+  font-size: 11px;
+  line-height: 1.5;
+}
+.sidebar.right .media-widget .media-meta .media-title {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.sidebar.right .media-widget .media-meta .media-subtitle,
+.sidebar.right .media-widget .media-meta .media-submeta,
+.sidebar.right .media-widget .media-meta .media-status {
+  font-size: 11px;
+  line-height: 1.5;
+}
+.sidebar.right .media-widget .media-meta .media-status {
+  margin-top: 6px;
+}
+.sidebar.right #latest-listen #listen-link {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+/* Trakt's links sit below the card, so align them with its text column. */
+.sidebar.right .trakt-live-widget .trakt-live-links {
+  margin: 6px 0 0 64px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+/* No underlines in About's compact widgets, including link hover/focus.
+   Leave visible keyboard focus outlines and link colours intact. */
+.sidebar.right .media-widget .media-status a,
+.sidebar.right .trakt-live-widget .trakt-about-card .media-title a,
+.sidebar.right .media-widget .media-status a:hover,
+.sidebar.right .media-widget .media-status a:focus-visible,
+.sidebar.right .trakt-live-widget .trakt-about-card .media-title a:hover,
+.sidebar.right .trakt-live-widget .trakt-about-card .media-title a:focus-visible {
+  text-decoration: none;
+}
