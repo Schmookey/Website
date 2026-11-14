@@ -38,6 +38,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_neocities_deploy.py' -v
       - name: Test Trakt history updater and error handling
         run: python -m unittest discover -s tests -p 'test_trakt_updater.py' -v
+      - name: Test static Trakt microformat generation
+        run: python -m unittest discover -s tests -p 'test_trakt_microformats.py' -v
       - name: Verify IndieWeb metadata and Webmention discovery (offline)
         run: python -m unittest discover -s tests -p 'test_indieweb_metadata.py' -v
       - name: Test ListenBrainz album artwork and fallbacks

@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/update-trakt-history.yml'
       - 'scripts/update_trakt_history.py'
+      - 'scripts/sync_trakt_microformats.py'
   schedule:
     # Every hour at :17 UTC (avoids the busy top of the hour).
     - cron: '17 * * * *'
@@ -38,13 +39,15 @@ jobs:
             exit 0
           fi
           python3 scripts/update_trakt_history.py
-      - name: Commit updated public snapshot
+      - name: Regenerate crawler-readable latest watch in About page
+        run: python3 scripts/sync_trakt_microformats.py
+      - name: Commit updated public snapshot and About microformat
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/data/trakt-history.json
+          git add assets/data/trakt-history.json about.html
           if ! git diff --cached --quiet; then
-            git commit -m "Refresh public Trakt watch history"
+            git commit -m "Refresh Trakt watch history and static microformat"
             git push
           fi

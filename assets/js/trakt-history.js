@@ -66,7 +66,7 @@
 
   function renderCard(item, compact) {
     const card = element("article", compact
-      ? "media-card trakt-about-card"
+      ? "media-card trakt-about-card h-entry"
       : "trakt-live-card");
     const copy = element("div", compact ? "media-meta" : "trakt-live-copy");
     if (compact) {
@@ -95,16 +95,19 @@
     }
     copy.append(element("p", compact ? "media-label" : "trakt-live-type",
       compact ? "Last Watched" : item.type));
-    const title = element(compact ? "p" : "h3", compact ? "media-title" : "trakt-live-title");
+    const title = element(compact ? "p" : "h3", compact ? "media-title p-name" : "trakt-live-title");
     const a = element("a", null, item.title);
     a.href = item.link;
+    if (compact && /^https:\/\/trakt\.tv\/(?:shows|movies)\/[^/]+/.test(item.link)) {
+      a.classList.add("u-watch-of");
+    }
     a.target = "_blank";
     a.rel = "noopener noreferrer";
     title.append(a);
     copy.append(title);
     if (details(item)) copy.append(element("p", compact ? "media-subtitle" : "trakt-live-details", details(item)));
     if (item.date) {
-      const date = element("time", compact ? "media-submeta" : "trakt-live-date",
+      const date = element("time", compact ? "media-submeta dt-published" : "trakt-live-date",
         "Watched " + item.date.toLocaleString("en-GB", {
           day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"
         }));
