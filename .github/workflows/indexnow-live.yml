@@ -1,0 +1,57 @@
+name: Notify IndexNow when published website pages change
+
+on:
+  schedule:
+    # Live website may be edited outside GitHub. Check hourly, not on every commit.
+    - cron: '37 * * * *'
+  workflow_dispatch:
+    inputs:
+      force_all:
+        description: "Resubmit every live, indexable HTML URL (normally leave false)"
+        type: boolean
+        default: false
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow-live-monitor
+  cancel-in-progress: false
+
+jobs:
+  scan-live-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code (no deployment)
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore previous live-page fingerprints
+        uses: actions/cache/restore@v4
+        with:
+          path: .indexnow-state/
+          key: indexnow-live-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            indexnow-live-
+      - name: Detect and notify about published changes
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          FORCE_ALL: ${{ inputs.force_all }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$FORCE_ALL" == "true" ]]; then
+            python3 scripts/indexnow_live_scan.py --state .indexnow-state/pages.json --force-all
+          else
+            python3 scripts/indexnow_live_scan.py --state .indexnow-state/pages.json
+          fi
+      - name: Save successful scan fingerprints
+        uses: actions/cache/save@v4
+        with:
+          path: .indexnow-state/
+          key: indexnow-live-${{ github.run_id }}-${{ github.run_attempt }}
