@@ -2602,9 +2602,13 @@ body.light .trakt-live-widget .trakt-about-card {
   background: #111;
 }
 .trakt-live-widget .trakt-about-card .media-thumb {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  /* Portrait posters fill the square thumb rather than shrinking with bars. */
+  object-fit: cover;
+  object-position: center 20%;
+  margin: 0;
 }
 .trakt-about-thumb {
   font-size: 10px;
