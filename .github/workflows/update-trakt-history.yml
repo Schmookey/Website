@@ -8,8 +8,11 @@ on:
       - '.github/workflows/update-trakt-history.yml'
       - 'scripts/update_trakt_history.py'
   schedule:
-    # Every hour at :17 UTC (avoids the busy top of the hour).
+    # GitHub scheduling is best-effort; two staggered automatic attempts each hour
+    # reduce the chance of a long gap when one scheduled event is delayed/skipped.
+    # No manual dispatch or site deployment is required for data refreshes.
     - cron: '17 * * * *'
+    - cron: '47 * * * *'
   workflow_dispatch:
 
 permissions:
