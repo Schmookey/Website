@@ -1,7 +1,29 @@
 {
-  "generated_at": "2026-11-14T18:09:55+00:00",
+  "generated_at": "2026-11-14T21:48:46+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Killing Eve",
+      "type": "TV Show",
+      "episode": "Smell Ya Later",
+      "season": 2,
+      "episode_number": 5,
+      "year": 2018,
+      "link": "https://trakt.tv/shows/killing-eve",
+      "cover": "https://image.tmdb.org/t/p/w200/4wKhTVw8aGq5AZMa0Q1spERdi7n.jpg",
+      "watched_at": "2026-11-14T20:26:00.000Z"
+    },
+    {
+      "title": "Shetland",
+      "type": "TV Show",
+      "episode": "Episode 1",
+      "season": 11,
+      "episode_number": 1,
+      "year": 2013,
+      "link": "https://trakt.tv/shows/shetland",
+      "cover": "https://image.tmdb.org/t/p/w200/rKnxmir8m5I3RdSTdZr3jaQaCZi.jpg",
+      "watched_at": "2026-11-14T19:43:00.000Z"
+    },
     {
       "title": "Scrubs",
       "type": "TV Show",
@@ -309,28 +331,6 @@
       "link": "https://trakt.tv/shows/mock-the-week-2026",
       "cover": "https://image.tmdb.org/t/p/w200/gou7RoRz88v58UYeSiTMp5OS1iy.jpg",
       "watched_at": "2026-10-19T19:10:00.000Z"
-    },
-    {
-      "title": "Have I Got News for You",
-      "type": "TV Show",
-      "episode": "Jason Manford, Janet Street-Porter",
-      "season": 72,
-      "episode_number": 3,
-      "year": 1990,
-      "link": "https://trakt.tv/shows/have-i-got-news-for-you",
-      "cover": "https://image.tmdb.org/t/p/w200/gYrG6F8OXBa8C0Lfx10XaZsHKaw.jpg",
-      "watched_at": "2026-10-16T21:47:00.000Z"
-    },
-    {
-      "title": "The Celebrity Traitors",
-      "type": "TV Show",
-      "episode": "Episode 6",
-      "season": 2,
-      "episode_number": 6,
-      "year": 2025,
-      "link": "https://trakt.tv/shows/the-celebrity-traitors",
-      "cover": "https://image.tmdb.org/t/p/w200/uziPOqxQotCE9g0wBgDvHCOvRhP.jpg",
-      "watched_at": "2026-10-16T20:27:00.000Z"
     }
   ]
 }
