@@ -110,7 +110,8 @@
 }
 .about-page .profile-card-portrait {
   min-width: 0;
-  padding: 5px;
+  /* Keep the decorative border, but remove the inset around the actual artwork. */
+  padding: 0;
   border: 5px solid #ffcf51;
   border-radius: 21px;
   background: #200e3d;
@@ -121,10 +122,11 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 253 / 300;
-  object-fit: cover;
+  /* Use the image's real proportions: no forced crop or empty letterboxing. */
+  aspect-ratio: auto;
+  object-fit: contain;
   image-rendering: pixelated;
-  border-radius: 13px;
+  border-radius: 15px;
   margin: 0;
 }
 .about-page .profile-card-identity { min-width: 0; text-align: center; }
