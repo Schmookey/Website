@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/update-trakt-history.yml'
       - 'scripts/update_trakt_history.py'
+      - 'scripts/sync_trakt_microformats.py'
   schedule:
     # Every hour at :17 UTC (avoids the busy top of the hour).
     - cron: '17 * * * *'
