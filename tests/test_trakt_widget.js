@@ -20,6 +20,14 @@ assert.deepEqual(widget.snapshotEntries({generated_at:"",items:[{title:"Old samp
 const recent = widget.snapshotEntries({generated_at:"2026-11-11T14:00:00Z",items:[{title:"New watch",type:"Movie"}]});
 assert.equal(recent.length, 1);
 assert.equal(recent[0].title, "New watch");
+// Staleness measures the age of the snapshot, not the last watched programme.
+assert.equal(widget.isStaleSnapshot(
+  new Date("2026-11-14T18:09:00Z"), new Date("2026-11-14T20:59:00Z")), false);
+assert.equal(widget.isStaleSnapshot(
+  new Date("2026-11-14T18:09:00Z"), new Date("2026-11-14T21:10:00Z")), true);
+assert.equal(widget.isStaleSnapshot(
+  new Date("2026-11-14T22:09:00Z"), new Date("2026-11-14T21:10:00Z")), false);
+assert.equal(widget.isStaleSnapshot(null, new Date("2026-11-14T21:10:00Z")), false);
 // Refreshes automatically from public GitHub data, falling back to the
 // existing Neocities JSON. No Trakt or TMDB token is sent to the browser.
 (async () => {
@@ -40,9 +48,13 @@ assert.equal(recent[0].title, "New watch");
     };
     const liveItems = await widget.loadSnapshot();
     assert.equal(liveItems[0].title, "Fresh GitHub watch");
-    assert.equal(remoteCalls.length, 1);
+    const liveData = await widget.loadSnapshotData();
+    assert.equal(liveData.source, "GitHub");
+    assert.equal(liveData.generatedAt.toISOString(), "2026-11-13T06:43:23.000Z");
+    assert.equal(remoteCalls.length, 2);
     assert.equal(remoteCalls[0].opts.credentials, "omit");
     assert.equal(remoteCalls[0].opts.cache, "no-store");
+    assert.equal(remoteCalls[1].opts.cache, "no-store");
 
     const fallbackCalls = [];
     global.fetch = async (url) => {
