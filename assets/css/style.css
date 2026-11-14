@@ -2743,3 +2743,22 @@ body.light .trakt-live-widget .trakt-about-card {
 .sidebar.right .trakt-live-widget .trakt-about-card .media-title a:focus-visible {
   text-decoration: none;
 }
+
+/* Show when the public Trakt snapshot has not refreshed for over 3 hours.
+   Kept separate from the existing media card to preserve sidebar alignment. */
+.trakt-sync-warning {
+  margin: 8px 0;
+  padding: 9px 11px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #ffe4a5;
+  background: #342919;
+  border: 1px solid #cba554;
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+}
+body.light .trakt-sync-warning {
+  color: #fff0d2;
+  background: #59401e;
+  border-color: #f4ca76;
+}
