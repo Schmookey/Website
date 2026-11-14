@@ -287,6 +287,7 @@ RIGHT SIDEBAR
  <!-- ListenBrainz -->
 <div id="latest-listen" class="media-widget">
   <article class="media-card">
+    <a id="mf2-listen-of" hidden></a>
     <div class="media-thumb-wrap">
       <img
         id="listen-cover"
@@ -317,13 +318,13 @@ RIGHT SIDEBAR
 
     <!-- Bookwyrm -->
   <div class="media-widget">
-  <article class="media-card">
+  <article class="media-card h-entry">
     <div class="media-thumb-wrap">
        <img src="/assets/images/Walking Practice by Dolki Min.jpeg" alt="Walking Practice book cover">
 </div>
     <div class="media-meta">
       <p class="media-label">Now Reading</p>
-      <p class="media-title">Walking Practice</p>
+      <p class="media-title p-name p-read-of">Walking Practice</p>
       <p class="media-subtitle">Dolki Min</p>
       <p class="media-status">
         <a href="https://bookwyrm.social/user/Schmookey" target="_blank" rel="noopener">
@@ -336,16 +337,19 @@ RIGHT SIDEBAR
 <!-- Trakt: same compact media-card layout as ListenBrainz and BookWyrm -->
 <div class="media-widget trakt-live-widget">
   <div id="trakt-latest-card" aria-live="polite">
-    <article class="media-card trakt-about-card trakt-pending">
-      <div class="media-thumb-wrap" aria-hidden="true">
-        <span class="trakt-about-thumb">TRAKT</span>
+    <!-- TRAKT_MF2_START: generated from assets/data/trakt-history.json -->
+    <article class="media-card trakt-about-card h-entry">
+      <div class="media-thumb-wrap">
+        <img class="media-thumb" src="https://image.tmdb.org/t/p/w200/l1EzNg0WMaoAu7oPa2oMXLizc4W.jpg" alt="Poster for Scrubs" loading="lazy" referrerpolicy="no-referrer">
       </div>
       <div class="media-meta">
         <p class="media-label">Last Watched</p>
-        <p class="media-title">Coming Soon</p>
-        <p class="media-subtitle">My watching history will appear here once the integration is ready.</p>
+        <p class="media-title p-name"><a class="u-watch-of" href="https://trakt.tv/shows/scrubs-2026" target="_blank" rel="noopener noreferrer">Scrubs</a></p>
+        <p class="media-subtitle">S02E08 · My Emergency · 2026</p>
+        <time class="media-submeta dt-published" datetime="2026-11-13T20:03:00.000Z">Watched 13 Nov 2026, 20:03 UTC</time>
       </div>
     </article>
+    <!-- TRAKT_MF2_END -->
   </div>
   <p class="media-status trakt-live-links">
     <a href="/now-watching.html">Trakt History</a>
@@ -377,6 +381,43 @@ FOOTER CONTENT
 
 </footer>
 
+
+<!-- Add Microformats2 listening relationship without changing the ListenBrainz API -->
+<script>
+(() => {
+  'use strict';
+  const card = document.querySelector('#latest-listen .media-card');
+  const track = document.getElementById('listen-track');
+  const link = document.getElementById('listen-link');
+  const relation = document.getElementById('mf2-listen-of');
+  const uuid = /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
+  function annotateListen() {
+    if (!card || !track || !link || !relation) return;
+    let recording = '';
+    try {
+      const url = new URL(link.href);
+      if (url.origin === 'https://listenbrainz.org' && url.pathname === '/player/') {
+        recording = url.searchParams.get('recording_mbids') || '';
+      }
+    } catch (_) { /* Keep the existing widget unchanged on invalid URLs. */ }
+    const valid = uuid.test(recording);
+    card.classList.toggle('h-entry', valid);
+    track.classList.toggle('p-name', valid);
+    if (valid) {
+      relation.href = 'https://musicbrainz.org/recording/' + recording;
+      relation.classList.add('u-listen-of');
+    } else {
+      relation.removeAttribute('href');
+      relation.classList.remove('u-listen-of');
+    }
+  }
+  if (link) {
+    new MutationObserver(annotateListen)
+      .observe(link, { attributes: true, attributeFilter: ['href'] });
+    annotateListen();
+  }
+})();
+</script>
 
 <script src="/assets/js/main.js"></script>
 <script src="/assets/js/trakt-history.js" defer></script>
