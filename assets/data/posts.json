@@ -1,5 +1,13 @@
 [
   {
+    "title": "November Update",
+    "url": "/blog/posts/november_update.html",
+    "date": "2026-11-15T12:00:00+00:00",
+    "readingTime": 7,
+    "section": "blog",
+    "tags": ["blog", "november", "microformats", "walking practice", "bonfire night"]
+ },
+ {
      "title": "Coding Vibes",
     "url": "/blog/posts/coding_vibes.html",
     "date": "2026-11-06T21:30:00+00:00",

@@ -5,12 +5,8 @@
   "use strict";
   const PROFILE = "https://app.trakt.tv/profile/Pati3nt_Z3ro";
   const MAX_ENTRIES = 30;
-  // Alert on the age of the successful snapshot, not the last watched item.
-  // Going 3 hours without a refresh means multiple expected attempts were missed.
-  const STALE_AFTER_MS = 3 * 60 * 60 * 1000;
-  // GitHub Actions attempts automatic refreshes at :17 and :47 each hour.
-  // Scheduled runs are best-effort. Fetching this public file needs no browser
-  // API credentials, OAuth, or Neocities deployment.
+  // GitHub Actions refreshes this public file every six hours. Fetching it from
+  // Neocities needs no Trakt/TMDb credentials, OAuth, or Neocities deployment.
   const LIVE_HISTORY = "https://raw.githubusercontent.com/Schmookey/Website/main/assets/data/trakt-history.json";
   const LOCAL_HISTORY = "/assets/data/trakt-history.json";
   const SAFE_POSTER = /^https:\/\/image\.tmdb\.org\/t\/p\/w(?:92|154|185|200|300|342|500)\/[A-Za-z0-9._-]+\.(?:jpg|jpeg|png|webp)$/i;
@@ -121,37 +117,12 @@
     return card;
   }
 
-  function snapshotData(payload) {
+  function snapshotEntries(payload) {
     if (!payload || !Array.isArray(payload.items)) throw new Error("Invalid history data");
     // A null generated_at marks the pre-approval sample, not real watch history.
-    const generatedAt = typeof payload.generated_at === "string"
-      ? new Date(payload.generated_at) : null;
-    if (!generatedAt || Number.isNaN(generatedAt.getTime())) {
-      return {entries: [], generatedAt: null};
-    }
-    return {entries: payload.items.map(normalise).filter(Boolean), generatedAt};
-  }
-
-  function snapshotEntries(payload) {
-    return snapshotData(payload).entries;
-  }
-
-  function isStaleSnapshot(generatedAt, now = new Date()) {
-    return generatedAt instanceof Date && !Number.isNaN(generatedAt.getTime()) &&
-      now.getTime() - generatedAt.getTime() > STALE_AFTER_MS;
-  }
-
-  function staleNotice(generatedAt, source) {
-    if (!isStaleSnapshot(generatedAt)) return null;
-    const lastSync = generatedAt.toLocaleString("en-GB", {
-      day: "numeric", month: "short", year: "numeric",
-      hour: "2-digit", minute: "2-digit", timeZone: "Europe/London"
-    });
-    const notice = element("p", "trakt-sync-warning",
-      "Trakt data may be out of date. Last refreshed " + lastSync +
-      " (UK time; " + source + "). Automatic updates may be delayed.");
-    notice.setAttribute("role", "status");
-    return notice;
+    if (typeof payload.generated_at !== "string" ||
+        Number.isNaN(Date.parse(payload.generated_at))) return [];
+    return payload.items.map(normalise).filter(Boolean);
   }
 
   async function fetchSnapshot(url) {
@@ -163,23 +134,19 @@
       headers: {Accept: "application/json"}, signal
     });
     if (!res.ok) throw new Error("History unavailable");
-    const data = snapshotData(await res.json());
-    if (!data.entries.length) throw new Error("No usable history");
-    return data;
-  }
-
-  async function loadSnapshotData() {
-    // Prefer the current GitHub Actions snapshot. If GitHub or CORS is
-    // unavailable, keep the latest manually uploaded Neocities snapshot.
-    try {
-      return {...await fetchSnapshot(LIVE_HISTORY), source: "GitHub"};
-    } catch {
-      return {...await fetchSnapshot(LOCAL_HISTORY), source: "site backup"};
-    }
+    const entries = snapshotEntries(await res.json());
+    if (!entries.length) throw new Error("No usable history");
+    return entries;
   }
 
   async function loadSnapshot() {
-    return (await loadSnapshotData()).entries;
+    // Prefer the current GitHub Actions snapshot. If GitHub or CORS is
+    // unavailable, keep the latest manually uploaded Neocities snapshot.
+    try {
+      return await fetchSnapshot(LIVE_HISTORY);
+    } catch {
+      return fetchSnapshot(LOCAL_HISTORY);
+    }
   }
 
   function pendingNotice(compact) {
@@ -209,17 +176,13 @@
     const journal = document.getElementById("trakt-history");
     if (!about && !journal) return;
     try {
-      const snapshot = await loadSnapshotData();
-      const items = snapshot.entries;
+      const items = await loadSnapshot();
       if (about) {
         about.replaceChildren(...(items.length ? [renderCard(items[0], true)] :
           [pendingNotice(true)]));
-        const warning = staleNotice(snapshot.generatedAt, snapshot.source);
-        if (warning) about.append(warning);
       }
       if (journal) {
-        const warning = staleNotice(snapshot.generatedAt, snapshot.source);
-        journal.replaceChildren(...(warning ? [warning] : []), ...(items.length ?
+        journal.replaceChildren(...(items.length ?
           items.slice(0, MAX_ENTRIES).map(item => renderCard(item,false)) :
           [pendingNotice(false)]));
       }
@@ -230,8 +193,7 @@
     }
   }
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = {allowedLink,allowedPoster,normalise,snapshotEntries,
-      loadSnapshot,loadSnapshotData,isStaleSnapshot};
+    module.exports = {allowedLink,allowedPoster,normalise,snapshotEntries,loadSnapshot};
   }
   if (typeof document !== "undefined") {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded",render);
