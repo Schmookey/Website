@@ -57,6 +57,29 @@ FAVICON
 <link rel="stylesheet" href="/assets/css/style.css">
 <link rel="stylesheet" href="/assets/css/about-profile-card.css">
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "name": "About | Schmookey",
+  "description": "Personal profile about technology, music, television, podcasts and retro web culture.",
+  "url": "https://schmookey.xyz/about.html",
+  "mainEntity": {
+    "@type": "Person",
+    "@id": "https://schmookey.xyz/about.html#schmookey",
+    "name": "Schmookey",
+    "url": "https://schmookey.xyz/",
+    "image": "https://schmookey.xyz/assets/images/schmookey_trading_card.png",
+    "description": "Technology, music, television, podcasts, videogames and IndieWeb enthusiast.",
+    "sameAs": [
+      "https://mastodon.social/@schmookey",
+      "https://bsky.app/profile/schmookey.xyz",
+      "https://codeberg.org/schmookey"
+    ]
+  }
+}
+</script>
+<meta name="google-site-verification" content="1rlz2pf4sXiBXw7o6nOLAk9SdLTQLfjtqXEWoflMIlE" />
 </head>
 
 <body class="about-page h-card light">
@@ -284,76 +307,158 @@ RIGHT SIDEBAR
 ===================================== -->
 <aside class="sidebar right">
 
- <!-- ListenBrainz -->
-<div id="latest-listen" class="media-widget">
-  <article class="media-card">
-    <div class="media-thumb-wrap">
-      <img
-        id="listen-cover"
-        class="media-thumb"
-        src="/assets/images/listenbrainz_logo.png"
-        alt="Album artwork"
-        loading="lazy"
-      >
-    </div>
-    <div class="media-meta">
-      <p class="media-label">Now Listening</p>
-      <h3 id="listen-track" class="media-title">Loading…</h3>
-      <p id="listen-artist" class="media-subtitle"></p>
-      <p id="listen-album" class="media-submeta"></p>
-      <p class="media-status">
-        <a
-          id="listen-link"
-          href="https://listenbrainz.org/user/jon_cass"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ListenBrainz
-        </a>
-      </p>
-    </div>
-  </article>
-</div>
+  <!-- ListenBrainz (original IDs and link preserved) -->
+  <div id="latest-listen" class="media-widget">
+    <article class="media-card">
+      <div class="media-thumb-wrap">
+        <img id="listen-cover" class="media-thumb"
+             src="/assets/images/listenbrainz_logo.png"
+             alt="Album artwork" loading="lazy">
+      </div>
+      <div class="media-meta">
+        <p class="media-label">Now Listening</p>
+        <h3 id="listen-track" class="media-title">Loading…</h3>
+        <p id="listen-artist" class="media-subtitle"></p>
+        <p id="listen-album" class="media-submeta"></p>
+        <p class="media-status">
+          <a id="listen-link" href="https://listenbrainz.org/user/jon_cass"
+             target="_blank" rel="noopener noreferrer">ListenBrainz</a>
+        </p>
+        <!-- Only gets a u-listen-of class and href for an identified recording -->
+        <a id="mf2-listen-of" hidden></a>
+      </div>
+    </article>
+  </div>
+  
+  
+<!-- BookWyrm: reading activity with Microformats2 -->
+<div class="media-widget">
+  <article class="media-card h-entry">
 
-    <!-- Bookwyrm -->
-  <div class="media-widget">
-  <article class="media-card">
     <div class="media-thumb-wrap">
-       <img src="/assets/images/Walking Practice by Dolki Min.jpeg" alt="Walking Practice book cover">
-</div>
+      <img src="/assets/images/Walking Practice by Dolki Min.jpeg"
+           alt="Walking Practice book cover">
+    </div>
+
     <div class="media-meta">
       <p class="media-label">Now Reading</p>
-      <p class="media-title">Walking Practice</p>
+
+      <p class="media-title p-name">
+        <a href="https://bookwyrm.social/book/902505/s/walking-practice"
+           style="color: inherit; text-decoration: none;">
+          Walking Practice
+        </a>
+      </p>
+
       <p class="media-subtitle">Dolki Min</p>
+
+      <!-- Structured citation; visually hidden to
+           preserve the existing widget layout -->
+      <span class="p-read-of h-cite" hidden>
+        <span class="p-name">Walking Practice</span>
+        <span class="p-author">Dolki Min</span>
+        <a class="u-url"
+           href="https://bookwyrm.social/book/902505/s/walking-practice">
+          Walking Practice on BookWyrm
+        </a>
+      </span>
+
       <p class="media-status">
-        <a href="https://bookwyrm.social/user/Schmookey" target="_blank" rel="noopener">
+        <a href="https://bookwyrm.social/user/Schmookey"
+           target="_blank"
+           rel="noopener noreferrer">
           From BookWyrm
         </a>
       </p>
     </div>
+
   </article>
 </div>
-<!-- Trakt: same compact media-card layout as ListenBrainz and BookWyrm -->
-<div class="media-widget trakt-live-widget">
-  <div id="trakt-latest-card" aria-live="polite">
-    <article class="media-card trakt-about-card trakt-pending">
-      <div class="media-thumb-wrap" aria-hidden="true">
-        <span class="trakt-about-thumb">TRAKT</span>
-      </div>
-      <div class="media-meta">
-        <p class="media-label">Last Watched</p>
-        <p class="media-title">Coming Soon</p>
-        <p class="media-subtitle">My watching history will appear here once the integration is ready.</p>
-      </div>
-    </article>
-  </div>
-  <p class="media-status trakt-live-links">
-    <a href="/now-watching.html">Trakt History</a>
-  </p>
-</div>
-  </aside>
 
-</div>
+
+  <!-- Trakt: the real card is inserted by trakt-history.js -->
+  <div class="media-widget trakt-live-widget">
+    <div id="trakt-latest-card" aria-live="polite">
+      <article class="media-card trakt-about-card trakt-pending">
+        <div class="media-thumb-wrap" aria-hidden="true">
+          <span class="trakt-about-thumb">TRAKT</span>
+        </div>
+        <div class="media-meta">
+          <p class="media-label">Last Watched</p>
+          <p class="media-title">Coming Soon</p>
+          <p class="media-subtitle">My watching history will appear here once the integration is ready.</p>
+        </div>
+      </article>
+    </div>
+    <p class="media-status trakt-live-links">
+      <a href="/now-watching.html">Trakt History</a>
+    </p>
+  </div>
+
+  <!-- Non-invasive enhancement: no changes to existing widget scripts -->
+  <script>
+  (() => {
+    'use strict';
+    const listeningCard = document.querySelector('#latest-listen .media-card');
+    const listeningTrack = document.getElementById('listen-track');
+    const listeningLink = document.getElementById('listen-link');
+    const listeningRelation = document.getElementById('mf2-listen-of');
+    const uuid = /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
+
+    function annotateListen() {
+      if (!listeningCard || !listeningTrack || !listeningLink || !listeningRelation) return;
+      let recordingId = '';
+      try {
+        const url = new URL(listeningLink.href);
+        if (url.origin === 'https://listenbrainz.org' && url.pathname === '/player/') {
+          recordingId = url.searchParams.get('recording_mbids') || '';
+        }
+      } catch (_) { /* Unusable link: do not claim a listen-of relationship. */ }
+      const valid = uuid.test(recordingId);
+      listeningCard.classList.toggle('h-entry', valid);
+      listeningTrack.classList.toggle('p-name', valid);
+      if (valid) {
+        listeningRelation.href = 'https://musicbrainz.org/recording/' + recordingId;
+        listeningRelation.classList.add('u-listen-of');
+      } else {
+        listeningRelation.removeAttribute('href');
+        listeningRelation.classList.remove('u-listen-of');
+      }
+    }
+    if (listeningLink) {
+      new MutationObserver(annotateListen)
+        .observe(listeningLink, { attributes: true, attributeFilter: ['href'] });
+      annotateListen();
+    }
+
+    const traktContainer = document.getElementById('trakt-latest-card');
+    function annotateWatch() {
+      if (!traktContainer) return;
+      const card = traktContainer.querySelector('.media-card:not(.trakt-pending)');
+      const title = card?.querySelector('.media-title');
+      const link = title?.querySelector('a[href]');
+      if (!card || !title || !link) return;
+      let valid = false;
+      try {
+        const url = new URL(link.href);
+        valid = url.origin === 'https://trakt.tv' &&
+                /^\/(shows|movies)\/[^/]+/.test(url.pathname);
+      } catch (_) { /* No valid item URL. */ }
+      if (!valid) return;
+      card.classList.add('h-entry');
+      title.classList.add('p-name');
+      link.classList.add('u-watch-of');
+    }
+    if (traktContainer) {
+      new MutationObserver(annotateWatch)
+        .observe(traktContainer, { childList: true });
+      annotateWatch();
+    }
+  })();
+  </script>
+
+</aside>
+</div><!-- existing closing .layout -->
 
 <!-- =====================================
 FOOTER CONTENT
