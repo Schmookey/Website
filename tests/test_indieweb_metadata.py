@@ -63,5 +63,39 @@ class IndieWebMetadataTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertTrue((ROOT / name).is_file())
 
+    def test_about_profile_and_reading_microformats(self):
+        doc = html.parse(str(ROOT / "about.html"))
+        structured = doc.xpath('//script[@type="application/ld+json"]/text()')
+        import json
+        self.assertEqual(len(structured), 1)
+        payload = json.loads(structured[0])
+        self.assertEqual(payload["@type"], "ProfilePage")
+        self.assertEqual(payload["mainEntity"]["@type"], "Person")
+        book_cards = doc.xpath('//article[contains(concat(" ", normalize-space(@class), " "), " h-entry ")][.//*[contains(concat(" ", normalize-space(@class), " "), " p-read-of ")]]')
+        self.assertEqual(len(book_cards), 1)
+        self.assertTrue(book_cards[0].xpath('.//*[contains(concat(" ", normalize-space(@class), " "), " h-cite ")]'))
+        self.assertTrue(book_cards[0].xpath('.//img[contains(@src, "Walking Practice by Dolki Min.jpeg")]'))
+        self.assertTrue(book_cards[0].xpath('.//a[@href="https://bookwyrm.social/book/902505/s/walking-practice"]'))
+        self.assertTrue(doc.xpath('//*[@id="latest-listen"]'))
+        self.assertTrue(doc.xpath('//*[@id="trakt-latest-card"]'))
+
+    def test_blog_index_has_single_main_feed(self):
+        doc = html.parse(str(ROOT / "blog/index.html"))
+        self.assertEqual(len(doc.xpath('//main')), 1)
+        self.assertEqual(len(doc.xpath('//main[contains(concat(" ", normalize-space(@class), " "), " h-feed ")]')), 1)
+        self.assertEqual(len(doc.xpath('//main//article[contains(concat(" ", normalize-space(@class), " "), " h-entry ")]')), 8)
+
+    def test_coding_vibes_has_blog_posting_and_project_microformats(self):
+        import json
+        doc = html.parse(str(ROOT / "blog/posts/coding_vibes.html"))
+        structured = doc.xpath('//script[@type="application/ld+json"]/text()')
+        self.assertEqual(len(structured), 1)
+        payload = json.loads(structured[0])
+        self.assertEqual(payload["@type"], "BlogPosting")
+        self.assertEqual(payload["headline"], "Coding Vibes")
+        self.assertEqual(payload["author"]["name"], "Schmookey")
+        self.assertTrue(doc.xpath('//section[contains(concat(" ", normalize-space(@class), " "), " h-product ")]'))
+        self.assertTrue(doc.xpath('//article[contains(concat(" ", normalize-space(@class), " "), " h-entry ")]'))
+
 if __name__ == "__main__":
     unittest.main()
