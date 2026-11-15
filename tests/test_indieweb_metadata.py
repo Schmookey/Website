@@ -83,7 +83,7 @@ class IndieWebMetadataTests(unittest.TestCase):
         doc = html.parse(str(ROOT / "blog/index.html"))
         self.assertEqual(len(doc.xpath('//main')), 1)
         self.assertEqual(len(doc.xpath('//main[contains(concat(" ", normalize-space(@class), " "), " h-feed ")]')), 1)
-        self.assertEqual(len(doc.xpath('//main//article[contains(concat(" ", normalize-space(@class), " "), " h-entry ")]')), 8)
+        self.assertGreaterEqual(len(doc.xpath('//main//article[contains(concat(" ", normalize-space(@class), " "), " h-entry ")]')), 9)
 
     def test_coding_vibes_has_blog_posting_and_project_microformats(self):
         import json
