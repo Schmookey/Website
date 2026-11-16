@@ -57,6 +57,31 @@ class TraktUpdaterTests(unittest.TestCase):
             self.assertEqual(data["items"][0]["title"], "Sample Movie")
             self.assertEqual(len(data["items"]), 1)
 
+    def test_empty_history_diagnosis_preserves_snapshot(self):
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / "trakt-history.json"
+            target.write_text("keep", encoding="utf-8")
+            with patch.dict(os.environ, {"TRAKT_CLIENT_ID": "test-client-id"}), \
+                 patch.object(updater, "OUT", target), \
+                 patch.object(updater, "get_json", return_value=[]):
+                with self.assertRaises(SystemExit) as error:
+                    updater.main()
+            self.assertIn("empty history list", str(error.exception))
+            self.assertEqual(target.read_text(encoding="utf-8"), "keep")
+
+    def test_unknown_history_type_diagnosis_preserves_snapshot(self):
+        with tempfile.TemporaryDirectory() as temp:
+            target = Path(temp) / "trakt-history.json"
+            target.write_text("keep", encoding="utf-8")
+            with patch.dict(os.environ, {"TRAKT_CLIENT_ID": "test-client-id"}), \
+                 patch.object(updater, "OUT", target), \
+                 patch.object(updater, "get_json", return_value=[{"type": "unknown"}]):
+                with self.assertRaises(SystemExit) as error:
+                    updater.main()
+            self.assertIn("none could be interpreted", str(error.exception))
+            self.assertIn("unknown", str(error.exception))
+            self.assertEqual(target.read_text(encoding="utf-8"), "keep")
+
     def test_no_results_do_not_erase_snapshot(self):
         with tempfile.TemporaryDirectory() as temp:
             target = Path(temp) / "trakt-history.json"
