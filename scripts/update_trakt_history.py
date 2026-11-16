@@ -121,13 +121,31 @@ def main() -> None:
             f"Trakt request failed ({type(exc).__name__}); snapshot preserved."
         ) from None
     if not isinstance(data, list):
-        raise SystemExit("Unexpected Trakt response: not a list; retaining snapshot.")
+        raise SystemExit(
+            "Trakt returned an unexpected JSON shape (expected a list; received "
+            + type(data).__name__ + "). Existing snapshot preserved."
+        )
+    if not data:
+        raise SystemExit(
+            "Trakt returned HTTP 200 with an empty history list (0 items). "
+            "This can indicate a visibility/permission restriction or an upstream "
+            "Trakt issue; it does not prove the account has no watches. "
+            "Check whether the profile's watch history is publicly accessible. "
+            "Existing snapshot preserved."
+        )
     cache = {}
     items = [item for row in data if isinstance(row, dict)
              if (item := normalise(row, token, cache)) is not None]
-    # Empty data can mean history is private. Never overwrite a valid snapshot.
     if not items:
-        raise SystemExit("No public watches returned; retaining existing snapshot.")
+        # Only report counts and type names; never log raw personal watch data.
+        types = sorted({str(row.get("type"))[:32] for row in data
+                        if isinstance(row, dict)})
+        raise SystemExit(
+            "Trakt returned " + str(len(data)) +
+            " history rows but none could be interpreted as a movie or episode. "
+            "Response item types: " + ", ".join(types or ["non-object rows"]) +
+            ". Existing snapshot preserved."
+        )
     output = {
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "source": "Trakt public watch history (cached by GitHub Actions)",
