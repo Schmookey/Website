@@ -1,7 +1,40 @@
 {
-  "generated_at": "2026-11-15T17:45:37+00:00",
+  "generated_at": "2026-11-16T10:14:55+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Amandaland",
+      "type": "TV Show",
+      "episode": "Careers Week",
+      "season": 2,
+      "episode_number": 1,
+      "year": 2025,
+      "link": "https://trakt.tv/shows/amandaland",
+      "cover": "https://image.tmdb.org/t/p/w200/4QDYK4EpwuLb54TmRPZioKJwUtE.jpg",
+      "watched_at": "2026-11-15T22:37:00.000Z"
+    },
+    {
+      "title": "Mortimer & Whitehouse: Gone Fishing",
+      "type": "TV Show",
+      "episode": "Trout: River Tees, County Durham",
+      "season": 9,
+      "episode_number": 4,
+      "year": 2018,
+      "link": "https://trakt.tv/shows/mortimer-whitehouse-gone-fishing",
+      "cover": "https://image.tmdb.org/t/p/w200/bRR3jfgOiwH01oQBY5MTMgHjRNn.jpg",
+      "watched_at": "2026-11-15T22:06:00.000Z"
+    },
+    {
+      "title": "Killing Eve",
+      "type": "TV Show",
+      "episode": "I Hope You Like Missionary!",
+      "season": 2,
+      "episode_number": 6,
+      "year": 2018,
+      "link": "https://trakt.tv/shows/killing-eve",
+      "cover": "https://image.tmdb.org/t/p/w200/4wKhTVw8aGq5AZMa0Q1spERdi7n.jpg",
+      "watched_at": "2026-11-15T20:42:00.000Z"
+    },
     {
       "title": "Killing Eve",
       "type": "TV Show",
@@ -298,39 +331,6 @@
       "link": "https://trakt.tv/shows/scrubs-2026",
       "cover": "https://image.tmdb.org/t/p/w200/l1EzNg0WMaoAu7oPa2oMXLizc4W.jpg",
       "watched_at": "2026-10-23T16:45:00.000Z"
-    },
-    {
-      "title": "The Celebrity Traitors: Uncloaked",
-      "type": "TV Show",
-      "episode": "Episode #2.7",
-      "season": 2,
-      "episode_number": 7,
-      "year": 2025,
-      "link": "https://trakt.tv/shows/the-celebrity-traitors-uncloaked",
-      "cover": "https://image.tmdb.org/t/p/w200/8AOr0ufWDn2pMtgdcXpoUYnnik7.jpg",
-      "watched_at": "2026-10-23T07:40:00.000Z"
-    },
-    {
-      "title": "The Celebrity Traitors",
-      "type": "TV Show",
-      "episode": "Episode 7",
-      "season": 2,
-      "episode_number": 7,
-      "year": 2025,
-      "link": "https://trakt.tv/shows/the-celebrity-traitors",
-      "cover": "https://image.tmdb.org/t/p/w200/uziPOqxQotCE9g0wBgDvHCOvRhP.jpg",
-      "watched_at": "2026-10-23T07:40:00.000Z"
-    },
-    {
-      "title": "Mock the Week",
-      "type": "TV Show",
-      "episode": "Rhys James, Angela Barnes, Ed Byrne, Alasdair Beckett-King, Janine Harouni and Neil Delamere",
-      "season": 2,
-      "episode_number": 6,
-      "year": 2026,
-      "link": "https://trakt.tv/shows/mock-the-week-2026",
-      "cover": "https://image.tmdb.org/t/p/w200/gou7RoRz88v58UYeSiTMp5OS1iy.jpg",
-      "watched_at": "2026-10-19T19:10:00.000Z"
     }
   ]
 }
