@@ -14,7 +14,7 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
-USER = "pat13nt_z3r0"
+USER = "Pati3nt_Z3ro"
 OUT = Path(__file__).resolve().parent.parent / "assets/data/trakt-history.json"
 HEADERS = {
     "Accept": "application/json",
