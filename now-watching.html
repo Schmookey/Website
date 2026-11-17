@@ -150,14 +150,26 @@ NAVIGATION
 MAIN LAYOUT (DO NOT TOUCH STRUCTURE)
 ========================================= -->
 
-<div class="layout">
+<div class="layout site-panel-layout">
 
   <!-- LEFT SIDEBAR -->
- <aside class="sidebar left">
-
-    <h2>SOCIALS</h2>
-
-    <div class="badge-grid">
+ <aside class="sidebar left site-panel-sidebar">
+    <section class="site-search-widget" role="search">
+      <form class="site-search-form" action="/search.html" method="get">
+        <label for="site-search-input" class="visually-hidden">Search blog and music posts</label>
+        <div class="site-search-controls">
+          <input id="site-search-input" name="q" type="search" autocomplete="off" maxlength="160"
+                 placeholder="Search blog" aria-controls="site-search-suggestions"
+                 aria-expanded="false" aria-autocomplete="list">
+          <button class="site-search-submit" type="submit" aria-label="Search blog and music posts"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg></button>
+        </div>
+      </form>
+      <ul id="site-search-suggestions" class="site-search-suggestions" hidden></ul>
+      <p class="site-search-status visually-hidden" role="status" aria-live="polite"></p>
+    </section>
+    <section class="site-panel-module article-social-badges" aria-label="Social profiles">
+      <h2>SOCIALS</h2>
+      <div class="badge-grid">
 
     <a href="https://mastodon.social/@schmookey" title="My Mastodon">
       <img src="/assets/images/mastodon_button_1.gif" alt="My Mastodon">
@@ -179,7 +191,27 @@ MAIN LAYOUT (DO NOT TOUCH STRUCTURE)
       <img src="/assets/images/e-gog.png" alt="My collection on Good Old Games">
     </a>
     </div>
-
+    </section>
+    <section class="site-panel-module article-likes-badges" aria-label="Things I like">
+      <h2>LIKES</h2>
+      <div class="badge-grid">
+        <a href="https://creativecommons.org/licenses/by-nc/4.0/" title="Attribution-NonCommercial 4.0 International">
+          <img src="/assets/images/CC_BY-NC_icon-88x31.png" alt="Attribution-NonCommercial 4.0 International" width="88" height="31">
+        </a>
+        <a href="https://therestartproject.org/right-to-repair-uk/" title="Support Right to Repair in the UK">
+          <img src="/assets/images/right2repair.png" alt="Support Right to Repair in the UK" width="88" height="31">
+        </a>
+        <a href="https://indieweb.org" title="Send love to the IndieWeb">
+          <img src="/assets/images/indieweb88x31-flat.png" alt="Send love to the IndieWeb" width="88" height="31">
+        </a>
+        <a href="https://jointhefediverse.net/?lang=en-us" title="Join the Fediverse">
+          <img src="/assets/images/fediverse.png" alt="Join the Fediverse" width="88" height="31">
+        </a>
+        <a href="https://linuxmint.com/" title="I love Linux Mint">
+          <img src="/assets/images/linux_mint.gif" alt="I love Linux Mint" width="88" height="31">
+        </a>
+      </div>
+    </section>
   </aside>
 
   <!-- CENTER CONTENT -->
@@ -198,33 +230,7 @@ MAIN LAYOUT (DO NOT TOUCH STRUCTURE)
 
 
 <!-- RIGHT SIDEBAR -->
-<aside class="sidebar right">
- <h2>LIKES</h2>
 
-    <div class="badge-grid">
-
-    <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.en" title="Attribution-NonCommercial 4.0 International">
-      <img src="/assets/images/CC_BY-NC_icon-88x31.png" alt="Attribution-NonCommercial 4.0 International">
-    </a>    
-
-    <a href="https://therestartproject.org/right-to-repair-uk/" title="Support Right to Repair in the UK">
-      <img src="/assets/images/right2repair.png" alt="Support Right to Repair in the UK">
-    </a>
-
-    <a href="https://indieweb.org" title="Send love to the IndieWeb">
-      <img src="/assets/images/indieweb88x31-flat.png" alt="Send love to the IndieWeb">
-    </a>
-
-    <a href="https://jointhefediverse.net/?lang=en-us" title="Join the Fediverse">
-      <img src="/assets/images/fediverse.png" alt="Join the Fediverse">
-    </a>
-
-    <a href="https://linuxmint.com/" title="I love Linux Mint">
-      <img src="/assets/images/linux_mint.gif" alt="I love Linux Mint">
-    </a>
-    </div>
-
-  </aside>
   </div>
   
 <!-- =========================================
