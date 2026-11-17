@@ -341,8 +341,11 @@ CENTER CONTENT
 <!-- =====================================
 RIGHT SIDEBAR
 ===================================== -->
-<aside class="sidebar right">
+<aside class="sidebar right about-media-sidebar" aria-label="Recent media activity">
 
+  <section class="about-media-panel" aria-labelledby="about-now-listening-heading">
+    <h2 id="about-now-listening-heading">NOW LISTENING</h2>
+    <div class="about-media-panel-content">
   <!-- ListenBrainz (original IDs and link preserved) -->
   <div id="latest-listen" class="media-widget">
     <article class="media-card">
@@ -365,8 +368,12 @@ RIGHT SIDEBAR
       </div>
     </article>
   </div>
-  
-  
+    </div>
+  </section>
+
+  <section class="about-media-panel" aria-labelledby="about-now-reading-heading">
+    <h2 id="about-now-reading-heading">NOW READING</h2>
+    <div class="about-media-panel-content">
 <!-- BookWyrm: reading activity with Microformats2 -->
 <div class="media-widget">
   <article class="media-card h-entry">
@@ -410,8 +417,12 @@ RIGHT SIDEBAR
 
   </article>
 </div>
+    </div>
+  </section>
 
-
+  <section class="about-media-panel" aria-labelledby="about-last-watched-heading">
+    <h2 id="about-last-watched-heading">LAST WATCHED</h2>
+    <div class="about-media-panel-content">
   <!-- Trakt: the real card is inserted by trakt-history.js -->
   <div class="media-widget trakt-live-widget">
     <div id="trakt-latest-card" aria-live="polite">
@@ -430,6 +441,8 @@ RIGHT SIDEBAR
       <a href="/now-watching.html">Trakt History</a>
     </p>
   </div>
+    </div>
+  </section>
 
   <!-- Non-invasive enhancement: no changes to existing widget scripts -->
   <script>
