@@ -1,0 +1,252 @@
+#!/usr/bin/env python3
+"""Deterministically update RSS/Atom/JSON feeds and static blog/music cards.
+
+Author new posts and their metadata in assets/data/posts.json. Author Now,
+privacy and changelog announcements in assets/data/site-updates.json.
+Existing feed summaries and authored card assets/blurbs are preserved.
+"""
+from __future__ import annotations
+
+import argparse
+from datetime import datetime, timezone
+from email.utils import format_datetime
+from html import escape
+import json
+from pathlib import Path
+import re
+import sys
+import xml.etree.ElementTree as ET
+
+from lxml import html
+
+ROOT = Path(__file__).resolve().parent.parent
+BASE = "https://schmookey.xyz"
+ATOM_NS = "http://www.w3.org/2005/Atom"
+ET.register_namespace("ns0", ATOM_NS)
+FEEDS = ("feed.json", "feed.xml", "atom.xml")
+INDEXES = {"blog": "blog/index.html", "music": "music/index.html"}
+POST_RE = re.compile(r"^/(blog|music)/posts/[A-Za-z0-9_-]+\.html$")
+UPDATE_URLS = {"/now.html", "/privacy.html", "/changelog.html"}
+FIRST_SENTENCE = re.compile(r"(?<=[.!?])(?:\s+|$)")
+FEED_MAIN = re.compile(r'(<main class="center panel h-feed">)([\s\S]*?)(</main>)')
+
+
+def timestamp(value: str) -> datetime:
+    dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if dt.tzinfo is None:
+        raise ValueError(f"Date needs an explicit timezone: {value}")
+    return dt.astimezone(timezone.utc)
+
+
+def iso(value: str) -> str:
+    return timestamp(value).isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
+def slug(text: str) -> str:
+    return re.sub(r"(^-|-$)", "", re.sub(r"[^a-z0-9]+", "-", text.lower()))
+
+
+def load(root: Path, relative: str):
+    return json.loads((root / relative).read_text(encoding="utf-8"))
+
+
+def get_post(root: Path, item: dict):
+    path = item["url"]
+    match = POST_RE.fullmatch(path)
+    if not match or match.group(1) != item["section"]:
+        raise ValueError(f"Invalid or mismatched post URL: {path}")
+    file = root / path.lstrip("/")
+    if not file.is_file():
+        raise ValueError(f"Missing post file: {path}")
+    return html.document_fromstring(file.read_text(encoding="utf-8-sig"))
+
+
+def first_sentence(doc) -> str:
+    regions = doc.xpath('//*[contains(concat(" ",normalize-space(@class)," ")," e-content ")]')
+    if not regions:
+        raise ValueError("Post has no e-content")
+    region = regions[0]
+    for node in region.xpath('.//p|.//div'):
+        if node.xpath('ancestor::figure|ancestor::blockquote|ancestor::nav|ancestor::*[@hidden]'):
+            continue
+        text = " ".join(" ".join(node.itertext()).split())
+        if text:
+            # Avoid treating a short teaser or image caption as an article blurb.
+            return FIRST_SENTENCE.split(text, maxsplit=1)[0].strip()
+    text = " ".join(" ".join(region.itertext()).split())
+    if not text:
+        raise ValueError("Post body is empty")
+    return FIRST_SENTENCE.split(text, maxsplit=1)[0].strip()
+
+
+def image_data(doc, item: dict, root: Path) -> tuple[str, str]:
+    src = item.get("cardImage")
+    alt = item.get("cardImageAlt")
+    if not src:
+        images = doc.xpath('//*[contains(concat(" ",normalize-space(@class)," ")," e-content ")]//figure//img')
+        if images:
+            src = images[0].get("src")
+            alt = alt or images[0].get("alt")
+        else:
+            src = (doc.xpath('//meta[@property="og:image"]/@content') or [None])[0]
+    if not src:
+        raise ValueError(f"No card image available: {item['url']}")
+    if src.startswith(BASE + "/"):
+        src = src[len(BASE):]
+    elif not src.startswith("/"):
+        src = "/" + str((Path(item["url"].lstrip("/")).parent / src)).replace("\\", "/")
+        # Canonicalise ../ segments and refuse traversal beyond the site.
+        import posixpath
+        src = posixpath.normpath(src)
+    if not src.startswith("/") or src.startswith("//") or not (root / src.lstrip("/")).is_file():
+        raise ValueError(f"Card image not in repository: {src}")
+    return src, alt or item["title"]
+
+
+def content_items(root: Path):
+    posts = load(root, "assets/data/posts.json")
+    updates = load(root, "assets/data/site-updates.json")
+    if not isinstance(posts, list) or not isinstance(updates, list):
+        raise ValueError("Source metadata must be a list")
+    records = []
+    for post in posts:
+        doc = get_post(root, post)
+        records.append((post, doc))
+    for update in updates:
+        if update["url"] not in UPDATE_URLS:
+            raise ValueError(f"Unexpected site update URL: {update['url']}")
+        if not (root / update["url"].lstrip("/")).is_file():
+            raise ValueError(f"Missing site update page: {update['url']}")
+        timestamp(update["date"])
+    return records, updates
+
+
+def build_feeds(root: Path, records, updates) -> dict[str, str]:
+    old = load(root, "feed.json")
+    previous = {item["id"]: item for item in old["items"]}
+    items = []
+    for post, doc in records:
+        ident = "urn:schmookey:post:" + Path(post["url"]).stem
+        desc = previous.get(ident, {}).get("content_text")
+        if not desc:
+            desc = (doc.xpath('//meta[@name="description"]/@content') or [None])[0]
+        desc = desc or first_sentence(doc)
+        items.append({"id": ident, "url": BASE + post["url"], "title": post["title"],
+                      "content_text": desc, "date_published": iso(post["date"])})
+    for update in updates:
+        ident = f"urn:schmookey:update:{slug(update['title'])}:{update['date']}"
+        items.append({"id": ident, "url": BASE + update["url"], "title": update["title"],
+                      "content_text": update["summary"], "date_published": iso(update["date"])})
+    # Keep historical entries that have been removed from the two source lists.
+    ids = {item["id"] for item in items}
+    items.extend(item for item in old["items"] if item["id"] not in ids)
+    if not items or len(set(x["id"] for x in items)) != len(items):
+        raise ValueError("Feed is empty or contains duplicate IDs")
+    items.sort(key=lambda item: timestamp(item["date_published"]), reverse=True)
+    old["items"] = items
+    result = {"feed.json": json.dumps(old, ensure_ascii=False, indent=2) + "\n"}
+
+    rss = ET.fromstring((root / "feed.xml").read_text(encoding="utf-8"))
+    channel = rss.find("channel")
+    if channel is None:
+        raise ValueError("RSS channel missing")
+    build = channel.find("lastBuildDate")
+    if build is None:
+        raise ValueError("RSS lastBuildDate missing")
+    build.text = format_datetime(timestamp(items[0]["date_published"]), usegmt=True)
+    for entry in channel.findall("item"):
+        channel.remove(entry)
+    for item in items:
+        node = ET.SubElement(channel, "item")
+        for tag, value in [
+            ("title", item["title"]), ("link", item["url"]), ("guid", item["id"]),
+            ("pubDate", format_datetime(timestamp(item["date_published"]), usegmt=True)),
+            ("description", item["content_text"]),
+        ]:
+            ET.SubElement(node, tag, {"isPermaLink": "false"} if tag == "guid" else {}).text = value
+
+    atom = ET.fromstring((root / "atom.xml").read_text(encoding="utf-8"))
+    tag = lambda key: f"{{{ATOM_NS}}}{key}"
+    updated = atom.find(tag("updated"))
+    if updated is None:
+        raise ValueError("Atom updated timestamp missing")
+    updated.text = items[0]["date_published"]
+    for entry in atom.findall(tag("entry")):
+        atom.remove(entry)
+    for item in items:
+        node = ET.SubElement(atom, tag("entry"))
+        ET.SubElement(node, tag("title")).text = item["title"]
+        ET.SubElement(node, tag("link"), {"href": item["url"], "rel": "alternate"})
+        ET.SubElement(node, tag("id")).text = item["id"]
+        ET.SubElement(node, tag("updated")).text = item["date_published"]
+        ET.SubElement(node, tag("published")).text = item["date_published"]
+        ET.SubElement(node, tag("summary")).text = item["content_text"]
+    for name, tree in [("feed.xml", rss), ("atom.xml", atom)]:
+        ET.indent(tree, space="  ")
+        result[name] = "<?xml version='1.0' encoding='utf-8'?>\n" + ET.tostring(tree, encoding="unicode")
+    return result
+
+
+def make_card(root: Path, post: dict, doc) -> str:
+    url = post["url"]
+    img, alt = image_data(doc, post, root)
+    title = post.get("cardTitle") or post["title"]
+    blurb = post.get("cardBlurb") or first_sentence(doc)
+    dt = timestamp(post["date"])
+    date_label = dt.strftime("%d %B %Y")
+    link = escape(url, quote=True)
+    return (
+        '  <article class="h-entry post-card">\n'
+        f'    <a class="p-author h-card" href="{BASE}/" hidden></a>\n'
+        f'    <a class="post-image u-url" href="{link}">\n'
+        f'      <img class="u-photo" src="{escape(img, quote=True)}" alt="{escape(alt, quote=True)}" loading="lazy">\n'
+        '    </a>\n'
+        '    <div class="post-content">\n'
+        f'      <h2 class="p-name"><a href="{link}">{escape(title)}</a></h2>\n'
+        f'      <time class="dt-published" datetime="{escape(post["date"], quote=True)}">{date_label}</time>\n'
+        f'      <p class="p-summary">{escape(blurb)}</p>\n'
+        f'      <a class="read-more" href="{link}">Read More →</a>\n'
+        '    </div>\n'
+        f'    <a class="post-card-area-link" href="{link}" aria-hidden="true" tabindex="-1"></a>\n'
+        '  </article>\n'
+    )
+
+
+def build_cards(root: Path, records) -> dict[str, str]:
+    output = {}
+    for section, rel in INDEXES.items():
+        listing = sorted((p, doc) for p, doc in records if p["section"] == section) if False else [
+            (p, doc) for p, doc in records if p["section"] == section
+        ]
+        listing.sort(key=lambda item: timestamp(item[0]["date"]), reverse=True)
+        content = (root / rel).read_text(encoding="utf-8")
+        matches = list(FEED_MAIN.finditer(content))
+        if len(matches) != 1:
+            raise ValueError(f"Could not locate the one listing region: {rel}")
+        output[rel] = FEED_MAIN.sub(
+            lambda match: match.group(1) + "\n" +
+            "".join(make_card(root, p, doc) for p, doc in listing) + match.group(3),
+            content, count=1)
+    return output
+
+
+def run(root: Path, check: bool) -> int:
+    records, updates = content_items(root)
+    outputs = {**build_feeds(root, records, updates), **build_cards(root, records)}
+    changes = [rel for rel, value in outputs.items()
+               if (root / rel).read_text(encoding="utf-8") != value]
+    if not check:
+        for rel in changes:
+            (root / rel).write_text(outputs[rel], encoding="utf-8")
+    print(("Stale: " if check else "Generated: ") + (", ".join(changes) if changes else "nothing to update"))
+    return 1 if check and changes else 0
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true")
+    args = parser.parse_args()
+    try:
+        sys.exit(run(ROOT, args.check))
+    except (ValueError, KeyError, OSError, ET.ParseError) as exc:
+        raise SystemExit(f"Content build failed: {exc}") from None
