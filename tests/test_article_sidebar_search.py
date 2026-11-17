@@ -81,7 +81,7 @@ class MegaDriveSearchTests(unittest.TestCase):
                 self.assertTrue(sections[1].xpath('.//li/a[contains(@href,"/posts/")]'))
                 self.assertTrue(sections[2].xpath('.//li/a[contains(@href,"/blog/posts/")]'))
                 self.assertGreaterEqual(len(sections[3].xpath('.//div[contains(@class,"badge-grid")]/a')), 5)
-                self.assertEqual(len(sections[4].xpath('.//div[contains(@class,"badge-grid")]/a')), 5)
+                self.assertEqual(len(sections[4].xpath('.//div[contains(@class,"badge-grid")]/a')), 6)
                 self.assertEqual(len(sections[0].xpath('.//section')), 0)
                 self.assertNotIn("Loading posts", html.tostring(sections[1], encoding="unicode"))
                 self.assertEqual(generated[article.relative_to(ROOT).as_posix()],

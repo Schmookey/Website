@@ -11,11 +11,12 @@ PAGES = (
     "listening.html", "now-watching.html", "search.html", "page-template.html",
 )
 LIKES = (
-    "/assets/images/CC_BY-NC_icon-88x31.png",
+    "/assets/images/internet-archive.gif",
     "/assets/images/right2repair.png",
     "/assets/images/indieweb88x31-flat.png",
     "/assets/images/fediverse.png",
     "/assets/images/linux_mint.gif",
+    "/assets/images/listenbrainz88x31.gif",
 )
 
 
