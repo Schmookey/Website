@@ -1289,3 +1289,14 @@ window.SCHMOOKEY_initPage = initPage;
       : "Could not copy automatically. Select the code and copy it manually.";
   });
 })();
+
+
+// Site search is a separate, dependency-free module. It creates the left
+// sidebar form without altering existing HTML layouts or IndieWeb metadata.
+(function loadLocalSiteSearch() {
+  if (document.querySelector('script[data-schmookey-search]')) return;
+  const script = document.createElement("script");
+  script.src = "/assets/js/site-search.js";
+  script.dataset.schmookeySearch = "true";
+  document.head.appendChild(script);
+})();
