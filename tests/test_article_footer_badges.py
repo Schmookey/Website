@@ -11,13 +11,14 @@ POSTS = sorted((ROOT / "blog/posts").glob("*.html")) + sorted(
 EXPECTED = [
     "/assets/images/valid-rss-rogers.png",
     "/assets/images/CC_BY-NC_icon-88x31.png",
-    "/assets/images/webmention88x31-flat.png",
-    "/assets/images/indieweb88x31-flat.png",
-    "/assets/images/fediverse.png",
+    "/assets/images/88x31_IndieWeb.png",
+    "/assets/images/88x31_Webmention.png",
+    "/assets/images/88x31_Microformats.png",
 ]
 LINKS = {
-    "/assets/images/indieweb88x31-flat.png": "https://indieweb.org",
-    "/assets/images/fediverse.png": "https://jointhefediverse.net/?lang=en-us",
+    "/assets/images/88x31_IndieWeb.png": "https://indieweb.org",
+    "/assets/images/88x31_Webmention.png": "https://webmention.io/",
+    "/assets/images/88x31_Microformats.png": "https://microformats.org/",
 }
 
 
@@ -44,6 +45,13 @@ class ArticleFooterBadgeTests(unittest.TestCase):
                     self.assertTrue(image.get("alt"))
                     self.assertEqual(image.get("width"), "88")
                     self.assertEqual(image.get("height"), "31")
+
+    def test_footer_hover_text(self):
+        for page in POSTS:
+            with self.subTest(page=page.relative_to(ROOT).as_posix()):
+                doc = html.parse(str(page))
+                self.assertEqual(doc.xpath('//a[img[@src="/assets/images/88x31_Webmention.png"]]/@title'), ["Learn more about Webmentions"])
+                self.assertEqual(doc.xpath('//a[img[@src="/assets/images/88x31_Microformats.png"]]/@title'), ["learn more about Microformats"])
 
     def test_no_changes_to_global_badge_layout_necessary(self):
         stylesheet = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
