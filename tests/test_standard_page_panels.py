@@ -16,6 +16,7 @@ LIKES = (
     "/assets/images/indieweb88x31-flat.png",
     "/assets/images/fediverse.png",
     "/assets/images/linux_mint.gif",
+    "/assets/images/VLC.png",
 )
 
 
