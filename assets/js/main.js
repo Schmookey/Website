@@ -1300,3 +1300,15 @@ window.SCHMOOKEY_initPage = initPage;
   script.dataset.schmookeySearch = "true";
   document.head.appendChild(script);
 })();
+
+
+// Example A: two-column article layout and locally ranked reading suggestions.
+// Leave the site banner, main navigation and non-article layouts unchanged.
+(function loadArticleSidebar() {
+  if (!/^\/(?:blog|music)\/posts\/[A-Za-z0-9_-]+\.html$/.test(window.location.pathname)) return;
+  if (document.querySelector('script[data-schmookey-article-sidebar]')) return;
+  const script = document.createElement("script");
+  script.src = "/assets/js/article-sidebar.js";
+  script.dataset.schmookeyArticleSidebar = "true";
+  document.head.appendChild(script);
+})();
