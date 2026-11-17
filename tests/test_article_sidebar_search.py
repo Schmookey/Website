@@ -27,7 +27,17 @@ class MegaDriveSearchTests(unittest.TestCase):
         js = (ROOT / "assets/js/main.js").read_text(encoding="utf-8")
         article_js = (ROOT / "assets/js/article-sidebar.js").read_text(encoding="utf-8")
         css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
-        self.assertIn('script.src = "/assets/js/article-sidebar.js"', js)
+        # The article layout and script must exist in HTML even if JS fails.
+        for page in PUBLISHED + [ROOT / "blog/posts/blog-template.html"]:
+            with self.subTest(page=page.name):
+                doc = html.parse(str(page))
+                self.assertEqual(len(doc.xpath(
+                    '//div[contains(concat(" ",normalize-space(@class)," ")," article-layout ")]'
+                )), 1)
+                self.assertEqual(doc.xpath(
+                    '//script[contains(@src,"/assets/js/article-sidebar.js")]/@src'
+                ), ["/assets/js/article-sidebar.js"])
+        self.assertNotIn('function loadArticleSidebar()', js)
         self.assertIn('layout.classList.add("article-layout")', article_js)
         self.assertIn('.layout.article-layout > .sidebar.right{', css)
         self.assertIn('display:none;', css)
@@ -52,6 +62,24 @@ class MegaDriveSearchTests(unittest.TestCase):
         self.assertNotIn('google.com/search', js)
         self.assertNotIn('algolia', js)
         self.assertTrue((ROOT / "assets/data/search-index.json").exists())
+        import importlib.util
+        import json
+        module_path = ROOT / "scripts/build_content.py"
+        spec = importlib.util.spec_from_file_location("schmookey_builder", module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        records, updates = module.content_items(ROOT)
+        index = json.loads(module.build_search_index(ROOT, records, updates))
+        self.assertTrue(index["items"])
+        self.assertEqual({item["section"] for item in index["items"]}, {"blog", "music"})
+        self.assertTrue(all(item["url"].startswith(("/blog/posts/", "/music/posts/"))
+                            for item in index["items"]))
+        self.assertFalse(any("/now.html" == item["url"] for item in index["items"]))
+        self.assertEqual(len(index["items"]), len(records))
+        self.assertIn('item.section === "music"', js)
+        sidebar = (ROOT / "assets/js/article-sidebar.js").read_text(encoding="utf-8")
+        self.assertIn('item.section === "blog" && item.url !== current.url', sidebar)
+        self.assertNotIn('value="pages"', (ROOT / "search.html").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":
