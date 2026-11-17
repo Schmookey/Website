@@ -56,7 +56,8 @@
   }
 
   function showPosts(current, posts, related, more) {
-    const candidates = posts.filter(item => item.url !== current.url);
+    // Recommendations come from blog articles only, including on music posts.
+    const candidates = posts.filter(item => item.section === "blog" && item.url !== current.url);
     const ranked = candidates.map(item => ({
       item,
       common: matchingTags(current, item),
