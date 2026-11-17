@@ -215,9 +215,7 @@ def make_card(root: Path, post: dict, doc) -> str:
 def build_cards(root: Path, records) -> dict[str, str]:
     output = {}
     for section, rel in INDEXES.items():
-        listing = sorted((p, doc) for p, doc in records if p["section"] == section) if False else [
-            (p, doc) for p, doc in records if p["section"] == section
-        ]
+        listing = [(p, doc) for p, doc in records if p["section"] == section]
         listing.sort(key=lambda item: timestamp(item[0]["date"]), reverse=True)
         content = (root / rel).read_text(encoding="utf-8")
         matches = list(FEED_MAIN.finditer(content))
