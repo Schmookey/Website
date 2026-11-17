@@ -31,11 +31,15 @@ jobs:
         run: python scripts/build_content.py --check
       - name: Test automated post cards and feed rendering
         run: python -m unittest discover -s tests -p 'test_content_publishing.py' -v
+      - name: Test Mega Drive article layout, badges and offline search
+        run: python -m unittest discover -s tests -p 'test_article_sidebar_search.py' -v
       - name: Verify site assets and links
         run: python tests/validate_site.py
       - name: Check JavaScript syntax
         run: |
           node --check assets/js/main.js
+          node --check assets/js/site-search.js
+          node --check assets/js/article-sidebar.js
           node --check assets/js/archive.js
           node --check assets/js/trakt-history.js
       - name: Test URL validation and script loading safeguards

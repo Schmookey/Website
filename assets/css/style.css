@@ -2759,3 +2759,264 @@ body.light .trakt-live-widget .trakt-about-card {
 .sidebar.right .trakt-live-widget .trakt-about-card .media-title a:focus-visible {
   text-decoration: none;
 }
+
+
+/* =====================================================
+   OFFLINE SITE SEARCH — left sidebar and results
+===================================================== */
+.site-search-widget{
+  position:relative;
+  padding:12px;
+  margin:0 0 16px;
+  border:2px solid #a60d1e;
+  border-radius:9px;
+  background:#111526;
+  color:#fff;
+  font-family:Arial, sans-serif;
+  font-size:15px;
+  overflow:visible;
+}
+.site-search-form label,
+.site-search-page-form label{
+  display:block;
+  font-weight:700;
+  letter-spacing:.05em;
+  margin:0 0 8px;
+}
+.site-search-controls{display:flex;flex-direction:column;gap:8px}
+.site-search-widget input,
+.site-search-page-form input,
+.site-search-page-form select{
+  width:100%;
+  min-width:0;
+  background:#fff;
+  color:#141414;
+  border:2px solid #53596e;
+  border-radius:5px;
+  padding:10px 8px;
+  font-family:Arial,sans-serif;
+  font-size:16px;
+}
+.site-search-widget input::placeholder{color:#515151}
+.site-search-widget button,
+.site-search-page-form button{
+  border:2px solid #f59ca4;
+  border-radius:5px;
+  background:#a60d1e;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:14px;
+  font-weight:700;
+  min-height:42px;
+  cursor:pointer;
+  padding:8px 12px;
+}
+.site-search-widget button:hover,
+.site-search-page-form button:hover{background:#c1121f}
+.site-search-widget :is(a,input,button):focus-visible,
+.site-search-page-form :is(input,select,button):focus-visible,
+.site-search-result a:focus-visible{
+  outline:3px solid #9fb3ff;
+  outline-offset:2px;
+}
+.site-search-suggestions{
+  position:relative;
+  margin:9px 0 0;
+  padding:0;
+  background:#0d1223;
+  border:1px solid #747d96;
+  border-radius:6px;
+  list-style:none;
+  max-height:320px;
+  overflow-y:auto;
+}
+.site-search-suggestions[hidden]{display:none}
+.site-search-suggestions li{list-style:none;padding:7px 8px;border-bottom:1px solid #343b51}
+.site-search-suggestions li:last-child{border-bottom:0}
+.site-search-suggestions a{display:block;color:#eaf2ff;font-size:14px;line-height:1.5;word-break:normal}
+.site-search-suggestions a:hover,
+.site-search-suggestions a.site-search-active{color:#fff;text-decoration:underline;background:#30344b}
+.site-search-category{
+  display:inline-block;
+  font-family:Arial,sans-serif;
+  font-size:12px;
+  color:#a7c8ff;
+  margin-top:4px;
+}
+.site-search-widget mark,
+.site-search-results mark{background:#fbe484;color:#172035;padding:0 .1em}
+.site-search-page-form{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(130px,200px) auto;
+  gap:10px;
+  align-items:end;
+  margin:18px 0 25px;
+  font-family:Arial,sans-serif;
+}
+.site-search-page-form label{font-size:14px;grid-row:1}
+.site-search-page-form input,.site-search-page-form select,.site-search-page-form button{grid-row:2}
+.site-search-results{
+  min-height:160px;
+  font-family:Arial,sans-serif;
+  font-size:16px;
+  line-height:1.65;
+}
+.site-search-result{
+  padding:16px;
+  margin:0 0 15px;
+  background:#101529;
+  border:1px solid #414965;
+  border-radius:8px;
+}
+.site-search-result a{display:block;color:#dce8ff;font-weight:700;font-size:18px}
+.site-search-result p{margin-top:10px;font-size:15px;line-height:1.7}
+@media(max-width:700px){
+  .site-search-page-form{grid-template-columns:1fr}
+  .site-search-page-form label,.site-search-page-form input,
+  .site-search-page-form select,.site-search-page-form button{grid-row:auto}
+}
+
+
+/* =====================================================
+   ARTICLE MODE — MEGA DRIVE / EXAMPLE A
+   Only article pages use two columns. Keep the existing
+   header image, marquee, navigation, and other page grids.
+   This palette reuses the site's existing black, red, blue
+   and white rather than imposing a new brand palette.
+===================================================== */
+.layout.article-layout{
+  grid-template-columns:minmax(210px,240px) minmax(0,1fr);
+  max-width:1200px;
+}
+.layout.article-layout > main{
+  min-width:0;
+  width:100%;
+}
+.layout.article-layout > .sidebar.right{
+  display:none;
+}
+.layout.article-layout .post-container{
+  width:100%;
+  min-width:0;
+}
+.layout.article-layout .post-container .e-content :is(p,li){
+  max-width:78ch;
+}
+.layout.article-layout .sidebar.left{
+  min-width:0;
+  overflow:visible;
+}
+.article-layout .article-sidebar-module{
+  background:#0b0f1f;
+  border:2px solid #1e40ff;
+  box-shadow:inset 1px 1px 0 #ffffff29,0 3px 0 #000;
+  border-radius:5px;
+  margin:14px 0 0;
+  overflow:hidden;
+}
+.article-layout .article-sidebar-module[hidden]{display:none}
+.article-layout .article-sidebar-module > h2{
+  background:#c1121f;
+  color:#fff;
+  font-family:"Press Start 2P",monospace;
+  font-size:10px;
+  line-height:1.8;
+  margin:0;
+  padding:11px 8px;
+  border-bottom:2px solid #1e40ff;
+}
+.article-layout .article-sidebar-list{
+  list-style:none;
+  margin:0;
+  padding:7px 11px;
+}
+.article-layout .article-sidebar-list li{
+  list-style:none;
+  padding:10px 1px;
+  border-bottom:1px solid #1e40ff;
+  font-family:Arial,sans-serif;
+  font-size:14px;
+  line-height:1.45;
+}
+.article-layout .article-sidebar-list li:last-child{border-bottom:0}
+.article-layout .article-sidebar-list a{
+  display:block;
+  color:#fff;
+  text-decoration:none;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+.article-layout .article-sidebar-list a:hover{
+  color:#8fd5ff;
+  text-decoration:underline;
+}
+.article-layout .article-sidebar-list a:focus-visible,
+.article-layout .article-badge-grid a:focus-visible{
+  outline:3px solid #fff;
+  outline-offset:3px;
+}
+.article-layout .article-sidebar-list small{
+  display:block;
+  margin-top:5px;
+  color:#b9d8ff;
+  font-size:12px;
+}
+.article-layout .article-badge-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  justify-items:center;
+  align-items:center;
+  gap:8px 5px !important;
+  padding:12px 5px;
+  margin:0;
+}
+.article-layout .article-badge-grid a{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-width:0;
+  max-width:100%;
+}
+.article-layout .sidebar.left .article-badge-grid img{
+  width:88px;
+  height:31px;
+  max-width:100%;
+  object-fit:contain;
+  margin:0 !important;
+}
+.article-layout .site-search-widget{
+  margin:0 0 14px;
+  border-color:#1e40ff;
+  background:#0b0f1f;
+}
+.article-layout .site-search-widget button{
+  background:#c1121f;
+  border-color:#fff;
+  color:#fff;
+}
+.article-layout .site-search-widget button:hover{
+  background:#a60d1e;
+}
+@media(max-width:768px){
+  .layout.article-layout{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .layout.article-layout > .sidebar.left{
+    display:contents;
+  }
+  .layout.article-layout .site-search-widget{
+    width:100%;
+    order:0;
+    margin:0;
+  }
+  .layout.article-layout > main{order:1}
+  .layout.article-layout .article-related-posts{order:2;width:100%;margin:0}
+  .layout.article-layout .article-more-posts{order:3;width:100%;margin:0}
+  .layout.article-layout .article-social-badges{order:4;width:100%;margin:0}
+  .layout.article-layout .article-badge-grid{
+    grid-template-columns:repeat(auto-fit,minmax(88px,1fr));
+    gap:10px !important;
+  }
+}

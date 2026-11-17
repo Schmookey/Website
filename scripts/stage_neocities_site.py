@@ -15,7 +15,7 @@ PUBLIC = ROOT / "public"
 ROOT_FILES = {
     "404.html", "BingSiteAuth.xml", "about.html", "atom.xml",
     "blog-archive.html", "changelog.html", "feed.json", "feed.xml",
-    "index.html", "listening.html", "music-archive.html",
+    "index.html", "listening.html", "music-archive.html", "search.html",
     "now-watching.html", "now.html", "offline.html", "privacy.html",
     "robots.txt", "site.webmanifest", "sitemap.xml", "webrings.html",
     "android-chrome-192x192.png", "android-chrome-512x512.png",

@@ -287,10 +287,83 @@ def build_sitemap(root: Path, records, updates) -> str:
     return "\n".join(lines) + "\n"
 
 
+
+def build_search_index(root: Path, records, updates) -> str:
+    """Create an offline, same-origin index of published public site content.
+
+    Uses the already-curated post list rather than scanning drafts, archives,
+    source code or private assets. Preserves original content spelling.
+    """
+    def normalise(text: str) -> str:
+        return " ".join(str(text).split())
+
+    def visible_text(node) -> str:
+        # Avoid HTML scripts, hidden IndieWeb metadata and duplicated navigation.
+        for unwanted in node.xpath(
+            './/script|.//style|.//noscript|.//nav|.//aside|.//*[@hidden]|'
+            './/*[contains(concat(" ",normalize-space(@class)," ")," post-tags ")]'
+        ):
+            unwanted.drop_tree()
+        return normalise(node.text_content())[:15000]
+
+    items = []
+    for post, doc in records:
+        url = post["url"]
+        sections = doc.xpath(
+            '//*[contains(concat(" ",normalize-space(@class)," ")," e-content ")]'
+        )
+        if not sections:
+            raise ValueError(f"Missing searchable post body: {url}")
+        # Copy the element so that removing invisible children cannot modify
+        # the original parsed article used by the publishing generator.
+        from copy import deepcopy
+        body = visible_text(deepcopy(sections[0]))
+        summary = post.get("cardBlurb") or first_sentence(doc)
+        items.append({
+            "url": url, "title": post["title"], "section": post["section"],
+            "summary": normalise(summary), "date": iso(post["date"]),
+            "tags": post.get("tags", []), "text": body,
+        })
+
+    grouped_updates = {}
+    for update in updates:
+        grouped_updates.setdefault(update["url"], []).append(update)
+    for url, local in SITEMAP_PAGES:
+        if url == "/":
+            section = "pages"
+        else:
+            section = "pages"
+        page = html.document_fromstring((root / local).read_text(encoding="utf-8-sig"))
+        main = page.xpath("//main")
+        body = visible_text(__import__("copy").deepcopy(main[0])) if main else ""
+        metas = page.xpath('//meta[translate(@name,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")="description"]/@content')
+        title_text = page.xpath("//title/text()")
+        title = normalise(title_text[0].split("|")[0]) if title_text else url
+        title = title.title() if title == title.upper() else title
+        latest = sorted(grouped_updates.get(url, []),
+                        key=lambda row: timestamp(row["date"]), reverse=True)
+        if latest:
+            body = normalise(body + " " + " ".join(
+                f'{item["title"]}. {item["summary"]}' for item in latest
+            ))
+        items.append({
+            "url": url, "title": title, "section": section,
+            "summary": normalise(metas[0] if metas else (latest[0]["summary"] if latest else title)),
+            "date": iso(latest[0]["date"]) if latest else None,
+            "tags": [], "text": body[:15000],
+        })
+    if len({item["url"] for item in items}) != len(items):
+        raise ValueError("Search-index URLs must be unique")
+    return json.dumps({
+        "version": 1, "items": items,
+    }, ensure_ascii=False, indent=2) + "\n"
+
+
 def run(root: Path, check: bool) -> int:
     records, updates = content_items(root)
     outputs = {**build_feeds(root, records, updates), **build_cards(root, records),
-               "sitemap.xml": build_sitemap(root, records, updates)}
+               "sitemap.xml": build_sitemap(root, records, updates),
+               "assets/data/search-index.json": build_search_index(root, records, updates)}
     changes = [rel for rel, value in outputs.items()
                if (root / rel).read_text(encoding="utf-8") != value]
     if not check:
