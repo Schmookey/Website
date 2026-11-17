@@ -1,7 +1,18 @@
 {
-  "generated_at": "2026-11-17T14:29:50+00:00",
+  "generated_at": "2026-11-17T19:52:33+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Amandaland",
+      "type": "TV Show",
+      "episode": "Vantablack Coffee",
+      "season": 2,
+      "episode_number": 2,
+      "year": 2025,
+      "link": "https://trakt.tv/shows/amandaland",
+      "cover": "https://image.tmdb.org/t/p/w200/4QDYK4EpwuLb54TmRPZioKJwUtE.jpg",
+      "watched_at": "2026-11-17T18:07:00.000Z"
+    },
     {
       "title": "Amandaland",
       "type": "TV Show",
@@ -320,17 +331,6 @@
       "link": "https://trakt.tv/shows/the-celebrity-traitors",
       "cover": "https://image.tmdb.org/t/p/w200/uziPOqxQotCE9g0wBgDvHCOvRhP.jpg",
       "watched_at": "2026-10-23T20:02:00.000Z"
-    },
-    {
-      "title": "Scrubs",
-      "type": "TV Show",
-      "episode": "My Best Friend's Birthday",
-      "season": 2,
-      "episode_number": 5,
-      "year": 2026,
-      "link": "https://trakt.tv/shows/scrubs-2026",
-      "cover": "https://image.tmdb.org/t/p/w200/l1EzNg0WMaoAu7oPa2oMXLizc4W.jpg",
-      "watched_at": "2026-10-23T16:45:00.000Z"
     }
   ]
 }
