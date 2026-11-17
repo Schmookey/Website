@@ -8,6 +8,7 @@
   </url>
   <url>
     <loc>https://schmookey.xyz/now.html</loc>
+    <lastmod>2026-11-11</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/listening.html</loc>
@@ -17,9 +18,11 @@
   </url>
   <url>
     <loc>https://schmookey.xyz/blog/</loc>
+    <lastmod>2026-11-15</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/music/</loc>
+    <lastmod>2026-03-25</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/random/</loc>
@@ -35,35 +38,49 @@
   </url>
   <url>
     <loc>https://schmookey.xyz/changelog.html</loc>
+    <lastmod>2026-11-13</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/privacy.html</loc>
   </url>
   <url>
+    <loc>https://schmookey.xyz/blog/posts/november_update.html</loc>
+    <lastmod>2026-11-15</lastmod>
+  </url>
+  <url>
     <loc>https://schmookey.xyz/blog/posts/coding_vibes.html</loc>
+    <lastmod>2026-11-06</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/blog/posts/august_updates.html</loc>
+    <lastmod>2026-08-12</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/blog/posts/physical-media.html</loc>
+    <lastmod>2026-04-17</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/blog/posts/podcast-blah-blah.html</loc>
+    <lastmod>2026-04-01</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/blog/posts/this-week-23-29-march.html</loc>
+    <lastmod>2026-03-29</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/music/posts/listenbrainz.html</loc>
+    <lastmod>2026-03-25</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/blog/posts/snluk.html</loc>
+    <lastmod>2026-03-24</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/blog/posts/post2.html</loc>
+    <lastmod>2026-03-11</lastmod>
   </url>
   <url>
     <loc>https://schmookey.xyz/blog/posts/post1.html</loc>
+    <lastmod>2026-03-07</lastmod>
   </url>
 </urlset>
