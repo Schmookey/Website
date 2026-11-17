@@ -17,7 +17,7 @@ class MegaDriveSearchTests(unittest.TestCase):
                 self.assertEqual(len(doc.xpath('//header[contains(@class,"header")]//img[contains(@src,"header-banner.webp")]')), 1)
                 self.assertEqual(len(doc.xpath('//nav[contains(@class,"menu")]')), 1)
                 self.assertEqual(len(doc.xpath('//main/article[contains(@class,"h-entry") and contains(@class,"post-container")]')), 1)
-                self.assertEqual(len(doc.xpath('//aside[contains(@class,"sidebar") and contains(@class,"left")]//div[contains(@class,"badge-grid")]')), 1)
+                self.assertEqual(len(doc.xpath('//aside[contains(@class,"sidebar") and contains(@class,"left")]//div[contains(@class,"badge-grid")]')), 2)
                 badges = doc.xpath('//aside[contains(@class,"sidebar") and contains(@class,"left")]//div[contains(@class,"badge-grid")]/a')
                 self.assertGreaterEqual(len(badges), 5)
                 self.assertTrue(all(a.get("href") for a in badges))
