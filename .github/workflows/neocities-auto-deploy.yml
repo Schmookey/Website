@@ -1,9 +1,11 @@
 name: Neocities automatic site deployment (review-gated)
 
-# Only deploy a successfully validated main-branch commit.
+# Deploy the current main-branch revision after successful site validation or
+# a completed content-sync run. Content-sync may commit newer generated files,
+# so never deploy the old SHA of a workflow that raced with it.
 on:
   workflow_run:
-    workflows: ["Static website checks"]
+    workflows: ["Static website checks", "Synchronise published feeds, sitemap and post cards"]
     types: [completed]
     branches: [main]
   workflow_dispatch:
@@ -32,12 +34,12 @@ jobs:
        github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
     steps:
-      - name: Check out verified revision
+      - name: Check out current main revision
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+          ref: main
           persist-credentials: false
-      - name: Reject outdated commits and non-main manual runs
+      - name: Require current main revision and reject non-main manual runs
         shell: bash
         run: |
           set -euo pipefail
@@ -48,14 +50,40 @@ jobs:
           HEAD_SHA="$(git rev-parse HEAD)"
           MAIN_SHA="$(git ls-remote origin refs/heads/main | cut -f1)"
           if [[ "$HEAD_SHA" != "$MAIN_SHA" ]]; then
-            echo "::error::Main has moved since validation; skipping outdated deployment."
+            echo "::error::Main changed during checkout; refusing to deploy."
             exit 1
           fi
-      - name: Regenerate canonical feeds and card listings before upload
+      # Each deployment validates the actual current main commit, not an
+      # older revision checked by a workflow which may have raced with content
+      # synchronization. Protects against GITHUB_TOKEN-generated commits that
+      # do not trigger the usual push-based CI.
+      - name: Install validation tools
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate the exact content to be deployed
         run: |
-          python3 -m pip install lxml
-          python3 scripts/build_content.py
+          set -euo pipefail
+          python3 -m pip install lxml tinycss2 Pillow
           python3 scripts/build_content.py --check
+          python3 tests/validate_site.py
+          python3 -m unittest discover -s tests -p 'test_content_publishing.py' -v
+          python3 -m unittest discover -s tests -p 'test_feeds.py' -v
+          python3 -m unittest discover -s tests -p 'test_november_reconciliation.py' -v
+          python3 -m unittest discover -s tests -p 'test_indieweb_metadata.py' -v
+          python3 -m unittest discover -s tests -p 'test_indexnow_live.py' -v
+          python3 -m unittest discover -s tests -p 'test_neocities_deploy.py' -v
+          python3 -m unittest discover -s tests -p 'test_trakt_updater.py' -v
+          node --check assets/js/main.js
+          node --check assets/js/archive.js
+          node --check assets/js/trakt-history.js
+          node tests/test_security.js
+          node tests/test_listenbrainz_covers.js
+          node tests/test_trakt_widget.js
       - name: Validate deployment staging inputs
         run: |
           python3 -m unittest discover -s tests -p 'test_neocities_staging.py' -v
@@ -73,6 +101,16 @@ jobs:
           else
             echo "deploy=false" >> "$GITHUB_OUTPUT"
             echo "Preview only: deployment not activated."
+          fi
+      - name: Recheck that the validated revision remains main
+        if: steps.gate.outputs.deploy == 'true'
+        run: |
+          set -euo pipefail
+          HEAD_SHA="$(git rev-parse HEAD)"
+          MAIN_SHA="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [[ "$HEAD_SHA" != "$MAIN_SHA" ]]; then
+            echo "::error::Main changed during validation. Deployment aborted."
+            exit 1
           fi
       - name: Verify configured destination
         if: steps.gate.outputs.deploy == 'true'
