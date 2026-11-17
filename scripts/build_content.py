@@ -22,7 +22,6 @@ from lxml import html
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://schmookey.xyz"
 ATOM_NS = "http://www.w3.org/2005/Atom"
-ET.register_namespace("ns0", ATOM_NS)
 FEEDS = ("feed.json", "feed.xml", "atom.xml")
 INDEXES = {"blog": "blog/index.html", "music": "music/index.html"}
 POST_RE = re.compile(r"^/(blog|music)/posts/[A-Za-z0-9_-]+\.html$")
