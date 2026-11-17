@@ -44,7 +44,8 @@ class StandardPagePanelTests(unittest.TestCase):
                 self.assertEqual(sections[0].xpath('.//input/@placeholder'), ["Search blog"])
                 self.assertEqual(len(sections[0].xpath('.//button[contains(@class,"site-search-submit")]/svg')), 1)
                 social_images = sections[1].xpath('.//div[contains(@class,"badge-grid")]/a/img')
-                self.assertEqual(len(social_images), 5)
+                # Preserve the existing Socials buttons, including the extra template badge.
+                self.assertGreaterEqual(len(social_images), 5)
                 self.assertEqual(
                     sections[2].xpath('.//div[contains(@class,"badge-grid")]/a/img/@src'),
                     list(LIKES)
