@@ -14,8 +14,8 @@
       }).then(data => {
         if (!data || !Array.isArray(data.items)) throw new Error("Invalid search data");
         return data.items.filter(item =>
-          item && /^\/blog\/posts\/[a-zA-Z0-9_-]+\.html$/.test(item.url) &&
-          item.section === "blog" &&
+          item && /^\/(?:blog|music)\/posts\/[a-zA-Z0-9_-]+\.html$/.test(item.url) &&
+          (item.section === "blog" || item.section === "music") &&
           typeof item.title === "string" && typeof item.text === "string"
         );
       });
@@ -45,7 +45,7 @@
   function rank(items, query, section) {
     const words = tokens(query);
     if (!words.length) return [];
-    return items.filter(item => item.section === "blog")
+    return items.filter(item => item.section === "blog" || item.section === "music")
       .map(item => ({ item, relevance: score(item, words) }))
       .filter(result => result.relevance > 0)
       .sort((a, b) => b.relevance - a.relevance ||
@@ -96,7 +96,7 @@
     entry.append(link);
     const meta = document.createElement("span");
     meta.className = "site-search-category";
-    meta.textContent = "Blog";
+    meta.textContent = item.section === "music" ? "Music" : "Blog";
     entry.append(meta);
     if (!compact) {
       const excerptEl = document.createElement("p");
@@ -114,10 +114,10 @@
     widget.setAttribute("role", "search");
     widget.innerHTML =
       '<form class="site-search-form" action="/search.html" method="get">' +
-      '<label for="site-search-input">SEARCH BLOG</label>' +
+      '<label for="site-search-input">SEARCH POSTS</label>' +
       '<div class="site-search-controls">' +
       '<input id="site-search-input" name="q" type="search" autocomplete="off" ' +
-      'maxlength="160" placeholder="Search blog posts" aria-controls="site-search-suggestions" ' +
+      'maxlength="160" placeholder="Search blog & music" aria-controls="site-search-suggestions" ' +
       'aria-expanded="false" aria-autocomplete="list">' +
       '<button type="submit" aria-label="Search website">SEARCH</button></div></form>' +
       '<ul id="site-search-suggestions" class="site-search-suggestions" hidden></ul>' +
@@ -154,7 +154,7 @@
           more.append(a); list.append(more);
         } else {
           const empty = document.createElement("li");
-          empty.textContent = "No matching blog posts";
+          empty.textContent = "No matching articles";
           list.append(empty);
         }
         list.hidden = false;
@@ -207,15 +207,15 @@
       url.searchParams.delete("section");
       window.history.replaceState(null, "", url);
       region.replaceChildren();
-      if (!query) { heading.textContent = "Search blog posts"; region.textContent = "Enter a word or phrase to search published blog posts."; return; }
+      if (!query) { heading.textContent = "Search articles"; region.textContent = "Enter a word or phrase to search blog or music posts."; return; }
       heading.textContent = 'Results for “' + query + '”';
       region.textContent = "Searching locally…";
       try {
-        const found = rank(await loadIndex(), query, "blog");
+        const found = rank(await loadIndex(), query, "all");
         if (id !== request) return;
         heading.textContent = found.length + (found.length === 1 ? " result" : " results") + ' for “' + query + '”';
         region.replaceChildren(...found.map(item => resultRow(item, query, false)));
-        if (!found.length) region.textContent = "No matching blog posts. Try another word or phrase.";
+        if (!found.length) region.textContent = "No matching articles. Try another word or phrase.";
       } catch (_error) {
         if (id === request) region.textContent = "Search data could not be loaded. Please try again.";
       }
