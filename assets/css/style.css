@@ -3226,3 +3226,154 @@ body.light .trakt-live-widget .trakt-about-card {
     grid-template-columns:repeat(auto-fit,minmax(88px,1fr));
   }
 }
+
+
+/* =====================================================
+   STANDARD PAGE PANELS — SEARCH / SOCIALS / LIKES
+   Reuse the 16-bit article sidebar treatment on ordinary
+   pages without changing the original banner or navigation.
+   About Me alone also includes the My Button / HTML panel.
+===================================================== */
+.layout.site-panel-layout:not(.site-panel-three-col){
+  grid-template-columns:minmax(210px,240px) minmax(0,1fr);
+}
+.layout.site-panel-layout.site-panel-three-col{
+  grid-template-columns:minmax(210px,240px) minmax(0,1fr) minmax(180px,220px);
+}
+.layout.site-panel-layout > main,
+.layout.site-panel-layout > .center{
+  min-width:0;
+}
+.layout.site-panel-layout > aside.sidebar.left.site-panel-sidebar{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:14px;
+  min-width:0;
+  min-height:0;
+  height:auto;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
+}
+.layout.site-panel-layout > .site-panel-sidebar > .site-search-widget,
+.layout.site-panel-layout > .site-panel-sidebar > .site-panel-module{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  margin:0;
+  border:3px solid #1e40ff;
+  border-radius:6px;
+  background:#0b0f1f;
+  box-shadow:inset 2px 2px 0 #2a2f55,inset -3px -3px 0 #000,0 4px 0 rgba(0,0,0,.85);
+}
+.layout.site-panel-layout > .site-panel-sidebar > .site-panel-module{
+  overflow:hidden;
+}
+.layout.site-panel-layout .site-panel-module > h2{
+  margin:0;
+  padding:11px 8px;
+  border-bottom:2px solid #1e40ff;
+  background:#c1121f;
+  color:#fff;
+  font:10px/1.8 "Press Start 2P",monospace;
+  overflow-wrap:anywhere;
+}
+.layout.site-panel-layout .site-panel-module > .badge-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  justify-items:center;
+  align-items:center;
+  gap:8px 5px;
+  padding:12px 5px;
+  margin:0;
+}
+.layout.site-panel-layout .site-panel-module > .badge-grid a{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-width:0;
+  max-width:100%;
+}
+.layout.site-panel-layout .site-panel-module > .badge-grid img{
+  display:block;
+  width:88px;
+  height:31px;
+  max-width:100%;
+  object-fit:contain;
+  margin:0 !important;
+}
+.layout.site-panel-layout .site-panel-module > .badge-grid a:focus-visible{
+  outline:3px solid #fff;
+  outline-offset:3px;
+}
+.layout.site-panel-layout .site-button-share .button-share{
+  display:grid;
+  justify-items:stretch;
+  gap:10px;
+  margin:0;
+  padding:12px;
+  border:0;
+}
+.layout.site-panel-layout .site-button-share .button-share > p{
+  text-align:center;
+  margin:0;
+}
+.layout.site-panel-layout .site-button-share .button-share img{
+  width:88px;
+  height:31px;
+  margin:0 auto;
+}
+.layout.site-panel-layout .site-button-share .button-share textarea{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  max-width:100%;
+}
+.layout.site-panel-layout .site-button-share .button-share button{
+  justify-self:start;
+  max-width:100%;
+}
+@media(max-width:768px){
+  .layout.site-panel-layout,
+  .layout.site-panel-layout.site-panel-three-col{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .layout.site-panel-layout > aside.sidebar.left.site-panel-sidebar{
+    display:contents;
+  }
+  .layout.site-panel-layout > .site-panel-sidebar > .site-search-widget{
+    order:0;
+    width:100%;
+  }
+  .layout.site-panel-layout > main,
+  .layout.site-panel-layout > .center{
+    order:1;
+    width:100%;
+  }
+  .layout.site-panel-layout > .site-panel-sidebar > .article-social-badges{
+    order:2;
+    width:100%;
+  }
+  .layout.site-panel-layout > .site-panel-sidebar > .article-likes-badges{
+    order:3;
+    width:100%;
+  }
+  .layout.site-panel-layout > .site-panel-sidebar > .site-button-share{
+    order:4;
+    width:100%;
+  }
+  .layout.site-panel-layout > aside.sidebar.right{
+    order:5;
+    width:100%;
+  }
+  .layout.site-panel-layout .site-panel-module > .badge-grid{
+    grid-template-columns:repeat(auto-fit,minmax(88px,1fr));
+  }
+}

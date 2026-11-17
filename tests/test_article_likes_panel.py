@@ -19,8 +19,8 @@ class LikesPanelTests(unittest.TestCase):
     def test_every_article_reuses_changelog_likes_buttons(self):
         changelog = html.parse(str(ROOT / "changelog.html"))
         original = changelog.xpath(
-            '//aside[contains(@class,"sidebar") and contains(@class,"right")]'
-            '[.//h2[normalize-space()="LIKES"]]'
+            '//aside[contains(@class,"site-panel-sidebar")]'
+            '/section[contains(@class,"article-likes-badges")]'
         )
         self.assertEqual(len(original), 1)
         expected = badge_links(original[0])
