@@ -332,11 +332,80 @@ def build_search_index(root: Path, records, updates) -> str:
     }, ensure_ascii=False, indent=2) + "\n"
 
 
+
+# Sidebar links are stored in article HTML as a resilient static baseline.
+# No JavaScript or data fetch is required to see the four independent boxes.
+ARTICLE_SIDEBAR_MARKERS = (
+    ("<!-- BEGIN GENERATED RELATED POSTS -->", "<!-- END GENERATED RELATED POSTS -->"),
+    ("<!-- BEGIN GENERATED MORE POSTS -->", "<!-- END GENERATED MORE POSTS -->"),
+)
+GENERIC_RECOMMENDATION_TAGS = {"blog", "music", "update", "updates"}
+
+
+def article_recommendations(current: dict, posts: list[dict]) -> tuple[list, list]:
+    """Related may cross blog/music on real shared tags; More is recent blog."""
+    def tags(post: dict) -> set[str]:
+        return {str(tag).casefold() for tag in post.get("tags", [])} - GENERIC_RECOMMENDATION_TAGS
+
+    others = [post for post in posts if post["url"] != current["url"]]
+    current_tags = tags(current)
+    ranked = [(post, current_tags & tags(post)) for post in others]
+    ranked.sort(key=lambda pair: (
+        len(pair[1]),
+        pair[0]["section"] == current["section"],
+        timestamp(pair[0]["date"]),
+    ), reverse=True)
+    related = [(post, common) for post, common in ranked if common][:3]
+    recent_blog = sorted((post for post in others if post["section"] == "blog"),
+                         key=lambda post: timestamp(post["date"]), reverse=True)
+    for post in recent_blog:
+        if len(related) >= 3:
+            break
+        if all(existing["url"] != post["url"] for existing, _ in related):
+            related.append((post, set()))
+
+    related_urls = {post["url"] for post, _ in related}
+    more = [post for post in recent_blog if post["url"] not in related_urls][:4]
+    return related, more
+
+
+def build_article_sidebars(root: Path, records) -> dict[str, str]:
+    """Fill the existing separated sidebar boxes; preserve all other post HTML."""
+    posts = [post for post, _ in records]
+
+    def item_html(post: dict, label: str) -> str:
+        name = post.get("cardTitle") or post["title"]
+        return ("        <li><a href=\"%s\">%s</a><small>%s</small></li>" %
+                (escape(post["url"], quote=True), escape(name), escape(label)))
+
+    output = {}
+    for current in posts:
+        related, more = article_recommendations(current, posts)
+        related_html = "\n".join(item_html(post,
+            " · ".join(sorted(common)[:2]) if common else post["section"].upper())
+            for post, common in related)
+        more_html = "\n".join(item_html(post, "BLOG") for post in more)
+
+        relative = current["url"].lstrip("/")
+        content = (root / relative).read_text(encoding="utf-8-sig")
+        for (begin, end), body in zip(ARTICLE_SIDEBAR_MARKERS, (related_html, more_html)):
+            pattern = re.compile(re.escape(begin) + r"[\s\S]*?" + re.escape(end))
+            matches = list(pattern.finditer(content))
+            if len(matches) != 1:
+                raise ValueError(f"Expected one generated sidebar region in {relative}: {begin}")
+            content = pattern.sub(lambda _m: begin + "\n" + body + "\n        " + end,
+                                  content, count=1)
+        output[relative] = content
+    return output
+
+
+
 def run(root: Path, check: bool) -> int:
     records, updates = content_items(root)
     outputs = {**build_feeds(root, records, updates), **build_cards(root, records),
                "sitemap.xml": build_sitemap(root, records, updates),
-               "assets/data/search-index.json": build_search_index(root, records, updates)}
+               "assets/data/search-index.json": build_search_index(root, records, updates),
+               **build_article_sidebars(root, records)}
     changes = [rel for rel, value in outputs.items()
                if (root / rel).read_text(encoding="utf-8") != value]
     if not check:
