@@ -3377,3 +3377,64 @@ body.light .trakt-live-widget .trakt-about-card {
     grid-template-columns:repeat(auto-fit,minmax(88px,1fr));
   }
 }
+
+
+/* =====================================================
+   ABOUT PAGE — THREE INDEPENDENT RIGHT SIDEBAR PANELS
+   Match the left search/social/likes 16-bit styling.
+   Widget IDs, live content, cards and JavaScript stay unchanged.
+===================================================== */
+.layout.site-panel-layout.site-panel-three-col > aside.sidebar.right.about-media-sidebar{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:14px;
+  min-width:0;
+  min-height:0;
+  height:auto;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
+}
+.layout.site-panel-layout > .about-media-sidebar > .about-media-panel{
+  display:block;
+  box-sizing:border-box;
+  width:100%;
+  min-width:0;
+  margin:0;
+  border:3px solid #1e40ff;
+  border-radius:6px;
+  background:#0b0f1f;
+  box-shadow:inset 2px 2px 0 #2a2f55,inset -3px -3px 0 #000,0 4px 0 rgba(0,0,0,.85);
+  overflow:hidden;
+}
+.layout.site-panel-layout .about-media-panel > h2{
+  margin:0;
+  padding:11px 8px;
+  border-bottom:2px solid #1e40ff;
+  background:#c1121f;
+  color:#fff;
+  font:10px/1.8 "Press Start 2P",monospace;
+  overflow-wrap:anywhere;
+}
+.layout.site-panel-layout .about-media-panel-content{
+  padding:12px 10px;
+  min-width:0;
+}
+.layout.site-panel-layout .about-media-panel-content > .media-widget{
+  margin:0;
+  padding:0;
+  border:0;
+}
+/* The panel heading replaces the duplicate text already present inside
+   each media card; the original labels remain in the HTML for scripts. */
+.layout.site-panel-layout .about-media-panel-content .media-label{
+  display:none;
+}
+/* Do not affect the Listening or Watching Journal layouts. */
+.layout.site-panel-layout .about-media-panel-content .media-card{
+  margin:0;
+}
