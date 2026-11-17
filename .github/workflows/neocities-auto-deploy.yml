@@ -50,6 +50,11 @@ jobs:
             echo "::error::Main has moved since validation; skipping outdated deployment."
             exit 1
           fi
+      - name: Regenerate canonical feeds and card listings before upload
+        run: |
+          python3 -m pip install lxml
+          python3 scripts/build_content.py
+          python3 scripts/build_content.py --check
       - name: Validate deployment staging inputs
         run: |
           python3 -m unittest discover -s tests -p 'test_neocities_staging.py' -v
