@@ -289,9 +289,9 @@ def build_sitemap(root: Path, records, updates) -> str:
 
 
 def build_search_index(root: Path, records, updates) -> str:
-    """Create an offline, same-origin index of published blog posts only.
+    """Create an offline, same-origin index of published blog and music articles.
 
-    Uses the already-curated blog post list rather than scanning drafts, archives,
+    Uses the already-curated post list rather than scanning drafts, archives,
     source code or private assets. Preserves original content spelling.
     """
     def normalise(text: str) -> str:
@@ -308,8 +308,6 @@ def build_search_index(root: Path, records, updates) -> str:
 
     items = []
     for post, doc in records:
-        if post["section"] != "blog":
-            continue
         url = post["url"]
         sections = doc.xpath(
             '//*[contains(concat(" ",normalize-space(@class)," ")," e-content ")]'
