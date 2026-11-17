@@ -41,6 +41,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_article_likes_panel.py' -v
       - name: Check consistent sidebar panels and About button
         run: python -m unittest discover -s tests -p 'test_standard_page_panels.py' -v
+      - name: Verify three independent About page media panels
+        run: python -m unittest discover -s tests -p 'test_about_right_media_panels.py' -v
       - name: Check ListenBrainz badge sits beside GOG on all pages
         run: python -m unittest discover -s tests -p 'test_listenbrainz_socials_position.py' -v
       - name: Verify site assets and links
