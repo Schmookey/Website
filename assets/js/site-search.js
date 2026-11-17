@@ -114,10 +114,10 @@
     widget.setAttribute("role", "search");
     widget.innerHTML =
       '<form class="site-search-form" action="/search.html" method="get">' +
-      '<label for="site-search-input">SEARCH POSTS</label>' +
+      '<label for="site-search-input">SEARCH</label>' +
       '<div class="site-search-controls">' +
       '<input id="site-search-input" name="q" type="search" autocomplete="off" ' +
-      'maxlength="160" placeholder="Search blog & music" aria-controls="site-search-suggestions" ' +
+      'maxlength="160" placeholder="Search" aria-controls="site-search-suggestions" ' +
       'aria-expanded="false" aria-autocomplete="list">' +
       '<button type="submit" aria-label="Search website">SEARCH</button></div></form>' +
       '<ul id="site-search-suggestions" class="site-search-suggestions" hidden></ul>' +
