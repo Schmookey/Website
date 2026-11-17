@@ -1,7 +1,7 @@
-name: Synchronise published feeds and post cards
+name: Synchronise published feeds, sitemap and post cards
 
 # A new article goes in posts.json; Now/privacy/changelog updates go in site-updates.json.
-# Regenerate the public feeds and listing cards, then request a fresh validation run
+# Regenerate the public feeds, sitemap and listing cards, then request a fresh validation run
 # on the committed version. This is necessary because a GITHUB_TOKEN push does
 # not itself trigger the regular push-based validation workflow.
 on:
@@ -13,6 +13,11 @@ on:
       - 'blog/posts/**'
       - 'music/posts/**'
       - 'scripts/build_content.py'
+      - 'now.html'
+      - 'privacy.html'
+      - 'changelog.html'
+      - 'blog/index.html'
+      - 'music/index.html'
   workflow_dispatch:
 
 permissions:
@@ -46,7 +51,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add feed.json feed.xml atom.xml blog/index.html music/index.html
+          git add feed.json feed.xml atom.xml sitemap.xml blog/index.html music/index.html
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
