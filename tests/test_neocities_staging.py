@@ -13,6 +13,17 @@ spec.loader.exec_module(stager)
 
 
 class NeocitiesStagingTests(unittest.TestCase):
+    def test_notes_publish_dispatches_existing_gated_deployment(self):
+        root = SCRIPT.parents[1]
+        publish = (root / ".github/workflows/publish-note.yml").read_text(encoding="utf-8")
+        deployment = (root / ".github/workflows/neocities-auto-deploy.yml").read_text(encoding="utf-8")
+        self.assertIn('neocities-auto-deploy.yml/dispatches', publish)
+        self.assertIn("inputs[preview_only]=false", publish)
+        self.assertIn("NEOCITIES_AUTO_DEPLOY_ENABLED", deployment)
+        self.assertIn("scripts/stage_neocities_site.py --output public", deployment)
+        self.assertIn("Verify configured destination", deployment)
+        self.assertIn("Recheck that the validated revision remains main", deployment)
+
     def test_protected_and_private_files_are_excluded(self):
         with tempfile.TemporaryDirectory() as temporary:
             destination = Path(temporary) / "public"
