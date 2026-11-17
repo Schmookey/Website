@@ -239,6 +239,7 @@ SITEMAP_PAGES = (
     ("/blog/", "blog/index.html"),
     ("/music/", "music/index.html"),
     ("/random/", "random/index.html"),
+    ("/notes/", "notes/index.html"),
     ("/blog-archive.html", "blog-archive.html"),
     ("/music-archive.html", "music-archive.html"),
     ("/webrings.html", "webrings.html"),

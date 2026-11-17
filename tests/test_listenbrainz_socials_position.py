@@ -6,7 +6,7 @@ from lxml import html
 ROOT = Path(__file__).resolve().parents[1]
 STANDARD = (
     "index.html", "about.html", "blog/index.html", "music/index.html",
-    "random/index.html", "blog-archive.html", "music-archive.html",
+    "random/index.html", "notes/index.html", "blog-archive.html", "music-archive.html",
     "webrings.html", "changelog.html", "privacy.html", "now.html",
     "listening.html", "now-watching.html", "search.html", "page-template.html",
 )
@@ -17,8 +17,8 @@ LB_PROFILE = "https://listenbrainz.org/user/jon_cass/"
 
 
 class ListenBrainzLocationTests(unittest.TestCase):
-    def test_all_26_panels_place_listenbrainz_immediately_after_gog(self):
-        self.assertEqual(len(PAGES), 26)
+    def test_all_27_panels_place_listenbrainz_immediately_after_gog(self):
+        self.assertEqual(len(PAGES), 27)
         self.assertTrue((ROOT / LB_IMAGE.lstrip("/")).is_file())
         for path in PAGES:
             with self.subTest(path=path.relative_to(ROOT).as_posix()):
