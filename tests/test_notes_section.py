@@ -11,11 +11,15 @@ ROOT = Path(__file__).resolve().parents[1]
 class NotesSectionTests(unittest.TestCase):
     def test_notes_between_random_and_now_on_every_page(self):
         pages = sorted(ROOT.rglob("*.html"))
-        self.assertGreaterEqual(len(pages), 28)
+        menu_pages = 0
         for page in pages:
             with self.subTest(page=page.relative_to(ROOT).as_posix()):
                 doc = html.parse(str(page))
                 menus = doc.xpath('//nav[contains(concat(" ",normalize-space(@class)," ")," menu ")]')
+                if not menus:
+                    # Verification pages, error pages and HTML fragments do not have the site navigation.
+                    continue
+                menu_pages += 1
                 self.assertEqual(len(menus), 1)
                 links = menus[0].xpath("./a/@href")
                 self.assertIn("/random/", links)
@@ -23,6 +27,7 @@ class NotesSectionTests(unittest.TestCase):
                 self.assertIn("/now.html", links)
                 i = links.index("/random/")
                 self.assertEqual(links[i + 1:i + 3], ["/notes/", "/now.html"])
+        self.assertEqual(menu_pages, 28)
 
     def test_independent_empty_notes_feed_and_metadata(self):
         notes = html.parse(str(ROOT / "notes/index.html"))
