@@ -11,6 +11,11 @@ After the reviewed changes are merged to `main`:
 2. Select **Run workflow** on the **main** branch.
 3. Enter your note (plain text, maximum 2,000 characters). Optional tags are
    comma-separated, such as `indieweb, linux`.
+   Optionally, upload your photograph or GIF to the repository's `assets/images/`
+   folder first, then supply its existing public path (for example
+   `/assets/images/photo.webp`) and a meaningful image description.
+   Accepted image types are JPEG, PNG, GIF, WebP and AVIF. The publisher will
+   not download images from external websites.
 4. Select **Run workflow** and check that the workflow finishes successfully.
 5. Review the commit and the generated note in `/notes/`.
 
@@ -28,13 +33,15 @@ does not upload anything to Neocities.
 - `assets/data/notes.json` — source of authored notes
 - `notes/index.html` — newest-first Notes page with an `h-feed`
 - `notes/<id>.html` — canonical individual note with `h-entry`,
-  `e-content`, `dt-published`, `u-url` and author metadata
+  `e-content`, `dt-published`, `u-url`, optional `u-photo` and author metadata
 - `notes/feed.xml` and `notes/atom.xml` — Notes-only RSS and Atom
 - `sitemap.xml` — published note permalinks
 
 The publishing workflow escapes HTML content to prevent injected markup or
 scripts, rejects malformed records and tags, and avoids duplicate publications
-on retrying the same workflow run.
+on retrying the same workflow run. An attached image must already exist in
+`assets/images/`; only local image paths are allowed, and alternative text
+is mandatory. The photo is marked `u-photo` inside the note's `e-content`.
 
 ## Local checks
 

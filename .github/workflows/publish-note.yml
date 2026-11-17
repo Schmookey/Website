@@ -13,6 +13,16 @@ on:
         required: false
         default: ""
         type: string
+      image:
+        description: "Optional existing site image, e.g. /assets/images/photo.webp"
+        required: false
+        default: ""
+        type: string
+      image_alt:
+        description: "Describe the image for accessibility (required when image provided)"
+        required: false
+        default: ""
+        type: string
 
 permissions:
   contents: write
@@ -44,6 +54,8 @@ jobs:
         env:
           NOTE_CONTENT: ${{ inputs.note }}
           NOTE_TAGS: ${{ inputs.tags }}
+          NOTE_IMAGE: ${{ inputs.image }}
+          NOTE_IMAGE_ALT: ${{ inputs.image_alt }}
         run: |
           set -euo pipefail
           python scripts/build_notes.py --publish
