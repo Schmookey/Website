@@ -24,7 +24,7 @@ class LikesPanelTests(unittest.TestCase):
         )
         self.assertEqual(len(original), 1)
         expected = badge_links(original[0])
-        self.assertEqual(len(expected), 5)
+        self.assertEqual(len(expected), 6)
         self.assertEqual(len(ARTICLES), 11)
 
         for page in ARTICLES:
@@ -49,6 +49,9 @@ class LikesPanelTests(unittest.TestCase):
                     [(href, src.lstrip("/") if src.startswith("/") else src, alt)
                      for href, src, alt in expected]
                 )
+                self.assertEqual([src for _, src, _ in badge_links(likes)][0], "/assets/images/internet-archive.gif")
+                self.assertEqual([src for _, src, _ in badge_links(likes)][-1], "/assets/images/listenbrainz88x31.gif")
+                self.assertFalse(any("CC_BY-NC" in src for _, src, _ in badge_links(likes)))
                 self.assertTrue(all(src.startswith("/assets/images/")
                                     for _, src, _ in badge_links(likes)))
                 self.assertTrue(all(a.get("width") == "88" and a.get("height") == "31"
