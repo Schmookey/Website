@@ -20,7 +20,7 @@ class NeocitiesStagingTests(unittest.TestCase):
             self.assertIn("index.html", files)
             self.assertIn("assets/css/style.css", files)
             self.assertNotIn("assets/data/trakt-history.json", files)
-            self.assertNotIn("assets/data/site-updates.json", files)
+            self.assertIn("assets/data/site-updates.json", files)
             self.assertFalse((destination / "assets/data/trakt-history.json").exists())
             self.assertFalse((destination / ".github").exists())
             self.assertFalse((destination / "scripts").exists())

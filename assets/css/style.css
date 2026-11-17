@@ -290,6 +290,7 @@ BLOG FEED CARDS
 }
 
 .post-card{
+  position:relative;
   margin-top:1rem;
   background:#111;
   border:1px solid #2a2a2a;
@@ -299,6 +300,21 @@ BLOG FEED CARDS
     transform 0.25s ease,
     box-shadow 0.25s ease,
     border-color 0.25s ease;
+}
+
+/* An unobtrusive hit area makes the space between title, image and text
+   clickable too. Existing visible links remain keyboard-accessible. */
+.post-card .post-card-area-link{
+  position:absolute;
+  inset:0;
+  z-index:1;
+}
+.post-card a:not(.post-card-area-link){
+  position:relative;
+  z-index:2;
+}
+.post-card:focus-within{
+  border-color:#9fb3ff;
 }
 
 .post-card:hover{

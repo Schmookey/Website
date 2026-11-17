@@ -28,7 +28,6 @@ ASSET_EXTENSIONS = {".html", ".css", ".js", ".json", ".png", ".jpg",
                     ".woff", ".woff2", ".webmanifest"}
 SKIP = {
     "assets/data/trakt-history.json",  # GitHub Actions owns this snapshot
-    "assets/data/site-updates.json",  # historically edited on Neocities
 }
 
 

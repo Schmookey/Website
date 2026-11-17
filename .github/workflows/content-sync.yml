@@ -1,0 +1,68 @@
+name: Synchronise published feeds, sitemap and post cards
+
+# A new article goes in posts.json; Now/privacy/changelog updates go in site-updates.json.
+# Regenerate the public feeds, sitemap and listing cards, then request a fresh validation run
+# on the committed version. This is necessary because a GITHUB_TOKEN push does
+# not itself trigger the regular push-based validation workflow.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/data/posts.json'
+      - 'assets/data/site-updates.json'
+      - 'blog/posts/**'
+      - 'music/posts/**'
+      - 'scripts/build_content.py'
+      - 'now.html'
+      - 'privacy.html'
+      - 'changelog.html'
+      - 'blog/index.html'
+      - 'music/index.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: schmookey-content-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install parser dependency
+        run: python -m pip install lxml
+      - name: Generate feeds and post card listings
+        run: python scripts/build_content.py
+      - name: Commit only derived website files
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add feed.json feed.xml atom.xml sitemap.xml blog/index.html music/index.html
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "Synchronise public feeds and post cards"
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Request checks for generated commit
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh api --method POST "repos/${{ github.repository }}/actions/workflows/site-checks.yml/dispatches" -f ref=main

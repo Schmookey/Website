@@ -5,23 +5,52 @@
     "date": "2026-11-15T12:00:00+00:00",
     "readingTime": 7,
     "section": "blog",
-    "tags": ["blog", "november", "microformats", "walking practice", "bonfire night"]
- },
- {
-     "title": "Coding Vibes",
+    "tags": [
+      "blog",
+      "november",
+      "microformats",
+      "walking practice",
+      "bonfire night"
+    ],
+    "cardImage": "/assets/images/Schmookey_Riverfront.png",
+    "cardImageAlt": "Schmookey avatar doing an action pose",
+    "cardBlurb": "I reckon November is the weirdest month of the year in some respects. You have plenty going on; here, we had Halloween and then Bonfire Night pretty much within the same week."
+  },
+  {
+    "title": "Coding Vibes",
     "url": "/blog/posts/coding_vibes.html",
     "date": "2026-11-06T21:30:00+00:00",
     "readingTime": 6,
     "section": "blog",
-    "tags": ["blog", "artificial intelligence", "github", "opensource", "vibe coding", "linux", "artcraft"]
- },
- {
-     "title": "August Updates",
+    "tags": [
+      "blog",
+      "artificial intelligence",
+      "github",
+      "opensource",
+      "vibe coding",
+      "linux",
+      "artcraft"
+    ],
+    "cardImage": "/assets/images/home.png",
+    "cardImageAlt": "Screenshot of the Home screen on my vibe coded Linux application",
+    "cardBlurb": "Hello you! It's been a while, hasn't it? I know, I know, I just haven't had the same zest and zeal to really keep up to date with the website."
+  },
+  {
+    "title": "August Updates",
     "url": "/blog/posts/august_updates.html",
     "date": "2026-08-12T20:45:00+00:00",
     "readingTime": 2,
     "section": "blog",
-    "tags": ["blog", "aaron lee tasjan", "yakuza", "update", "bookwyrm"]
+    "tags": [
+      "blog",
+      "aaron lee tasjan",
+      "yakuza",
+      "update",
+      "bookwyrm"
+    ],
+    "cardImage": "/assets/images/automatic_noodle.jpg",
+    "cardImageAlt": "Cover illustration for Automatic Noodle by Annalee Newitz",
+    "cardBlurb": "Hello! I fear it's been a little while, I have updated my NOW page but aside from that I haven't really been online. I tried to write something for the World Cup but it was…"
   },
   {
     "title": "Physical media",
@@ -29,7 +58,17 @@
     "date": "2026-04-17T22:40:00+00:00",
     "readingTime": 4,
     "section": "blog",
-    "tags": ["blog", "physical media", "film", "television", "boxsets", "ownership"]
+    "tags": [
+      "blog",
+      "physical media",
+      "film",
+      "television",
+      "boxsets",
+      "ownership"
+    ],
+    "cardImage": "/assets/images/Selection of boxsets.jpg",
+    "cardImageAlt": "A selection of physical media boxsets",
+    "cardBlurb": "For a while I’ve just been coasting along with movies and TV. I used to purchase plenty of DVDs – mainly Asian cinema like Oldboy, Battle Royale, I’m a Cyborg, But That’s OK.…"
   },
   {
     "title": "Podcast blah blah",
@@ -37,7 +76,15 @@
     "date": "2026-04-01T16:20:00+00:00",
     "readingTime": 6,
     "section": "blog",
-    "tags": ["blog", "podcasts", "streaming", "media"]
+    "tags": [
+      "blog",
+      "podcasts",
+      "streaming",
+      "media"
+    ],
+    "cardImage": "/assets/images/Podcast-icon.png",
+    "cardImageAlt": "A podcast graphic with headphones",
+    "cardBlurb": "I have been listening to podcasts now for the past 20 years, give or take. It all started with an iPod Classic and finding my favourite weekend radio show was releasing their…"
   },
   {
     "title": "My week 23-29 March",
@@ -45,7 +92,16 @@
     "date": "2026-03-29T22:20:00+00:00",
     "readingTime": 3,
     "section": "blog",
-    "tags": ["blog", "website", "tower", "listenbrainz", "bookwyrm"]
+    "tags": [
+      "blog",
+      "website",
+      "tower",
+      "listenbrainz",
+      "bookwyrm"
+    ],
+    "cardImage": "/assets/images/tower.jpg",
+    "cardImageAlt": "Cover illustration for Tower by Bae Myung-hoon",
+    "cardBlurb": "This has been a productive week for me online, whislt I have been particularly fiddly with the website, I am in a somewhat happy place with it. I really now just need to get…"
   },
   {
     "title": "ListenBrainz",
@@ -53,7 +109,15 @@
     "date": "2026-03-25T22:00:00+00:00",
     "readingTime": 5,
     "section": "music",
-    "tags": ["music", "streaming", "listenbrainz"]
+    "tags": [
+      "music",
+      "streaming",
+      "listenbrainz"
+    ],
+    "cardImage": "/assets/images/listenbrainz_logo.png",
+    "cardImageAlt": "ListenBrainz",
+    "cardBlurb": "My exploration of music.",
+    "cardTitle": "My exploration of music"
   },
   {
     "title": "My thoughts on SNL UK",
@@ -61,7 +125,15 @@
     "date": "2026-03-24T22:30:00+00:00",
     "readingTime": 5,
     "section": "blog",
-    "tags": ["blog", "tv", "comedy", "british tv"]
+    "tags": [
+      "blog",
+      "tv",
+      "comedy",
+      "british tv"
+    ],
+    "cardImage": "/assets/images/snluk-cast.jpg",
+    "cardImageAlt": "Cast of Saturday Night Live UK",
+    "cardBlurb": "This weekend, the first episode of the British Saturday Night Live aired. There was an SNL-like show in the 80s called Friday Night Live, before being retitled Saturday Live.…"
   },
   {
     "title": "Enter The Fediverse",
@@ -69,7 +141,15 @@
     "date": "2026-03-11T19:37:00+00:00",
     "readingTime": 4,
     "section": "blog",
-    "tags": ["blog", "fediverse", "indieweb", "social media"]
+    "tags": [
+      "blog",
+      "fediverse",
+      "indieweb",
+      "social media"
+    ],
+    "cardImage": "/assets/images/Fediverse.png",
+    "cardImageAlt": "Illustration representing the Fediverse",
+    "cardBlurb": "I initially set up this website/blog again because I really want to try and fall back in love with the internet—bizarre, I know! The internet has definitely lost something…"
   },
   {
     "title": "My First Post",
@@ -77,6 +157,13 @@
     "date": "2026-03-07T09:10:30+00:00",
     "readingTime": 2,
     "section": "blog",
-    "tags": ["blog", "first", "FOSS"]
+    "tags": [
+      "blog",
+      "first",
+      "FOSS"
+    ],
+    "cardImage": "/assets/images/retro-gamepad.png",
+    "cardImageAlt": "Illustration of a retro game controller",
+    "cardBlurb": "Hi! This is my first post… well, here goes! I decided to set up a personal blog again for the first time in years. Lately, I’ve been diving deep into FOSS (Free and Open…"
   }
 ]

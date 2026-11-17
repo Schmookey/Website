@@ -8,7 +8,7 @@ This proposal stages public site files and uses [Deploy to Neocities](https://gi
 - Reuses the existing GitHub Actions secret `NEOCITIES_API_KEY`. Do not commit API keys or include them in web-accessible files.
 - Uses an immutable commit of Marketplace action v3.0.6. The deployment action's `cleanup: false` means it does not delete remote orphaned files.
 - Files uploaded are staged in `public/`, excluding `.github/`, scripts, tests, Markdown, ZIP backups and other source files.
-- **Never uploads** `assets/data/trakt-history.json` or `assets/data/site-updates.json`. Trakt is managed by GitHub Actions and fetched by the browser from GitHub; these older or manually edited files are preserved on Neocities.
+- **Never uploads** `assets/data/trakt-history.json`, which is independently maintained by GitHub Actions and fetched by the widget. Site announcements in `assets/data/site-updates.json` are now managed in GitHub, and are included in the public deployment together with the generated feeds and sitemap.
 - GitHub Actions checks must pass first. Deployments verify that the tested revision is still `main` before any upload, and validate the Neocities API key's destination is `schmookey.xyz`.
 - First test with the deployment variable unset. A manual `workflow_dispatch` defaults to preview only.
 - This pipeline does **not** enable Mastodon/Bluesky syndication. That must be separately protected with live-publication verification and duplicate detection.
