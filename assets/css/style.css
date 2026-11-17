@@ -3575,3 +3575,19 @@ body.light .trakt-live-widget .trakt-about-card {
   color:#e6ecff;
   font:15px/1.7 Arial,sans-serif;
 }
+
+/* Note attachments: scoped to Notes only, responsive and caption-ready. */
+.notes-stream .notes-photo{
+  margin:12px 0;
+  padding:0;
+}
+.notes-stream .notes-photo .u-photo{
+  display:block;
+  width:auto;
+  max-width:100%;
+  max-height:520px;
+  object-fit:contain;
+  margin:0 auto;
+  border:1px solid #445a9d;
+  border-radius:4px;
+}
