@@ -11,6 +11,34 @@
   },
   "items": [
     {
+      "id": "urn:schmookey:post:november_update",
+      "url": "https://schmookey.xyz/blog/posts/november_update.html",
+      "title": "November Update",
+      "content_text": "A little note on recent changes and goings on in November.",
+      "date_published": "2026-11-15T12:00:00Z"
+    },
+    {
+      "id": "urn:schmookey:update:trakt-journal-film-posters-trading-card-profile-look:2026-11-13T10:00:00+00:00",
+      "url": "https://schmookey.xyz/changelog.html",
+      "title": "Trakt Journal, Film Posters, Trading card profile look",
+      "content_text": "added TV journal, added movie posters, trading card profile look.",
+      "date_published": "2026-11-13T10:00:00Z"
+    },
+    {
+      "id": "urn:schmookey:update:now:2026-11-11T21:20:00+00:00",
+      "url": "https://schmookey.xyz/now.html",
+      "title": "Now",
+      "content_text": "What I'm doing IRL.",
+      "date_published": "2026-11-11T21:20:00Z"
+    },
+    {
+      "id": "urn:schmookey:update:privacy-album-artowrk-trakt:2026-11-11T21:00:00+00:00",
+      "url": "https://schmookey.xyz/changelog.html",
+      "title": "Privacy, Album Artowrk, Trakt",
+      "content_text": "Updated privacy policy, added album artwork to music widget, trying to add Trakt widget.",
+      "date_published": "2026-11-11T21:00:00Z"
+    },
+    {
       "id": "urn:schmookey:post:coding_vibes",
       "url": "https://schmookey.xyz/blog/posts/coding_vibes.html",
       "title": "Coding Vibes",
