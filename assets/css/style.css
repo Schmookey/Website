@@ -3520,3 +3520,58 @@ body.light .trakt-live-widget .trakt-about-card {
   padding:12px 10px;
   text-align:right;
 }
+
+
+/* =====================================================
+   NOTES — INDEPENDENT INDIEWEB SHORT-FORM POSTS
+   Styling is scoped to /notes/ only.
+===================================================== */
+.layout.site-panel-layout .notes-page{
+  min-width:0;
+  width:100%;
+}
+.notes-heading{
+  margin:0 0 18px;
+  padding:0 0 14px;
+  border-bottom:2px solid #1e40ff;
+}
+.notes-heading h1{
+  margin:0 0 12px;
+  color:#fff;
+  font:14px/1.8 "Press Start 2P",monospace;
+}
+.notes-heading p{
+  font:14px/1.65 Arial,sans-serif;
+  color:#e6ecff;
+  margin:0 0 12px;
+}
+.notes-heading .notes-subscribe{
+  margin:0;
+  font-size:13px;
+}
+.notes-page a{color:#9fc2ff;}
+.notes-page a:focus-visible{outline:3px solid #fff;outline-offset:3px;}
+.notes-stream{display:grid;gap:14px;}
+.notes-stream .h-entry{
+  min-width:0;
+  background:#111827;
+  border:1px solid #445a9d;
+  border-radius:5px;
+  padding:14px;
+  font:15px/1.7 Arial,sans-serif;
+}
+.notes-stream .h-entry .dt-published{
+  display:block;
+  color:#bacaf4;
+  margin:0 0 9px;
+  font-size:12px;
+}
+.notes-stream .h-entry .e-content{overflow-wrap:anywhere;}
+.notes-stream .notes-empty{
+  padding:16px 14px;
+  border:1px solid #445a9d;
+  border-radius:5px;
+  background:#111827;
+  color:#e6ecff;
+  font:15px/1.7 Arial,sans-serif;
+}
