@@ -227,9 +227,70 @@ def build_cards(root: Path, records) -> dict[str, str]:
     return output
 
 
+
+# Public static pages that should be indexed. Templates, 404 pages and
+# test endpoints are intentionally excluded from search engine sitemaps.
+SITEMAP_PAGES = (
+    ("/", "index.html"),
+    ("/about.html", "about.html"),
+    ("/now.html", "now.html"),
+    ("/listening.html", "listening.html"),
+    ("/now-watching.html", "now-watching.html"),
+    ("/blog/", "blog/index.html"),
+    ("/music/", "music/index.html"),
+    ("/random/", "random/index.html"),
+    ("/blog-archive.html", "blog-archive.html"),
+    ("/music-archive.html", "music-archive.html"),
+    ("/webrings.html", "webrings.html"),
+    ("/changelog.html", "changelog.html"),
+    ("/privacy.html", "privacy.html"),
+)
+
+
+def build_sitemap(root: Path, records, updates) -> str:
+    """Sitemap entries from published pages only, with meaningful lastmod dates.
+
+    Do not manufacture a 'last modified today' date for every file on each
+    generation. Blog entries use publication or optional modification dates;
+    Now, privacy and changelog use their latest site-updates.json entries.
+    """
+    modified = {}
+    for section in INDEXES:
+        dates = [timestamp(post.get("updated") or post["date"]) for post, _ in records
+                 if post["section"] == section]
+        if dates:
+            modified[f"/{section}/"] = max(dates).date().isoformat()
+    for update in updates:
+        link = update["url"]
+        latest = timestamp(update["date"]).date().isoformat()
+        if latest > modified.get(link, ""):
+            modified[link] = latest
+
+    paths = []
+    for url, local_file in SITEMAP_PAGES:
+        if not (root / local_file).is_file():
+            raise ValueError(f"Public sitemap page is missing: {local_file}")
+        paths.append((url, modified.get(url)))
+    for post, _ in sorted(records, key=lambda pair: timestamp(pair[0]["date"]), reverse=True):
+        lastmod = timestamp(post.get("updated") or post["date"]).date().isoformat()
+        paths.append((post["url"], lastmod))
+    if len({url for url, _ in paths}) != len(paths):
+        raise ValueError("Duplicate sitemap URLs")
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for url, lastmod in paths:
+        lines.extend(['  <url>', f'    <loc>{escape(BASE + url)}</loc>'])
+        if lastmod is not None:
+            lines.append(f'    <lastmod>{lastmod}</lastmod>')
+        lines.append('  </url>')
+    lines.append('</urlset>')
+    return "\n".join(lines) + "\n"
+
+
 def run(root: Path, check: bool) -> int:
     records, updates = content_items(root)
-    outputs = {**build_feeds(root, records, updates), **build_cards(root, records)}
+    outputs = {**build_feeds(root, records, updates), **build_cards(root, records),
+               "sitemap.xml": build_sitemap(root, records, updates)}
     changes = [rel for rel, value in outputs.items()
                if (root / rel).read_text(encoding="utf-8") != value]
     if not check:
