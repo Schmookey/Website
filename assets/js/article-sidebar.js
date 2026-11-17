@@ -56,28 +56,39 @@
   }
 
   function showPosts(current, posts, related, more) {
-    // Recommendations come from blog articles only, including on music posts.
-    const candidates = posts.filter(item => item.section === "blog" && item.url !== current.url);
+    // Shared meaningful tags can match across blog and music articles.
+    // Never recommend the article currently being read.
+    const candidates = posts.filter(item => item.url !== current.url);
     const ranked = candidates.map(item => ({
       item,
       common: matchingTags(current, item),
-      score: matchingTags(current, item).length * 12 + (current.section === item.section ? 2 : 0)
+      score: matchingTags(current, item).length * 12 +
+        (current.section === item.section ? 2 : 0)
     })).sort((a, b) => b.score - a.score || b.item.date - a.item.date);
-    const similar = ranked.filter(pair => pair.common.length)
+
+    // Music articles appear only when they genuinely share a topic.
+    const similar = ranked.filter(pair => pair.common.length > 0)
       .slice(0, 3).map(pair => pair.item);
-    // Fill out the sidebar when only a few posts share meaningful tags.
-    for (const pair of ranked) {
+    // Fill remaining slots with recent blog articles if few tags overlap.
+    const blogPosts = candidates.filter(item => item.section === "blog")
+      .sort((a, b) => b.date - a.date);
+    for (const item of blogPosts) {
       if (similar.length >= 3) break;
-      if (!similar.some(item => item.url === pair.item.url)) similar.push(pair.item);
+      if (!similar.some(other => other.url === item.url)) similar.push(item);
     }
+
     related.list.replaceChildren(...similar.map(item => {
       const common = matchingTags(current, item);
-      return link(item, common.length ? common.slice(0, 2).join(" · ") : item.section.toUpperCase());
+      const label = common.length ? common.slice(0, 2).join(" · ") :
+        item.section.toUpperCase();
+      return link(item, label);
     }));
+
+    // More Posts remains a chronological list of blog articles only.
     const seen = new Set(similar.map(item => item.url));
-    const recent = candidates.filter(item => !seen.has(item.url))
-      .sort((a, b) => b.date - a.date).slice(0, 4);
-    more.list.replaceChildren(...recent.map(item => link(item, item.section.toUpperCase())));
+    const recent = blogPosts.filter(item => !seen.has(item.url))
+      .slice(0, 4);
+    more.list.replaceChildren(...recent.map(item => link(item, "BLOG")));
     if (!similar.length) related.section.hidden = true;
     if (!recent.length) more.section.hidden = true;
   }
