@@ -83,12 +83,24 @@ jobs:
           git commit -m "Publish IndieWeb note from GitHub Actions"
           git push origin HEAD:main
 
-      # GITHUB_TOKEN commits do not trigger normal push-based CI.
+      # GITHUB_TOKEN commits do not trigger push-based CI automatically.
       - name: Request validation for the committed note
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh api --method POST "repos/${{ github.repository }}/actions/workflows/site-checks.yml/dispatches" -f ref=main
+
+      # A workflow_dispatch-triggered check may not reliably emit a second
+      # workflow_run event. Start the existing deployment workflow explicitly.
+      # Its own validation, current-main checks and NEOCITIES_AUTO_DEPLOY_ENABLED
+      # gate still decide whether any files may be uploaded.
+      - name: Request Neocities deployment after note publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST \
+            "repos/${{ github.repository }}/actions/workflows/neocities-auto-deploy.yml/dispatches" \
+            -f ref=main -F 'inputs[preview_only]=false'
 
 # Deliberately no Mastodon/Bluesky tokens or posting here. Syndication must
 # wait for confirmed public Neocities deployment and deduplication support.
