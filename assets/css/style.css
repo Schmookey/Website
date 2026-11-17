@@ -3020,3 +3020,70 @@ body.light .trakt-live-widget .trakt-about-card {
     gap:10px !important;
   }
 }
+
+
+/* =====================================================
+   FOUR INDEPENDENT MEGA DRIVE ARTICLE SIDEBAR PANELS
+   Sidebar is a layout-only wrapper, not a fifth box.
+   Keep the original full-size banner and navigation intact.
+===================================================== */
+.layout.article-layout > aside.sidebar.left.article-sidebar{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  min-height:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
+}
+.layout.article-layout > .article-sidebar > .site-search-widget,
+.layout.article-layout > .article-sidebar > .article-sidebar-module{
+  display:block;
+  width:100%;
+  min-width:0;
+  margin:0;
+  border:3px solid #1e40ff;
+  border-radius:6px;
+  background:#0b0f1f;
+  box-shadow:inset 2px 2px 0 #2a2f55,inset -3px -3px 0 #000,0 4px 0 rgba(0,0,0,.85);
+}
+.layout.article-layout > .article-sidebar > .article-sidebar-module[hidden]{
+  display:none;
+}
+.layout.article-layout .article-social-badges .badge-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  justify-items:center;
+  align-items:center;
+  gap:8px 5px;
+  margin:0;
+  padding:12px 5px;
+}
+.layout.article-layout .article-social-badges .badge-grid a{
+  display:flex;
+  min-width:0;
+  justify-content:center;
+  align-items:center;
+}
+.layout.article-layout .article-social-badges .badge-grid img{
+  width:88px;
+  height:31px;
+  max-width:100%;
+  object-fit:contain;
+  margin:0 !important;
+}
+@media(max-width:768px){
+  .layout.article-layout > aside.sidebar.left.article-sidebar{
+    display:contents;
+  }
+  .layout.article-layout > .article-sidebar > .site-search-widget{order:0}
+  .layout.article-layout > .article-sidebar > .article-related-posts{order:2}
+  .layout.article-layout > .article-sidebar > .article-more-posts{order:3}
+  .layout.article-layout > .article-sidebar > .article-social-badges{order:4}
+  .layout.article-layout .article-social-badges .badge-grid{
+    grid-template-columns:repeat(auto-fit,minmax(88px,1fr));
+  }
+}

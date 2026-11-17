@@ -158,9 +158,43 @@ MAIN LAYOUT (DO NOT TOUCH STRUCTURE)
 <!-- =========================================
 LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
 ========================================= -->
- <aside class="sidebar left">
-
-    <h2>SOCIALS</h2>
+ <aside class="sidebar left article-sidebar">
+    <section class="site-search-widget" role="search">
+      <form class="site-search-form" action="/search.html" method="get">
+        <label for="site-search-input">SEARCH</label>
+        <div class="site-search-controls">
+          <input id="site-search-input" name="q" type="search" autocomplete="off" maxlength="160"
+                 placeholder="Search" aria-controls="site-search-suggestions"
+                 aria-expanded="false" aria-autocomplete="list">
+          <button type="submit" aria-label="Search website">SEARCH</button>
+        </div>
+      </form>
+      <ul id="site-search-suggestions" class="site-search-suggestions" hidden></ul>
+      <p class="site-search-status visually-hidden" role="status" aria-live="polite"></p>
+    </section>
+    <section class="article-sidebar-module article-related-posts" aria-label="Related articles">
+      <h2>RELATED POSTS</h2>
+      <ul class="article-sidebar-list">
+        <!-- BEGIN GENERATED RELATED POSTS -->
+        <li><a href="/blog/posts/november_update.html">November Update</a><small>BLOG</small></li>
+        <li><a href="/blog/posts/coding_vibes.html">Coding Vibes</a><small>BLOG</small></li>
+        <li><a href="/blog/posts/august_updates.html">August Updates</a><small>BLOG</small></li>
+        <!-- END GENERATED RELATED POSTS -->
+      </ul>
+    </section>
+    <section class="article-sidebar-module article-more-posts" aria-label="More recent blog posts">
+      <h2>MORE POSTS</h2>
+      <ul class="article-sidebar-list">
+        <!-- BEGIN GENERATED MORE POSTS -->
+        <li><a href="/blog/posts/physical-media.html">Physical media</a><small>BLOG</small></li>
+        <li><a href="/blog/posts/podcast-blah-blah.html">Podcast blah blah</a><small>BLOG</small></li>
+        <li><a href="/blog/posts/this-week-23-29-march.html">My week 23-29 March</a><small>BLOG</small></li>
+        <li><a href="/blog/posts/post2.html">Enter The Fediverse</a><small>BLOG</small></li>
+        <!-- END GENERATED MORE POSTS -->
+      </ul>
+    </section>
+    <section class="article-sidebar-module article-social-badges" aria-label="Social profiles">
+<h2>SOCIALS</h2>
 
     <div class="badge-grid">
 
@@ -184,7 +218,7 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
       <img src="/assets/images/e-gog.png" alt="My collection on Good Old Games">
     </a>
     </div>
-
+    </section>
   </aside>
   
 <!-- =====================================

@@ -52,7 +52,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add feed.json feed.xml atom.xml sitemap.xml blog/index.html music/index.html assets/data/search-index.json
+          git add feed.json feed.xml atom.xml sitemap.xml blog/index.html music/index.html assets/data/search-index.json blog/posts/*.html music/posts/*.html
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0

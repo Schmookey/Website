@@ -51,6 +51,63 @@ class MegaDriveSearchTests(unittest.TestCase):
         self.assertIn('grid-template-columns:repeat(2,minmax(0,1fr))', css)
         self.assertIn('@media(max-width:768px)', css)
 
+    def test_four_sidebar_boxes_are_siblings_and_include_static_links(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "article_builder", ROOT / "scripts/build_content.py"
+        )
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        records, _ = builder.content_items(ROOT)
+        generated = builder.build_article_sidebars(ROOT, records)
+
+        for article in PUBLISHED:
+            with self.subTest(article=article.name):
+                doc = html.fromstring(generated[article.relative_to(ROOT).as_posix()])
+                sections = doc.xpath(
+                    '//aside[contains(concat(" ",normalize-space(@class)," ")," article-sidebar ")]'
+                    '/section'
+                )
+                self.assertEqual(
+                    [section.get("class").split()[0] if "site-search-widget" in section.get("class")
+                     else next(name for name in section.get("class").split()
+                               if name in {"article-related-posts", "article-more-posts", "article-social-badges"})
+                     for section in sections],
+                    ["site-search-widget", "article-related-posts",
+                     "article-more-posts", "article-social-badges"]
+                )
+                self.assertEqual(len(sections), 4)
+                self.assertTrue(sections[0].xpath('.//input[@type="search"]'))
+                self.assertTrue(sections[1].xpath('.//li/a[contains(@href,"/posts/")]'))
+                self.assertTrue(sections[2].xpath('.//li/a[contains(@href,"/blog/posts/")]'))
+                self.assertGreaterEqual(len(sections[3].xpath('.//div[contains(@class,"badge-grid")]/a')), 5)
+                self.assertEqual(len(sections[0].xpath('.//section')), 0)
+                self.assertNotIn("Loading posts", html.tostring(sections[1], encoding="unicode"))
+                self.assertEqual(generated[article.relative_to(ROOT).as_posix()],
+                                 article.read_text(encoding="utf-8-sig"))
+
+        css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
+        self.assertIn("FOUR INDEPENDENT MEGA DRIVE ARTICLE SIDEBAR PANELS", css)
+        self.assertIn("background:transparent;", css)
+        search_js = (ROOT / "assets/js/site-search.js").read_text(encoding="utf-8")
+        self.assertIn('const existing = sidebar.querySelector(".site-search-widget")', search_js)
+        self.assertIn('widget.dataset.searchReady = "true"', search_js)
+
+    def test_related_posts_can_cross_blog_and_music_tags(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "article_builder_related", ROOT / "scripts/build_content.py"
+        )
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        posts = builder.load(ROOT, "assets/data/posts.json")
+        blog = next(p for p in posts if p["url"].endswith("this-week-23-29-march.html"))
+        related, more = builder.article_recommendations(blog, posts)
+        self.assertTrue(any(p["section"] == "music" for p, _ in related))
+        self.assertTrue(all(p["section"] == "blog" for p in more))
+        self.assertTrue(all(p["url"] != blog["url"] for p, _ in related))
+        self.assertFalse({p["url"] for p, _ in related} & {p["url"] for p in more})
+
     def test_search_is_local_and_has_accessible_results(self):
         doc = html.parse(str(ROOT / "search.html"))
         self.assertTrue(doc.xpath('//*[@id="site-search-page-query"]'))
