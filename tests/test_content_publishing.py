@@ -82,7 +82,8 @@ class ContentPublishingTests(unittest.TestCase):
         self.assertIn("https://schmookey.xyz/privacy.html", locs)
         self.assertIn("https://schmookey.xyz/changelog.html", locs)
         self.assertEqual(len(locs), len(set(locs)))
-        self.assertEqual(len(locs), len(builder.SITEMAP_PAGES) + len(records))
+        notes = json.loads((ROOT / "assets/data/notes.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(locs), len(builder.SITEMAP_PAGES) + len(records) + len(notes))
         self.assertNotIn("https://schmookey.xyz/blog/posts/blog-template.html", locs)
         self.assertNotIn("https://schmookey.xyz/404.html", locs)
         by_loc = {

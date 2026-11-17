@@ -22,8 +22,8 @@ ROOT_FILES = {
     "apple-touch-icon.png", "favicon-16x16.png", "favicon-32x32.png",
     "favicon.ico", "internet_archive.gif",
 }
-DIRECTORIES = ("assets", "blog", "music", "random")
-ASSET_EXTENSIONS = {".html", ".css", ".js", ".json", ".png", ".jpg",
+DIRECTORIES = ("assets", "blog", "music", "random", "notes")
+ASSET_EXTENSIONS = {".html", ".xml", ".css", ".js", ".json", ".png", ".jpg",
                     ".jpeg", ".gif", ".webp", ".svg", ".ico", ".avif",
                     ".woff", ".woff2", ".webmanifest"}
 SKIP = {

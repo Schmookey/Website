@@ -1,0 +1,82 @@
+name: Publish an IndieWeb Note
+
+# Available under Actions on main after this feature is reviewed and merged.
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "Plain-text note (up to 2000 characters)"
+        required: true
+        type: string
+      tags:
+        description: "Optional comma-separated tags (for example: indieweb, linux)"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: schmookey-notes-publishing
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the publishing branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install static validation dependencies
+        run: python -m pip install lxml tinycss2 Pillow
+
+      - name: Create note and regenerate static pages
+        env:
+          NOTE_CONTENT: ${{ inputs.note }}
+          NOTE_TAGS: ${{ inputs.tags }}
+        run: |
+          set -euo pipefail
+          python scripts/build_notes.py --publish
+          python scripts/build_content.py
+          python scripts/build_notes.py --check
+          python scripts/build_content.py --check
+
+      - name: Validate the generated website
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tests -p 'test_notes_publishing.py' -v
+          python -m unittest discover -s tests -p 'test_notes_section.py' -v
+          python -m unittest discover -s tests -p 'test_content_publishing.py' -v
+          python -m unittest discover -s tests -p 'test_neocities_staging.py' -v
+          python tests/validate_site.py
+
+      - name: Commit note and generated pages only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/data/notes.json notes/*.html notes/*.xml sitemap.xml
+          git diff --cached --quiet && { echo "Nothing to publish"; exit 1; }
+          git commit -m "Publish IndieWeb note from GitHub Actions"
+          git push origin HEAD:main
+
+      # GITHUB_TOKEN commits do not trigger normal push-based CI.
+      - name: Request validation for the committed note
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST "repos/${{ github.repository }}/actions/workflows/site-checks.yml/dispatches" -f ref=main
+
+# Deliberately no Mastodon/Bluesky tokens or posting here. Syndication must
+# wait for confirmed public Neocities deployment and deduplication support.

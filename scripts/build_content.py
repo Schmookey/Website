@@ -275,6 +275,24 @@ def build_sitemap(root: Path, records, updates) -> str:
     for post, _ in sorted(records, key=lambda pair: timestamp(pair[0]["date"]), reverse=True):
         lastmod = timestamp(post.get("updated") or post["date"]).date().isoformat()
         paths.append((post["url"], lastmod))
+    # The independent Notes generator owns the individual note pages and feeds.
+    # Include verified generated Notes URLs whenever the main sitemap is rebuilt.
+    notes = load(root, "assets/data/notes.json")
+    if not isinstance(notes, list):
+        raise ValueError("Notes source must be a JSON list")
+    seen_notes = set()
+    for note in notes:
+        note_id = note.get("id") if isinstance(note, dict) else None
+        if not isinstance(note_id, str) or not re.fullmatch(
+                r"\d{4}-\d{2}-\d{2}-\d{6}-\d+", note_id):
+            raise ValueError("Invalid note ID in sitemap source")
+        if note_id in seen_notes:
+            raise ValueError("Duplicate note ID in sitemap source")
+        seen_notes.add(note_id)
+        local_file = root / "notes" / f"{note_id}.html"
+        if not local_file.is_file():
+            raise ValueError(f"Missing generated note page: {local_file}")
+        paths.append((f"/notes/{note_id}.html", timestamp(note["date"]).date().isoformat()))
     if len({url for url, _ in paths}) != len(paths):
         raise ValueError("Duplicate sitemap URLs")
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',

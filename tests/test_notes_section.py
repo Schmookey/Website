@@ -27,20 +27,22 @@ class NotesSectionTests(unittest.TestCase):
                 self.assertIn("/now.html", links)
                 i = links.index("/random/")
                 self.assertEqual(links[i + 1:i + 3], ["/notes/", "/now.html"])
-        self.assertEqual(menu_pages, 28)
+        self.assertGreaterEqual(menu_pages, 28)
 
-    def test_independent_empty_notes_feed_and_metadata(self):
+    def test_independent_notes_feed_and_metadata(self):
         notes = html.parse(str(ROOT / "notes/index.html"))
         self.assertEqual(notes.xpath('//link[@rel="canonical"]/@href'), ["https://schmookey.xyz/notes/"])
         self.assertEqual(notes.xpath('//nav[contains(@class,"menu")]/a[@aria-current="page"]/@href'), ["/notes/"])
         self.assertEqual(len(notes.xpath('//main[contains(@class,"h-feed")]')), 1)
-        self.assertEqual(len(notes.xpath('//main//article[contains(@class,"h-entry")]')), 0)
-        self.assertTrue(notes.xpath('//main//p[contains(@class,"notes-empty")]'))
+        source = json.loads((ROOT / "assets/data/notes.json").read_text())
+        self.assertEqual(len(notes.xpath('//main//article[contains(@class,"h-entry")]')), len(source))
+        if not source:
+            self.assertTrue(notes.xpath('//main//p[contains(@class,"notes-empty")]'))
         self.assertEqual(notes.xpath('//link[@rel="webmention"]/@href'),
                          ["https://webmention.io/schmookey.xyz/webmention"])
         self.assertEqual(notes.xpath('//link[@href="/notes/feed.xml"]/@type'), ["application/rss+xml"])
         self.assertEqual(notes.xpath('//link[@href="/notes/atom.xml"]/@type'), ["application/atom+xml"])
-        self.assertEqual(json.loads((ROOT / "assets/data/notes.json").read_text()), [])
+        self.assertIsInstance(source, list)
         rss = ET.parse(ROOT / "notes/feed.xml").getroot()
         self.assertEqual(rss.findtext("./channel/title"), "Schmookey Notes")
         atom = ET.parse(ROOT / "notes/atom.xml").getroot()
