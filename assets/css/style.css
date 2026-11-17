@@ -3441,15 +3441,13 @@ body.light .trakt-live-widget .trakt-about-card {
 
 
 /* =====================================================
-   HOME — INDEPENDENT FOLLOWED-BLOG ARTICLE PANELS
-   Match the About media sidebar and left-hand 16-bit panels.
-   Keep original Openring article text, links and attribution.
+   HOME — COMPACT FOLLOWED-BLOG COLLECTION
+   One shared 16-bit panel, with quieter article cards.
+   The rest of the site, including About widgets, is unchanged.
 ===================================================== */
 .layout.site-panel-layout > aside.sidebar.right.followed-blogs-sidebar{
-  display:flex;
-  flex-direction:column;
-  align-items:stretch;
-  gap:14px;
+  display:block;
+  box-sizing:border-box;
   min-width:0;
   min-height:0;
   height:auto;
@@ -3461,25 +3459,34 @@ body.light .trakt-live-widget .trakt-about-card {
   overflow:visible;
 }
 .layout.site-panel-layout .followed-blogs-sidebar > .webring{
+  box-sizing:border-box;
   width:100%;
   min-width:0;
   margin:0;
-}
-.layout.site-panel-layout .followed-blogs-sidebar > .webring > h3{
-  margin:0 0 14px;
-  padding:11px 8px;
+  padding:0;
   border:3px solid #1e40ff;
   border-radius:6px;
+  background:#0b0f1f;
+  box-shadow:inset 2px 2px 0 #2a2f55,inset -3px -3px 0 #000,0 4px 0 rgba(0,0,0,.85);
+  overflow:hidden;
+}
+.layout.site-panel-layout .followed-blogs-sidebar > .webring > h3{
+  margin:0;
+  padding:11px 8px;
+  border:0;
+  border-bottom:2px solid #1e40ff;
+  border-radius:0;
   background:#c1121f;
   color:#fff;
-  box-shadow:inset 2px 2px 0 #e05a65,inset -3px -3px 0 #000,0 4px 0 rgba(0,0,0,.85);
+  box-shadow:none;
   font:10px/1.8 "Press Start 2P",monospace;
   overflow-wrap:anywhere;
 }
 .layout.site-panel-layout .followed-blogs-sidebar .articles{
   display:flex;
   flex-direction:column;
-  gap:14px;
+  gap:10px;
+  padding:12px 10px 0;
   margin:0;
 }
 .layout.site-panel-layout .followed-blogs-sidebar .articles > .followed-blog-panel{
@@ -3487,31 +3494,29 @@ body.light .trakt-live-widget .trakt-about-card {
   box-sizing:border-box;
   min-width:0;
   margin:0;
-  padding:0;
-  border:3px solid #1e40ff;
-  border-radius:6px;
-  background:#0b0f1f;
+  padding:11px 10px;
+  border:1px solid #445a9d;
+  border-radius:4px;
+  background:#111827;
   color:#e6ecff;
-  box-shadow:inset 2px 2px 0 #2a2f55,inset -3px -3px 0 #000,0 4px 0 rgba(0,0,0,.85);
+  box-shadow:none;
   overflow:hidden;
 }
-.layout.site-panel-layout .followed-blog-panel > .followed-blog-panel-heading{
-  margin:0;
-  padding:11px 8px;
-  border-bottom:2px solid #1e40ff;
-  background:#c1121f;
+.layout.site-panel-layout .followed-blogs-sidebar .followed-blog-panel .title{
+  margin:0 0 8px;
+  font-size:11px;
+  line-height:1.6;
+}
+.layout.site-panel-layout .followed-blogs-sidebar .followed-blog-panel .title a{
   color:#fff;
-  font:10px/1.8 "Press Start 2P",monospace;
   overflow-wrap:anywhere;
 }
-.layout.site-panel-layout .followed-blog-panel > .followed-blog-panel-body{
-  min-width:0;
-  padding:12px 10px;
-}
-.layout.site-panel-layout .followed-blog-panel .title a{
-  overflow-wrap:anywhere;
+.layout.site-panel-layout .followed-blogs-sidebar .followed-blog-panel .summary{
+  margin:0 0 9px;
+  line-height:1.6;
 }
 .layout.site-panel-layout .followed-blogs-sidebar .attribution{
-  margin:14px 0 0;
+  margin:0;
+  padding:12px 10px;
   text-align:right;
 }
