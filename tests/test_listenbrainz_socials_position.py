@@ -34,7 +34,7 @@ class ListenBrainzLocationTests(unittest.TestCase):
                 self.assertEqual(srcs[gog_index + 1], LB_IMAGE)
                 self.assertEqual(srcs.count(LB_IMAGE), 1)
                 self.assertEqual(icons[gog_index + 1].getparent().get("href"), LB_PROFILE)
-                self.assertEqual(len(likes[0].xpath('.//img')), 5)
+                self.assertEqual(len(likes[0].xpath('.//img')), 6)
                 self.assertFalse(likes[0].xpath('.//img[@src=$src]', src=LB_IMAGE))
                 self.assertTrue(likes[0].xpath('.//img[@src="/assets/images/internet-archive.gif"]'))
 
