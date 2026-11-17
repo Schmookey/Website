@@ -108,11 +108,14 @@
 
   function createSidebarSearch() {
     const sidebar = document.querySelector("aside.sidebar.left");
-    if (!sidebar || sidebar.querySelector(".site-search-widget")) return;
-    const widget = document.createElement("section");
-    widget.className = "site-search-widget";
-    widget.setAttribute("role", "search");
-    widget.innerHTML =
+    if (!sidebar) return;
+    const existing = sidebar.querySelector(".site-search-widget");
+    if (existing && existing.dataset.searchReady === "true") return;
+    const widget = existing || document.createElement("section");
+    if (!existing) {
+      widget.className = "site-search-widget";
+      widget.setAttribute("role", "search");
+      widget.innerHTML =
       '<form class="site-search-form" action="/search.html" method="get">' +
       '<label for="site-search-input">SEARCH</label>' +
       '<div class="site-search-controls">' +
@@ -122,7 +125,9 @@
       '<button type="submit" aria-label="Search website">SEARCH</button></div></form>' +
       '<ul id="site-search-suggestions" class="site-search-suggestions" hidden></ul>' +
       '<p class="site-search-status visually-hidden" role="status" aria-live="polite"></p>';
-    sidebar.insertBefore(widget, sidebar.firstChild);
+      sidebar.insertBefore(widget, sidebar.firstChild);
+    }
+    widget.dataset.searchReady = "true";
     const input = widget.querySelector("input");
     const list = widget.querySelector(".site-search-suggestions");
     const status = widget.querySelector(".site-search-status");
