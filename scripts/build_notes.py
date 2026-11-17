@@ -87,7 +87,8 @@ def add_note(root: Path, content: str, tags: str, run_id: str) -> str:
     }
     notes = read_notes(root)
     for existing in notes:
-        if existing["id"] == identifier:
+        # A rerun of a successful job must never create a duplicate social note.
+        if existing["id"].endswith("-" + run_id):
             if existing["content"] != note["content"] or existing.get("tags", []) != parsed_tags:
                 raise ValueError("This run ID already belongs to a different note")
             return note_url(existing)
@@ -175,6 +176,12 @@ def render_page(template: str, note: dict) -> str:
 
 
 def rss_feed(notes: list[dict]) -> str:
+    if not notes:
+        return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+                '<rss version="2.0"><channel><title>Schmookey Notes</title>'
+                '<link>https://schmookey.xyz/notes/</link>'
+                '<description>Short thoughts and observations from Schmookey.</description>'
+                '</channel></rss>\n')
     channel = ET.Element("channel")
     for name, value in (
         ("title", "Schmookey Notes"),
@@ -205,6 +212,12 @@ def rss_feed(notes: list[dict]) -> str:
 
 
 def atom_feed(notes: list[dict]) -> str:
+    if not notes:
+        return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+                '<feed xmlns="http://www.w3.org/2005/Atom"><title>Schmookey Notes</title>'
+                '<id>https://schmookey.xyz/notes/</id>'
+                '<link rel="alternate" href="https://schmookey.xyz/notes/"/>'
+                '<updated>2026-11-17T00:00:00Z</updated></feed>\n')
     ET.register_namespace("", ATOM)
     ns = lambda name: f"{{{ATOM}}}{name}"
     feed = ET.Element(ns("feed"))
