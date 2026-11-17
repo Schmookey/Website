@@ -3,11 +3,43 @@
   <ns0:title>Schmookey's World</ns0:title>
   <ns0:link href="https://schmookey.xyz/" rel="alternate" />
   <ns0:link href="https://schmookey.xyz/atom.xml" rel="self" />
-  <ns0:updated>2026-11-06T21:30:00Z</ns0:updated>
+  <ns0:updated>2026-11-15T12:00:00Z</ns0:updated>
   <ns0:id>https://schmookey.xyz/</ns0:id>
   <ns0:author>
     <ns0:name>Schmookey</ns0:name>
   </ns0:author>
+  <ns0:entry>
+    <ns0:title>November Update</ns0:title>
+    <ns0:link href="https://schmookey.xyz/blog/posts/november_update.html" rel="alternate" />
+    <ns0:id>urn:schmookey:post:november_update</ns0:id>
+    <ns0:updated>2026-11-15T12:00:00Z</ns0:updated>
+    <ns0:published>2026-11-15T12:00:00Z</ns0:published>
+    <ns0:summary>A little note on recent changes and goings on in November.</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Trakt Journal, Film Posters, Trading card profile look</ns0:title>
+    <ns0:link href="https://schmookey.xyz/changelog.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:trakt-journal-film-posters-trading-card-profile-look:2026-11-13T10:00:00+00:00</ns0:id>
+    <ns0:updated>2026-11-13T10:00:00Z</ns0:updated>
+    <ns0:published>2026-11-13T10:00:00Z</ns0:published>
+    <ns0:summary>added TV journal, added movie posters, trading card profile look.</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Now</ns0:title>
+    <ns0:link href="https://schmookey.xyz/now.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:now:2026-11-11T21:20:00+00:00</ns0:id>
+    <ns0:updated>2026-11-11T21:20:00Z</ns0:updated>
+    <ns0:published>2026-11-11T21:20:00Z</ns0:published>
+    <ns0:summary>What I'm doing IRL.</ns0:summary>
+  </ns0:entry>
+  <ns0:entry>
+    <ns0:title>Privacy, Album Artowrk, Trakt</ns0:title>
+    <ns0:link href="https://schmookey.xyz/changelog.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:privacy-album-artowrk-trakt:2026-11-11T21:00:00+00:00</ns0:id>
+    <ns0:updated>2026-11-11T21:00:00Z</ns0:updated>
+    <ns0:published>2026-11-11T21:00:00Z</ns0:published>
+    <ns0:summary>Updated privacy policy, added album artwork to music widget, trying to add Trakt widget.</ns0:summary>
+  </ns0:entry>
   <ns0:entry>
     <ns0:title>Coding Vibes</ns0:title>
     <ns0:link href="https://schmookey.xyz/blog/posts/coding_vibes.html" rel="alternate" />
