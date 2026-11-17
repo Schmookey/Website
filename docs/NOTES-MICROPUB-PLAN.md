@@ -1,48 +1,64 @@
-# Notes: static publishing foundation and future Micropub integration
+# Notes publishing using GitHub Actions
 
-The `/notes/` section is **independent** of Blog, Music, Random and Now. Its
-navigation link sits between Random and Now. The public page has a Microformats2
-`h-feed`, its own RSS and Atom discovery, and the site's existing Webmention
-receiver. It contains no fabricated notes.
+The Notes section at `/notes/` is independent of Blog, Music and Now. The
+site is static and requires **no Indiekit, always-on server or Micropub service**.
 
-## Current stage
+## How to publish
 
-- `notes/index.html` is a public static page with a clear empty state.
-- `assets/data/notes.json` is an empty future source collection. It is **not**
-  automatically turned into published notes yet.
-- `notes/feed.xml` and `notes/atom.xml` are valid empty feeds.
-- The main post generator **does not** ingest notes.json yet; it continues to
-  manage Blog and Music as before.
-- The navigation and sitemap reference Notes.
+After the reviewed changes are merged to `main`:
 
-**No Micropub service, Indiekit endpoint, GitHub write token, Mastodon
-credential or Bluesky app password is provisioned by these changes.** Nothing
-is posted to Mastodon or Bluesky automatically.
+1. Visit **Actions → Publish an IndieWeb Note** in the Website repository.
+2. Select **Run workflow** on the **main** branch.
+3. Enter your note (plain text, maximum 2,000 characters). Optional tags are
+   comma-separated, such as `indieweb, linux`.
+4. Select **Run workflow** and check that the workflow finishes successfully.
+5. Review the commit and the generated note in `/notes/`.
 
-## Next development phase
+Publishing updates only the Notes source, Notes pages and feeds, and the shared
+sitemap. The main Blog/Music content generator continues to operate separately.
+Each note has an immutable URL in the form `/notes/YYYY-MM-DD-HHMMSS-RUNID.html`.
 
-Implement a validated notes-only generator that reads an explicit schema
-(content, ISO 8601 publish date, immutable slug/ID, optional tags and reply
-target), writes canonical individual `/notes/<id>.html` pages, updates
-`notes/index.html`, the Notes RSS/Atom feeds and sitemap, and provides
-`h-entry`, `e-content`, `dt-published`, `u-url` and author metadata.
-Keep notes un-titled in the visible feed; feed titles can use excerpts.
+The workflow runs checks before committing and requests a second validation
+run after committing (because GitHub's own workflow-token commits do not
+automatically trigger ordinary push workflows). A failed push or validation
+does not upload anything to Neocities.
 
-Then deploy a separate authenticated Micropub server (e.g. Indiekit) which
-writes **through a controlled GitHub workflow** and only to the notes source.
-Micropub isn't a function of GitHub Pages or static Neocities hosting.
-The public Notes HTML remains online whenever the writing service is offline.
+## What gets generated
 
-For syndication, add separate opt-in Mastodon and Bluesky controls and durable
-per-note status tracking. Send a note only after its canonical page is verified
-to exist live on schmookey.xyz. Record real external post URLs as
-`u-syndication`, and prevent duplicates during retries. Never expose service
-tokens, app passwords, or write-capable GitHub credentials in public files.
+- `assets/data/notes.json` — source of authored notes
+- `notes/index.html` — newest-first Notes page with an `h-feed`
+- `notes/<id>.html` — canonical individual note with `h-entry`,
+  `e-content`, `dt-published`, `u-url` and author metadata
+- `notes/feed.xml` and `notes/atom.xml` — Notes-only RSS and Atom
+- `sitemap.xml` — published note permalinks
 
-GitHub Actions already has a review-gated Neocities deployment process; the
-Micropub integration must not bypass that gate. Receiver functionality for
-Webmentions is independent of Micropub, while displaying reactions may need
-front-end changes.
+The publishing workflow escapes HTML content to prevent injected markup or
+scripts, rejects malformed records and tags, and avoids duplicate publications
+on retrying the same workflow run.
 
-No paid or always-on server has been configured here. Its hosting, cost and
-availability can be decided independently of the static Notes site.
+## Local checks
+
+```sh
+python3 scripts/build_notes.py
+python3 scripts/build_content.py
+python3 scripts/build_notes.py --check
+python3 scripts/build_content.py --check
+python3 -m unittest discover -s tests -p 'test_notes_publishing.py' -v
+```
+
+## Deployment and social posting
+
+**GitHub publication is not automatically a live Neocities deployment.** The
+existing deployment workflow is explicitly review-gated by the
+`NEOCITIES_AUTO_DEPLOY_ENABLED` repository variable; its safety controls are
+preserved. The Neocities staging step includes the Notes HTML and RSS/Atom
+files. Confirm the public note is accessible after deployment.
+
+**Mastodon and Bluesky cross-posting are not implemented or enabled.**
+Those integrations should be added only after public deployment can be
+verified and a durable record prevents accidental duplicate posts. There is
+no need to supply social credentials to the Notes publishing workflow.
+
+Webmention.io remains the existing independent Webmention receiver. Notes
+carry their own canonical URLs; displaying received replies on individual
+Notes can be developed independently.
