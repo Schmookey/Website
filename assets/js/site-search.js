@@ -117,12 +117,12 @@
       widget.setAttribute("role", "search");
       widget.innerHTML =
       '<form class="site-search-form" action="/search.html" method="get">' +
-      '<label for="site-search-input">SEARCH</label>' +
+      '<label for="site-search-input" class="visually-hidden">Search blog and music posts</label>' +
       '<div class="site-search-controls">' +
       '<input id="site-search-input" name="q" type="search" autocomplete="off" ' +
-      'maxlength="160" placeholder="Search" aria-controls="site-search-suggestions" ' +
+      'maxlength="160" placeholder="Search blog" aria-controls="site-search-suggestions" ' +
       'aria-expanded="false" aria-autocomplete="list">' +
-      '<button type="submit" aria-label="Search website">SEARCH</button></div></form>' +
+      '<button class="site-search-submit" type="submit" aria-label="Search blog and music posts"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg></button></div></form>' +
       '<ul id="site-search-suggestions" class="site-search-suggestions" hidden></ul>' +
       '<p class="site-search-status visually-hidden" role="status" aria-live="polite"></p>';
       sidebar.insertBefore(widget, sidebar.firstChild);
