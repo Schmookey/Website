@@ -38,6 +38,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_indexnow_live.py' -v
       - name: Test Neocities preview-only deployment guardrails
         run: python -m unittest discover -s tests -p 'test_neocities_deploy.py' -v
+      - name: Test Marketplace deployment staging exclusions
+        run: python -m unittest discover -s tests -p 'test_neocities_staging.py' -v
       - name: Test Trakt history updater and error handling
         run: python -m unittest discover -s tests -p 'test_trakt_updater.py' -v
       - name: Verify IndieWeb metadata and Webmention discovery (offline)
