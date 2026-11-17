@@ -20,10 +20,20 @@ class NotesPublishingTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        for name in ("notes/index.html", "assets/data/notes.json"):
-            target = self.root / name
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_text((ROOT / name).read_text(encoding="utf-8"), encoding="utf-8")
+        # Each fixture must start empty, even when the live repository contains
+        # newly generated notes from the workflow under test.
+        template = self.root / "notes/index.html"
+        template.parent.mkdir(parents=True, exist_ok=True)
+        template.write_text(
+            (ROOT / "notes/index.html").read_text(encoding="utf-8"),
+            encoding="utf-8",
+        )
+        source = self.root / "assets/data/notes.json"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("[]\n", encoding="utf-8")
+
+    def test_current_repository_notes_are_valid(self):
+        self.assertIsInstance(builder.read_notes(ROOT), list)
 
     def test_empty_notes_preserve_existing_page_and_feed_data(self):
         outputs = builder.outputs(self.root)
