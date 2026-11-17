@@ -289,9 +289,9 @@ def build_sitemap(root: Path, records, updates) -> str:
 
 
 def build_search_index(root: Path, records, updates) -> str:
-    """Create an offline, same-origin index of published public site content.
+    """Create an offline, same-origin index of published blog posts only.
 
-    Uses the already-curated post list rather than scanning drafts, archives,
+    Uses the already-curated blog post list rather than scanning drafts, archives,
     source code or private assets. Preserves original content spelling.
     """
     def normalise(text: str) -> str:
@@ -308,6 +308,8 @@ def build_search_index(root: Path, records, updates) -> str:
 
     items = []
     for post, doc in records:
+        if post["section"] != "blog":
+            continue
         url = post["url"]
         sections = doc.xpath(
             '//*[contains(concat(" ",normalize-space(@class)," ")," e-content ")]'
@@ -325,33 +327,6 @@ def build_search_index(root: Path, records, updates) -> str:
             "tags": post.get("tags", []), "text": body,
         })
 
-    grouped_updates = {}
-    for update in updates:
-        grouped_updates.setdefault(update["url"], []).append(update)
-    for url, local in SITEMAP_PAGES:
-        if url == "/":
-            section = "pages"
-        else:
-            section = "pages"
-        page = html.document_fromstring((root / local).read_text(encoding="utf-8-sig"))
-        main = page.xpath("//main")
-        body = visible_text(__import__("copy").deepcopy(main[0])) if main else ""
-        metas = page.xpath('//meta[translate(@name,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")="description"]/@content')
-        title_text = page.xpath("//title/text()")
-        title = normalise(title_text[0].split("|")[0]) if title_text else url
-        title = title.title() if title == title.upper() else title
-        latest = sorted(grouped_updates.get(url, []),
-                        key=lambda row: timestamp(row["date"]), reverse=True)
-        if latest:
-            body = normalise(body + " " + " ".join(
-                f'{item["title"]}. {item["summary"]}' for item in latest
-            ))
-        items.append({
-            "url": url, "title": title, "section": section,
-            "summary": normalise(metas[0] if metas else (latest[0]["summary"] if latest else title)),
-            "date": iso(latest[0]["date"]) if latest else None,
-            "tags": [], "text": body[:15000],
-        })
     if len({item["url"] for item in items}) != len(items):
         raise ValueError("Search-index URLs must be unique")
     return json.dumps({
