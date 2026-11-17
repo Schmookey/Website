@@ -24,6 +24,8 @@ BEGIN = "<!-- BEGIN GENERATED NOTES -->"
 END = "<!-- END GENERATED NOTES -->"
 IDENTIFIER = re.compile(r"^\d{4}-\d{2}-\d{2}-\d{6}-\d+$")
 ATOM = "http://www.w3.org/2005/Atom"
+IMAGE_PATH = re.compile(r"^/assets/images/[a-zA-Z0-9_-][a-zA-Z0-9_./-]*\.(?:jpg|jpeg|png|gif|webp|avif)$", re.I)
+
 
 
 def published(value: str) -> datetime:
@@ -36,6 +38,19 @@ def published(value: str) -> datetime:
     if date.tzinfo is None:
         raise ValueError("Note date must include a timezone")
     return date.astimezone(timezone.utc)
+
+
+def verify_image(root: Path, path: str, alt: str) -> None:
+    """Allow only public, local, repository-stored images with descriptive alt text."""
+    if not isinstance(path, str) or not IMAGE_PATH.fullmatch(path):
+        raise ValueError("Image must be a local /assets/images/ file (JPEG, PNG, GIF, WebP or AVIF)")
+    relative = Path(path.lstrip("/"))
+    if ".." in relative.parts or not (root / relative).is_file():
+        raise ValueError("Image is missing from assets/images or uses an unsafe path")
+    if not isinstance(alt, str) or not alt.strip() or len(alt) > 300:
+        raise ValueError("Provide an image description (1–300 characters)")
+    if re.search(r"[\x00-\x1f]", alt):
+        raise ValueError("Image description contains unsupported characters")
 
 
 def note_url(note: dict) -> str:
@@ -61,6 +76,12 @@ def read_notes(root: Path = ROOT) -> list[dict]:
         if (not isinstance(body, str) or not body.strip() or len(body) > 2000
                 or re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", body)):
             raise ValueError("Note content must contain 1–2000 characters")
+        picture = note.get("image", "")
+        alt = note.get("image_alt", "")
+        if picture:
+            verify_image(root, picture, alt)
+        elif alt:
+            raise ValueError("Image description requires an image")
         tags = note.get("tags", [])
         if not isinstance(tags, list) or len(tags) > 10 or any(
             not isinstance(tag, str) or not re.fullmatch(r"[a-z0-9][a-z0-9 -]{0,39}", tag)
@@ -70,12 +91,17 @@ def read_notes(root: Path = ROOT) -> list[dict]:
     return sorted(data, key=lambda item: (published(item["date"]), item["id"]), reverse=True)
 
 
-def add_note(root: Path, content: str, tags: str, run_id: str) -> str:
+def add_note(root: Path, content: str, tags: str, run_id: str,
+             image: str = "", image_alt: str = "") -> str:
     if (not isinstance(content, str) or not content.strip() or len(content) > 2000
             or re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", content)):
         raise ValueError("Note must contain 1–2000 safe plain-text characters")
     if not re.fullmatch(r"\d+", run_id):
         raise ValueError("Publishing requires GitHub's numeric workflow run ID")
+    if image:
+        verify_image(root, image, image_alt)
+    elif image_alt:
+        raise ValueError("Image description requires an image")
     parsed_tags = list(dict.fromkeys(
         word.strip().lower() for word in tags.split(",") if word.strip()
     ))
@@ -87,11 +113,17 @@ def add_note(root: Path, content: str, tags: str, run_id: str) -> str:
         "content": content.strip(),
         "tags": parsed_tags,
     }
+    if image:
+        note["image"] = image
+        note["image_alt"] = image_alt.strip()
     notes = read_notes(root)
     for existing in notes:
         # A rerun of a successful job must never create a duplicate social note.
         if existing["id"].endswith("-" + run_id):
-            if existing["content"] != note["content"] or existing.get("tags", []) != parsed_tags:
+            if (existing["content"] != note["content"]
+                    or existing.get("tags", []) != parsed_tags
+                    or existing.get("image", "") != image
+                    or existing.get("image_alt", "") != image_alt.strip()):
                 raise ValueError("This run ID already belongs to a different note")
             return note_url(existing)
     notes.append(note)
@@ -119,11 +151,20 @@ def entry(note: dict) -> str:
         f'<a class="p-category" href="/notes/">{escape(tag)}</a> '
         for tag in note.get("tags", [])
     )
+    photo = ""
+    if note.get("image"):
+        photo = (
+            '      <figure class="notes-photo">\n'
+            f'        <img class="u-photo" src="{escape(note["image"], quote=True)}" '
+            f'alt="{escape(note["image_alt"], quote=True)}" loading="lazy">\n'
+            '      </figure>\n'
+        )
     return (
         '  <article class="h-entry">\n'
         f'    <time class="dt-published" datetime="{machine}">{human}</time>\n'
         '    <div class="e-content">\n'
         f'{paragraphs(note["content"])}\n'
+        f'{photo}'
         '    </div>\n'
         f'    <p class="notes-permalink"><a class="u-url" href="{url}">Permalink</a></p>\n'
         '    <p class="notes-author"><a class="p-author h-card" href="/about.html">Schmookey</a></p>\n'
@@ -288,7 +329,8 @@ def main() -> None:
         if args.check:
             parser.error("--publish cannot be used with --check")
         url = add_note(ROOT, os.environ.get("NOTE_CONTENT", ""),
-                       os.environ.get("NOTE_TAGS", ""), os.environ.get("GITHUB_RUN_ID", ""))
+                       os.environ.get("NOTE_TAGS", ""), os.environ.get("GITHUB_RUN_ID", ""),
+                       os.environ.get("NOTE_IMAGE", ""), os.environ.get("NOTE_IMAGE_ALT", ""))
         print("Prepared " + BASE + url)
     generate(ROOT, check=args.check)
 
