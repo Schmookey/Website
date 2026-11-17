@@ -80,6 +80,38 @@ class NotesPublishingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             builder.add_note(self.root, "Changed note", "linux", "888")
 
+    def test_images_use_u_photo_and_accessible_alt_text(self):
+        images = self.root / "assets/images"
+        images.mkdir(parents=True)
+        (images / "example.webp").write_bytes(b"test image fixture")
+        url = builder.add_note(
+            self.root, "A note with a photograph.", "indieweb", "999",
+            "/assets/images/example.webp", 'A photo of a screen & desk.'
+        )
+        results = builder.outputs(self.root)
+        for page in (Path(url.lstrip("/")), Path("notes/index.html")):
+            doc = html.fromstring(results[page])
+            pictures = doc.xpath('//article[contains(@class,"h-entry")]//img[contains(@class,"u-photo")]')
+            self.assertEqual(len(pictures), 1)
+            self.assertEqual(pictures[0].get("src"), "/assets/images/example.webp")
+            self.assertEqual(pictures[0].get("alt"), "A photo of a screen & desk.")
+            self.assertEqual(pictures[0].get("loading"), "lazy")
+
+    def test_invalid_image_paths_and_missing_alt_are_rejected(self):
+        images = self.root / "assets/images"
+        images.mkdir(parents=True)
+        (images / "good.png").write_bytes(b"fixture")
+        for picture, alt in (
+            ("/assets/images/missing.png", "Description"),
+            ("https://example.com/photo.png", "Description"),
+            ("/assets/images/../../secret.png", "Description"),
+            ("/assets/images/good.png", ""),
+            ("/assets/images/good.png", "x" * 301),
+            ("", "Description without an image"),
+        ):
+            with self.subTest(image=picture, alt=alt), self.assertRaises(ValueError):
+                builder.add_note(self.root, "Text", "", "777", picture, alt)
+
     def test_invalid_content_and_tags_are_rejected(self):
         for text in ("", "   ", "x" * 2001):
             with self.subTest(text=text[:20]), self.assertRaises(ValueError):
