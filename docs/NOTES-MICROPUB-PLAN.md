@@ -55,11 +55,13 @@ python3 -m unittest discover -s tests -p 'test_notes_publishing.py' -v
 
 ## Deployment and social posting
 
-**GitHub publication is not automatically a live Neocities deployment.** The
-existing deployment workflow is explicitly review-gated by the
-`NEOCITIES_AUTO_DEPLOY_ENABLED` repository variable; its safety controls are
-preserved. The Neocities staging step includes the Notes HTML and RSS/Atom
-files. Confirm the public note is accessible after deployment.
+After a successful Notes commit, the publisher now explicitly requests the
+existing Neocities deployment workflow. That workflow checks the current
+`main` revision, reruns validation, stages Notes HTML and RSS/Atom, and
+preserves the `NEOCITIES_AUTO_DEPLOY_ENABLED` repository variable gate.
+When the variable is not `true`, publication stays on GitHub and upload is
+skipped. A successful Notes commit alone therefore does **not** guarantee a
+live Neocities upload. Confirm the public note is accessible after deployment.
 
 **Mastodon and Bluesky cross-posting are not implemented or enabled.**
 Those integrations should be added only after public deployment can be
