@@ -16,7 +16,6 @@ LIKES = (
     "/assets/images/indieweb88x31-flat.png",
     "/assets/images/fediverse.png",
     "/assets/images/linux_mint.gif",
-    "/assets/images/listenbrainz88x31.gif",
 )
 
 
@@ -46,7 +45,8 @@ class StandardPagePanelTests(unittest.TestCase):
                 self.assertEqual(len(sections[0].xpath('.//button[contains(@class,"site-search-submit")]/svg')), 1)
                 social_images = sections[1].xpath('.//div[contains(@class,"badge-grid")]/a/img')
                 # Preserve the existing Socials buttons, including the extra template badge.
-                self.assertGreaterEqual(len(social_images), 5)
+                self.assertGreaterEqual(len(social_images), 6)
+                self.assertEqual(social_images[-1].get("src"), "/assets/images/listenbrainz88x31.gif")
                 self.assertEqual(
                     sections[2].xpath('.//div[contains(@class,"badge-grid")]/a/img/@src'),
                     list(LIKES)
