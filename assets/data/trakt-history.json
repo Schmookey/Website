@@ -1,7 +1,29 @@
 {
-  "generated_at": "2026-11-17T21:21:28+00:00",
+  "generated_at": "2026-11-17T22:55:19+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Honey",
+      "type": "TV Show",
+      "episode": "Episode 2",
+      "season": 1,
+      "episode_number": 2,
+      "year": 2026,
+      "link": "https://trakt.tv/shows/honey",
+      "cover": "https://image.tmdb.org/t/p/w200/wKrubUacVFYxSjYBkiZYrgiCjXh.jpg",
+      "watched_at": "2026-11-17T23:35:00.000Z"
+    },
+    {
+      "title": "Honey",
+      "type": "TV Show",
+      "episode": "Episode 1",
+      "season": 1,
+      "episode_number": 1,
+      "year": 2026,
+      "link": "https://trakt.tv/shows/honey",
+      "cover": "https://image.tmdb.org/t/p/w200/wKrubUacVFYxSjYBkiZYrgiCjXh.jpg",
+      "watched_at": "2026-11-17T22:47:00.000Z"
+    },
     {
       "title": "Amandaland",
       "type": "TV Show",
@@ -309,28 +331,6 @@
       "link": "https://trakt.tv/shows/have-i-got-news-for-you",
       "cover": "https://image.tmdb.org/t/p/w200/gYrG6F8OXBa8C0Lfx10XaZsHKaw.jpg",
       "watched_at": "2026-10-23T21:07:00.000Z"
-    },
-    {
-      "title": "The Celebrity Traitors: Uncloaked",
-      "type": "TV Show",
-      "episode": "Episode #2.8",
-      "season": 2,
-      "episode_number": 8,
-      "year": 2025,
-      "link": "https://trakt.tv/shows/the-celebrity-traitors-uncloaked",
-      "cover": "https://image.tmdb.org/t/p/w200/8AOr0ufWDn2pMtgdcXpoUYnnik7.jpg",
-      "watched_at": "2026-10-23T20:41:00.000Z"
-    },
-    {
-      "title": "The Celebrity Traitors",
-      "type": "TV Show",
-      "episode": "Episode 8",
-      "season": 2,
-      "episode_number": 8,
-      "year": 2025,
-      "link": "https://trakt.tv/shows/the-celebrity-traitors",
-      "cover": "https://image.tmdb.org/t/p/w200/uziPOqxQotCE9g0wBgDvHCOvRhP.jpg",
-      "watched_at": "2026-10-23T20:02:00.000Z"
     }
   ]
 }
