@@ -78,7 +78,19 @@ class MegaDriveSearchTests(unittest.TestCase):
         self.assertEqual(len(index["items"]), len(records))
         self.assertIn('item.section === "music"', js)
         sidebar = (ROOT / "assets/js/article-sidebar.js").read_text(encoding="utf-8")
-        self.assertIn('item.section === "blog" && item.url !== current.url', sidebar)
+        # Search includes both sections, and related items may include music
+        # when they share a meaningful tag (e.g. streaming or listenbrainz).
+        self.assertIn('const candidates = posts.filter(item => item.url !== current.url)', sidebar)
+        self.assertIn('ranked.filter(pair => pair.common.length > 0)', sidebar)
+        self.assertIn('const blogPosts = candidates.filter(item => item.section === "blog")', sidebar)
+        self.assertIn('const recent = blogPosts.filter(item => !seen.has(item.url))', sidebar)
+        self.assertIn('const seen = new Set(similar.map(item => item.url))', sidebar)
+        import json
+        metadata = json.loads((ROOT / "assets/data/posts.json").read_text(encoding="utf-8"))
+        blog = next(item for item in metadata if item["url"].endswith("this-week-23-29-march.html"))
+        music = next(item for item in metadata if item["section"] == "music")
+        self.assertTrue(set(blog["tags"]) & set(music["tags"]),
+                        "Fixture should test a genuine cross-section tag match")
         self.assertNotIn('value="pages"', (ROOT / "search.html").read_text(encoding="utf-8"))
 
 
