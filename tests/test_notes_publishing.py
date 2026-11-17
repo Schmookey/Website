@@ -20,19 +20,31 @@ class NotesPublishingTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        for name in ("notes/index.html", "assets/data/notes.json"):
-            target = self.root / name
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_text((ROOT / name).read_text(encoding="utf-8"), encoding="utf-8")
+        # Each fixture must start empty, even when the live repository contains
+        # newly generated notes from the workflow under test.
+        template = self.root / "notes/index.html"
+        template.parent.mkdir(parents=True, exist_ok=True)
+        template.write_text(
+            builder.render_index(
+                (ROOT / "notes/index.html").read_text(encoding="utf-8"), []
+            ),
+            encoding="utf-8",
+        )
+        source = self.root / "assets/data/notes.json"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text("[]\n", encoding="utf-8")
+
+    def test_current_repository_notes_are_valid(self):
+        self.assertIsInstance(builder.read_notes(ROOT), list)
 
     def test_empty_notes_preserve_existing_page_and_feed_data(self):
         outputs = builder.outputs(self.root)
         self.assertEqual(outputs[Path("notes/index.html")],
-                         (ROOT / "notes/index.html").read_text(encoding="utf-8"))
-        self.assertEqual(outputs[Path("notes/feed.xml")],
-                         (ROOT / "notes/feed.xml").read_text(encoding="utf-8"))
-        self.assertEqual(outputs[Path("notes/atom.xml")],
-                         (ROOT / "notes/atom.xml").read_text(encoding="utf-8"))
+                         (self.root / "notes/index.html").read_text(encoding="utf-8"))
+        rss = ET.fromstring(outputs[Path("notes/feed.xml")])
+        self.assertEqual(rss.findall("./channel/item"), [])
+        atom = ET.fromstring(outputs[Path("notes/atom.xml")])
+        self.assertEqual(atom.findall("{http://www.w3.org/2005/Atom}entry"), [])
 
     def test_publish_generates_safe_individual_html_feed_and_xml(self):
         text = 'A <script>alert("x")</script> & a short note.\n\nSecond paragraph.'
