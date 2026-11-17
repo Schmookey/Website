@@ -23,3 +23,16 @@ This proposal stages public site files and uses [Deploy to Neocities](https://gi
 6. Trigger a new `main` push and verify that only intended files upload. To suspend publishing, remove or set that variable to `false`.
 
 A successful staging test is not equivalent to a live deployment test. Review and enable only after backup reconciliation.
+
+## Notes publishing handoff
+
+The GitHub Actions **Publish an IndieWeb Note** workflow commits a validated note
+and explicitly dispatches this existing Neocities workflow with
+`preview_only=false`. This avoids relying on a second `workflow_run` event
+following a token-generated commit. The deployment job still revalidates the
+current `main` revision, verifies the configured Neocities destination, and
+honours `NEOCITIES_AUTO_DEPLOY_ENABLED`. If the variable is absent or false,
+there is **no upload**, even though the publishing job itself succeeded.
+
+The workflow stages the existing site and includes Notes HTML and RSS/Atom.
+It does not syndicate Notes to Mastodon or Bluesky.
