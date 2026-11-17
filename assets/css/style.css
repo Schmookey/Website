@@ -3184,3 +3184,45 @@ body.light .trakt-live-widget .trakt-about-card {
   .site-search-page-form{display:block}
   .site-search-page-form .site-search-controls{width:100%}
 }
+
+
+/* Changelog's LIKES buttons, reused as a fifth independent article panel.
+   Mirror the Socials badge grid; do not change article footer badges. */
+.layout.article-layout .article-likes-badges .badge-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  justify-items:center;
+  align-items:center;
+  gap:8px 5px;
+  padding:12px 5px;
+  margin:0;
+}
+.layout.article-layout .article-likes-badges .badge-grid a{
+  display:flex;
+  min-width:0;
+  max-width:100%;
+  align-items:center;
+  justify-content:center;
+}
+.layout.article-layout .article-likes-badges .badge-grid img{
+  display:block;
+  width:88px;
+  height:31px;
+  max-width:100%;
+  object-fit:contain;
+  margin:0 !important;
+}
+.layout.article-layout .article-likes-badges .badge-grid a:focus-visible{
+  outline:3px solid #fff;
+  outline-offset:3px;
+}
+@media(max-width:768px){
+  .layout.article-layout .article-likes-badges{
+    order:5;
+    width:100%;
+    margin:0;
+  }
+  .layout.article-layout .article-likes-badges .badge-grid{
+    grid-template-columns:repeat(auto-fit,minmax(88px,1fr));
+  }
+}

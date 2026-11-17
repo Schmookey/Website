@@ -17,7 +17,7 @@ class MegaDriveSearchTests(unittest.TestCase):
                 self.assertEqual(len(doc.xpath('//header[contains(@class,"header")]//img[contains(@src,"header-banner.webp")]')), 1)
                 self.assertEqual(len(doc.xpath('//nav[contains(@class,"menu")]')), 1)
                 self.assertEqual(len(doc.xpath('//main/article[contains(@class,"h-entry") and contains(@class,"post-container")]')), 1)
-                self.assertEqual(len(doc.xpath('//aside[contains(@class,"sidebar") and contains(@class,"left")]//div[contains(@class,"badge-grid")]')), 1)
+                self.assertEqual(len(doc.xpath('//aside[contains(@class,"sidebar") and contains(@class,"left")]//div[contains(@class,"badge-grid")]')), 2)
                 badges = doc.xpath('//aside[contains(@class,"sidebar") and contains(@class,"left")]//div[contains(@class,"badge-grid")]/a')
                 self.assertGreaterEqual(len(badges), 5)
                 self.assertTrue(all(a.get("href") for a in badges))
@@ -51,7 +51,7 @@ class MegaDriveSearchTests(unittest.TestCase):
         self.assertIn('grid-template-columns:repeat(2,minmax(0,1fr))', css)
         self.assertIn('@media(max-width:768px)', css)
 
-    def test_four_sidebar_boxes_are_siblings_and_include_static_links(self):
+    def test_five_sidebar_boxes_are_siblings_and_include_static_links(self):
         import importlib.util
         spec = importlib.util.spec_from_file_location(
             "article_builder", ROOT / "scripts/build_content.py"
@@ -71,16 +71,17 @@ class MegaDriveSearchTests(unittest.TestCase):
                 self.assertEqual(
                     [section.get("class").split()[0] if "site-search-widget" in section.get("class")
                      else next(name for name in section.get("class").split()
-                               if name in {"article-related-posts", "article-more-posts", "article-social-badges"})
+                               if name in {"article-related-posts", "article-more-posts", "article-social-badges", "article-likes-badges"})
                      for section in sections],
                     ["site-search-widget", "article-related-posts",
-                     "article-more-posts", "article-social-badges"]
+                     "article-more-posts", "article-social-badges", "article-likes-badges"]
                 )
-                self.assertEqual(len(sections), 4)
+                self.assertEqual(len(sections), 5)
                 self.assertTrue(sections[0].xpath('.//input[@type="search"]'))
                 self.assertTrue(sections[1].xpath('.//li/a[contains(@href,"/posts/")]'))
                 self.assertTrue(sections[2].xpath('.//li/a[contains(@href,"/blog/posts/")]'))
                 self.assertGreaterEqual(len(sections[3].xpath('.//div[contains(@class,"badge-grid")]/a')), 5)
+                self.assertEqual(len(sections[4].xpath('.//div[contains(@class,"badge-grid")]/a')), 5)
                 self.assertEqual(len(sections[0].xpath('.//section')), 0)
                 self.assertNotIn("Loading posts", html.tostring(sections[1], encoding="unicode"))
                 self.assertEqual(generated[article.relative_to(ROOT).as_posix()],

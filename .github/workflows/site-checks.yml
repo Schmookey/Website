@@ -37,6 +37,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_article_footer_badges.py' -v
       - name: Verify compact search UI on all post pages
         run: python -m unittest discover -s tests -p 'test_compact_search_ui.py' -v
+      - name: Verify Likes panels match Changelog across all articles
+        run: python -m unittest discover -s tests -p 'test_article_likes_panel.py' -v
       - name: Verify site assets and links
         run: python tests/validate_site.py
       - name: Check JavaScript syntax
