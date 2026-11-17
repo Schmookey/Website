@@ -58,7 +58,8 @@ def read_notes(root: Path = ROOT) -> list[dict]:
         if not key.startswith(date.strftime("%Y-%m-%d") + "-"):
             raise ValueError("Note identifier must match its UTC publication day")
         body = note.get("content")
-        if not isinstance(body, str) or not body.strip() or len(body) > 2000:
+        if (not isinstance(body, str) or not body.strip() or len(body) > 2000
+                or re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", body)):
             raise ValueError("Note content must contain 1–2000 characters")
         tags = note.get("tags", [])
         if not isinstance(tags, list) or len(tags) > 10 or any(
@@ -70,8 +71,9 @@ def read_notes(root: Path = ROOT) -> list[dict]:
 
 
 def add_note(root: Path, content: str, tags: str, run_id: str) -> str:
-    if not isinstance(content, str) or not content.strip() or len(content) > 2000:
-        raise ValueError("Note must contain 1–2000 characters")
+    if (not isinstance(content, str) or not content.strip() or len(content) > 2000
+            or re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", content)):
+        raise ValueError("Note must contain 1–2000 safe plain-text characters")
     if not re.fullmatch(r"\d+", run_id):
         raise ValueError("Publishing requires GitHub's numeric workflow run ID")
     parsed_tags = list(dict.fromkeys(
