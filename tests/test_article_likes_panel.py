@@ -24,7 +24,7 @@ class LikesPanelTests(unittest.TestCase):
         )
         self.assertEqual(len(original), 1)
         expected = badge_links(original[0])
-        self.assertEqual(len(expected), 6)
+        self.assertEqual(len(expected), 5)
         self.assertEqual(len(ARTICLES), 11)
 
         for page in ARTICLES:
@@ -50,13 +50,13 @@ class LikesPanelTests(unittest.TestCase):
                      for href, src, alt in expected]
                 )
                 self.assertEqual([src for _, src, _ in badge_links(likes)][0], "/assets/images/internet-archive.gif")
-                self.assertEqual([src for _, src, _ in badge_links(likes)][-1], "/assets/images/listenbrainz88x31.gif")
-                self.assertFalse(any("CC_BY-NC" in src for _, src, _ in badge_links(likes)))
+                self.assertEqual([src for _, src, _ in badge_links(likes)][-1], "/assets/images/linux_mint.gif")
+                self.assertFalse(any("CC_BY-NC" in src or "listenbrainz88x31" in src for _, src, _ in badge_links(likes)))
                 self.assertTrue(all(src.startswith("/assets/images/")
                                     for _, src, _ in badge_links(likes)))
                 self.assertTrue(all(a.get("width") == "88" and a.get("height") == "31"
                                     for a in likes.xpath(".//img")))
-                self.assertEqual(len(sections[3].xpath('.//div[contains(@class,"badge-grid")]/a')), 5)
+                self.assertEqual(len(sections[3].xpath('.//div[contains(@class,"badge-grid")]/a')), 6)
                 self.assertEqual(len(doc.xpath('//article[contains(@class,"post-container")]'
                     '//div[contains(@class,"footer-buttons")]/a/img')), 5)
 
