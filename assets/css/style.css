@@ -2759,3 +2759,119 @@ body.light .trakt-live-widget .trakt-about-card {
 .sidebar.right .trakt-live-widget .trakt-about-card .media-title a:focus-visible {
   text-decoration: none;
 }
+
+
+/* =====================================================
+   OFFLINE SITE SEARCH — left sidebar and results
+===================================================== */
+.site-search-widget{
+  position:relative;
+  padding:12px;
+  margin:0 0 16px;
+  border:2px solid #a60d1e;
+  border-radius:9px;
+  background:#111526;
+  color:#fff;
+  font-family:Arial, sans-serif;
+  font-size:15px;
+  overflow:visible;
+}
+.site-search-form label,
+.site-search-page-form label{
+  display:block;
+  font-weight:700;
+  letter-spacing:.05em;
+  margin:0 0 8px;
+}
+.site-search-controls{display:flex;flex-direction:column;gap:8px}
+.site-search-widget input,
+.site-search-page-form input,
+.site-search-page-form select{
+  width:100%;
+  min-width:0;
+  background:#fff;
+  color:#141414;
+  border:2px solid #53596e;
+  border-radius:5px;
+  padding:10px 8px;
+  font-family:Arial,sans-serif;
+  font-size:16px;
+}
+.site-search-widget input::placeholder{color:#515151}
+.site-search-widget button,
+.site-search-page-form button{
+  border:2px solid #f59ca4;
+  border-radius:5px;
+  background:#a60d1e;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:14px;
+  font-weight:700;
+  min-height:42px;
+  cursor:pointer;
+  padding:8px 12px;
+}
+.site-search-widget button:hover,
+.site-search-page-form button:hover{background:#c1121f}
+.site-search-widget :is(a,input,button):focus-visible,
+.site-search-page-form :is(input,select,button):focus-visible,
+.site-search-result a:focus-visible{
+  outline:3px solid #9fb3ff;
+  outline-offset:2px;
+}
+.site-search-suggestions{
+  position:relative;
+  margin:9px 0 0;
+  padding:0;
+  background:#0d1223;
+  border:1px solid #747d96;
+  border-radius:6px;
+  list-style:none;
+  max-height:320px;
+  overflow-y:auto;
+}
+.site-search-suggestions[hidden]{display:none}
+.site-search-suggestions li{list-style:none;padding:7px 8px;border-bottom:1px solid #343b51}
+.site-search-suggestions li:last-child{border-bottom:0}
+.site-search-suggestions a{display:block;color:#eaf2ff;font-size:14px;line-height:1.5;word-break:normal}
+.site-search-suggestions a:hover,
+.site-search-suggestions a.site-search-active{color:#fff;text-decoration:underline;background:#30344b}
+.site-search-category{
+  display:inline-block;
+  font-family:Arial,sans-serif;
+  font-size:12px;
+  color:#a7c8ff;
+  margin-top:4px;
+}
+.site-search-widget mark,
+.site-search-results mark{background:#fbe484;color:#172035;padding:0 .1em}
+.site-search-page-form{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(130px,200px) auto;
+  gap:10px;
+  align-items:end;
+  margin:18px 0 25px;
+  font-family:Arial,sans-serif;
+}
+.site-search-page-form label{font-size:14px;grid-row:1}
+.site-search-page-form input,.site-search-page-form select,.site-search-page-form button{grid-row:2}
+.site-search-results{
+  min-height:160px;
+  font-family:Arial,sans-serif;
+  font-size:16px;
+  line-height:1.65;
+}
+.site-search-result{
+  padding:16px;
+  margin:0 0 15px;
+  background:#101529;
+  border:1px solid #414965;
+  border-radius:8px;
+}
+.site-search-result a{display:block;color:#dce8ff;font-weight:700;font-size:18px}
+.site-search-result p{margin-top:10px;font-size:15px;line-height:1.7}
+@media(max-width:700px){
+  .site-search-page-form{grid-template-columns:1fr}
+  .site-search-page-form label,.site-search-page-form input,
+  .site-search-page-form select,.site-search-page-form button{grid-row:auto}
+}
