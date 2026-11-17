@@ -79,6 +79,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_neocities_deploy.py' -v
           python3 -m unittest discover -s tests -p 'test_trakt_updater.py' -v
           node --check assets/js/main.js
+          node --check assets/js/site-search.js
           node --check assets/js/archive.js
           node --check assets/js/trakt-history.js
           node tests/test_security.js
