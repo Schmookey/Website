@@ -6,7 +6,7 @@ from lxml import html
 ROOT = Path(__file__).resolve().parents[1]
 PAGES = (
     "index.html", "about.html", "blog/index.html", "music/index.html",
-    "random/index.html", "blog-archive.html", "music-archive.html",
+    "random/index.html", "notes/index.html", "blog-archive.html", "music-archive.html",
     "webrings.html", "changelog.html", "privacy.html", "now.html",
     "listening.html", "now-watching.html", "search.html", "page-template.html",
 )
@@ -26,7 +26,7 @@ def classes(el):
 
 class StandardPagePanelTests(unittest.TestCase):
     def test_all_standard_pages_have_separate_left_hand_panels(self):
-        self.assertEqual(len(PAGES), 15)
+        self.assertEqual(len(PAGES), 16)
         for name in PAGES:
             with self.subTest(page=name):
                 page = ROOT / name
