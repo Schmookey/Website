@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "2026-11-17-205804-44174796184",
+    "date": "2026-11-17T20:58:04Z",
+    "content": "Hello! This is my first note on my website. A way for me to short-form blog about my life. Say hello to my doggo Kai.",
+    "tags": [
+      "notes",
+      "indieweb",
+      "first",
+      "microblog",
+      "kai",
+      "dog"
+    ],
+    "image": "/assets/images/kai_doggo.jpg",
+    "image_alt": "My cross breed Malador dog Kai"
+  }
+]

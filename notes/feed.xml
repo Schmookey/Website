@@ -1,2 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0"><channel><title>Schmookey Notes</title><link>https://schmookey.xyz/notes/</link><description>Short thoughts and observations from Schmookey.</description></channel></rss>
+<rss version="2.0">
+  <channel>
+    <title>Schmookey Notes</title>
+    <link>https://schmookey.xyz/notes/</link>
+    <description>Short thoughts and observations from Schmookey.</description>
+    <item>
+      <title>Hello! This is my first note on my website. A way for me to short-form blog about my life.</title>
+      <link>https://schmookey.xyz/notes/2026-11-17-205804-44174796184.html</link>
+      <guid isPermaLink="true">https://schmookey.xyz/notes/2026-11-17-205804-44174796184.html</guid>
+      <pubDate>Tue, 17 Nov 2026 20:58:04 GMT</pubDate>
+      <description>Hello! This is my first note on my website. A way for me to short-form blog about my life. Say hello to my doggo Kai.</description>
+      <category>notes</category>
+      <category>indieweb</category>
+      <category>first</category>
+      <category>microblog</category>
+      <category>kai</category>
+      <category>dog</category>
+    </item>
+  </channel>
+</rss>

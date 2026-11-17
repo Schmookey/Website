@@ -1,2 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Schmookey Notes</title><id>https://schmookey.xyz/notes/</id><link rel="alternate" href="https://schmookey.xyz/notes/"/><updated>2026-11-17T00:00:00Z</updated></feed>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Schmookey Notes</title>
+  <id>https://schmookey.xyz/notes/</id>
+  <link rel="alternate" href="https://schmookey.xyz/notes/" />
+  <link rel="self" href="https://schmookey.xyz/notes/atom.xml" />
+  <updated>2026-11-17T20:58:04Z</updated>
+  <author>
+    <name>Schmookey</name>
+  </author>
+  <entry>
+    <id>https://schmookey.xyz/notes/2026-11-17-205804-44174796184.html</id>
+    <title>Hello! This is my first note on my website. A way for me to short-form blog about my life.</title>
+    <updated>2026-11-17T20:58:04Z</updated>
+    <published>2026-11-17T20:58:04Z</published>
+    <link rel="alternate" href="https://schmookey.xyz/notes/2026-11-17-205804-44174796184.html" />
+    <content type="text">Hello! This is my first note on my website. A way for me to short-form blog about my life. Say hello to my doggo Kai.</content>
+    <category term="notes" />
+    <category term="indieweb" />
+    <category term="first" />
+    <category term="microblog" />
+    <category term="kai" />
+    <category term="dog" />
+  </entry>
+</feed>
