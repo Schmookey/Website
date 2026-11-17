@@ -3438,3 +3438,80 @@ body.light .trakt-live-widget .trakt-about-card {
 .layout.site-panel-layout .about-media-panel-content .media-card{
   margin:0;
 }
+
+
+/* =====================================================
+   HOME — INDEPENDENT FOLLOWED-BLOG ARTICLE PANELS
+   Match the About media sidebar and left-hand 16-bit panels.
+   Keep original Openring article text, links and attribution.
+===================================================== */
+.layout.site-panel-layout > aside.sidebar.right.followed-blogs-sidebar{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:14px;
+  min-width:0;
+  min-height:0;
+  height:auto;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
+}
+.layout.site-panel-layout .followed-blogs-sidebar > .webring{
+  width:100%;
+  min-width:0;
+  margin:0;
+}
+.layout.site-panel-layout .followed-blogs-sidebar > .webring > h3{
+  margin:0 0 14px;
+  padding:11px 8px;
+  border:3px solid #1e40ff;
+  border-radius:6px;
+  background:#c1121f;
+  color:#fff;
+  box-shadow:inset 2px 2px 0 #e05a65,inset -3px -3px 0 #000,0 4px 0 rgba(0,0,0,.85);
+  font:10px/1.8 "Press Start 2P",monospace;
+  overflow-wrap:anywhere;
+}
+.layout.site-panel-layout .followed-blogs-sidebar .articles{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin:0;
+}
+.layout.site-panel-layout .followed-blogs-sidebar .articles > .followed-blog-panel{
+  display:block;
+  box-sizing:border-box;
+  min-width:0;
+  margin:0;
+  padding:0;
+  border:3px solid #1e40ff;
+  border-radius:6px;
+  background:#0b0f1f;
+  color:#e6ecff;
+  box-shadow:inset 2px 2px 0 #2a2f55,inset -3px -3px 0 #000,0 4px 0 rgba(0,0,0,.85);
+  overflow:hidden;
+}
+.layout.site-panel-layout .followed-blog-panel > .followed-blog-panel-heading{
+  margin:0;
+  padding:11px 8px;
+  border-bottom:2px solid #1e40ff;
+  background:#c1121f;
+  color:#fff;
+  font:10px/1.8 "Press Start 2P",monospace;
+  overflow-wrap:anywhere;
+}
+.layout.site-panel-layout .followed-blog-panel > .followed-blog-panel-body{
+  min-width:0;
+  padding:12px 10px;
+}
+.layout.site-panel-layout .followed-blog-panel .title a{
+  overflow-wrap:anywhere;
+}
+.layout.site-panel-layout .followed-blogs-sidebar .attribution{
+  margin:14px 0 0;
+  text-align:right;
+}
