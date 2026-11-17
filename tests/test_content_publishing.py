@@ -68,5 +68,43 @@ class ContentPublishingTests(unittest.TestCase):
         self.assertIn("November Update", outputs["atom.xml"])
 
 
+    def test_sitemap_contains_all_published_posts_and_public_pages(self):
+        import xml.etree.ElementTree as ET
+        records, updates = builder.content_items(ROOT)
+        xml_text = builder.build_sitemap(ROOT, records, updates)
+        root = ET.fromstring(xml_text)
+        ns = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+        locs = [entry.text for entry in root.findall(f"{ns}url/{ns}loc")]
+        self.assertIn("https://schmookey.xyz/blog/posts/november_update.html", locs)
+        self.assertIn("https://schmookey.xyz/blog/", locs)
+        self.assertIn("https://schmookey.xyz/music/", locs)
+        self.assertIn("https://schmookey.xyz/now.html", locs)
+        self.assertIn("https://schmookey.xyz/privacy.html", locs)
+        self.assertIn("https://schmookey.xyz/changelog.html", locs)
+        self.assertEqual(len(locs), len(set(locs)))
+        self.assertEqual(len(locs), len(builder.SITEMAP_PAGES) + len(records))
+        self.assertNotIn("https://schmookey.xyz/blog/posts/blog-template.html", locs)
+        self.assertNotIn("https://schmookey.xyz/404.html", locs)
+        by_loc = {
+            entry.findtext(f"{ns}loc"): entry.findtext(f"{ns}lastmod")
+            for entry in root.findall(f"{ns}url")
+        }
+        self.assertEqual(by_loc["https://schmookey.xyz/blog/posts/november_update.html"],
+                         "2026-11-15")
+        self.assertEqual(by_loc["https://schmookey.xyz/now.html"], "2026-11-11")
+        self.assertEqual(by_loc["https://schmookey.xyz/changelog.html"], "2026-11-13")
+        self.assertEqual(xml_text, builder.build_sitemap(ROOT, records, updates))
+
+    def test_adding_new_post_updates_sitemap_without_hard_coding(self):
+        records, updates = builder.content_items(ROOT)
+        # Derive from a fresh metadata record; no edits to the sitemap are needed.
+        test_post = dict(records[0][0], url="/blog/posts/new-example.html",
+                         date="2026-11-17T12:00:00+00:00")
+        output = builder.build_sitemap(ROOT, [*records, (test_post, records[0][1])], updates)
+        self.assertIn("https://schmookey.xyz/blog/posts/new-example.html", output)
+        self.assertIn("<lastmod>2026-11-17</lastmod>", output)
+
+
+
 if __name__ == "__main__":
     unittest.main()
