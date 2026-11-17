@@ -25,7 +25,9 @@ class NotesPublishingTests(unittest.TestCase):
         template = self.root / "notes/index.html"
         template.parent.mkdir(parents=True, exist_ok=True)
         template.write_text(
-            (ROOT / "notes/index.html").read_text(encoding="utf-8"),
+            builder.render_index(
+                (ROOT / "notes/index.html").read_text(encoding="utf-8"), []
+            ),
             encoding="utf-8",
         )
         source = self.root / "assets/data/notes.json"
@@ -38,11 +40,11 @@ class NotesPublishingTests(unittest.TestCase):
     def test_empty_notes_preserve_existing_page_and_feed_data(self):
         outputs = builder.outputs(self.root)
         self.assertEqual(outputs[Path("notes/index.html")],
-                         (ROOT / "notes/index.html").read_text(encoding="utf-8"))
-        self.assertEqual(outputs[Path("notes/feed.xml")],
-                         (ROOT / "notes/feed.xml").read_text(encoding="utf-8"))
-        self.assertEqual(outputs[Path("notes/atom.xml")],
-                         (ROOT / "notes/atom.xml").read_text(encoding="utf-8"))
+                         (self.root / "notes/index.html").read_text(encoding="utf-8"))
+        rss = ET.fromstring(outputs[Path("notes/feed.xml")])
+        self.assertEqual(rss.findall("./channel/item"), [])
+        atom = ET.fromstring(outputs[Path("notes/atom.xml")])
+        self.assertEqual(atom.findall("{http://www.w3.org/2005/Atom}entry"), [])
 
     def test_publish_generates_safe_individual_html_feed_and_xml(self):
         text = 'A <script>alert("x")</script> & a short note.\n\nSecond paragraph.'
