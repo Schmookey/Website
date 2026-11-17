@@ -1,0 +1,92 @@
+name: Neocities automatic site deployment (review-gated)
+
+# Only deploy a successfully validated main-branch commit.
+on:
+  workflow_run:
+    workflows: ["Static website checks"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      preview_only:
+        description: "Stage and validate, without uploading"
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neocities-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # Automatic uploads are disabled until the owner enables the repository variable.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out verified revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+          persist-credentials: false
+      - name: Reject outdated commits and non-main manual runs
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF" != "refs/heads/main" && "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            echo "::error::Manual runs must select main."
+            exit 1
+          fi
+          HEAD_SHA="$(git rev-parse HEAD)"
+          MAIN_SHA="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [[ "$HEAD_SHA" != "$MAIN_SHA" ]]; then
+            echo "::error::Main has moved since validation; skipping outdated deployment."
+            exit 1
+          fi
+      - name: Validate deployment staging inputs
+        run: |
+          python3 -m unittest discover -s tests -p 'test_neocities_staging.py' -v
+          python3 scripts/stage_neocities_site.py --output public
+          test -f public/index.html
+          test ! -e public/assets/data/trakt-history.json
+      - name: Require explicit activation before any upload
+        id: gate
+        env:
+          ENABLED: ${{ vars.NEOCITIES_AUTO_DEPLOY_ENABLED }}
+          PREVIEW_ONLY: ${{ inputs.preview_only }}
+        run: |
+          if [[ "$ENABLED" == "true" && "$PREVIEW_ONLY" != "true" ]]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+            echo "Preview only: deployment not activated."
+          fi
+      - name: Verify configured destination
+        if: steps.gate.outputs.deploy == 'true'
+        env:
+          NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from scripts.neocities_manual_deploy import request, verify_destination
+          key = os.getenv("NEOCITIES_API_KEY", "")
+          if not key:
+              raise SystemExit("NEOCITIES_API_KEY is missing")
+          verify_destination(request("/info", key))
+          PY
+      - name: Deploy changed public files to Neocities
+        if: steps.gate.outputs.deploy == 'true'
+        uses: bcomnes/deploy-to-neocities@44e42387b3267e31432ca34b01f013b94956f2f2 # v3.0.6
+        with:
+          api_key: ${{ secrets.NEOCITIES_API_KEY }}
+          dist_dir: public
+          cleanup: false
+          preview_before_deploy: true
+          neocities_supporter: false
