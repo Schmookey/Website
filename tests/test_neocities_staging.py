@@ -30,6 +30,7 @@ class NeocitiesStagingTests(unittest.TestCase):
             files = stager.stage(destination)
             self.assertIn("index.html", files)
             self.assertIn("assets/css/style.css", files)
+            self.assertIn("assets/css/now-16bit.css", files)
             self.assertIn("assets/xsl/rss.xsl", files)
             self.assertIn("assets/xsl/sitemap.xsl", files)
             self.assertNotIn("assets/data/trakt-history.json", files)
