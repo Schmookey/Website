@@ -1,7 +1,18 @@
 {
-  "generated_at": "2026-11-18T20:54:34+00:00",
+  "generated_at": "2026-11-18T21:59:55+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Killing Eve",
+      "type": "TV Show",
+      "episode": "You're Mine",
+      "season": 2,
+      "episode_number": 8,
+      "year": 2018,
+      "link": "https://trakt.tv/shows/killing-eve",
+      "cover": "https://image.tmdb.org/t/p/w200/4wKhTVw8aGq5AZMa0Q1spERdi7n.jpg",
+      "watched_at": "2026-11-18T22:05:00.000Z"
+    },
     {
       "title": "Killing Eve",
       "type": "TV Show",
@@ -320,17 +331,6 @@
       "link": "https://trakt.tv/shows/slow-horses",
       "cover": "https://image.tmdb.org/t/p/w200/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
       "watched_at": "2026-10-25T21:49:00.000Z"
-    },
-    {
-      "title": "Slow Horses",
-      "type": "TV Show",
-      "episode": "Circle of Life",
-      "season": 6,
-      "episode_number": 1,
-      "year": 2022,
-      "link": "https://trakt.tv/shows/slow-horses",
-      "cover": "https://image.tmdb.org/t/p/w200/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-      "watched_at": "2026-10-25T20:35:00.000Z"
     }
   ]
 }
