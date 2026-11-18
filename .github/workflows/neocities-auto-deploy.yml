@@ -72,6 +72,7 @@ jobs:
           python3 scripts/build_content.py --check
           python3 tests/validate_site.py
           python3 -m unittest discover -s tests -p 'test_content_publishing.py' -v
+          python3 -m unittest discover -s tests -p 'test_now_three_sections.py' -v
           python3 -m unittest discover -s tests -p 'test_feeds.py' -v
           python3 -m unittest discover -s tests -p 'test_november_reconciliation.py' -v
           python3 -m unittest discover -s tests -p 'test_indieweb_metadata.py' -v
