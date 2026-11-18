@@ -3,6 +3,7 @@ import json
 import re
 import unittest
 import xml.etree.ElementTree as ET
+from lxml import etree as LET
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
@@ -51,6 +52,19 @@ class FeedConsistencyTests(unittest.TestCase):
                 self.assertIn(ident, by_id)
                 self.assertEqual(by_id[ident]["url"], BASE + u["url"])
                 self.assertEqual(stamp(by_id[ident]["date_published"]), stamp(u["date"]))
+
+    def test_rss_human_readable_stylesheet(self):
+        rss_text = (ROOT / "feed.xml").read_text(encoding="utf-8")
+        self.assertIn('<?xml-stylesheet type="text/xsl" href="/assets/xsl/rss.xsl"?>', rss_text)
+        xsl_path = ROOT / "assets/xsl/rss.xsl"
+        self.assertTrue(xsl_path.is_file())
+        stylesheet = LET.XSLT(LET.parse(str(xsl_path)))
+        rendered = str(stylesheet(LET.parse(str(ROOT / "feed.xml"))))
+        self.assertIn("Visit Schmookey", rendered)
+        self.assertIn("https://schmookey.xyz/", rendered)
+        self.assertIn("November Update", rendered)
+        self.assertEqual(rendered.count('class="entry"'), len(self.feed["items"]))
+        self.assertIn("https://schmookey.xyz/blog/posts/november_update.html", rendered)
 
     def test_rss_and_atom_match_json_feed(self):
         items = self.feed["items"]
