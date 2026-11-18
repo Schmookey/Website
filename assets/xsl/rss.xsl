@@ -89,7 +89,7 @@
         <div class="container">
           <header class="masthead">
             <div class="masthead-top">
-              <span class="brand"><xsl:value-of select="rss/channel/title"/></span>
+              <span class="brand">Schmookey.xyz</span>
               <span class="format">RSS 2.0</span>
             </div>
             <div class="stripe"></div>
