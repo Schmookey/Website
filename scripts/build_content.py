@@ -182,9 +182,9 @@ def build_feeds(root: Path, records, updates) -> dict[str, str]:
         ET.SubElement(node, tag("summary")).text = item["content_text"]
     for name, tree in [("feed.xml", rss), ("atom.xml", atom)]:
         ET.indent(tree, space="  ")
-        header = "<?xml version=\'1.0\' encoding=\'utf-8\'?>\n"
+        header = "<?xml version='1.0' encoding='utf-8'?>\n"
         if name == "feed.xml":
-            header += \'<?xml-stylesheet type="text/xsl" href="/assets/xsl/rss.xsl"?>\n\'
+            header += '<?xml-stylesheet type="text/xsl" href="/assets/xsl/rss.xsl"?>\n'
         result[name] = header + ET.tostring(tree, encoding="unicode")
     return result
 
