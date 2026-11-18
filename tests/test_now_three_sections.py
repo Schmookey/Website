@@ -33,6 +33,13 @@ class NowThreeSectionsTests(unittest.TestCase):
         self.assertFalse(doc.xpath('//main//*[contains(@class,"jrpg-window")]'))
         style = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         self.assertIn(".now-16bit-card", style)
+        # Explicit stylesheet prevents a stale cached copy of global CSS
+        # from leaving the newly renamed Now components unstyled.
+        self.assertEqual(doc.xpath('//link[@rel="stylesheet"][@href="/assets/css/now-16bit.css"]/@href'),
+                         ["/assets/css/now-16bit.css"])
+        dedicated = (ROOT / "assets/css/now-16bit.css").read_text(encoding="utf-8")
+        self.assertIn(".now-16bit-card", dedicated)
+        self.assertIn(".now-16bit-header", dedicated)
         self.assertIn("#1e40ff", style)
         self.assertIn("#c1121f", style)
         self.assertIn("focus-visible", style)
