@@ -1,7 +1,18 @@
 {
-  "generated_at": "2026-11-18T14:05:29+00:00",
+  "generated_at": "2026-11-18T20:54:34+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Killing Eve",
+      "type": "TV Show",
+      "episode": "Wide Awake",
+      "season": 2,
+      "episode_number": 7,
+      "year": 2018,
+      "link": "https://trakt.tv/shows/killing-eve",
+      "cover": "https://image.tmdb.org/t/p/w200/4wKhTVw8aGq5AZMa0Q1spERdi7n.jpg",
+      "watched_at": "2026-11-18T21:11:00.000Z"
+    },
     {
       "title": "Honey",
       "type": "TV Show",
@@ -320,17 +331,6 @@
       "link": "https://trakt.tv/shows/slow-horses",
       "cover": "https://image.tmdb.org/t/p/w200/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
       "watched_at": "2026-10-25T20:35:00.000Z"
-    },
-    {
-      "title": "Have I Got News for You",
-      "type": "TV Show",
-      "episode": "Amol Rajan, Salma Shah",
-      "season": 72,
-      "episode_number": 4,
-      "year": 1990,
-      "link": "https://trakt.tv/shows/have-i-got-news-for-you",
-      "cover": "https://image.tmdb.org/t/p/w200/gYrG6F8OXBa8C0Lfx10XaZsHKaw.jpg",
-      "watched_at": "2026-10-23T21:07:00.000Z"
     }
   ]
 }
