@@ -63,7 +63,14 @@ class ContentPublishingTests(unittest.TestCase):
         outputs = builder.build_feeds(ROOT, records, updates)
         jsonfeed = json.loads(outputs["feed.json"])
         self.assertGreaterEqual(len(jsonfeed["items"]), len(records) + len(updates))
-        self.assertEqual(jsonfeed["items"][0]["title"], "November Update")
+        # The newest post or site update owns the first feed entry.
+        # Do not pin this to one historical article: changelog edits are expected.
+        latest_source = max(
+            [post for post, _ in records] + updates,
+            key=lambda item: builder.timestamp(item["date"]),
+        )
+        self.assertEqual(jsonfeed["items"][0]["title"], latest_source["title"])
+        self.assertIn("November Update", [item["title"] for item in jsonfeed["items"]])
         self.assertIn("<item>", outputs["feed.xml"])
         self.assertIn("November Update", outputs["atom.xml"])
 
@@ -90,10 +97,18 @@ class ContentPublishingTests(unittest.TestCase):
             entry.findtext(f"{ns}loc"): entry.findtext(f"{ns}lastmod")
             for entry in root.findall(f"{ns}url")
         }
-        self.assertEqual(by_loc["https://schmookey.xyz/blog/posts/november_update.html"],
-                         "2026-11-15")
-        self.assertEqual(by_loc["https://schmookey.xyz/now.html"], "2026-11-11")
-        self.assertEqual(by_loc["https://schmookey.xyz/changelog.html"], "2026-11-13")
+        november = next(post for post, _ in records if post["title"] == "November Update")
+        self.assertEqual(
+            by_loc["https://schmookey.xyz/blog/posts/november_update.html"],
+            builder.timestamp(november.get("updated") or november["date"]).date().isoformat(),
+        )
+        # Changelog and Now lastmod dates must follow the newest metadata record.
+        for url in ("/now.html", "/changelog.html"):
+            expected_lastmod = max(
+                builder.timestamp(update["date"]).date().isoformat()
+                for update in updates if update["url"] == url
+            )
+            self.assertEqual(by_loc[f"https://schmookey.xyz{url}"], expected_lastmod)
         self.assertEqual(xml_text, builder.build_sitemap(ROOT, records, updates))
 
     def test_adding_new_post_updates_sitemap_without_hard_coding(self):
