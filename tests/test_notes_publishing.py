@@ -7,7 +7,7 @@ from pathlib import Path
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
-from lxml import html
+from lxml import html, etree as LET
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("build_notes", ROOT / "scripts/build_notes.py")
@@ -71,6 +71,29 @@ class NotesPublishingTests(unittest.TestCase):
         self.assertEqual(atom.findtext(f"{ns}entry/{ns}content"), text)
         builder.generate(self.root)
         builder.generate(self.root, check=True)
+
+    def test_notes_rss_renders_using_same_retro_stylesheet_as_main_feed(self):
+        instruction = '<?xml-stylesheet type="text/xsl" href="/assets/xsl/rss.xsl"?>'
+        self.assertIn(instruction, (ROOT / "notes/feed.xml").read_text(encoding="utf-8"))
+        self.assertIn(instruction, builder.rss_feed([]))
+        self.assertIn(instruction, builder.rss_feed(builder.read_notes(ROOT)))
+        stylesheet = LET.XSLT(LET.parse(str(ROOT / "assets/xsl/rss.xsl")))
+        notes_xml = LET.parse(str(ROOT / "notes/feed.xml"))
+        result = html.fromstring(str(stylesheet(notes_xml)))
+        self.assertEqual(result.xpath('string(//title)'), "NOTES RSS | SCHMOOKEY")
+        self.assertEqual(result.xpath('string(//span[@class="brand"])'), "Schmookey.xyz")
+        self.assertEqual(result.xpath('string(//h1)'), "Notes RSS Feed")
+        self.assertEqual(result.xpath('//a[@class="site-link"]/@href'), ["https://schmookey.xyz/notes/"])
+        self.assertIn("https://schmookey.xyz/notes/feed.xml", result.text_content())
+        self.assertEqual(
+            result.xpath('//div[@class="entry"]//h2/a/@href'),
+            notes_xml.xpath('/rss/channel/item/link/text()'),
+        )
+        main_xml = LET.parse(str(ROOT / "feed.xml"))
+        main = html.fromstring(str(stylesheet(main_xml)))
+        self.assertEqual(main.xpath('string(//title)'), "RSS | SCHMOOKEY")
+        self.assertEqual(main.xpath('string(//h1)'), "RSS Feed")
+        self.assertEqual(main.xpath('//a[@class="site-link"]/@href'), ["https://schmookey.xyz/"])
 
     def test_republishing_same_workflow_run_is_idempotent(self):
         first = builder.add_note(self.root, "Short original note", "linux", "888")
