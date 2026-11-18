@@ -86,7 +86,7 @@ class NotesPublishingTests(unittest.TestCase):
         self.assertEqual(result.xpath('//a[@class="site-link"]/@href'), ["https://schmookey.xyz/notes/"])
         self.assertIn("https://schmookey.xyz/notes/feed.xml", result.text_content())
         self.assertEqual(
-            result.xpath('//div[@class="entry"]//h2/a/@href'),
+            result.xpath('//article[@class="entry"]//h2/a/@href'),
             notes_xml.xpath('/rss/channel/item/link/text()'),
         )
         main_xml = LET.parse(str(ROOT / "feed.xml"))
