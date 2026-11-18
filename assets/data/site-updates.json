@@ -1,6 +1,13 @@
 [
   {
-   "type": "Changelog",
+    "type": "Now",
+    "title": "Simplified Now page",
+    "url": "/now.html",
+    "date": "2026-11-18T17:41:00+00:00",
+    "summary": "A simpler three-part update on what I'm doing, enjoying and exploring at the moment."
+  },
+  {
+    "type": "Changelog",
     "title": "New search box, Widgets, Notes microblog",
     "url": "/changelog.html",
     "date": "2026-11-18T09:39:00+00:00",
