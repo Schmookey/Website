@@ -118,6 +118,7 @@ class ContentPublishingTests(unittest.TestCase):
         stylesheet = LET.XSLT(LET.parse(str(ROOT / "assets/xsl/sitemap.xsl")))
         rendered = html.fromstring(str(stylesheet(LET.parse(str(ROOT / "sitemap.xml")))))
         self.assertEqual(rendered.xpath('string(//span[@class="brand"])'), "Schmookey.xyz")
+        self.assertEqual(rendered.xpath('string(//title)'), "SITEMAP | SCHMOOKEY")
         self.assertEqual(rendered.xpath('string(//h1)'), "Sitemap")
         self.assertEqual(rendered.xpath('//section[@class="group"]/@id'),
                          ["site-pages", "blog", "music", "notes"])

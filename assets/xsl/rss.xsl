@@ -10,7 +10,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="color-scheme" content="dark"/>
-        <title><xsl:value-of select="rss/channel/title"/> — RSS Feed</title>
+        <title>RSS | SCHMOOKEY</title>
         <style type="text/css">
           * { box-sizing: border-box; }
           body {
