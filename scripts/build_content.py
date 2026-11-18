@@ -299,6 +299,7 @@ def build_sitemap(root: Path, records, updates) -> str:
     if len({url for url, _ in paths}) != len(paths):
         raise ValueError("Duplicate sitemap URLs")
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<?xml-stylesheet type="text/xsl" href="/assets/xsl/sitemap.xsl"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for url, lastmod in paths:
         lines.extend(['  <url>', f'    <loc>{escape(BASE + url)}</loc>'])

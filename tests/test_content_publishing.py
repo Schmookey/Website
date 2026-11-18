@@ -5,7 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 import unittest
-from lxml import html
+from lxml import html, etree as LET
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("build_content", ROOT / "scripts/build_content.py")
@@ -110,6 +110,28 @@ class ContentPublishingTests(unittest.TestCase):
             )
             self.assertEqual(by_loc[f"https://schmookey.xyz{url}"], expected_lastmod)
         self.assertEqual(xml_text, builder.build_sitemap(ROOT, records, updates))
+
+    def test_sitemap_has_readable_xslt_view_with_all_existing_links(self):
+        sitemap_text = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
+        processing_instruction = '<?xml-stylesheet type="text/xsl" href="/assets/xsl/sitemap.xsl"?>'
+        self.assertIn(processing_instruction, sitemap_text)
+        stylesheet = LET.XSLT(LET.parse(str(ROOT / "assets/xsl/sitemap.xsl")))
+        rendered = html.fromstring(str(stylesheet(LET.parse(str(ROOT / "sitemap.xml")))))
+        self.assertEqual(rendered.xpath('string(//span[@class="brand"])'), "Schmookey.xyz")
+        self.assertEqual(rendered.xpath('string(//h1)'), "Sitemap")
+        self.assertEqual(rendered.xpath('//section[@class="group"]/@id'),
+                         ["site-pages", "blog", "music", "notes"])
+        original = LET.parse(str(ROOT / "sitemap.xml"))
+        ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+        urls = original.xpath('//sm:url/sm:loc/text()', namespaces=ns)
+        displayed = rendered.xpath('//a[@class="page-link"]/@href')
+        self.assertCountEqual(displayed, urls)
+        self.assertEqual(len(displayed), len(set(displayed)))
+        self.assertIn("https://schmookey.xyz/notes/", displayed)
+        self.assertIn("https://schmookey.xyz/blog/posts/november_update.html", displayed)
+        self.assertIn("https://schmookey.xyz/music/posts/listenbrainz.html", displayed)
+        self.assertIn("Last updated: 2026-11-15", rendered.text_content())
+        self.assertIn("https://schmookey.xyz/feed.xml", rendered.xpath('//footer//a/@href'))
 
     def test_adding_new_post_updates_sitemap_without_hard_coding(self):
         records, updates = builder.content_items(ROOT)
