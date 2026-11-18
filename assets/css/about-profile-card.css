@@ -3,10 +3,16 @@
  * All rules are scoped to .about-page so the rest of the website is unchanged.
  * The card uses semantic HTML, genuine links and accessible progress indicators.
  */
+/* Keep the card's layout container for responsive sizing, but hide the
+   standard blue panel frame behind it on the About page only. */
 .about-page main.center.panel {
   min-width: 0;
   container: about-card / inline-size;
   padding: 12px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .about-page .profile-card,
