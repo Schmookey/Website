@@ -15,7 +15,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="color-scheme" content="dark"/>
-        <title>Schmookey.xyz — Sitemap</title>
+        <title>SITEMAP | SCHMOOKEY</title>
         <style type="text/css">
           * { box-sizing: border-box; }
           body { margin: 0; padding: 28px 16px 56px; background: #0b0f1f; color: #e6ecff;
