@@ -5,12 +5,14 @@
        The XML is not replaced, so feed readers still receive RSS 2.0. -->
   <xsl:output method="html" encoding="UTF-8" indent="yes"/>
   <xsl:template match="/">
+    <!-- Reuse this presentation for the independent Notes RSS feed. -->
+    <xsl:variable name="notesFeed" select="normalize-space(rss/channel/link) = 'https://schmookey.xyz/notes/'"/>
     <html lang="en-GB">
       <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="color-scheme" content="dark"/>
-        <title>RSS | SCHMOOKEY</title>
+        <title><xsl:choose><xsl:when test="$notesFeed">NOTES RSS | SCHMOOKEY</xsl:when><xsl:otherwise>RSS | SCHMOOKEY</xsl:otherwise></xsl:choose></title>
         <style type="text/css">
           * { box-sizing: border-box; }
           body {
@@ -94,16 +96,22 @@
             </div>
             <div class="stripe"></div>
             <div class="intro">
-              <h1>RSS Feed</h1>
+              <h1><xsl:choose><xsl:when test="$notesFeed">Notes RSS Feed</xsl:when><xsl:otherwise>RSS Feed</xsl:otherwise></xsl:choose></h1>
               <p><xsl:value-of select="rss/channel/description"/></p>
-              <a class="site-link" href="https://schmookey.xyz/">Visit Schmookey's World</a>
+              <xsl:choose>
+                <xsl:when test="$notesFeed"><a class="site-link" href="https://schmookey.xyz/notes/">Visit Notes</a></xsl:when>
+                <xsl:otherwise><a class="site-link" href="https://schmookey.xyz/">Visit Schmookey's World</a></xsl:otherwise>
+              </xsl:choose>
             </div>
           </header>
           <aside class="feed-note" aria-label="How to subscribe">
-            <p>This is an RSS feed. Copy <code>https://schmookey.xyz/feed.xml</code> into your favourite feed reader to subscribe.</p>
+            <xsl:choose>
+              <xsl:when test="$notesFeed"><p>This is the Notes RSS feed. Copy <code>https://schmookey.xyz/notes/feed.xml</code> into your favourite feed reader to subscribe.</p></xsl:when>
+              <xsl:otherwise><p>This is an RSS feed. Copy <code>https://schmookey.xyz/feed.xml</code> into your favourite feed reader to subscribe.</p></xsl:otherwise>
+            </xsl:choose>
           </aside>
           <main id="updates">
-            <h2 class="section-heading">Latest updates (<xsl:value-of select="count(rss/channel/item)"/>)</h2>
+            <h2 class="section-heading"><xsl:choose><xsl:when test="$notesFeed">Latest notes </xsl:when><xsl:otherwise>Latest updates </xsl:otherwise></xsl:choose>(<xsl:value-of select="count(rss/channel/item)"/>)</h2>
             <div class="entries">
               <xsl:for-each select="rss/channel/item">
                 <article class="entry">
@@ -118,7 +126,7 @@
                   <p class="date"><xsl:value-of select="substring(pubDate, 6, 11)"/></p>
                   <p class="summary"><xsl:value-of select="description"/></p>
                   <xsl:if test="starts-with(normalize-space(link), 'https://schmookey.xyz/')">
-                    <a class="read-more" href="{normalize-space(link)}">Read on the website &#8594;</a>
+                    <a class="read-more" href="{normalize-space(link)}"><xsl:choose><xsl:when test="$notesFeed">Read note on the website </xsl:when><xsl:otherwise>Read on the website </xsl:otherwise></xsl:choose>&#8594;</a>
                   </xsl:if>
                 </article>
               </xsl:for-each>

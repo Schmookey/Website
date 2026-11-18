@@ -228,6 +228,7 @@ def render_page(template: str, note: dict) -> str:
 def rss_feed(notes: list[dict]) -> str:
     if not notes:
         return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+                '<?xml-stylesheet type="text/xsl" href="/assets/xsl/rss.xsl"?>\n'
                 '<rss version="2.0"><channel><title>Schmookey Notes</title>'
                 '<link>https://schmookey.xyz/notes/</link>'
                 '<description>Short thoughts and observations from Schmookey.</description>'
@@ -258,7 +259,9 @@ def rss_feed(notes: list[dict]) -> str:
     root = ET.Element("rss", {"version": "2.0"})
     root.append(channel)
     ET.indent(root, space="  ")
-    return '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(root, encoding="unicode") + "\n"
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<?xml-stylesheet type="text/xsl" href="/assets/xsl/rss.xsl"?>\n'
+            + ET.tostring(root, encoding="unicode") + "\n")
 
 
 def atom_feed(notes: list[dict]) -> str:
