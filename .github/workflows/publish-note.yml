@@ -23,6 +23,12 @@ on:
         required: false
         default: ""
         type: string
+      syndicate:
+        description: "After live deployment, where should this Note be syndicated?"
+        required: true
+        type: choice
+        options: [none, mastodon, bluesky, both]
+        default: none
 
 permissions:
   contents: write
@@ -56,6 +62,7 @@ jobs:
           NOTE_TAGS: ${{ inputs.tags }}
           NOTE_IMAGE: ${{ inputs.image }}
           NOTE_IMAGE_ALT: ${{ inputs.image_alt }}
+          NOTE_SYNDICATE: ${{ inputs.syndicate }}
         run: |
           set -euo pipefail
           python scripts/build_notes.py --publish
