@@ -77,6 +77,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_indieweb_metadata.py' -v
           python3 -m unittest discover -s tests -p 'test_indexnow_live.py' -v
           python3 -m unittest discover -s tests -p 'test_neocities_deploy.py' -v
+          python3 -m unittest discover -s tests -p 'test_verified_syndication.py' -v
           python3 -m unittest discover -s tests -p 'test_trakt_updater.py' -v
           node --check assets/js/main.js
           node --check assets/js/site-search.js
