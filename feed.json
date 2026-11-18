@@ -11,6 +11,13 @@
   },
   "items": [
     {
+      "id": "urn:schmookey:update:trakt-journal-film-posters-trading-card-profile-look:2026-11-18T09:39:00+00:00",
+      "url": "https://schmookey.xyz/changelog.html",
+      "title": "Trakt Journal, Film Posters, Trading card profile look",
+      "content_text": "added search box, widgets for TV Music and books,related posts. notes microblog .",
+      "date_published": "2026-11-18T09:39:00Z"
+    },
+    {
       "id": "urn:schmookey:post:november_update",
       "url": "https://schmookey.xyz/blog/posts/november_update.html",
       "title": "November Update",
