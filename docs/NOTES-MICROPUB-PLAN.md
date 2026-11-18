@@ -17,7 +17,8 @@ After the reviewed changes are merged to `main`:
    Accepted image types are JPEG, PNG, GIF, WebP and AVIF. The publisher will
    not download images from external websites.
 4. Select **Run workflow** and check that the workflow finishes successfully.
-5. Review the commit and the generated note in `/notes/`.
+5. Choose **website only**, **Mastodon**, **Bluesky** or **both** under the new syndication selection. The default is website only.
+6. Review the commit and the generated note in `/notes/`.
 
 Publishing updates only the Notes source, Notes pages and feeds, and the shared
 sitemap. The main Blog/Music content generator continues to operate separately.
@@ -63,10 +64,19 @@ When the variable is not `true`, publication stays on GitHub and upload is
 skipped. A successful Notes commit alone therefore does **not** guarantee a
 live Neocities upload. Confirm the public note is accessible after deployment.
 
-**Mastodon and Bluesky cross-posting are not implemented or enabled.**
-Those integrations should be added only after public deployment can be
-verified and a durable record prevents accidental duplicate posts. There is
-no need to supply social credentials to the Notes publishing workflow.
+The new verified syndication workflow runs separately after a successful
+Neocities deployment. It checks the live canonical permalink and authored
+content before trying to post. It supports the selected destinations for
+each new Note; older Notes default to website only.
+
+**Social publishing is disabled by default.** The repository owner must add
+the relevant credentials and explicitly set the repository variable
+`SOCIAL_SYNDICATION_ENABLED=true`. Its durable ledger in
+`social/syndication-state.json` records each attempt before making an
+external request. Pending attempts are not retried automatically; investigate
+the social account and reconcile the ledger rather than risk duplicates.
+Don't set the activation flag until after reviewing the tests, permissions,
+and dry-run results. No secret tokens belong in a Note or a source file.
 
 Webmention.io remains the existing independent Webmention receiver. Notes
 carry their own canonical URLs; displaying received replies on individual

@@ -82,6 +82,8 @@ def read_notes(root: Path = ROOT) -> list[dict]:
             verify_image(root, picture, alt)
         elif alt:
             raise ValueError("Image description requires an image")
+        if note.get("syndicate", "none") not in {"none", "mastodon", "bluesky", "both"}:
+            raise ValueError("Invalid Note syndication option")
         tags = note.get("tags", [])
         if not isinstance(tags, list) or len(tags) > 10 or any(
             not isinstance(tag, str) or not re.fullmatch(r"[a-z0-9][a-z0-9 -]{0,39}", tag)
@@ -92,7 +94,7 @@ def read_notes(root: Path = ROOT) -> list[dict]:
 
 
 def add_note(root: Path, content: str, tags: str, run_id: str,
-             image: str = "", image_alt: str = "") -> str:
+             image: str = "", image_alt: str = "", syndicate: str = "none") -> str:
     if (not isinstance(content, str) or not content.strip() or len(content) > 2000
             or re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", content)):
         raise ValueError("Note must contain 1–2000 safe plain-text characters")
@@ -102,6 +104,8 @@ def add_note(root: Path, content: str, tags: str, run_id: str,
         verify_image(root, image, image_alt)
     elif image_alt:
         raise ValueError("Image description requires an image")
+    if syndicate not in {"none", "mastodon", "bluesky", "both"}:
+        raise ValueError("Invalid Note syndication option")
     parsed_tags = list(dict.fromkeys(
         word.strip().lower() for word in tags.split(",") if word.strip()
     ))
@@ -113,6 +117,8 @@ def add_note(root: Path, content: str, tags: str, run_id: str,
         "content": content.strip(),
         "tags": parsed_tags,
     }
+    if syndicate != "none":
+        note["syndicate"] = syndicate
     if image:
         note["image"] = image
         note["image_alt"] = image_alt.strip()
@@ -123,7 +129,8 @@ def add_note(root: Path, content: str, tags: str, run_id: str,
             if (existing["content"] != note["content"]
                     or existing.get("tags", []) != parsed_tags
                     or existing.get("image", "") != image
-                    or existing.get("image_alt", "") != image_alt.strip()):
+                    or existing.get("image_alt", "") != image_alt.strip()
+                    or existing.get("syndicate", "none") != syndicate):
                 raise ValueError("This run ID already belongs to a different note")
             return note_url(existing)
     notes.append(note)
@@ -330,7 +337,8 @@ def main() -> None:
             parser.error("--publish cannot be used with --check")
         url = add_note(ROOT, os.environ.get("NOTE_CONTENT", ""),
                        os.environ.get("NOTE_TAGS", ""), os.environ.get("GITHUB_RUN_ID", ""),
-                       os.environ.get("NOTE_IMAGE", ""), os.environ.get("NOTE_IMAGE_ALT", ""))
+                       os.environ.get("NOTE_IMAGE", ""), os.environ.get("NOTE_IMAGE_ALT", ""),
+                       os.environ.get("NOTE_SYNDICATE", "none"))
         print("Prepared " + BASE + url)
     generate(ROOT, check=args.check)
 

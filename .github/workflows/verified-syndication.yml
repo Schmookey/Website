@@ -1,0 +1,71 @@
+name: Verify live content and optionally syndicate
+
+# The deployment job finishes before this workflow can consider publication.
+# No social posts are possible unless the owner explicitly enables the gate
+# and provides appropriate per-account credentials in GitHub Secrets.
+on:
+  workflow_run:
+    workflows: ["Neocities automatic site deployment (review-gated)"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      verify_only:
+        description: "Only verify new opted-in content; never post"
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: schmookey-social-publication
+  cancel-in-progress: false
+
+jobs:
+  check-and-syndicate:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install HTML parser
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install lxml
+      - name: Preview eligible content (no external social requests)
+        if: >-
+          github.event_name == 'workflow_dispatch' &&
+          inputs.verify_only != false
+        run: python scripts/verified_syndication.py
+      - name: Verify eligible content live, without social posting
+        if: >-
+          (github.event_name == 'workflow_run' &&
+           vars.SOCIAL_SYNDICATION_ENABLED != 'true') ||
+          (github.event_name == 'workflow_dispatch' &&
+           inputs.verify_only == false &&
+           vars.SOCIAL_SYNDICATION_ENABLED != 'true')
+        run: python scripts/verified_syndication.py --verify-only
+      - name: Publish only after confirmed live deployment and explicit activation
+        if: >-
+          vars.SOCIAL_SYNDICATION_ENABLED == 'true' &&
+          (github.event_name == 'workflow_run' ||
+           (github.event_name == 'workflow_dispatch' && inputs.verify_only == false))
+        env:
+          SOCIAL_SYNDICATION_ENABLED: ${{ vars.SOCIAL_SYNDICATION_ENABLED }}
+          MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
+          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python scripts/verified_syndication.py --execute
