@@ -22,18 +22,34 @@ class HomeFollowedBlogPanelTests(unittest.TestCase):
             './section[contains(@class,"articles")]/article[contains(@class,"followed-blog-panel")]'
         )
         self.assertEqual(len(cards), 3)
-        expected = (
-            ("https://www.wheresyoured.at/the-ai-demand-bubble/", "https://www.wheresyoured.at/", "August 4, 2026"),
-            ("https://www.usermag.co/p/my-journey-into-the-slop-factory", "https://www.usermag.co/", "July 30, 2026"),
-            ("https://www.gamefile.news/p/sony-drops-playstation-discs-2028-ps3-vita-stores-closing", "https://substack.com/@stephentotilo", "July 1, 2026"),
-        )
-        for card, (article, source, date) in zip(cards, expected):
+        # These are hand-curated links and will change. Check the structure,
+        # accessibility and URL safety without pinning old article titles/dates.
+        from datetime import datetime
+        from urllib.parse import urlsplit
+        urls = []
+        for card in cards:
             self.assertFalse(card.xpath('.//*[contains(@class,"followed-blog-panel-heading")]'))
-            self.assertEqual(card.xpath('./h4[contains(@class,"title")]/a/@href'), [article])
-            self.assertEqual(card.xpath('./small[contains(@class,"source")]/a/@href'), [source])
-            self.assertEqual(card.xpath('./small[contains(@class,"date")]/text()')[0].strip(), date)
-            self.assertTrue(card.xpath('./p[contains(@class,"summary")]/text()')[0].strip())
-            self.assertEqual(card.xpath('./h4/a/@target'), ["_blank"])
+            articles = card.xpath('./h4[contains(@class,"title")]/a')
+            sources = card.xpath('./small[contains(@class,"source")]/a')
+            dates = card.xpath('./small[contains(@class,"date")]/text()')
+            summaries = card.xpath('./p[contains(@class,"summary")]')
+            self.assertEqual(len(articles), 1)
+            self.assertEqual(len(sources), 1)
+            self.assertEqual(len(dates), 1)
+            self.assertEqual(len(summaries), 1)
+            self.assertTrue(articles[0].text_content().strip())
+            self.assertTrue(summaries[0].text_content().strip())
+            self.assertTrue(sources[0].text_content().strip())
+            datetime.strptime(dates[0].strip(), "%B %d, %Y")
+            for anchor in (articles[0], sources[0]):
+                target = urlsplit(anchor.get("href", ""))
+                self.assertEqual(target.scheme, "https")
+                self.assertTrue(target.hostname)
+                self.assertNotIn("//", target.path)
+                self.assertEqual(anchor.get("target"), "_blank")
+                self.assertIn("noopener", anchor.get("rel", "").split())
+            urls.append(articles[0].get("href"))
+        self.assertEqual(len(urls), len(set(urls)))
         self.assertEqual(section[0].xpath('./p[contains(@class,"attribution")]/a/@href'),
                          ["https://git.sr.ht/~sircmpwn/openring"])
 
