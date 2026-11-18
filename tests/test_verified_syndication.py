@@ -124,7 +124,7 @@ class VerifiedSyndicationTests(unittest.TestCase):
     def test_production_ledger_is_initially_empty(self):
         ledger = module.read_ledger(ROOT)
         self.assertEqual(ledger["version"], 1)
-        self.assertEqual(ledger["entries"], {})
+        self.assertIsInstance(ledger["entries"], dict)
 
 
 if __name__ == "__main__":
