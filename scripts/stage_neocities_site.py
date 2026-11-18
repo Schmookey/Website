@@ -25,7 +25,7 @@ ROOT_FILES = {
 DIRECTORIES = ("assets", "blog", "music", "random", "notes")
 ASSET_EXTENSIONS = {".html", ".xml", ".css", ".js", ".json", ".png", ".jpg",
                     ".jpeg", ".gif", ".webp", ".svg", ".ico", ".avif",
-                    ".woff", ".woff2", ".webmanifest"}
+                    ".woff", ".woff2", ".webmanifest", ".xsl"}
 SKIP = {
     "assets/data/trakt-history.json",  # GitHub Actions owns this snapshot
 }

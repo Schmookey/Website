@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
+<?xml-stylesheet type="text/xsl" href="/assets/xsl/rss.xsl"?>
 <rss xmlns:ns0="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Schmookey's World</title>
