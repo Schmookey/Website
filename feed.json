@@ -11,6 +11,13 @@
   },
   "items": [
     {
+      "id": "urn:schmookey:update:simplified-now-page:2026-11-18T17:41:00+00:00",
+      "url": "https://schmookey.xyz/now.html",
+      "title": "Simplified Now page",
+      "content_text": "A simpler three-part update on what I'm doing, enjoying and exploring at the moment.",
+      "date_published": "2026-11-18T17:41:00Z"
+    },
+    {
       "id": "urn:schmookey:update:new-search-box-widgets-notes-microblog:2026-11-18T09:39:00+00:00",
       "url": "https://schmookey.xyz/changelog.html",
       "title": "New search box, Widgets, Notes microblog",

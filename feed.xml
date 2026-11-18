@@ -6,8 +6,15 @@
     <link>https://schmookey.xyz/</link>
     <description>Retro personal website — music, gaming, tech, and updates.</description>
     <language>en-gb</language>
-    <lastBuildDate>Wed, 18 Nov 2026 09:39:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 18 Nov 2026 17:41:00 GMT</lastBuildDate>
     <ns0:link href="https://schmookey.xyz/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Simplified Now page</title>
+      <link>https://schmookey.xyz/now.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:simplified-now-page:2026-11-18T17:41:00+00:00</guid>
+      <pubDate>Wed, 18 Nov 2026 17:41:00 GMT</pubDate>
+      <description>A simpler three-part update on what I'm doing, enjoying and exploring at the moment.</description>
+    </item>
     <item>
       <title>New search box, Widgets, Notes microblog</title>
       <link>https://schmookey.xyz/changelog.html</link>
