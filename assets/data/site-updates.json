@@ -1,5 +1,12 @@
 [
   {
+   "type": "Changelog",
+    "title": "Trakt Journal, Film Posters, Trading card profile look",
+    "url": "/changelog.html",
+    "date": "2026-11-18T09:39:00+00:00",
+    "summary": "added search box, widgets for TV Music and books,related posts. notes microblog ."
+  },
+  {
     "type": "Changelog",
     "title": "Trakt Journal, Film Posters, Trading card profile look",
     "url": "/changelog.html",
