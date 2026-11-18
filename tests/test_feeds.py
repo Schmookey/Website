@@ -61,6 +61,8 @@ class FeedConsistencyTests(unittest.TestCase):
         stylesheet = LET.XSLT(LET.parse(str(xsl_path)))
         rendered = str(stylesheet(LET.parse(str(ROOT / "feed.xml"))))
         self.assertIn("Visit Schmookey", rendered)
+        self.assertIn('<span class="brand">Schmookey.xyz</span>', rendered)
+        self.assertEqual(self.rss.findtext("./channel/title"), "Schmookey\'s World")
         self.assertIn("https://schmookey.xyz/", rendered)
         self.assertIn("November Update", rendered)
         self.assertEqual(rendered.count('class="entry"'), len(self.feed["items"]))
