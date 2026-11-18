@@ -68,6 +68,8 @@ jobs:
         run: node tests/test_security.js
       - name: Test IndexNow live-page monitoring (offline)
         run: python -m unittest discover -s tests -p 'test_indexnow_live.py' -v
+      - name: Test verified social syndication safeguards
+        run: python -m unittest discover -s tests -p 'test_verified_syndication.py' -v
       - name: Test Neocities preview-only deployment guardrails
         run: python -m unittest discover -s tests -p 'test_neocities_deploy.py' -v
       - name: Test Marketplace deployment staging exclusions
