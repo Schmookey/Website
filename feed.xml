@@ -8,6 +8,13 @@
     <lastBuildDate>Wed, 18 Nov 2026 09:39:00 GMT</lastBuildDate>
     <ns0:link href="https://schmookey.xyz/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>New search box, Widgets, Notes microblog</title>
+      <link>https://schmookey.xyz/changelog.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:new-search-box-widgets-notes-microblog:2026-11-18T09:39:00+00:00</guid>
+      <pubDate>Wed, 18 Nov 2026 09:39:00 GMT</pubDate>
+      <description>added search box, widgets for TV Music and books,related posts. notes microblog .</description>
+    </item>
+    <item>
       <title>Trakt Journal, Film Posters, Trading card profile look</title>
       <link>https://schmookey.xyz/changelog.html</link>
       <guid isPermaLink="false">urn:schmookey:update:trakt-journal-film-posters-trading-card-profile-look:2026-11-18T09:39:00+00:00</guid>
