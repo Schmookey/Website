@@ -11,6 +11,13 @@
   },
   "items": [
     {
+      "id": "urn:schmookey:update:uniform-design-readable-rss-feeds:2026-11-18T17:41:00+00:00",
+      "url": "https://schmookey.xyz/now.html",
+      "title": "Uniform design, Readable RSS Feeds",
+      "content_text": "Simple uniform retro design across site and human/machine readable RSS feeds.",
+      "date_published": "2026-11-18T17:41:00Z"
+    },
+    {
       "id": "urn:schmookey:update:simplified-now-page:2026-11-18T17:41:00+00:00",
       "url": "https://schmookey.xyz/now.html",
       "title": "Simplified Now page",

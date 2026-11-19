@@ -9,6 +9,13 @@
     <lastBuildDate>Wed, 18 Nov 2026 17:41:00 GMT</lastBuildDate>
     <ns0:link href="https://schmookey.xyz/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Uniform design, Readable RSS Feeds</title>
+      <link>https://schmookey.xyz/now.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:uniform-design-readable-rss-feeds:2026-11-18T17:41:00+00:00</guid>
+      <pubDate>Wed, 18 Nov 2026 17:41:00 GMT</pubDate>
+      <description>Simple uniform retro design across site and human/machine readable RSS feeds.</description>
+    </item>
+    <item>
       <title>Simplified Now page</title>
       <link>https://schmookey.xyz/now.html</link>
       <guid isPermaLink="false">urn:schmookey:update:simplified-now-page:2026-11-18T17:41:00+00:00</guid>
