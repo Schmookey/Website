@@ -51,6 +51,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_notes_section.py' -v
       - name: Verify GitHub Notes publishing safety and output
         run: python -m unittest discover -s tests -p 'test_notes_publishing.py' -v
+      - name: Verify homepage Latest Updates 16-bit styling is strictly scoped
+        run: python -m unittest discover -s tests -p 'test_home_latest_updates_style.py' -v
       - name: Verify home followed-blog article panels
         run: python -m unittest discover -s tests -p 'test_home_followed_blog_panels.py' -v
       - name: Verify three independent About page media panels
