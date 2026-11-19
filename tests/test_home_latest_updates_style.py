@@ -17,7 +17,8 @@ class HomeLatestUpdatesStyleTests(unittest.TestCase):
                        '/div[@id="site-updates"]/@id'),
             ["site-updates"]
         )
-        self.assertEqual(page.xpath('//main/h2/text()'), ["Latest Updates"])
+        self.assertEqual(page.xpath('//main/header[@class="home-updates-header"]/h2/text()'),
+                         ["Latest Updates"])
         self.assertEqual(len(page.xpath('//aside[contains(@class,"left")]')), 1)
         self.assertEqual(len(page.xpath('//aside[contains(@class,"right")]')), 1)
 
@@ -35,6 +36,32 @@ class HomeLatestUpdatesStyleTests(unittest.TestCase):
         self.assertIn("transform: translateY(-3px);", scoped)
         self.assertIn("border-left: 7px solid #c1121f;", scoped)
         self.assertIn("border-radius: 0;", scoped)
+
+    def test_home_header_matches_now_visual_language_without_affecting_cards(self):
+        page = html.parse(str(ROOT / "index.html"))
+        main = page.xpath('//main[contains(concat(" ",normalize-space(@class)," ")," center ")]')
+        self.assertEqual(len(main), 1)
+        headings = main[0].xpath('./header[@class="home-updates-header"]')
+        self.assertEqual(len(headings), 1)
+        self.assertEqual(headings[0].xpath('./h2/text()'), ["Latest Updates"])
+        self.assertEqual(main[0].xpath('./div[@id="site-updates"]/@id'), ["site-updates"])
+        self.assertEqual(headings[0].xpath('./p[@class="home-updates-overline"]/text()'),
+                         ["SCHMOOKEY.XYZ / 16-BIT UPDATE LOG"])
+        self.assertEqual(len(headings[0].xpath('./p[@class="home-updates-intro"]')), 1)
+        css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
+        banner = css.split("HOME PAGE CENTRE: 16-BIT LATEST UPDATES HEADER ONLY", 1)[1]
+        banner = banner.split("HOME PAGE: LATEST UPDATES ONLY", 1)[0]
+        selector_prefix = ("body .layout.site-panel-layout.site-panel-three-col "
+                           "> main.center.panel > .home-updates-header")
+        for selector in re.findall(r"(?:^|\n)([^{}]+)\{", banner.split("*/", 1)[1]):
+            candidate = selector.strip()
+            if candidate.startswith("@media"):
+                continue
+            for part in candidate.split(","):
+                self.assertTrue(part.strip().startswith(selector_prefix), part)
+        self.assertIn("repeating-linear-gradient", banner)
+        self.assertIn("#c1121f", banner)
+        self.assertIn("#1e40ff", banner)
 
     def test_entire_card_uses_existing_title_anchor_without_underlining(self):
         css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
