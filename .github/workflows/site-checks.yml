@@ -59,6 +59,10 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_webrings_centre_panels.py' -v
       - name: Verify Changelog centre panels and hover movement
         run: python -m unittest discover -s tests -p 'test_changelog_centre_panels.py' -v
+      - name: Verify Blog and Music archive homepage-style centre layout
+        run: python -m unittest discover -s tests -p 'test_archive_home_centre.py' -v
+      - name: Test Blog and Music archive filtering and safe cards
+        run: node tests/test_archive_home_cards.js
       - name: Verify homepage Latest Updates 16-bit styling is strictly scoped
         run: python -m unittest discover -s tests -p 'test_home_latest_updates_style.py' -v
       - name: Verify home followed-blog article panels
