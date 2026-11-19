@@ -125,6 +125,17 @@
     return payload.items.map(normalise).filter(Boolean);
   }
 
+  // Never present an old on-site backup as the current viewing journal.
+  const MAX_LOCAL_SNAPSHOT_AGE_MS = 48 * 60 * 60 * 1000;
+
+  function localSnapshotIsFresh(payload, now = Date.now()) {
+    const timestamp = typeof payload?.generated_at === "string"
+      ? Date.parse(payload.generated_at) : NaN;
+    return Number.isFinite(timestamp) &&
+      timestamp <= now &&
+      now - timestamp <= MAX_LOCAL_SNAPSHOT_AGE_MS;
+  }
+
   async function fetchSnapshot(url) {
     // A bounded timeout keeps a remote outage from delaying the local fallback.
     const signal = typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function"
@@ -134,7 +145,11 @@
       headers: {Accept: "application/json"}, signal
     });
     if (!res.ok) throw new Error("History unavailable");
-    const entries = snapshotEntries(await res.json());
+    const payload = await res.json();
+    if (url === LOCAL_HISTORY && !localSnapshotIsFresh(payload)) {
+      throw new Error("On-site Trakt backup is outdated; refusing to display it as current");
+    }
+    const entries = snapshotEntries(payload);
     if (!entries.length) throw new Error("No usable history");
     return entries;
   }
@@ -158,16 +173,16 @@
       card.append(art);
       const copy = element("div", "media-meta");
       copy.append(element("p", "media-label", "Last Watched"));
-      copy.append(element("p", "media-title", "Coming Soon"));
+      copy.append(element("p", "media-title", "Unavailable"));
       copy.append(element("p", "media-subtitle",
-        "My watching history will appear here once the integration is ready."));
+        "My watching history is temporarily unavailable. Please try again later."));
       card.append(copy);
       return card;
     }
     const notice = element("div", "trakt-pending");
-    notice.append(element("p", "trakt-pending-label", "COMING SOON"));
+    notice.append(element("p", "trakt-pending-label", "UNAVAILABLE"));
     notice.append(element("p", "trakt-pending-message",
-      "My Trakt watching history will appear here when the integration is ready."));
+      "My Trakt watching history is temporarily unavailable. Please try again later."));
     return notice;
   }
 
@@ -193,7 +208,7 @@
     }
   }
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = {allowedLink,allowedPoster,normalise,snapshotEntries,loadSnapshot};
+    module.exports = {allowedLink,allowedPoster,normalise,snapshotEntries,localSnapshotIsFresh,loadSnapshot};
   }
   if (typeof document !== "undefined") {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded",render);
