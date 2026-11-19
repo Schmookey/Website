@@ -106,3 +106,7 @@ jobs:
         run: node tests/test_listenbrainz_resilience.js
       - name: Test Trakt widget data and links
         run: node tests/test_trakt_widget.js
+      - name: Test optional SNES theme toggle, persistence and untouched layouts
+        run: |
+          node --check assets/js/site-theme.js
+          node tests/test_site_theme.js
