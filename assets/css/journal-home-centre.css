@@ -1,0 +1,148 @@
+/* JOURNAL CENTRE ONLY — homepage Latest Updates styling, no outer panel.
+   Do not style the site layout, sidebar, About widget or journal data loaders. */
+body .layout.site-panel-layout > .centre-content:is(.listening-page, .watching-page) > .journal-home-header {
+  position: relative;
+  background: #101832;
+  border: 3px solid #1e40ff;
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #5d82ff;
+  padding: 20px;
+  margin: 0 0 24px;
+  color: #f0f3ff;
+}
+
+body .layout.site-panel-layout > .centre-content:is(.listening-page, .watching-page) > .journal-home-header::after {
+  content: "";
+  display: block;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, #c1121f 0 20px, #ec3448 20px 28px);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+body .layout.site-panel-layout > .centre-content:is(.listening-page, .watching-page) .journal-home-overline {
+  font: 700 11px/1.65 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .07em;
+  color: #a6bfff;
+  margin: 0 0 7px;
+}
+
+body .layout.site-panel-layout > .centre-content:is(.listening-page, .watching-page) > .journal-home-header h1 {
+  font-size: clamp(23px, 4vw, 32px);
+  line-height: 1.25;
+  letter-spacing: .04em;
+  color: #fff;
+  text-align: left;
+  text-shadow: 3px 3px 0 #c1121f;
+  margin: 0 0 9px;
+}
+
+body .layout.site-panel-layout > .centre-content:is(.listening-page, .watching-page) > .journal-home-header .listening-intro {
+  color: #e0e7ff;
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0 0 6px;
+}
+
+/* Album entries retain their existing artwork, metadata and date groups. */
+body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-entry,
+/* Trakt entries retain their existing posters, title links and metadata. */
+body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card {
+  position: relative;
+  background: #0f1832;
+  border: 3px solid #a5b9f8;
+  border-left: 7px solid #c1121f;
+  border-radius: 0;
+  padding: 19px 20px;
+  color: #edf2ff;
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #283c7d;
+  overflow-wrap: anywhere;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-entry:hover,
+body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 8px 0 #050815, inset 0 0 0 2px #4164c6;
+}
+
+body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-entry:focus-within,
+body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card:focus-within {
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #4164c6;
+}
+
+/* Same heading typography and blue divider as homepage update cards. */
+body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-entry-title,
+body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card .trakt-live-title {
+  border-bottom: 2px solid #4164c6;
+  margin: 0 0 13px;
+  padding-bottom: 10px;
+  color: #fff;
+  font: 700 15px/1.4 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .055em;
+}
+
+body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card .trakt-live-title a {
+  color: #fff;
+  text-decoration: none;
+}
+
+body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card .trakt-live-title a:hover {
+  color: #b9d2ff;
+}
+
+body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card a:focus-visible {
+  outline: 3px solid #ff6974;
+  outline-offset: 3px;
+}
+
+body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-entry-time,
+body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card .trakt-live-type,
+body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card .trakt-live-date {
+  color: #a6bfff;
+}
+
+body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-entry-meta,
+body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card .trakt-live-details {
+  color: #edf2ff;
+}
+
+body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-label {
+  color: #b9d2ff;
+}
+
+/* Dates stay grouped in the Listening Journal, but use understated divider labels. */
+body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-day-heading {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid #4164c6;
+  border-radius: 0;
+  box-shadow: none;
+  color: #e0e7ff;
+  padding: 8px 0;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 580px) {
+  body .layout.site-panel-layout > .centre-content:is(.listening-page, .watching-page) > .journal-home-header {
+    padding: 15px;
+  }
+  body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-entry,
+  body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card {
+    padding: 16px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-entry,
+  body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card {
+    transition: none;
+  }
+  body .layout.site-panel-layout > .centre-content.listening-page .listening-log .listen-entry:hover,
+  body .layout.site-panel-layout > .centre-content.watching-page #trakt-history > .trakt-live-card:hover {
+    transform: none;
+  }
+}
