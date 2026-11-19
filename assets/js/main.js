@@ -1096,19 +1096,19 @@ async function loadListeningJournal(username, limit = 100) {
 ===================================================== */
 
 function initPage() {
-  initWebringScripts();
-  initSmartDates();
-  initPostHUD();
-  initReadingTime();
-  initReadingCounter();
-  initWebmentions();
-
   // Start independent music widgets before unrelated page features.
   // An exception in another widget must not prevent ListenBrainz from loading.
   try { initListenBrainzWidget("jon_cass"); }
   catch (error) { console.warn("ListenBrainz initialisation error:", error); }
   try { loadListeningJournal("jon_cass", 100); }
   catch (error) { console.warn("Listening journal initialisation error:", error); }
+
+  initWebringScripts();
+  initSmartDates();
+  initPostHUD();
+  initReadingTime();
+  initReadingCounter();
+  initWebmentions();
 
   loadActivityFeed();
   loadRecentPosts();
