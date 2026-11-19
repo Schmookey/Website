@@ -1,0 +1,73 @@
+/* NOTES: 16-bit header matching /now/, scoped to centre heading only.
+   Existing note cards, IndieWeb microformats and publishing remain untouched. */
+body .layout.site-panel-layout > main.center.panel.notes-page > .notes-heading.notes-16bit-header {
+  position: relative;
+  background: #101832;
+  border: 3px solid #1e40ff;
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #5d82ff;
+  padding: 20px;
+  margin: 0 0 24px;
+  color: #f0f3ff;
+}
+
+body .layout.site-panel-layout > main.center.panel.notes-page > .notes-heading.notes-16bit-header::after {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 5px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: repeating-linear-gradient(90deg, #c1121f 0 20px, #ec3448 20px 28px);
+}
+
+body .layout.site-panel-layout > main.center.panel.notes-page > .notes-heading.notes-16bit-header .notes-16bit-overline {
+  margin: 0 0 7px;
+  color: #a6bfff;
+  font: 700 11px/1.65 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .07em;
+}
+
+body .layout.site-panel-layout > main.center.panel.notes-page > .notes-heading.notes-16bit-header h1.p-name {
+  margin: 0 0 9px;
+  color: #fff;
+  font-size: clamp(25px, 4vw, 35px);
+  line-height: 1.2;
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-shadow: 3px 3px 0 #c1121f;
+}
+
+body .layout.site-panel-layout > main.center.panel.notes-page > .notes-heading.notes-16bit-header > p:not(.notes-16bit-overline) {
+  color: #e0e7ff;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0 0 12px;
+}
+
+body .layout.site-panel-layout > main.center.panel.notes-page > .notes-heading.notes-16bit-header > .notes-subscribe {
+  margin: 0 0 5px;
+  font-size: 13px;
+}
+
+body .layout.site-panel-layout > main.center.panel.notes-page > .notes-heading.notes-16bit-header .notes-subscribe a {
+  color: #b9d2ff;
+  text-underline-offset: 3px;
+}
+
+body .layout.site-panel-layout > main.center.panel.notes-page > .notes-heading.notes-16bit-header .notes-subscribe a:hover {
+  color: #fff;
+}
+
+body .layout.site-panel-layout > main.center.panel.notes-page > .notes-heading.notes-16bit-header .notes-subscribe a:focus-visible {
+  outline: 3px solid #ff6974;
+  outline-offset: 3px;
+}
+
+@media (max-width: 580px) {
+  body .layout.site-panel-layout > main.center.panel.notes-page > .notes-heading.notes-16bit-header {
+    padding: 15px;
+  }
+}
