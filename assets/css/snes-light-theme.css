@@ -411,6 +411,11 @@ html[data-schmookey-theme="light"] body .post-container .e-content figure.book-q
 html[data-schmookey-theme="light"] body .post-container .e-content figure.book-quotation :is(p, blockquote, figcaption, cite, span, time) {
   color: #fff !important;
 }
+/* The quotation's Walking Practice hyperlink retains its original pink. */
+html[data-schmookey-theme="light"] body .post-container .e-content figure.book-quotation a.u-url.p-name,
+html[data-schmookey-theme="light"] body .post-container .e-content figure.book-quotation a.u-url.p-name:visited {
+  color: #ff9199 !important;
+}
 
 /* Post image frames: red borders; captions use dark red for readable small text.
    This also includes the Blog and Music listing images using .post-image. */
@@ -433,7 +438,7 @@ html[data-schmookey-theme="dark"] {
   --megadrive-black: #0b0c10;
   --megadrive-graphite: #12151c;
   --megadrive-card: #151b27;
-  --megadrive-blue: #2758cf;
+  --megadrive-blue: #3061e3; /* Sonic-inspired vivid royal blue */
   --megadrive-red: #d82e35;
   --megadrive-white: #f6f7ff;
   --accent-blue: var(--megadrive-blue);
@@ -454,7 +459,7 @@ html[data-schmookey-theme="dark"] body .menu {
   border-bottom-color: var(--megadrive-blue);
 }
 html[data-schmookey-theme="dark"] body .menu a {
-  background: linear-gradient(#3c69d4, #1e429e);
+  background: linear-gradient(#527dfa, #284ab4);
   color: var(--megadrive-white);
 }
 html[data-schmookey-theme="dark"] body .menu a.active {
@@ -507,6 +512,22 @@ html[data-schmookey-theme="dark"] body :is(
   background: var(--megadrive-card) !important;
   border-left-color: var(--megadrive-red) !important;
   color: var(--megadrive-white) !important;
+}
+/* Sonic-blue accents on existing dark-mode panel frames, retaining the
+   same box geometry and hover interactions. Do not affect image artwork. */
+html[data-schmookey-theme="dark"] body :is(
+  .post-image img, .video-embed, .post-container,
+  .layout.site-panel-layout > .site-panel-sidebar > .site-panel-module,
+  .layout.site-panel-layout > .about-media-sidebar > .about-media-panel,
+  .layout.site-panel-layout .followed-blogs-sidebar > .webring
+) {
+  border-color: var(--megadrive-blue);
+}
+html[data-schmookey-theme="dark"] body :is(
+  .archive-16bit-header, .journal-home-header, .changelog-16bit-header,
+  .now-16bit-header, .notes-16bit-header, .privacy-16bit-header
+) {
+  border-color: var(--megadrive-blue) !important;
 }
 /* Transparent site/sidebar wrappers, journals and bespoke About trading-card
    framing are preserved by their original, more-specific rules. */
