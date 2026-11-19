@@ -3842,7 +3842,6 @@ body .layout.site-panel-layout > main.center.webrings-main > .trophy-room {
   margin-top: 0;
 }
 
-/* The original trophy-grid is preserved; no extra inner panel. */
 body .layout.site-panel-layout > main.center.webrings-main > .trophy-room > .trophy-grid {
   margin-top: 0;
   grid-template-columns: repeat(3, minmax(0, 1fr));
