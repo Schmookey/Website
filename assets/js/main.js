@@ -812,7 +812,7 @@ function initListenBrainzWidget(username = "jon_cass") {
 
   if (!coverEl || !trackEl || !artistEl || !linkEl) return;
 
-  const POLL_MS = 30000;
+  const POLL_MS = 60000;
   const PROFILE_URL = `https://listenbrainz.org/user/${encodeURIComponent(username)}`;
 
   // Until the API responds, display the existing fallback artwork.
@@ -870,6 +870,7 @@ function initListenBrainzWidget(username = "jon_cass") {
   }
 
   let updateInProgress = false;
+  let lastGoodListen = false;
 
   async function updateWidget() {
     if (document.hidden || updateInProgress) return;
@@ -892,20 +893,20 @@ function initListenBrainzWidget(username = "jon_cass") {
       }
 
       renderText(listen, isNowPlaying);
-
       setListenCover(coverEl, listen);
+      lastGoodListen = true;
 
     } catch (error) {
       console.warn("ListenBrainz widget error:", error);
-
-      trackEl.textContent = "Couldn’t load music";
-      artistEl.textContent = "";
-      if (albumEl) albumEl.textContent = "";
-
-      setListenCover(coverEl, null);
-
-      linkEl.href = PROFILE_URL;
-      linkEl.textContent = "ListenBrainz";
+      // Keep the last successfully rendered track during transient API failures.
+      if (!lastGoodListen) {
+        trackEl.textContent = "ListenBrainz is temporarily unavailable";
+        artistEl.textContent = "";
+        if (albumEl) albumEl.textContent = "";
+        setListenCover(coverEl, null);
+        linkEl.href = PROFILE_URL;
+        linkEl.textContent = "ListenBrainz";
+      }
     } finally {
       updateInProgress = false;
     }
@@ -932,10 +933,14 @@ async function loadListeningJournal(username, limit = 100) {
 
   const url = `https://api.listenbrainz.org/1/user/${encodeURIComponent(username)}/listens?count=${limit}`;
 
+  // A journal load must not hang indefinitely or require a full-page refresh.
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
   try {
     const response = await fetch(url, {
       headers: { Accept: "application/json" },
-      cache: "no-store"
+      cache: "no-store",
+      signal: controller.signal
     });
 
     if (!response.ok) {
@@ -1063,8 +1068,26 @@ async function loadListeningJournal(username, limit = 100) {
     });
   } catch (error) {
     console.warn("Listening journal error:", error);
-    container.innerHTML = `<p class="listening-status">Failed to load listening journal.</p>`;
-    if (countEl) countEl.textContent = "ERROR";
+    // Render a retry action rather than permanently leaving an error message.
+    // Use a DOM-created button; never insert API text as executable markup.
+    container.replaceChildren();
+    const message = document.createElement("p");
+    message.className = "listening-status";
+    message.textContent = "ListenBrainz is temporarily unavailable.";
+    const retry = document.createElement("button");
+    retry.type = "button";
+    retry.className = "listening-retry";
+    retry.textContent = "Retry loading";
+    retry.addEventListener("click", () => {
+      container.textContent = "Loading listening journal…";
+      if (countEl) countEl.textContent = "LOADING...";
+      loadListeningJournal(username, limit);
+    }, { once: true });
+    message.append(" ", retry);
+    container.appendChild(message);
+    if (countEl) countEl.textContent = "UNAVAILABLE";
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
@@ -1073,15 +1096,19 @@ async function loadListeningJournal(username, limit = 100) {
 ===================================================== */
 
 function initPage() {
+  // Start independent music widgets before unrelated page features.
+  // An exception in another widget must not prevent ListenBrainz from loading.
+  try { initListenBrainzWidget("jon_cass"); }
+  catch (error) { console.warn("ListenBrainz initialisation error:", error); }
+  try { loadListeningJournal("jon_cass", 100); }
+  catch (error) { console.warn("Listening journal initialisation error:", error); }
+
   initWebringScripts();
   initSmartDates();
   initPostHUD();
   initReadingTime();
   initReadingCounter();
   initWebmentions();
-
-  initListenBrainzWidget("jon_cass");
-  loadListeningJournal("jon_cass", 100);
 
   loadActivityFeed();
   loadRecentPosts();
