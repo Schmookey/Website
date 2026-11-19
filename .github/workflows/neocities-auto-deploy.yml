@@ -84,6 +84,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_feeds.py' -v
           python3 -m unittest discover -s tests -p 'test_november_reconciliation.py' -v
           python3 -m unittest discover -s tests -p 'test_indieweb_metadata.py' -v
+          python3 -m unittest discover -s tests -p 'test_article_footer_badges.py' -v
           python3 -m unittest discover -s tests -p 'test_indexnow_live.py' -v
           python3 -m unittest discover -s tests -p 'test_neocities_deploy.py' -v
           python3 -m unittest discover -s tests -p 'test_verified_syndication.py' -v
