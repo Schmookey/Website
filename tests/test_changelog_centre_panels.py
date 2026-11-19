@@ -38,7 +38,7 @@ class ChangelogCentrePanelTests(unittest.TestCase):
     def test_css_is_scoped_and_preserves_hover_movement(self):
         css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         self.assertEqual(css.count(SECTION), 1)
-        section = css.split(SECTION, 1)[1].split("*/", 1)[1]
+        section = css.split(SECTION, 1)[1].split("*/", 1)[1].split("HOME PAGE CENTRE: 16-BIT LATEST UPDATES HEADER ONLY", 1)[0]
         self.assertIn("transform: translateY(-3px);", section)
         self.assertIn("prefers-reduced-motion: reduce", section)
         self.assertIn("repeating-linear-gradient", section)
