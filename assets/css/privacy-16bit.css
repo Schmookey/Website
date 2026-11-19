@@ -1,0 +1,137 @@
+/* PRIVACY — NOW-STYLE 16-BIT HEADER AND A SINGLE CONTINUOUS DOCUMENT
+   Scoped to the Privacy Policy; the policy itself is not divided into cards. */
+body .layout.site-panel-layout > main.center.panel.privacy-main {
+  min-width: 0;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-16bit-header {
+  background: #101832;
+  border: 3px solid #1e40ff;
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #5d82ff;
+  position: relative;
+  color: #f0f3ff;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-16bit-header::after {
+  content: "";
+  display: block;
+  height: 5px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: repeating-linear-gradient(90deg, #c1121f 0 20px, #ec3448 20px 28px);
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main .privacy-16bit-overline,
+body .layout.site-panel-layout > main.center.panel.privacy-main .privacy-16bit-updated {
+  font: 700 11px/1.65 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .07em;
+  color: #a6bfff;
+  margin: 0 0 7px;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-16bit-header h1 {
+  font-size: clamp(25px, 4vw, 35px);
+  line-height: 1.2;
+  letter-spacing: .055em;
+  color: #fff;
+  text-shadow: 3px 3px 0 #c1121f;
+  margin: 0 0 9px;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main .privacy-16bit-intro {
+  color: #e0e7ff;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0 0 12px;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main .privacy-16bit-updated {
+  margin: 0 0 6px;
+}
+
+/* One unbroken paper-like body, without nested panel borders or card spacing. */
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0 2px;
+  margin: 0;
+  color: #edf2ff;
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document > h2 {
+  color: #fff;
+  font: 700 15px/1.45 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .035em;
+  border: 0;
+  border-bottom: 2px solid #4164c6;
+  border-left: 4px solid #c1121f;
+  background: none;
+  padding: 0 0 9px 12px;
+  margin: 25px 0 12px;
+  box-shadow: none;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document > p {
+  color: #edf2ff;
+  line-height: 1.7;
+  margin: 0 0 14px;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document > ul {
+  padding-left: 25px;
+  margin: 3px 0 15px;
+  color: #edf2ff;
+  line-height: 1.7;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document > ul li {
+  margin: 0 0 5px;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document a {
+  color: #b9d2ff;
+  text-underline-offset: 3px;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document a:hover {
+  color: #fff;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document a:focus-visible {
+  outline: 3px solid #ff6974;
+  outline-offset: 3px;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document > .privacy-file-start,
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document > .privacy-file-end {
+  color: #a6bfff;
+  font: 700 12px/1.7 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .025em;
+}
+
+body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document > .privacy-file-end {
+  margin-top: 23px;
+}
+
+@media (max-width: 580px) {
+  body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-16bit-header {
+    padding: 15px;
+  }
+  body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document {
+    font-size: 14px;
+    padding: 0;
+  }
+  body .layout.site-panel-layout > main.center.panel.privacy-main > .privacy-document > h2 {
+    font-size: 14px;
+  }
+}
