@@ -1,5 +1,12 @@
 [
   {
+    "type": "Changelog",
+    "title": "Uniform design, Readable RSS Feeds",
+    "url": "/now.html",
+    "date": "2026-11-18T17:41:00+00:00",
+    "summary": "Simple uniform retro design across site and human/machine readable RSS feeds."
+  },
+  {
     "type": "Now",
     "title": "Simplified Now page",
     "url": "/now.html",
