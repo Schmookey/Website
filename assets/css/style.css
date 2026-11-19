@@ -3675,6 +3675,120 @@ body.light .trakt-live-widget .trakt-about-card {
 }
 
 /* =====================================================
+   CHANGELOG CENTRE ONLY — 16-BIT HOME-STYLE PANELS
+   No changes to the shared sidebar or other page styles.
+===================================================== */
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header {
+  position: relative;
+  background: #101832;
+  border: 3px solid #1e40ff;
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #5d82ff;
+  padding: 20px;
+  margin-bottom: 24px;
+  color: #f0f3ff;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header::after {
+  content: "";
+  display: block;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, #c1121f 0 20px, #ec3448 20px 28px);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header .changelog-16bit-overline {
+  font: 700 11px/1.65 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .07em;
+  color: #a6bfff;
+  margin: 0 0 7px;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header h2 {
+  font-size: clamp(23px, 4vw, 32px);
+  line-height: 1.25;
+  letter-spacing: .04em;
+  color: #fff;
+  text-shadow: 3px 3px 0 #c1121f;
+  margin: 0 0 9px;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header .changelog-16bit-intro {
+  color: #e0e7ff;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0 0 6px;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card {
+  margin: 14px 0 21px;
+  padding: 19px 20px;
+  background: #0f1832;
+  border: 3px solid #a5b9f8;
+  border-left: 7px solid #c1121f;
+  border-radius: 0;
+  color: #edf2ff;
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #283c7d;
+  overflow-wrap: anywhere;
+  transition: .2s ease;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 8px 0 #050815, inset 0 0 0 2px #4164c6;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card .changelog-card-title {
+  border-bottom: 2px solid #4164c6;
+  margin: 0 0 13px;
+  padding-bottom: 10px;
+  font: 700 15px/1.5 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .035em;
+  color: #fff;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card .auto-date {
+  font-size: 12px;
+  font-weight: 400;
+  color: #a6bfff;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card .changelog-card-list {
+  color: #edf2ff;
+  font-size: 14px;
+  line-height: 1.7;
+  padding-left: 22px;
+  margin: 0;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card .changelog-card-list li {
+  margin: 0 0 7px;
+}
+
+body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card .changelog-card-list li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 580px) {
+  body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header,
+  body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card {
+    padding: 16px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card {
+    transition: none;
+  }
+  body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card:hover {
+    transform: none;
+  }
+}
+
+/* =====================================================
    HOME PAGE CENTRE: 16-BIT LATEST UPDATES HEADER ONLY
    Mirrors the Now page's top status panel without
    changing other page headings, cards, or sidebars.
@@ -3808,119 +3922,5 @@ body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-up
 @media (max-width: 580px) {
   body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card {
     padding: 16px 14px;
-  }
-}
-
-/* =====================================================
-   CHANGELOG CENTRE ONLY — 16-BIT HOME-STYLE PANELS
-   No changes to the shared sidebar or other page styles.
-===================================================== */
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header {
-  position: relative;
-  background: #101832;
-  border: 3px solid #1e40ff;
-  border-radius: 0;
-  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #5d82ff;
-  padding: 20px;
-  margin-bottom: 24px;
-  color: #f0f3ff;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header::after {
-  content: "";
-  display: block;
-  height: 5px;
-  background: repeating-linear-gradient(90deg, #c1121f 0 20px, #ec3448 20px 28px);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header .changelog-16bit-overline {
-  font: 700 11px/1.65 "DejaVu Sans Mono", "Liberation Mono", monospace;
-  letter-spacing: .07em;
-  color: #a6bfff;
-  margin: 0 0 7px;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header h2 {
-  font-size: clamp(23px, 4vw, 32px);
-  line-height: 1.25;
-  letter-spacing: .04em;
-  color: #fff;
-  text-shadow: 3px 3px 0 #c1121f;
-  margin: 0 0 9px;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header .changelog-16bit-intro {
-  color: #e0e7ff;
-  font-size: 15px;
-  line-height: 1.65;
-  margin: 0 0 6px;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card {
-  margin: 14px 0 21px;
-  padding: 19px 20px;
-  background: #0f1832;
-  border: 3px solid #a5b9f8;
-  border-left: 7px solid #c1121f;
-  border-radius: 0;
-  color: #edf2ff;
-  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #283c7d;
-  overflow-wrap: anywhere;
-  transition: .2s ease;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 5px 8px 0 #050815, inset 0 0 0 2px #4164c6;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card .changelog-card-title {
-  border-bottom: 2px solid #4164c6;
-  margin: 0 0 13px;
-  padding-bottom: 10px;
-  font: 700 15px/1.5 "DejaVu Sans Mono", "Liberation Mono", monospace;
-  letter-spacing: .035em;
-  color: #fff;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card .auto-date {
-  font-size: 12px;
-  font-weight: 400;
-  color: #a6bfff;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card .changelog-card-list {
-  color: #edf2ff;
-  font-size: 14px;
-  line-height: 1.7;
-  padding-left: 22px;
-  margin: 0;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card .changelog-card-list li {
-  margin: 0 0 7px;
-}
-
-body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card .changelog-card-list li:last-child {
-  margin-bottom: 0;
-}
-
-@media (max-width: 580px) {
-  body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-16bit-header,
-  body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card {
-    padding: 16px 14px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card {
-    transition: none;
-  }
-  body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-card:hover {
-    transform: none;
   }
 }
