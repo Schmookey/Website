@@ -25,7 +25,7 @@ class HomeLatestUpdatesStyleTests(unittest.TestCase):
         self.assertEqual(css.count(START), 1)
         # Every selector in the new rules targets a direct activity card
         # belonging to the homepage's centre #site-updates container.
-        scoped = css.split(START, 1)[1]
+        scoped = css.split(START, 1)[1].split("*/", 1)[1]
         for selector in re.findall(r"(?:^|\n)([^{}]+)\{", scoped):
             selector = selector.strip()
             if selector.startswith("@media"):
