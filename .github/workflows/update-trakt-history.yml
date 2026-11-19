@@ -26,7 +26,10 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
+      # Always begin with the latest main rather than the event's older SHA.
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -44,10 +47,31 @@ jobs:
       - name: Commit updated public snapshot
         shell: bash
         run: |
+          set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add assets/data/trakt-history.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Refresh public Trakt watch history"
-            git push
+          if git diff --cached --quiet; then
+            echo "Trakt history is unchanged; nothing to publish."
+            exit 0
           fi
+          git commit -m "Refresh public Trakt watch history"
+          # A site PR or content-sync commit may land during the API request.
+          # Rebase this *single-file* snapshot onto new main and retry without
+          # force-pushing or overwriting unrelated website changes.
+          for attempt in 1 2 3 4; do
+            if git push origin HEAD:main; then
+              echo "Published refreshed Trakt snapshot on attempt $attempt."
+              exit 0
+            fi
+            echo "::warning::Main advanced during Trakt refresh (attempt $attempt); fetching and rebasing."
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              echo "::error::Trakt snapshot conflicted with newer main. Preserving remote changes; retry on next scheduled run."
+              exit 1
+            fi
+            sleep "$attempt"
+          done
+          echo "::error::Trakt update could not be published after four non-force retries."
+          exit 1
