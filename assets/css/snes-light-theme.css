@@ -1,0 +1,379 @@
+/* OPTIONAL SNES LIGHT THEME — palette only.
+   Default Mega Drive dark theme remains entirely in the existing stylesheets.
+   This file is loaded last by site-theme.js, which never changes body classes,
+   HTML page structure, layouts, widget contents, imagery or interactions.
+   Nintendo red #E60012; shell grey is SNES-inspired, not an official shell code.
+*/
+
+/* A single circular, pixel-art control immediately BEFORE the existing Home link. */
+.menu .site-theme-toggle {
+  display: inline-grid;
+  flex: 0 0 44px;
+  place-items: center;
+  align-self: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  padding: 0;
+  margin: 0;
+  border: 3px solid #6fa4ff;
+  border-right-color: #0a1f55;
+  border-bottom-color: #0a1f55;
+  border-radius: 50%;
+  background: #101832;
+  color: #fff;
+  box-shadow: 0 3px 0 #000, inset 0 0 0 2px #283c7d;
+  cursor: pointer;
+  line-height: 1;
+}
+.menu .site-theme-toggle:hover { filter: brightness(1.16); }
+.menu .site-theme-toggle:active { transform: translate(1px, 1px); }
+.menu .site-theme-toggle:focus-visible { outline: 3px solid #ff6974; outline-offset: 3px; }
+.menu .site-theme-toggle svg { display: block; width: 23px; height: 23px; }
+
+/* Activating light adds this attribute to <html>. Existing <body class="light">
+   is deliberately NOT the new theme switch; those legacy styles are preserved. */
+html[data-schmookey-theme="light"] {
+  color-scheme: light;
+  --snes-shell: #b9bac2;
+  --snes-panel: #e7e7ea;
+  --snes-card: #d6d7dc;
+  --snes-ink: #000000;
+  --snes-muted: #303038;
+  --snes-border: #44444b;
+  --snes-red: #e60012;
+  --snes-red-dark: #a40010;
+  --snes-shadow: #74747d;
+  --panel-bg: #e7e7ea;
+  --panel-border: #44444b;
+  --border-color: #44444b;
+  --accent-red: #e60012;
+  --accent-blue: #44444b;
+}
+
+/* Body, bars, and menu only change colours — no layout/geometric overrides. */
+html[data-schmookey-theme="light"] body {
+  background: var(--snes-shell);
+  color: var(--snes-ink);
+}
+html[data-schmookey-theme="light"] body .top-marquee {
+  background: #dedee3;
+  color: #78000c;
+  border-bottom-color: var(--snes-red);
+}
+html[data-schmookey-theme="light"] body .marquee-text { text-shadow: none; }
+html[data-schmookey-theme="light"] body .header {
+  background: linear-gradient(#cacad0, #b9bac2);
+  border-top-color: var(--snes-red);
+  border-bottom-color: var(--snes-red);
+}
+/* The original site-banner image and its hover/filter remain UNMODIFIED. */
+html[data-schmookey-theme="light"] body .menu {
+  background: #d0d0d7;
+  border-bottom-color: var(--snes-red);
+  box-shadow: inset 0 3px 6px #9d9da7, 0 2px 0 #44444b;
+}
+html[data-schmookey-theme="light"] body .menu a {
+  background: linear-gradient(#f2f2f4, #d1d1d6);
+  color: var(--snes-ink);
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #606069;
+  border-bottom-color: #606069;
+  box-shadow: 0 3px 0 #76767e, inset 0 2px 2px #ffffffa8, inset 0 -3px 4px #8e8e9b55;
+}
+html[data-schmookey-theme="light"] body .menu a.active,
+html[data-schmookey-theme="light"] body .menu a[aria-current="page"] {
+  background: linear-gradient(#ff2637, var(--snes-red));
+  color: #fff;
+  border-top-color: #ff7882;
+  border-left-color: #ff7882;
+  border-right-color: #7a0008;
+  border-bottom-color: #7a0008;
+  text-shadow: 1px 1px 0 #600006;
+}
+html[data-schmookey-theme="light"] body .menu .site-theme-toggle {
+  background: #f1f1f3;
+  border-color: #fff;
+  border-right-color: #61616a;
+  border-bottom-color: #61616a;
+  box-shadow: 0 3px 0 #76767e, inset 0 0 0 2px #aaaab1;
+}
+html[data-schmookey-theme="light"] body .footer {
+  background: #d0d0d7;
+  color: var(--snes-ink);
+  border-top-color: var(--snes-red);
+  box-shadow: inset 0 3px 6px #9d9da7, 0 -2px 8px #0002;
+}
+html[data-schmookey-theme="light"] body .footer a,
+html[data-schmookey-theme="light"] body .footer a:hover { color: #69000b; text-shadow: none; }
+html[data-schmookey-theme="light"] body .footer a.active { color: var(--snes-red-dark); text-shadow: none; }
+
+/* Existing panels, sidebars and article shells. Never add or remove a panel. */
+html[data-schmookey-theme="light"] body :is(.panel, .sidebar, .center, .post-container) {
+  background: var(--snes-panel);
+  color: var(--snes-ink);
+  border-color: var(--snes-border);
+  box-shadow: inset 2px 2px 0 #fff, inset -3px -3px 0 #95959f, 0 4px 0 var(--snes-shadow);
+}
+html[data-schmookey-theme="light"] body .layout.site-panel-layout > aside.sidebar.left.site-panel-sidebar,
+html[data-schmookey-theme="light"] body .layout.article-layout > aside.sidebar.left.article-sidebar,
+html[data-schmookey-theme="light"] body .layout.site-panel-layout > aside.sidebar.right.followed-blogs-sidebar,
+html[data-schmookey-theme="light"] body .layout.site-panel-layout > aside.sidebar.right.about-media-sidebar,
+html[data-schmookey-theme="light"] body.about-page main.center.panel {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html[data-schmookey-theme="light"] body .centre-content:is(.listening-page, .watching-page) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html[data-schmookey-theme="light"] body .layout.site-panel-layout > .site-panel-sidebar > :is(.site-search-widget, .site-panel-module),
+html[data-schmookey-theme="light"] body .layout.article-layout > .article-sidebar > :is(.site-search-widget, .article-sidebar-module),
+html[data-schmookey-theme="light"] body .layout.site-panel-layout > .about-media-sidebar > .about-media-panel,
+html[data-schmookey-theme="light"] body .layout.site-panel-layout .followed-blogs-sidebar > .webring {
+  background: var(--snes-panel) !important;
+  border-color: var(--snes-border) !important;
+  color: var(--snes-ink) !important;
+  box-shadow: inset 2px 2px 0 #fff, inset -3px -3px 0 #95959f, 0 4px 0 var(--snes-shadow) !important;
+}
+/* Section header bars, not badge art or other image-backed artwork. */
+html[data-schmookey-theme="light"] body .layout.site-panel-layout .site-panel-module > h2,
+html[data-schmookey-theme="light"] body .layout.site-panel-layout .about-media-panel > h2,
+html[data-schmookey-theme="light"] body .layout.site-panel-layout .followed-blogs-sidebar > .webring > h3,
+html[data-schmookey-theme="light"] body .layout.article-layout .article-sidebar-module > h2 {
+  background: var(--snes-red) !important;
+  color: #fff !important;
+  border-bottom-color: var(--snes-border) !important;
+}
+
+/* Home page, Blog/Music archives, Changelog, Journal, Notes, Now,
+   Privacy and Webrings: identical shapes and spacing, different palette. */
+html[data-schmookey-theme="light"] body :is(
+  .home-updates-header, .archive-16bit-header, .changelog-16bit-header,
+  .webrings-16bit-header, .notes-16bit-header, .now-16bit-header,
+  .privacy-16bit-header, .journal-home-header
+) {
+  background: var(--snes-panel) !important;
+  color: var(--snes-ink) !important;
+  border-color: var(--snes-border) !important;
+  box-shadow: 5px 5px 0 var(--snes-shadow), inset 0 0 0 2px #ffffff !important;
+}
+html[data-schmookey-theme="light"] body :is(
+  .home-updates-header, .archive-16bit-header, .changelog-16bit-header,
+  .webrings-16bit-header, .notes-16bit-header, .now-16bit-header,
+  .privacy-16bit-header, .journal-home-header
+)::after {
+  background: repeating-linear-gradient(90deg, var(--snes-red) 0 20px, #ff626d 20px 28px) !important;
+}
+html[data-schmookey-theme="light"] body :is(
+  .home-updates-header, .archive-16bit-header, .changelog-16bit-header,
+  .webrings-16bit-header, .notes-16bit-header, .now-16bit-header,
+  .privacy-16bit-header, .journal-home-header
+) :is(h1, h2) {
+  color: var(--snes-ink) !important;
+  text-shadow: 2px 2px 0 #e6001240 !important;
+}
+html[data-schmookey-theme="light"] body :is(
+  .home-updates-header, .archive-16bit-header, .changelog-16bit-header,
+  .webrings-16bit-header, .notes-16bit-header, .now-16bit-header,
+  .privacy-16bit-header, .journal-home-header
+) :is(p, .home-updates-overline, .archive-16bit-overline, .journal-home-overline) {
+  color: var(--snes-muted) !important;
+}
+
+/* Cards retain their original markup, offsets, full-card links and hover lifts. */
+html[data-schmookey-theme="light"] body :is(
+  #site-updates > .activity-card, #archive-list > .archive-entry,
+  .changelog-main > .changelog-card, .now-16bit-card,
+  .listening-log .listen-entry, #trakt-history > .trakt-live-card,
+  .trophy-grid > .trophy, .notes-stream > .h-entry,
+  .notes-stream > .notes-empty, .trakt-pending
+) {
+  background: var(--snes-card) !important;
+  color: var(--snes-ink) !important;
+  border-color: var(--snes-border) !important;
+  border-left-color: var(--snes-red) !important;
+  box-shadow: 5px 5px 0 var(--snes-shadow), inset 0 0 0 2px #ffffff !important;
+}
+html[data-schmookey-theme="light"] body :is(
+  #site-updates > .activity-card, #archive-list > .archive-entry,
+  .changelog-main > .changelog-card, .now-16bit-card,
+  .listening-log .listen-entry, #trakt-history > .trakt-live-card,
+  .trophy-grid > .trophy
+):hover {
+  box-shadow: 5px 8px 0 var(--snes-shadow), inset 0 0 0 2px #ffffff !important;
+}
+html[data-schmookey-theme="light"] body :is(
+  #site-updates > .activity-card, #archive-list > .archive-entry,
+  .changelog-main > .changelog-card, .now-16bit-card,
+  .listening-log .listen-entry, #trakt-history > .trakt-live-card
+) :is(h2, h3, .changelog-card-title, .listen-entry-title, .trakt-live-title, .now-16bit-label) {
+  color: var(--snes-ink) !important;
+  border-bottom-color: var(--snes-border) !important;
+}
+html[data-schmookey-theme="light"] body :is(
+  #site-updates > .activity-card, #archive-list > .archive-entry,
+  .changelog-main > .changelog-card, .now-16bit-card,
+  .listening-log .listen-entry, #trakt-history > .trakt-live-card
+) :is(p, small, a, li, span, time, .dt-published, .archive-tags,
+      .reading-time, .trakt-live-details, .trakt-live-type, .trakt-live-date,
+      .listen-entry-time, .listen-entry-meta, .listen-label) {
+  color: var(--snes-ink) !important;
+}
+html[data-schmookey-theme="light"] body :is(
+  #site-updates > .activity-card, #archive-list > .archive-entry,
+  .changelog-main > .changelog-card, .now-16bit-card,
+  .listening-log .listen-entry, #trakt-history > .trakt-live-card
+) :is(a:hover, a:focus-visible) { color: #7c000a !important; }
+/* The small red 'now' status and slot tags remain white on red. */
+html[data-schmookey-theme="light"] body :is(.now-16bit-slot, .retro-post-hud) {
+  background: var(--snes-red) !important;
+  color: #fff !important;
+}
+html[data-schmookey-theme="light"] body .now-16bit-card .now-16bit-slot {
+  color: #fff !important;
+}
+html[data-schmookey-theme="light"] body .now-16bit,
+html[data-schmookey-theme="light"] body .notes-page,
+html[data-schmookey-theme="light"] body .privacy-document,
+html[data-schmookey-theme="light"] body .privacy-document > :is(h2, p, ul, li),
+html[data-schmookey-theme="light"] body .now-16bit-card :is(h2, p),
+html[data-schmookey-theme="light"] body .notes-page :is(.notes-heading, .dt-published),
+html[data-schmookey-theme="light"] body .webrings-main .trophy-title {
+  color: var(--snes-ink) !important;
+}
+html[data-schmookey-theme="light"] body .privacy-document > h2,
+html[data-schmookey-theme="light"] body .listen-day-heading {
+  border-bottom-color: var(--snes-red-dark) !important;
+  color: var(--snes-ink) !important;
+}
+html[data-schmookey-theme="light"] body .notes-stream .h-entry {
+  border-color: var(--snes-border) !important;
+}
+html[data-schmookey-theme="light"] body .notes-stream .h-entry .e-content { color: var(--snes-ink); }
+
+/* Links on light panels, including RSS, archive and sidebar entries. */
+html[data-schmookey-theme="light"] body :is(
+  .site-panel-layout, .article-layout, .privacy-document, .notes-page,
+  .archive-entry, .activity-card, .post-container
+) a:not(.menu a):not(.profile-card-link) {
+  color: #79000c;
+}
+html[data-schmookey-theme="light"] body :is(
+  .site-panel-layout, .article-layout, .privacy-document, .notes-page,
+  .archive-entry, .activity-card, .post-container
+) a:not(.menu a):not(.profile-card-link):hover { color: #a0000e; }
+
+/* Blog/music index cards, blog posts, content copy and replies. */
+html[data-schmookey-theme="light"] body .post-card,
+html[data-schmookey-theme="light"] body .article,
+html[data-schmookey-theme="light"] body .terminal-entry,
+html[data-schmookey-theme="light"] body .reply-item,
+html[data-schmookey-theme="light"] body .system-msg,
+html[data-schmookey-theme="light"] body .terminal-entry-body,
+html[data-schmookey-theme="light"] body .reply-context,
+html[data-schmookey-theme="light"] body .terminal-log-status,
+html[data-schmookey-theme="light"] body .empty-terminal-log,
+html[data-schmookey-theme="light"] body .error-terminal-log {
+  background: var(--snes-card) !important;
+  color: var(--snes-ink) !important;
+  border-color: var(--snes-border) !important;
+}
+html[data-schmookey-theme="light"] body .post-container,
+html[data-schmookey-theme="light"] body .post-container .e-content,
+html[data-schmookey-theme="light"] body .post-container .e-content :is(p, h1, h2, h3, h4, li, small, blockquote),
+html[data-schmookey-theme="light"] body .post-content,
+html[data-schmookey-theme="light"] body .post-content :is(h1, h2, h3, p, li),
+html[data-schmookey-theme="light"] body .comments-panel {
+  color: var(--snes-ink) !important;
+}
+html[data-schmookey-theme="light"] body :is(.post-container, .comments-panel) a { color: #79000c; }
+html[data-schmookey-theme="light"] body .post-container .retro-post-hud {
+  border-color: #fff !important;
+  box-shadow: 0 0 0 3px var(--snes-red-dark), 0 4px 0 #0004 !important;
+}
+html[data-schmookey-theme="light"] body .retro-post-hud :is(h1, h2, p, a, span, time, .hud-title, .hud-clock) {
+  color: #fff !important;
+}
+html[data-schmookey-theme="light"] body .retro-post-footer { color: var(--snes-ink); }
+html[data-schmookey-theme="light"] body .comment-button,
+html[data-schmookey-theme="light"] body .site-search-submit,
+html[data-schmookey-theme="light"] body .article-layout .site-search-widget .site-search-submit {
+  background: var(--snes-red) !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+html[data-schmookey-theme="light"] body .fediverse-details,
+html[data-schmookey-theme="light"] body .fediverse-link-box {
+  background: #f5dce0 !important;
+  color: var(--snes-ink) !important;
+  border-color: var(--snes-red) !important;
+}
+html[data-schmookey-theme="light"] body .article-layout .article-sidebar-list li { border-bottom-color: var(--snes-border); }
+html[data-schmookey-theme="light"] body .article-layout .article-sidebar-list :is(a, small),
+html[data-schmookey-theme="light"] body .related-entry a { color: var(--snes-ink); }
+
+/* Search and user-editable fields preserve their placement and dimensions. */
+html[data-schmookey-theme="light"] body :is(
+  .site-search-widget, .site-search-page-form
+) .site-search-controls input,
+html[data-schmookey-theme="light"] body .button-share textarea,
+html[data-schmookey-theme="light"] body :is(input, textarea, select) {
+  background: #f8f8fa;
+  border-color: var(--snes-border);
+  color: var(--snes-ink);
+}
+html[data-schmookey-theme="light"] body :is(input, textarea)::placeholder { color: #55555c; }
+html[data-schmookey-theme="light"] body .button-share .copy-button {
+  background: var(--snes-red);
+  border-color: #fff;
+  color: #fff;
+}
+html[data-schmookey-theme="light"] body .button-share .copy-status { color: var(--snes-muted); }
+
+/* Followed blogs and media widgets: content remains exactly as supplied. */
+html[data-schmookey-theme="light"] body .layout.site-panel-layout .followed-blogs-sidebar .articles > .followed-blog-panel {
+  background: var(--snes-card) !important;
+  color: var(--snes-ink) !important;
+  border-color: var(--snes-border) !important;
+}
+html[data-schmookey-theme="light"] body .layout.site-panel-layout .followed-blogs-sidebar .followed-blog-panel :is(.title a, .summary, .source, .date) {
+  color: var(--snes-ink) !important;
+}
+html[data-schmookey-theme="light"] body .media-card,
+html[data-schmookey-theme="light"] body .media-widget,
+html[data-schmookey-theme="light"] body .about-media-panel-content,
+html[data-schmookey-theme="light"] body .about-media-panel-content :is(.media-title, .media-subtitle, .media-submeta, .media-status) {
+  color: var(--snes-ink) !important;
+}
+html[data-schmookey-theme="light"] body .media-widget .media-card {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html[data-schmookey-theme="light"] body .watching-page .listening-hud,
+html[data-schmookey-theme="light"] body .listening-page .listening-hud {
+  background: var(--snes-card) !important;
+  border-color: var(--snes-border) !important;
+}
+html[data-schmookey-theme="light"] body .listening-hud span { color: var(--snes-ink) !important; }
+html[data-schmookey-theme="light"] body .listen-day-heading {
+  background: transparent !important;
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-left: 0 !important;
+  box-shadow: none !important;
+}
+html[data-schmookey-theme="light"] body .listen-entry-cover,
+html[data-schmookey-theme="light"] body .trakt-live-poster { border-color: var(--snes-border) !important; }
+
+/* The one-off trading card is bespoke artwork; retain its existing colours.
+   Light mode never replaces the trading-card picture or its decorative CSS. */
+
+/* User-controlled preference should not introduce extra motion. */
+@media (prefers-reduced-motion: reduce) {
+  .menu .site-theme-toggle { transition: none; }
+}
