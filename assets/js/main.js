@@ -1327,3 +1327,13 @@ window.SCHMOOKEY_initPage = initPage;
   script.dataset.schmookeySearch = "true";
   document.head.appendChild(script);
 })();
+
+// Optional site-wide SNES theme — separate from legacy body.light rules.
+// All ordinary pages already load main.js; do not alter their existing HTML.
+(function loadSchmookeyTheme() {
+  if (document.querySelector('script[data-schmookey-theme-script]')) return;
+  const script = document.createElement("script");
+  script.src = "/assets/js/site-theme.js";
+  script.dataset.schmookeyThemeScript = "true";
+  document.head.appendChild(script);
+})();
