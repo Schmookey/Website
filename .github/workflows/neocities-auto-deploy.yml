@@ -92,6 +92,7 @@ jobs:
           node --check assets/js/trakt-history.js
           node tests/test_security.js
           node tests/test_listenbrainz_covers.js
+          node tests/test_listenbrainz_resilience.js
           node tests/test_trakt_widget.js
       - name: Validate deployment staging inputs
         run: |
