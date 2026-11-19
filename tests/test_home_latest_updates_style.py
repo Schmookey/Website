@@ -53,7 +53,7 @@ class HomeLatestUpdatesStyleTests(unittest.TestCase):
         banner = banner.split("HOME PAGE: LATEST UPDATES ONLY", 1)[0]
         selector_prefix = ("body .layout.site-panel-layout.site-panel-three-col "
                            "> main.center.panel > .home-updates-header")
-        for selector in re.findall(r"(?:^|\\n)([^{}]+)\\{", banner.split("*/", 1)[1]):
+        for selector in re.findall(r"(?:^|\n)([^{}]+)\{", banner.split("*/", 1)[1]):
             candidate = selector.strip()
             if candidate.startswith("@media"):
                 continue
