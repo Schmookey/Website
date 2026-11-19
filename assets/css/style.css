@@ -3734,7 +3734,6 @@ body .layout.site-panel-layout > main.center.webrings-main > .trophy-room > .tro
   gap: 16px;
 }
 
-/* Match the actual approved mock-up: compact, evenly aligned cards. */
 body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy {
   min-width: 0;
   min-height: 126px;
@@ -3765,7 +3764,6 @@ body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .troph
   max-width: 100%;
 }
 
-/* Avoid additional frames or margins inside the nine existing cards. */
 body .layout.site-panel-layout > main.center.webrings-main .trophy-room {
   padding: 0;
   border: 0;
