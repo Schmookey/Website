@@ -377,3 +377,46 @@ html[data-schmookey-theme="light"] body .trakt-live-poster { border-color: var(-
 @media (prefers-reduced-motion: reduce) {
   .menu .site-theme-toggle { transition: none; }
 }
+
+/* ==========================================================
+   SNES LIGHT MODE — POST DETAIL COLOURS (COLOUR ONLY)
+   Preserve the existing elements, spacing, actions and dark mode.
+   ========================================================== */
+
+/* Blog and Music listing links: Nintendo red button, black text.
+   Override the generic light-mode article-link rule, including visited links. */
+html[data-schmookey-theme="light"] body .post-card a.read-more,
+html[data-schmookey-theme="light"] body .post-card a.read-more:visited {
+  background: var(--snes-red) !important;
+  border-color: #000 !important;
+  color: #000 !important;
+}
+html[data-schmookey-theme="light"] body .post-card a.read-more:hover,
+html[data-schmookey-theme="light"] body .post-card a.read-more:focus-visible {
+  background: #ff5562 !important;
+  color: #000 !important;
+}
+
+/* Blog and Music article footer navigation: white lettering on existing red. */
+html[data-schmookey-theme="light"] body .post-container .retro-post-footer .footer-nav a.footer-btn,
+html[data-schmookey-theme="light"] body .post-container .retro-post-footer .footer-nav a.footer-btn:visited,
+html[data-schmookey-theme="light"] body .post-container .retro-post-footer .footer-nav a.footer-btn:hover,
+html[data-schmookey-theme="light"] body .post-container .retro-post-footer .footer-nav a.footer-btn:focus-visible {
+  color: #fff !important;
+}
+
+/* Keep the November Update book quotation dark, with white text. The existing
+   pink/red Walking Practice link is deliberately not targeted or recoloured. */
+html[data-schmookey-theme="light"] body .post-container .e-content figure.book-quotation,
+html[data-schmookey-theme="light"] body .post-container .e-content figure.book-quotation :is(p, blockquote, figcaption, cite, span, time) {
+  color: #fff !important;
+}
+
+/* Post image frames: red borders; captions use dark red for readable small text.
+   This also includes the Blog and Music listing images using .post-image. */
+html[data-schmookey-theme="light"] body .post-image img {
+  border-color: var(--snes-red) !important;
+}
+html[data-schmookey-theme="light"] body figure.post-image figcaption {
+  color: var(--snes-red-dark) !important;
+}
