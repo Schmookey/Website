@@ -84,11 +84,20 @@ assert.equal(blocked.attrs["data-schmookey-theme"], "light",
 
 assert.match(main, /script\.src = "\/assets\/js\/site-theme\.js"/);
 assert.match(css, /data-schmookey-theme="light"/);
-assert.match(css, /--snes-red: #e60012/);
+assert.match(css, /--snes-red: #d83c3c/);
 assert.match(css, /--snes-ink: #000000/);
-assert.match(css, /--snes-shell: #b9bac2/);
+assert.match(css, /--snes-shell: #c9c7c3/);
 assert.match(css, /\.site-theme-toggle\s*\{/);
 assert.match(css, /border-radius: 50%/);
+assert.match(css, /--megadrive-blue: #3061e3/, "Dark mode uses Sonic-inspired blue");
+assert.match(css, /--megadrive-red: #d82e35/, "Dark mode stays Mega Drive II red");
+assert.match(css, /\.post-card a\.read-more:visited/);
+assert.match(css, /\.footer-nav a\.footer-btn:visited/);
+assert.match(css, /figure\.book-quotation a\.u-url\.p-name:visited/);
+assert.match(css, /figure\.post-image figcaption/);
+assert.match(css, /\.post-image img/);
+assert.match(css, /border-color: var\(--snes-red\) !important/);
+assert.match(css, /color: #ff9199 !important/, "Keep quotation hyperlink pink");
 assert.doesNotMatch(css, /body\.light\s*\{/);
 assert.doesNotMatch(css, /\.profile-card\s*\{/,
   "The bespoke trading card must not be restyled directly");
