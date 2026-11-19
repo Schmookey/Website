@@ -75,6 +75,8 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_now_three_sections.py' -v
           python3 -m unittest discover -s tests -p 'test_notes_centre_header.py' -v
           python3 -m unittest discover -s tests -p 'test_home_latest_updates_style.py' -v
+          python3 -m unittest discover -s tests -p 'test_archive_home_centre.py' -v
+          node tests/test_archive_home_cards.js
           python3 -m unittest discover -s tests -p 'test_changelog_centre_panels.py' -v
           python3 -m unittest discover -s tests -p 'test_webrings_centre_panels.py' -v
           python3 -m unittest discover -s tests -p 'test_privacy_single_document.py' -v
