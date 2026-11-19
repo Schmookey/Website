@@ -106,6 +106,9 @@ STYLES
 <link rel="stylesheet"
       href="/assets/css/style.css">
 
+<!-- Dedicated styling makes the new Notes header independent of cached global CSS. -->
+<link rel="stylesheet" href="/assets/css/notes-16bit-header.css">
+
 <link rel="me" href="https://bsky.app/profile/schmookey.xyz">
 </head>
 
@@ -228,7 +231,9 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
   ====================================== -->
 
 <main class="center panel notes-page h-feed">
-  <header class="notes-heading">
+  <!-- Now-style 16-bit heading; the generated Notes stream below is unchanged. -->
+  <header class="notes-heading notes-16bit-header">
+    <p class="notes-16bit-overline">SCHMOOKEY.XYZ / 16-BIT NOTES</p>
     <h1 class="p-name">NOTES</h1>
     <p>Short thoughts, interesting discoveries and things worth sharing — not quite long enough for a blog post.</p>
     <p class="notes-subscribe"><a href="/notes/feed.xml" rel="alternate" type="application/rss+xml">Subscribe to Notes (RSS)</a></p>
