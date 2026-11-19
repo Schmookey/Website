@@ -53,26 +53,38 @@ class ArticleFooterBadgeTests(unittest.TestCase):
                 self.assertEqual(doc.xpath('//a[img[@src="/assets/images/88x31_Webmention.png"]]/@title'), ["Learn more about Webmentions"])
                 self.assertEqual(doc.xpath('//a[img[@src="/assets/images/88x31_Microformats.png"]]/@title'), ["learn more about Microformats"])
 
-    def test_webmention_hud_is_icon_only_without_removing_live_count(self):
-        """Keep the live Webmention count accessible but visually hide its label."""
+    def test_webmention_speech_bubble_uses_existing_reply_count(self):
+        """Only one visible reply counter, in the original bubble position."""
         stylesheet = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
-        selector = ".layout.article-layout .retro-post-hud .hud-meta #mention-count"
-        self.assertIn(selector + " {", stylesheet)
-        rule = stylesheet.split(selector + " {", 1)[1].split("}", 1)[0]
-        self.assertIn("clip-path: inset(50%);", rule)
-        self.assertIn("position: absolute;", rule)
+        self.assertNotIn(".hud-meta #mention-count", stylesheet)
+
         script = (ROOT / "assets/js/main.js").read_text(encoding="utf-8")
-        self.assertIn('document.getElementById("mention-count")', script)
-        self.assertIn('countEl.textContent', script)
+        self.assertNotIn('document.getElementById("mention-count")', script)
+        self.assertIn('document.getElementById("wm-replies")', script)
+        self.assertIn('if (repliesEl) repliesEl.textContent = String(replies);', script)
+        self.assertIn('if (repliesEl) repliesEl.textContent = "0";', script)
+        # The terminal still renders the replies, likes and reposts underneath.
+        self.assertIn('visibleMentions.map(renderMentionItem).join("")', script)
+        self.assertIn('property === "in-reply-to"', script)
+        self.assertIn('property === "like-of"', script)
+        self.assertIn('property === "repost-of"', script)
+
         for page in POSTS:
             with self.subTest(page=page.relative_to(ROOT).as_posix()):
                 doc = html.parse(str(page))
-                pills = doc.xpath('//div[contains(concat(" ",normalize-space(@class)," ")," hud-meta ")]'
-                                  '/span[contains(concat(" ",normalize-space(@class)," ")," meta-pill ")]'
-                                  '[span[@id="mention-count"]]')
-                self.assertEqual(len(pills), 1)
-                self.assertIn("💬", pills[0].text_content())
-                self.assertEqual(len(pills[0].xpath('./span[@id="mention-count"]')), 1)
+                hud = doc.xpath('//div[contains(concat(" ",normalize-space(@class)," ")," hud-meta ")]')
+                self.assertEqual(len(hud), 1)
+                pills = hud[0].xpath('./span[contains(concat(" ",normalize-space(@class)," ")," meta-pill ")]')
+                self.assertEqual(len(pills), 4, "Reading time, replies, likes and reposts")
+                self.assertIn("⏱", pills[0].text_content())
+                self.assertIn("💬", pills[1].text_content())
+                self.assertIn("Replies:", pills[1].text_content())
+                self.assertEqual(len(pills[1].xpath('./span[@id="wm-replies"]')), 1)
+                self.assertIn("❤️", pills[2].text_content())
+                self.assertIn("🔁", pills[3].text_content())
+                self.assertEqual(doc.xpath('//*[@id="mention-count"]'), [])
+                self.assertEqual(len(doc.xpath('//*[@id="comments-list"]')), 1)
+                self.assertEqual(len(doc.xpath('//*[@id="load-comments-btn"]')), 1)
 
     def test_no_changes_to_global_badge_layout_necessary(self):
         stylesheet = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")

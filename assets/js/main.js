@@ -511,7 +511,6 @@ function getWebmentionTarget() {
 
 function initWebmentions() {
   const container = document.getElementById("comments-list");
-  const countEl = document.getElementById("mention-count");
   const likesEl = document.getElementById("wm-likes");
   const repostsEl = document.getElementById("wm-reposts");
   const repliesEl = document.getElementById("wm-replies");
@@ -691,9 +690,6 @@ function initWebmentions() {
         if (property === "in-reply-to") replies++;
       });
 
-      if (countEl) {
-        countEl.textContent = `${visibleMentions.length} mention${visibleMentions.length === 1 ? "" : "s"}`;
-      }
       if (likesEl) likesEl.textContent = String(likes);
       if (repostsEl) repostsEl.textContent = String(reposts);
       if (repliesEl) repliesEl.textContent = String(replies);
@@ -715,7 +711,6 @@ function initWebmentions() {
     } catch (error) {
       console.warn("Webmentions failed:", error);
 
-      if (countEl) countEl.textContent = "0 mentions";
       if (likesEl) likesEl.textContent = "0";
       if (repostsEl) repostsEl.textContent = "0";
       if (repliesEl) repliesEl.textContent = "0";
