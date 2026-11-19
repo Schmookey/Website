@@ -3789,6 +3789,84 @@ body .layout.site-panel-layout > main.center.panel.changelog-main > .changelog-c
 }
 
 /* =====================================================
+   WEBRINGS CENTRE ONLY — APPROVED SINGLE PANEL / 16-BIT HEADER
+   Existing centre panel remains the only outer container.
+   Original webring cards and their hover animations stay intact.
+===================================================== */
+body .layout.site-panel-layout > main.center.webrings-main > .webrings-16bit-header {
+  position: relative;
+  background: #101832;
+  border: 3px solid #1e40ff;
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #5d82ff;
+  padding: 20px;
+  margin-bottom: 24px;
+  color: #f0f3ff;
+}
+
+body .layout.site-panel-layout > main.center.webrings-main > .webrings-16bit-header::after {
+  content: "";
+  display: block;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, #c1121f 0 20px, #ec3448 20px 28px);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+body .layout.site-panel-layout > main.center.webrings-main > .webrings-16bit-header .webrings-16bit-overline {
+  font: 700 11px/1.65 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .07em;
+  color: #a6bfff;
+  margin: 0 0 7px;
+}
+
+body .layout.site-panel-layout > main.center.webrings-main > .webrings-16bit-header h2 {
+  font-size: clamp(23px, 4vw, 32px);
+  line-height: 1.25;
+  letter-spacing: .04em;
+  color: #fff;
+  text-shadow: 3px 3px 0 #c1121f;
+  margin: 0 0 9px;
+}
+
+body .layout.site-panel-layout > main.center.webrings-main > .webrings-16bit-header .webrings-16bit-intro {
+  color: #e0e7ff;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0 0 6px;
+}
+
+body .layout.site-panel-layout > main.center.webrings-main > .trophy-room {
+  margin-top: 0;
+}
+
+/* The original trophy-grid is preserved; no extra inner panel. */
+body .layout.site-panel-layout > main.center.webrings-main > .trophy-room > .trophy-grid {
+  margin-top: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+  body .layout.site-panel-layout > main.center.webrings-main > .trophy-room > .trophy-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 580px) {
+  body .layout.site-panel-layout > main.center.webrings-main > .webrings-16bit-header {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 520px) {
+  body .layout.site-panel-layout > main.center.webrings-main > .trophy-room > .trophy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =====================================================
    HOME PAGE CENTRE: 16-BIT LATEST UPDATES HEADER ONLY
    Mirrors the Now page's top status panel without
    changing other page headings, cards, or sidebars.
