@@ -97,6 +97,8 @@ jobs:
           node tests/test_listenbrainz_covers.js
           node tests/test_listenbrainz_resilience.js
           node tests/test_trakt_widget.js
+          node --check assets/js/site-theme.js
+          node tests/test_site_theme.js
       - name: Validate deployment staging inputs
         run: |
           python3 -m unittest discover -s tests -p 'test_neocities_staging.py' -v
