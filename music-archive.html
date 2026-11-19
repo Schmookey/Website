@@ -101,6 +101,9 @@ STYLES
 <link rel="stylesheet"
       href="/assets/css/style.css">
 
+<!-- Archive-only treatment: scoped independently of the homepage CSS. -->
+<link rel="stylesheet" href="/assets/css/archive-home-16bit.css">
+
 <link rel="me" href="https://bsky.app/profile/schmookey.xyz">
 </head>
 
@@ -221,12 +224,16 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
   CENTER CONTENT
   ⭐ EDIT ONLY INSIDE THIS AREA
   ====================================== -->
-<main class="center panel">
+<main class="center panel archive-main">
+    <!-- Same 16-bit centre heading and full-card archive pattern as the homepage. -->
+    <header class="archive-16bit-header">
+      <p class="archive-16bit-overline">SCHMOOKEY.XYZ / 16-BIT MUSIC ARCHIVE</p>
+      <h1>Music Archive</h1>
+      <p class="archive-16bit-intro">Every music post, newest first.</p>
+    </header>
 
-<div id="archive-list" data-section="music"></div>
-  <p></p>
-
-</main>
+    <div id="archive-list" data-section="music"></div>
+  </main>
 <!-- =========================================
 RIGHT SIDEBAR (DO NOT TOUCH STRUCTURE)
 ========================================= -->
