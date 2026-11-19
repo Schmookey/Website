@@ -90,7 +90,8 @@ function normaliseArchivePost(post) {
     readingTime: Number(post.readingTime || 1),
     section: String(post.section || "").toLowerCase(),
     tags: Array.isArray(post.tags) ? post.tags : [],
-    summary: post.summary || ""
+    // posts.json publishes a cardBlurb; retain older summary metadata as fallback.
+    summary: post.cardBlurb || post.summary || ""
   };
 }
 
@@ -156,6 +157,10 @@ async function loadArchive() {
         <span class="reading-time">
           ⏱ ${escapeHTML(post.readingTime)} min read
         </span>
+
+        ${post.summary ? `
+          <p class="archive-summary">${escapeHTML(post.summary)}</p>
+        ` : ""}
 
         ${post.tags.length ? `
           <p class="archive-tags">
