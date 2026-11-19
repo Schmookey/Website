@@ -44,7 +44,8 @@ class JournalHomeStyleTests(unittest.TestCase):
             selector = rule.strip()
             if selector.startswith("@media"):
                 continue
-            for part in selector.split(","):
+            # Commas inside :is(...) are part of one selector, not a rule split.
+            for part in re.split(r",(?![^()]*\\))", selector):
                 part = part.strip()
                 self.assertTrue(part.startswith(
                     "body .layout.site-panel-layout > .centre-content"
