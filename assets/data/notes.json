@@ -1,5 +1,19 @@
 [
   {
+    "id": "2026-11-18-172550-44358519049",
+    "date": "2026-11-18T17:25:50Z",
+    "content": "Watched the first two episodes on iPlayer last night, Funny and Dramatic. They have done a great job catching The East German vibe and great casting in Ann Skelly as 'Martha Schmitt'.",
+    "tags": [
+      "notes",
+      "tv",
+      "honey",
+      "bbc",
+      "ann skelly"
+    ],
+    "image": "/assets/images/Honey_tvshow.jpg",
+    "image_alt": "Promotional picture for BBC TV show Honey"
+  },
+  {
     "id": "2026-11-18-103131-44286183707",
     "date": "2026-11-18T10:31:31Z",
     "content": "Split days off On Sunday and Tuesday plus work tech issues on Monday. It's Hump day and I barely feel my week has started!",
@@ -26,17 +40,19 @@
     "image_alt": "My cross breed Malador dog Kai"
   },
   {
-    "id": "2026-11-18-172550-44358519049",
-    "date": "2026-11-18T17:25:50Z",
-    "content": "Watched the first two episodes on iPlayer last night, Funny and Dramatic. They have done a great job catching The East German vibe and great casting in Ann Skelly as 'Martha Schmitt'.",
+    "id": "2026-11-19-174741-44580942816",
+    "date": "2026-11-19T17:47:41Z",
+    "content": "It's hard to believe it's been 20 years since this bad boy was released in the USA. In the UK, I got mine in January the next year for my birthday.",
     "tags": [
       "notes",
-      "tv",
-      "honey",
-      "bbc",
-      "ann skelly"
+      "nintendo",
+      "wii",
+      "gaming",
+      "20 years",
+      "indieweb"
     ],
-    "image": "/assets/images/Honey_tvshow.jpg",
-    "image_alt": "Promotional picture for BBC TV show Honey"
+    "syndicate": "both",
+    "image": "/assets/images/NintendoWii.jpg",
+    "image_alt": "Image of the Nintendo Wii games console"
   }
 ]
