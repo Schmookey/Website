@@ -56,7 +56,8 @@ class JournalHomeStyleTests(unittest.TestCase):
                     "#trakt-history " in part or
                     "#trakt-history > " in part,
                     repr(part))
-        self.assertNotIn("box-shadow: none;", css.split("/* Album entries")[0])
+        # The centre shell itself must never receive a styled rule; a date divider may remove a shadow.
+        self.assertNotIn(" > .centre-content:is(.listening-page, .watching-page) {", css)
         self.assertIn("border-left: 7px solid #c1121f;", css)
         self.assertIn("background: #0f1832;", css)
         self.assertIn("background: #101832;", css)
