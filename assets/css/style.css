@@ -3731,6 +3731,44 @@ body .layout.site-panel-layout > main.center.webrings-main > .trophy-room {
 body .layout.site-panel-layout > main.center.webrings-main > .trophy-room > .trophy-grid {
   margin-top: 0;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy {
+  min-width: 0;
+  min-height: 126px;
+  padding: 16px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy > .trophy-title {
+  margin-bottom: 0;
+  font: 700 11px/1.45 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .03em;
+  color: #fff;
+}
+
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy > .webring-content {
+  width: 100%;
+  min-width: 0;
+  line-height: 1.5;
+}
+
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy .ring-js-container,
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy iframe {
+  max-width: 100%;
+}
+
+body .layout.site-panel-layout > main.center.webrings-main .trophy-room {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 @media (max-width: 900px) {
@@ -3743,11 +3781,28 @@ body .layout.site-panel-layout > main.center.webrings-main > .trophy-room > .tro
   body .layout.site-panel-layout > main.center.webrings-main > .webrings-16bit-header {
     padding: 15px;
   }
+  body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy {
+    min-height: 110px;
+    padding: 12px 6px;
+  }
 }
 
 @media (max-width: 520px) {
   body .layout.site-panel-layout > main.center.webrings-main > .trophy-room > .trophy-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 390px) {
+  body .layout.site-panel-layout > main.center.webrings-main > .trophy-room > .trophy-grid {
     grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy {
+    transition: none;
+  }
+  body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy:hover {
+    transform: none;
   }
 }
 

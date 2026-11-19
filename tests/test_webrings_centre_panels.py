@@ -59,6 +59,13 @@ class WebringsCentrePanelTests(unittest.TestCase):
         self.assertIn("background: #101832", section)
         self.assertIn("border: 3px solid #1e40ff", section)
         self.assertIn("margin-top: 0;", section)
+        self.assertIn("min-height: 126px;", section)
+        self.assertIn("display: flex;", section)
+        self.assertIn("justify-content: center;", section)
+        self.assertIn("gap: 16px;", section)
+        self.assertIn("grid-template-columns: repeat(2, minmax(0, 1fr));", section)
+        self.assertIn("prefers-reduced-motion: reduce", section)
+        self.assertIn("background: transparent;", section)
         self.assertIn("transform:translateY(-4px) scale(1.02)", css)
 
 
