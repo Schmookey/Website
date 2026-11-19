@@ -9,28 +9,37 @@ SECTION = "CHANGELOG CENTRE ONLY — 16-BIT HOME-STYLE PANELS"
 
 
 class ChangelogCentrePanelTests(unittest.TestCase):
-    def test_header_and_original_entries_preserved(self):
+    def test_header_and_changelog_entries_allow_future_versions(self):
+        """New user-written versions must not break CI due to fixed entry counts."""
+        import re
+
         page = html.parse(str(ROOT / "changelog.html"))
         main = page.xpath("//main[contains(concat(' ', normalize-space(@class), ' '), ' changelog-main ')]")
         self.assertEqual(len(main), 1)
         self.assertEqual(main[0].xpath("./header[@class='changelog-16bit-header']/h2/text()"),
                          ["Changelog"])
+
         cards = main[0].xpath("./div[@class='changelog-card']")
-        self.assertEqual(len(cards), 12)
-        self.assertEqual(sum(len(card.xpath("./ul[@class='changelog-card-list']/li"))
-                             for card in cards), 57)
-        versions = [x.strip() for card in cards
-                    for x in card.xpath("./div[@class='changelog-card-title']/text()")
-                    if x.strip()]
-        self.assertEqual(
-            versions,
-            ["Version 2.1 —", "Version 2.0 —", "Version 1.9 —",
-             "Version 1.8 —", "Version 1.7 —", "Version 1.6 —",
-             "Version 1.5 —", "Version 1.4 —", "Version 1.3 —",
-             "Version 1.2 —", "Version 1.1 —", "Version 1.0 —"]
-        )
-        self.assertEqual(len(main[0].xpath(".//span[@class='auto-date']")), 12)
-        self.assertEqual(len(main[0].xpath(".//span[@class='auto-date'][@data-date]")), 3)
+        self.assertGreaterEqual(len(cards), 1, "Changelog needs at least one version")
+        versions = []
+        for card in cards:
+            title = "".join(card.xpath("./div[@class='changelog-card-title']/text()")).strip()
+            match = re.fullmatch(r"Version (\d+)\.(\d+)\s*—", title)
+            self.assertIsNotNone(match, f"Missing version title: {title!r}")
+            versions.append((int(match.group(1)), int(match.group(2))))
+            self.assertEqual(
+                len(card.xpath("./div[@class='changelog-card-title']//span[contains("
+                               "concat(' ', normalize-space(@class), ' '), ' auto-date ')]")),
+                1, f"{title} must have one date placeholder"
+            )
+            entries = card.xpath("./ul[@class='changelog-card-list']/li")
+            self.assertGreaterEqual(len(entries), 1, f"{title} needs at least one entry")
+            for item in entries:
+                self.assertTrue(item.text_content().strip(), f"{title} has an empty entry")
+
+        self.assertEqual(len(versions), len(set(versions)), "Duplicate changelog versions")
+        self.assertEqual(versions, sorted(versions, reverse=True),
+                         "Newest changelog versions must appear first")
         self.assertEqual(len(page.xpath("//aside[contains(@class,'site-panel-sidebar')]")), 1)
         self.assertEqual(len(page.xpath("//script[@src='/assets/js/main.js']")), 1)
         self.assertFalse(main[0].xpath(".//*[@class='jrpg-window']"))
