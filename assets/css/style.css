@@ -3673,3 +3673,69 @@ body.light .trakt-live-widget .trakt-about-card {
   .now-16bit-header { padding: 15px; }
   .now-16bit-card { padding: 16px 14px; }
 }
+
+/* =====================================================
+   HOME PAGE: LATEST UPDATES ONLY — 16-BIT PANEL STYLING
+   Same squared-off visual language as Now. Only cards
+   inside the centre panel's #site-updates are affected.
+   The existing 3px hover lift and JS feed remain intact.
+===================================================== */
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card {
+  background: #0f1832;
+  border: 3px solid #a5b9f8;
+  border-left: 7px solid #c1121f;
+  border-radius: 0;
+  padding: 19px 20px;
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #283c7d;
+  overflow-wrap: anywhere;
+}
+
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card h3 {
+  border-bottom: 2px solid #4164c6;
+  margin: 0 0 13px;
+  padding-bottom: 10px;
+  color: #fff;
+  font: 700 15px/1.4 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .055em;
+}
+
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card h3 a {
+  color: #fff;
+}
+
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card h3 a:hover {
+  color: #b9d2ff;
+}
+
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card small {
+  display: block;
+  color: #a6bfff;
+  margin-bottom: 9px;
+  font-size: 12px;
+}
+
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card p {
+  color: #edf2ff;
+  margin: 0;
+  line-height: 1.65;
+}
+
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 8px 0 #050815, inset 0 0 0 2px #4164c6;
+}
+
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card:focus-within {
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #4164c6;
+}
+
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card a:focus-visible {
+  outline: 3px solid #ff6974;
+  outline-offset: 3px;
+}
+
+@media (max-width: 580px) {
+  body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card {
+    padding: 16px 14px;
+  }
+}
