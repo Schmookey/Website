@@ -53,6 +53,27 @@ class ArticleFooterBadgeTests(unittest.TestCase):
                 self.assertEqual(doc.xpath('//a[img[@src="/assets/images/88x31_Webmention.png"]]/@title'), ["Learn more about Webmentions"])
                 self.assertEqual(doc.xpath('//a[img[@src="/assets/images/88x31_Microformats.png"]]/@title'), ["learn more about Microformats"])
 
+    def test_webmention_hud_is_icon_only_without_removing_live_count(self):
+        """Keep the live Webmention count accessible but visually hide its label."""
+        stylesheet = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
+        selector = ".layout.article-layout .retro-post-hud .hud-meta #mention-count"
+        self.assertIn(selector + " {", stylesheet)
+        rule = stylesheet.split(selector + " {", 1)[1].split("}", 1)[0]
+        self.assertIn("clip-path: inset(50%);", rule)
+        self.assertIn("position: absolute;", rule)
+        script = (ROOT / "assets/js/main.js").read_text(encoding="utf-8")
+        self.assertIn('document.getElementById("mention-count")', script)
+        self.assertIn('countEl.textContent', script)
+        for page in POSTS:
+            with self.subTest(page=page.relative_to(ROOT).as_posix()):
+                doc = html.parse(str(page))
+                pills = doc.xpath('//div[contains(concat(" ",normalize-space(@class)," ")," hud-meta ")]'
+                                  '/span[contains(concat(" ",normalize-space(@class)," ")," meta-pill ")]'
+                                  '[span[@id="mention-count"]]')
+                self.assertEqual(len(pills), 1)
+                self.assertIn("💬", pills[0].text_content())
+                self.assertEqual(len(pills[0].xpath('./span[@id="mention-count"]')), 1)
+
     def test_no_changes_to_global_badge_layout_necessary(self):
         stylesheet = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         self.assertIn(".footer-buttons{", stylesheet)
