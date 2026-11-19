@@ -3706,8 +3706,6 @@ body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-up
   text-decoration: none;
 }
 
-/* Extend the original title link's hit area, without adding a new
-   link or click handler. Keyboard users can still tab to the title. */
 body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card h3 a::after {
   content: "";
   position: absolute;
