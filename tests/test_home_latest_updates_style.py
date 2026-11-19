@@ -39,11 +39,11 @@ class HomeLatestUpdatesStyleTests(unittest.TestCase):
     def test_entire_card_uses_existing_title_anchor_without_underlining(self):
         css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         scoped = css.split(START, 1)[1].split("*/", 1)[1]
-        self.assertRegex(scoped, re.escape(SCOPE) + r"\\s*\\{[^}]*position:\\s*relative;")
+        self.assertRegex(scoped, re.escape(SCOPE) + r"\s*\{[^}]*position:\s*relative;")
         self.assertRegex(scoped, re.escape(SCOPE + " h3 a") +
-                         r"\\s*\\{[^}]*text-decoration:\\s*none;")
+                         r"\s*\{[^}]*text-decoration:\s*none;")
         self.assertRegex(scoped, re.escape(SCOPE + " h3 a::after") +
-                         r'\\s*\\{[^}]*content:\\s*"";[^}]*position:\\s*absolute;[^}]*inset:\\s*0;')
+                         r'\s*\{[^}]*content:\s*"";[^}]*position:\s*absolute;[^}]*inset:\s*0;')
         self.assertIn(SCOPE + " h3 a:focus-visible::after", scoped)
 
     def test_existing_data_rendering_is_untouched(self):
