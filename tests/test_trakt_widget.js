@@ -15,6 +15,15 @@ assert.equal(widget.normalise({title:"<script>alert(1)</script>",type:"TV Show",
 assert.equal(widget.normalise({title:"Test",type:"Movie",watched_at:"2026-11-11T12:00:00Z"}).date.toISOString(), "2026-11-11T12:00:00.000Z");
 assert.deepEqual(widget.snapshotEntries({generated_at:null,items:[{title:"Old sample",type:"TV Show"}]}), []);
 assert.deepEqual(widget.snapshotEntries({generated_at:"",items:[{title:"Old sample",type:"TV Show"}]}), []);
+const anchorTime = Date.parse("2026-11-19T18:35:00Z");
+assert.equal(widget.localSnapshotIsFresh({generated_at:"2026-11-19T12:10:52+00:00"}, anchorTime), true);
+assert.equal(widget.localSnapshotIsFresh({generated_at:"2026-11-12T22:19:00Z"}, anchorTime), false,
+  "Old LOL-era local backup must never be presented as current");
+assert.equal(widget.localSnapshotIsFresh({generated_at:""}, anchorTime), false);
+assert.equal(widget.localSnapshotIsFresh({generated_at:null}, anchorTime), false);
+assert.equal(widget.localSnapshotIsFresh({generated_at:"2026-11-20T12:10:52Z"}, anchorTime), false,
+  "A future-dated backup cannot pass the freshness gate");
+
 const recent = widget.snapshotEntries({generated_at:"2026-11-11T14:00:00Z",items:[{title:"New watch",type:"Movie"}]});
 assert.equal(recent.length, 1);
 assert.equal(recent[0].title, "New watch");
