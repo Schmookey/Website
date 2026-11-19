@@ -96,5 +96,7 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_indieweb_metadata.py' -v
       - name: Test ListenBrainz album artwork and fallbacks
         run: node tests/test_listenbrainz_covers.js
+      - name: Test ListenBrainz API-failure resilience
+        run: node tests/test_listenbrainz_resilience.js
       - name: Test Trakt widget data and links
         run: node tests/test_trakt_widget.js
