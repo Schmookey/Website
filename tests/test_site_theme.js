@@ -90,8 +90,8 @@ assert.match(css, /--snes-shell: #b9bac2/);
 assert.match(css, /\.site-theme-toggle\s*\{/);
 assert.match(css, /border-radius: 50%/);
 assert.doesNotMatch(css, /body\.light\s*\{/);
-assert.doesNotMatch(css, /\bprofile-card(?:-|\b)/,
-  "The user-created trading card is not recoloured");
+assert.doesNotMatch(css, /\\.profile-card\\s*\\{/,
+  "The bespoke trading card must not be restyled directly");
 assert.doesNotMatch(css, /\.site-banner img\s*\{/,
   "The existing banner artwork is preserved");
 assert.doesNotMatch(js, /body\.classList\.|document\.body\.className/,
