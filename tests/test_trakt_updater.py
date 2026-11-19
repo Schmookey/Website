@@ -15,6 +15,17 @@ spec.loader.exec_module(updater)
 
 
 class TraktUpdaterTests(unittest.TestCase):
+    def test_workflow_recovers_from_simultaneous_website_commits(self):
+        workflow = (SCRIPT.parents[1] / ".github/workflows/"
+                    "update-trakt-history.yml").read_text(encoding="utf-8")
+        self.assertIn("ref: main", workflow)
+        self.assertIn("git push origin HEAD:main", workflow)
+        self.assertIn("git fetch origin main", workflow)
+        self.assertIn("git rebase origin/main", workflow)
+        self.assertIn("git rebase --abort", workflow)
+        self.assertNotIn("git push --force", workflow)
+        self.assertIn("assets/data/trakt-history.json", workflow)
+
     def test_episode_metadata_is_retained(self):
         row = {
             "type": "episode", "watched_at": "2026-11-10T12:00:00Z",
