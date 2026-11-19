@@ -3681,6 +3681,8 @@ body.light .trakt-live-widget .trakt-about-card {
    The existing 3px hover lift and JS feed remain intact.
 ===================================================== */
 body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card {
+  /* The single existing title link covers the entire card. */
+  position: relative;
   background: #0f1832;
   border: 3px solid #a5b9f8;
   border-left: 7px solid #c1121f;
@@ -3701,6 +3703,16 @@ body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-up
 
 body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card h3 a {
   color: #fff;
+  text-decoration: none;
+}
+
+/* Extend the original title link's hit area, without adding a new
+   link or click handler. Keyboard users can still tab to the title. */
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
 }
 
 body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card h3 a:hover {
@@ -3732,6 +3744,11 @@ body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-up
 body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card a:focus-visible {
   outline: 3px solid #ff6974;
   outline-offset: 3px;
+}
+
+body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card h3 a:focus-visible::after {
+  outline: 3px solid #ff6974;
+  outline-offset: -3px;
 }
 
 @media (max-width: 580px) {
