@@ -1,0 +1,151 @@
+/* BLOG & MUSIC ARCHIVES — match the homepage centre's 16-bit cards.
+   Only archive centre content is affected; homepage/sidebars remain unchanged. */
+body .layout.site-panel-layout > main.center.panel.archive-main > .archive-16bit-header {
+  position: relative;
+  background: #101832;
+  border: 3px solid #1e40ff;
+  border-radius: 0;
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #5d82ff;
+  padding: 20px;
+  margin-bottom: 24px;
+  color: #f0f3ff;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main > .archive-16bit-header::after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 5px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: repeating-linear-gradient(90deg, #c1121f 0 20px, #ec3448 20px 28px);
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main .archive-16bit-overline {
+  font: 700 11px/1.65 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .07em;
+  color: #a6bfff;
+  margin: 0 0 7px;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main > .archive-16bit-header h1 {
+  font-size: clamp(23px, 4vw, 32px);
+  line-height: 1.25;
+  letter-spacing: .04em;
+  color: #fff;
+  text-shadow: 3px 3px 0 #c1121f;
+  margin: 0 0 9px;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main .archive-16bit-intro {
+  color: #e0e7ff;
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0 0 6px;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry {
+  position: relative;
+  background: #0f1832;
+  border: 3px solid #a5b9f8;
+  border-left: 7px solid #c1121f;
+  border-radius: 0;
+  padding: 19px 20px;
+  margin: 14px 0 21px;
+  color: #edf2ff;
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #283c7d;
+  overflow-wrap: anywhere;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry h2 {
+  border-bottom: 2px solid #4164c6;
+  margin: 0 0 13px;
+  padding-bottom: 10px;
+  color: #fff;
+  font: 700 15px/1.4 "DejaVu Sans Mono", "Liberation Mono", monospace;
+  letter-spacing: .055em;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry h2 a {
+  color: #fff;
+  text-decoration: none;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry h2 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry h2 a:hover {
+  color: #b9d2ff;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry .dt-published {
+  display: block;
+  color: #a6bfff;
+  margin: 0 0 9px;
+  font-size: 12px;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry .reading-time {
+  display: inline;
+  background: none;
+  padding: 0;
+  border: 0;
+  color: #a6bfff;
+  font-size: 12px;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry .archive-summary {
+  color: #edf2ff;
+  margin: 12px 0 0;
+  line-height: 1.65;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry .archive-tags {
+  color: #b9c8f2;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 12px 0 0;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry:hover {
+  transform: translateY(-3px);
+  box-shadow: 5px 8px 0 #050815, inset 0 0 0 2px #4164c6;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry:focus-within {
+  box-shadow: 5px 5px 0 #050815, inset 0 0 0 2px #4164c6;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry a:focus-visible {
+  outline: 3px solid #ff6974;
+  outline-offset: 3px;
+}
+
+body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry h2 a:focus-visible::after {
+  outline: 3px solid #ff6974;
+  outline-offset: -3px;
+}
+
+@media (max-width: 580px) {
+  body .layout.site-panel-layout > main.center.panel.archive-main > .archive-16bit-header {
+    padding: 15px;
+  }
+  body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry {
+    padding: 16px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry {
+    transition: none;
+  }
+  body .layout.site-panel-layout > main.center.panel.archive-main #archive-list > .archive-entry:hover {
+    transform: none;
+  }
+}
