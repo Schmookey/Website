@@ -48,7 +48,7 @@ class WebringsCentrePanelTests(unittest.TestCase):
         css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         self.assertEqual(css.count(SECTION), 1)
         section = css.split(SECTION, 1)[1].split("*/", 1)[1].split(
-            "HOME PAGE CENTRE: 16-BIT LATEST UPDATES HEADER ONLY", 1)[0]
+            "CHANGELOG CENTRE ONLY — 16-BIT HOME-STYLE PANELS", 1)[0]
         for selector in re.findall(r"(?:^|\n)([^{}]+)\{", section):
             selector = selector.strip()
             if selector.startswith("@media"):
