@@ -525,22 +525,6 @@ body.dark .hud-clock {
   border: 1px solid #fff;
 }
 
-/* Only the speech bubble is visible in blog/music article HUDs.
-   The existing Webmention count remains in the DOM for the live updater
-   and assistive technology; no other HUD badges are affected. */
-.layout.article-layout .retro-post-hud .hud-meta #mention-count {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-  pointer-events: none;
-}
 
 .reading-progress {
   height: 3px;
