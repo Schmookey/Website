@@ -65,7 +65,7 @@ class PrivacySingleDocumentTests(unittest.TestCase):
         self.assertNotIn(".privacy-card", style)
         # Every CSS selector belongs to the Privacy main panel, not shared layout/sidebar components.
         import re
-        selectors = re.findall(r"(?:^|\n)([^{}]+)\{", style)
+        selectors = re.findall(r"(?:^|\n)([^{}]+)\{", re.sub(r"/\*.*?\*/", "", style, flags=re.S))
         scope = "body .layout.site-panel-layout > main.center.panel.privacy-main"
         for selector in selectors:
             selector = selector.strip()
