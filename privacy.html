@@ -103,6 +103,9 @@ STYLES
 <link rel="stylesheet"
       href="/assets/css/style.css">
 
+<!-- Explicit policy styles so the new layout is independent of cached global CSS. -->
+<link rel="stylesheet" href="/assets/css/privacy-16bit.css">
+
 <link rel="me" href="https://bsky.app/profile/schmookey.xyz">
 </head>
 
@@ -225,16 +228,17 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
   ⭐ EDIT ONLY INSIDE THIS AREA
   ====================================== -->
 
-<main class="center">
-  <div class="panel terminal">
+<main class="center panel privacy-main">
+  <header class="privacy-16bit-header">
+    <p class="privacy-16bit-overline">SYSTEM FILE — PRIVACY POLICY</p>
+    <h1>PRIVACY POLICY</h1>
+    <p class="privacy-16bit-intro">PRIVACY_POLICY.TXT</p>
+    <p class="privacy-16bit-updated"><strong>Last updated:</strong> 11 November 2026</p>
+  </header>
 
-    <p class="privacy-label">SYSTEM FILE — PRIVACY POLICY</p>
-
-    <h2>PRIVACY_POLICY.TXT</h2>
-
-    <p><strong>Last updated:</strong> 11 November 2026</p>
-
-    <p>&gt; INITIALISING DATA FILE...</p>
+  <!-- One uninterrupted document: headings are typographic, not separate cards. -->
+  <article class="privacy-document" aria-label="Privacy policy document">
+    <p class="privacy-file-start">&gt; INITIALISING DATA FILE...</p>
 
     <h2>[OVERVIEW]</h2>
     <p>
@@ -358,9 +362,9 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
       Questions? Use the contact links available on the website.
     </p>
 
-    <p>&gt; END OF FILE</p>
+    <p class="privacy-file-end">&gt; END OF FILE</p>
 
-  </div>
+  </article>
 </main>
 <!-- =========================================
 RIGHT SIDEBAR (DO NOT TOUCH STRUCTURE)

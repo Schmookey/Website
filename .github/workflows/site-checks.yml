@@ -51,6 +51,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_notes_section.py' -v
       - name: Verify GitHub Notes publishing safety and output
         run: python -m unittest discover -s tests -p 'test_notes_publishing.py' -v
+      - name: Verify Privacy Policy remains one continuous 16-bit document
+        run: python -m unittest discover -s tests -p 'test_privacy_single_document.py' -v
       - name: Verify Webrings single centre panel and preserved rings
         run: python -m unittest discover -s tests -p 'test_webrings_centre_panels.py' -v
       - name: Verify Changelog centre panels and hover movement
