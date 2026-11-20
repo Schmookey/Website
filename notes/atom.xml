@@ -4,10 +4,23 @@
   <id>https://schmookey.xyz/notes/</id>
   <link rel="alternate" href="https://schmookey.xyz/notes/" />
   <link rel="self" href="https://schmookey.xyz/notes/atom.xml" />
-  <updated>2026-11-19T17:47:41Z</updated>
+  <updated>2026-11-20T22:19:42Z</updated>
   <author>
     <name>Schmookey</name>
   </author>
+  <entry>
+    <id>https://schmookey.xyz/notes/2026-11-20-221942-44827999947.html</id>
+    <title>Tired and ready to call it a night early on Friday then you realise you have some saved TV</title>
+    <updated>2026-11-20T22:19:42Z</updated>
+    <published>2026-11-20T22:19:42Z</published>
+    <link rel="alternate" href="https://schmookey.xyz/notes/2026-11-20-221942-44827999947.html" />
+    <content type="text">Tired and ready to call it a night early on Friday then you realise you have some saved TV to watch!</content>
+    <category term="notes" />
+    <category term="indieweb" />
+    <category term="microblog" />
+    <category term="tv" />
+    <category term="tired" />
+  </entry>
   <entry>
     <id>https://schmookey.xyz/notes/2026-11-19-174741-44580942816.html</id>
     <title>It's hard to believe it's been 20 years since this bad boy was released in the USA. In the</title>
