@@ -327,24 +327,24 @@ BLOG FEED CARDS
   width:100%;
 }
 
-/* Blog and music listing cards: match image frame heights without cropping
-   portrait artwork or stretching smaller logos. Article images keep their
-   existing separate 360px maximum from PR #91. */
+/* Blog and music listing images: the image itself determines the frame
+   height, with a 320px cap. Portraits, landscapes and logos retain their
+   natural proportions; there is no fixed-height letterbox or cropping. */
 .h-feed > .post-card > a.post-image {
   display:flex;
   align-items:center;
   justify-content:center;
-  height:clamp(200px, 34vw, 320px);
-  overflow:hidden;
+  height:auto;
 }
 
 .h-feed > .post-card > a.post-image > img {
   box-sizing:border-box;
-  width:100%;
-  height:100%;
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:320px;
   margin:0;
-  object-fit:scale-down;
-  object-position:center;
+  object-fit:contain;
 }
 
 .post-content{
@@ -602,15 +602,16 @@ POST MEDIA (IMAGE + VIDEO)
     0 4px 0 rgba(0,0,0,.85);
 }
 
-/* Blog/music article artwork: consistent responsive frames without cropping
-   or enlarging small source images. Listing thumbnails are intentionally
-   excluded by the .post-container .e-content selector. */
+/* Blog and music article artwork: size each bordered image to its natural
+   aspect ratio, up to the available width and 360px height. This also applies
+   to new posts using the shared figure.post-image markup. */
 .post-container .e-content figure.post-image > img {
   box-sizing: border-box;
-  width: 100%;
-  height: clamp(240px, 40vw, 360px);
-  object-fit: scale-down;
-  object-position: center;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 360px;
+  object-fit: contain;
 }
 
 .post-image figcaption{
