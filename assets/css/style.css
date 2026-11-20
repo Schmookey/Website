@@ -514,15 +514,32 @@ body.dark .hud-clock {
 .hud-meta {
   grid-column: 2;
   display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
   margin-top: 0.2rem;
+}
+
+.hud-meta .meta-pill {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .meta-pill {
   background: rgba(255, 255, 255, 0.15);
   padding: 4px 8px;
   border: 1px solid #fff;
+}
+
+/* Keep the complete HUD row on desktop and allow natural wrapping on mobile. */
+@media (max-width: 768px) {
+  .retro-post-hud .hud-meta {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
 }
 
 
