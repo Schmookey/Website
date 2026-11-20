@@ -447,7 +447,7 @@ function initReadingTime() {
   const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
   const minutes = Math.max(1, Math.round(words / 210));
 
-  output.textContent = `${minutes} min read`;
+  output.textContent = `${minutes} min read · ${words.toLocaleString("en-GB")} ${words === 1 ? "word" : "words"}`;
 
   // Use the same emoji style as the comments and likes indicators.
   const pill = output.closest(".meta-pill");
