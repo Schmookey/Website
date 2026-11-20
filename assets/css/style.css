@@ -302,6 +302,15 @@ BLOG FEED CARDS
     border-color 0.25s ease;
 }
 
+/* Equal-height blog/music feed cards: 60% image, 40% article details.
+   Only index feed cards use this layout; individual posts are unchanged. */
+.h-feed > .post-card {
+  display:grid;
+  grid-template-rows:minmax(0, 3fr) minmax(0, 2fr);
+  height:500px;
+  min-width:0;
+}
+
 /* An unobtrusive hit area makes the space between title, image and text
    clickable too. Existing visible links remain keyboard-accessible. */
 .post-card .post-card-area-link{
@@ -327,14 +336,20 @@ BLOG FEED CARDS
   width:100%;
 }
 
-/* Blog and music listing images: the image itself determines the frame
-   height, with a 320px cap. Portraits, landscapes and logos retain their
-   natural proportions; there is no fixed-height letterbox or cropping. */
+/* The upper 60% is a dedicated image area. The image's own border
+   follows its visible proportions; artwork is never cropped or stretched. */
 .h-feed > .post-card > a.post-image {
   display:flex;
   align-items:center;
   justify-content:center;
-  height:auto;
+  width:100%;
+  height:100%;
+  min-width:0;
+  min-height:0;
+  margin:0;
+  padding:12px;
+  overflow:hidden;
+  background:rgba(0,0,0,0.08);
 }
 
 .h-feed > .post-card > a.post-image > img {
@@ -342,7 +357,7 @@ BLOG FEED CARDS
   width:auto;
   height:auto;
   max-width:100%;
-  max-height:320px;
+  max-height:100%;
   margin:0;
   object-fit:contain;
 }
@@ -375,6 +390,54 @@ BLOG FEED CARDS
 
 .read-more:hover{
   background:#333;
+}
+
+/* Use a consistent information area, trim only the listing excerpt, and
+   align every Read More link at the bottom without changing its destination. */
+.h-feed > .post-card > .post-content {
+  display:flex;
+  flex-direction:column;
+  gap:0.4rem;
+  min-width:0;
+  min-height:0;
+  padding:1rem 1.2rem;
+}
+.h-feed > .post-card > .post-content h2 {
+  margin:0;
+  font-size:1rem;
+  line-height:1.5;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+}
+.h-feed > .post-card > .post-content .dt-published {
+  margin:0;
+}
+.h-feed > .post-card > .post-content .p-summary {
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+  overflow:hidden;
+  font-size:0.875rem;
+  line-height:1.5;
+}
+.h-feed > .post-card > .post-content .read-more {
+  margin-top:auto;
+  align-self:flex-start;
+}
+
+/* On narrow screens, keep a useful image area but let details grow
+   when titles, language or larger accessibility font sizes need space. */
+@media (max-width:768px) {
+  .h-feed > .post-card {
+    height:auto;
+    min-height:460px;
+    grid-template-rows:clamp(200px, 60vw, 240px) minmax(220px, auto);
+  }
+  .h-feed > .post-card > .post-content h2 {
+    -webkit-line-clamp:3;
+  }
 }
 
 /* =========================================
