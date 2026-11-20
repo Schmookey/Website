@@ -582,6 +582,17 @@ POST MEDIA (IMAGE + VIDEO)
     0 4px 0 rgba(0,0,0,.85);
 }
 
+/* Blog/music article artwork: consistent responsive frames without cropping
+   or enlarging small source images. Listing thumbnails are intentionally
+   excluded by the .post-container .e-content selector. */
+.post-container .e-content figure.post-image > img {
+  box-sizing: border-box;
+  width: 100%;
+  height: clamp(240px, 40vw, 360px);
+  object-fit: scale-down;
+  object-position: center;
+}
+
 .post-image figcaption{
   margin-top:8px;
   font-size:9px;
