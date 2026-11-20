@@ -1,7 +1,18 @@
 {
-  "generated_at": "2026-11-20T12:58:31+00:00",
+  "generated_at": "2026-11-20T18:51:07+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Bill's Included",
+      "type": "TV Show",
+      "episode": "The Landfriend",
+      "season": 1,
+      "episode_number": 1,
+      "year": 2026,
+      "link": "https://trakt.tv/shows/bill-s-included",
+      "cover": "https://image.tmdb.org/t/p/w200/oq1F421zkILo0UoLEnEsBiGrYIk.jpg",
+      "watched_at": "2026-11-20T19:15:00.000Z"
+    },
     {
       "title": "Killing Eve",
       "type": "TV Show",
@@ -320,17 +331,6 @@
       "link": "https://trakt.tv/shows/slow-horses",
       "cover": "https://image.tmdb.org/t/p/w200/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
       "watched_at": "2026-10-25T22:37:00.000Z"
-    },
-    {
-      "title": "Slow Horses",
-      "type": "TV Show",
-      "episode": "Daddy Issues",
-      "season": 6,
-      "episode_number": 2,
-      "year": 2022,
-      "link": "https://trakt.tv/shows/slow-horses",
-      "cover": "https://image.tmdb.org/t/p/w200/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-      "watched_at": "2026-10-25T21:49:00.000Z"
     }
   ]
 }
