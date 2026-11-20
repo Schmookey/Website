@@ -327,6 +327,26 @@ BLOG FEED CARDS
   width:100%;
 }
 
+/* Blog and music listing cards: match image frame heights without cropping
+   portrait artwork or stretching smaller logos. Article images keep their
+   existing separate 360px maximum from PR #91. */
+.h-feed > .post-card > a.post-image {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:clamp(200px, 34vw, 320px);
+  overflow:hidden;
+}
+
+.h-feed > .post-card > a.post-image > img {
+  box-sizing:border-box;
+  width:100%;
+  height:100%;
+  margin:0;
+  object-fit:scale-down;
+  object-position:center;
+}
+
 .post-content{
   padding:1.2rem;
 }
