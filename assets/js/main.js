@@ -448,6 +448,42 @@ function initReadingTime() {
   const minutes = Math.max(1, Math.round(words / 210));
 
   output.textContent = `${minutes} min read`;
+
+  // Replace the stopwatch emoji in the parent HUD pill with a consistent
+  // outline clock, matching the simple speech-bubble and heart indicators.
+  const pill = output.closest(".meta-pill");
+  if (pill && !pill.querySelector(".reading-time-clock")) {
+    for (const node of Array.from(pill.childNodes)) {
+      if (node === output) break;
+      if (node.nodeType === Node.TEXT_NODE && node.textContent.includes("⏱")) {
+        node.textContent = node.textContent.replace("⏱", "");
+      }
+    }
+
+    const svgNS = "http://www.w3.org/2000/svg";
+    const clock = document.createElementNS(svgNS, "svg");
+    clock.setAttribute("class", "reading-time-clock");
+    clock.setAttribute("viewBox", "0 0 24 24");
+    clock.setAttribute("width", "15");
+    clock.setAttribute("height", "15");
+    clock.setAttribute("fill", "none");
+    clock.setAttribute("stroke", "currentColor");
+    clock.setAttribute("stroke-width", "2");
+    clock.setAttribute("stroke-linecap", "round");
+    clock.setAttribute("stroke-linejoin", "round");
+    clock.setAttribute("aria-hidden", "true");
+    clock.style.verticalAlign = "-2px";
+    clock.style.marginRight = "4px";
+
+    const face = document.createElementNS(svgNS, "circle");
+    face.setAttribute("cx", "12");
+    face.setAttribute("cy", "12");
+    face.setAttribute("r", "9");
+    const hands = document.createElementNS(svgNS, "path");
+    hands.setAttribute("d", "M12 7v5l3 2");
+    clock.append(face, hands);
+    pill.insertBefore(clock, output);
+  }
 }
 
 /* =====================================================
