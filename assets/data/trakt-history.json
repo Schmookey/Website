@@ -1,7 +1,18 @@
 {
-  "generated_at": "2026-11-21T16:26:23+00:00",
+  "generated_at": "2026-11-21T18:00:11+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Honey",
+      "type": "TV Show",
+      "episode": "Episode 3",
+      "season": 1,
+      "episode_number": 3,
+      "year": 2026,
+      "link": "https://trakt.tv/shows/honey",
+      "cover": "https://image.tmdb.org/t/p/w200/wKrubUacVFYxSjYBkiZYrgiCjXh.jpg",
+      "watched_at": "2026-11-21T17:15:00.000Z"
+    },
     {
       "title": "Shetland",
       "type": "TV Show",
@@ -320,17 +331,6 @@
       "link": "https://trakt.tv/shows/slow-horses",
       "cover": "https://image.tmdb.org/t/p/w200/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
       "watched_at": "2026-10-26T22:34:00.000Z"
-    },
-    {
-      "title": "Slow Horses",
-      "type": "TV Show",
-      "episode": "Sayonara",
-      "season": 6,
-      "episode_number": 5,
-      "year": 2022,
-      "link": "https://trakt.tv/shows/slow-horses",
-      "cover": "https://image.tmdb.org/t/p/w200/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-      "watched_at": "2026-10-26T11:26:00.000Z"
     }
   ]
 }
