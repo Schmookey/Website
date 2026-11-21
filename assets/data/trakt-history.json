@@ -1,7 +1,29 @@
 {
-  "generated_at": "2026-11-21T11:11:53+00:00",
+  "generated_at": "2026-11-21T16:26:23+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Shetland",
+      "type": "TV Show",
+      "episode": "Episode 2",
+      "season": 11,
+      "episode_number": 2,
+      "year": 2013,
+      "link": "https://trakt.tv/shows/shetland",
+      "cover": "https://image.tmdb.org/t/p/w200/rKnxmir8m5I3RdSTdZr3jaQaCZi.jpg",
+      "watched_at": "2026-11-21T15:37:00.000Z"
+    },
+    {
+      "title": "Have I Got News for You",
+      "type": "TV Show",
+      "episode": "Kelly Cates, Maisie Adam, Krishnan Guru-Murthy",
+      "season": 72,
+      "episode_number": 7,
+      "year": 1990,
+      "link": "https://trakt.tv/shows/have-i-got-news-for-you",
+      "cover": "https://image.tmdb.org/t/p/w200/gYrG6F8OXBa8C0Lfx10XaZsHKaw.jpg",
+      "watched_at": "2026-11-21T14:31:00.000Z"
+    },
     {
       "title": "Bill's Included",
       "type": "TV Show",
@@ -309,28 +331,6 @@
       "link": "https://trakt.tv/shows/slow-horses",
       "cover": "https://image.tmdb.org/t/p/w200/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
       "watched_at": "2026-10-26T11:26:00.000Z"
-    },
-    {
-      "title": "Slow Horses",
-      "type": "TV Show",
-      "episode": "Lost & Found",
-      "season": 6,
-      "episode_number": 4,
-      "year": 2022,
-      "link": "https://trakt.tv/shows/slow-horses",
-      "cover": "https://image.tmdb.org/t/p/w200/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-      "watched_at": "2026-10-26T10:31:00.000Z"
-    },
-    {
-      "title": "Slow Horses",
-      "type": "TV Show",
-      "episode": "Resurrection",
-      "season": 6,
-      "episode_number": 3,
-      "year": 2022,
-      "link": "https://trakt.tv/shows/slow-horses",
-      "cover": "https://image.tmdb.org/t/p/w200/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-      "watched_at": "2026-10-25T22:37:00.000Z"
     }
   ]
 }
