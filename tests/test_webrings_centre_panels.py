@@ -1,4 +1,4 @@
-"""Webrings redesign: one outer centre panel, approved header, all twelve featured sites intact."""
+"""Webrings redesign: one outer centre panel, approved header, all thirteen featured sites intact."""
 from pathlib import Path
 import re
 import unittest
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCOPE = "body .layout.site-panel-layout > main.center.webrings-main"
 SECTION = "WEBRINGS CENTRE ONLY — APPROVED SINGLE PANEL / 16-BIT HEADER"
 RINGS = ["Dinhe", "Hotline", "Hyperlink", "RETROWEB", "DotComBoom",
-         "IndieWebring", "Fediring", "CDRing", "Wii Ring", "BlogR Directory", "*nixRing", "RSS Webring"]
+         "IndieWebring", "Fediring", "CDRing", "Wii Ring", "BlogR Directory", "*nixRing", "RSS Webring", "1.44MB Webring"]
 
 
 class WebringsCentrePanelTests(unittest.TestCase):
@@ -27,8 +27,8 @@ class WebringsCentrePanelTests(unittest.TestCase):
                          ["My Communities"])
         grid = main.xpath("./div[@class='trophy-room']/div[@class='trophy-grid']")
         self.assertEqual(len(grid), 1)
-        self.assertEqual(len(grid[0].xpath("./div[@class='trophy']")), 12)
-        self.assertEqual(len(grid[0].xpath("./div[@class='trophy trophy-empty-slot']")), 0)
+        self.assertEqual(len(grid[0].xpath("./div[@class='trophy']")), 13)
+        self.assertEqual(len(grid[0].xpath("./div[@class='trophy trophy-empty-slot']")), 2)
         names = ["".join(node.itertext()).replace("🏆", "").strip()
                  for node in grid[0].xpath("./div[@class='trophy']/div[@class='trophy-title']")]
         self.assertEqual(names, RINGS)
@@ -37,10 +37,10 @@ class WebringsCentrePanelTests(unittest.TestCase):
         page = html.parse(str(ROOT / "webrings.html"))
         grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
         slots = grid.xpath("./div[contains(concat(' ', normalize-space(@class), ' '), ' trophy ')]")
-        self.assertEqual(len(slots), 12)
-        self.assertEqual([slot.get("class") for slot in slots[-3:]],
+        self.assertEqual(len(slots), 15)
+        self.assertEqual([slot.get("class") for slot in slots[9:12]],
                          ["trophy", "trophy", "trophy"])
-        badge = slots[-3].xpath('./div[@class="webring-content"]/a[@class="blogr-directory-link"]')[0]
+        badge = slots[9].xpath('./div[@class="webring-content"]/a[@class="blogr-directory-link"]')[0]
         self.assertEqual(badge.get("href"), "https://blogr.directory")
         self.assertEqual(badge.get("target"), "_blank")
         self.assertEqual(set(badge.get("rel", "").split()), {"noopener", "noreferrer"})
@@ -49,7 +49,7 @@ class WebringsCentrePanelTests(unittest.TestCase):
         self.assertEqual(image.get("alt"), "Listed on BlogR Directory")
         self.assertEqual(image.get("width"), "250")
         self.assertIn("max-width: 100%", image.get("style", ""))
-        self.assertEqual(slots[-1].get("class"), "trophy")
+        self.assertEqual(slots[11].get("class"), "trophy")
 
     def test_linuxring_mint_widget_fills_the_next_sticker_slot(self):
         page = html.parse(str(ROOT / "webrings.html"))
@@ -66,12 +66,12 @@ class WebringsCentrePanelTests(unittest.TestCase):
         self.assertIn(".linuxring-widget #nixring", css)
         self.assertIn("flex-wrap: wrap;", css)
 
-    def test_rss_web_ring_uses_own_site_url_and_fills_last_slot(self):
+    def test_rss_web_ring_uses_own_site_url_and_fills_fourth_row(self):
         page = html.parse(str(ROOT / "webrings.html"))
         grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
         cards = grid.xpath("./div[@class='trophy']")
-        self.assertEqual(len(cards), 12)
-        rss = cards[-1]
+        self.assertEqual(len(cards), 13)
+        rss = cards[11]
         self.assertEqual(rss.xpath("./div[@class='trophy-title']/text()"), ["🏆 RSS Webring"])
         links = rss.xpath(".//nav[@class='rssring-nav']/a")
         self.assertEqual(len(links), 3)
@@ -83,10 +83,30 @@ class WebringsCentrePanelTests(unittest.TestCase):
         self.assertNotIn("bohemiansultriness", html.tostring(rss, encoding="unicode"))
         self.assertEqual(rss.xpath(".//p[@class='rssring-label']/a/@href"),
                          ["https://webri.ng/webring/rssring"])
-        self.assertEqual(grid.xpath("./div[@class='trophy trophy-empty-slot']"), [])
+        self.assertEqual(len(grid.xpath("./div[@class='trophy trophy-empty-slot']")), 2)
         css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         self.assertIn(".rssring-nav", css)
         self.assertIn("grid-template-columns: repeat(3, minmax(0, 1fr));", css)
+
+    def test_floppy_disk_webring_fills_first_slot_of_a_new_three_card_row(self):
+        page = html.parse(str(ROOT / "webrings.html"))
+        grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
+        slots = grid.xpath("./div[contains(concat(' ', normalize-space(@class), ' '), ' trophy ')]")
+        self.assertEqual(len(slots), 15)
+        self.assertEqual([slot.get("class") for slot in slots[-3:]],
+                         ["trophy", "trophy trophy-empty-slot", "trophy trophy-empty-slot"])
+        floppy = slots[-3]
+        self.assertEqual(floppy.xpath("./div[@class='trophy-title']/text()"),
+                         ["🏆 1.44MB Webring"])
+        nav = floppy.xpath(".//nav[@class='floppy-ring-nav']")[0]
+        self.assertEqual(nav.xpath("./a/@href"),
+                         ["https://1.44mb.club/prev", "https://1.44mb.club/next"])
+        self.assertEqual(nav.xpath("./a/text()"), ["<<", ">>"])
+        self.assertEqual(nav.xpath("./span/text()"), ["💾"])
+        self.assertTrue(all(slot.get("aria-hidden") == "true" for slot in slots[-2:]))
+        css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
+        self.assertIn(".trophy-grid .floppy-ring-nav", css)
+        self.assertIn("flex-wrap: wrap;", css)
 
     def test_original_webring_links_and_widgets_preserved(self):
         page = html.parse(str(ROOT / "webrings.html"))

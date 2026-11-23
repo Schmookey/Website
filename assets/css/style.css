@@ -3902,6 +3902,20 @@ body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .blogr-d
   max-width: 100%;
   height: auto;
 }
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .floppy-ring-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .floppy-ring-nav a {
+  padding: 3px 6px;
+  white-space: nowrap;
+}
+
 body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .rssring-widget {
   width: 100%;
   max-width: 100%;
