@@ -3891,7 +3891,6 @@ body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .troph
   line-height: 1.5;
 }
 
-/* BlogR's 250px badge scales down inside the existing webring card. */
 body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .blogr-directory-link {
   display: block;
   width: 100%;
