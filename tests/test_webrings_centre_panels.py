@@ -1,4 +1,4 @@
-"""Webrings redesign: one outer centre panel, approved header, all nine rings intact."""
+"""Webrings redesign: one outer centre panel, approved header, all ten featured sites intact."""
 from pathlib import Path
 import re
 import unittest
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCOPE = "body .layout.site-panel-layout > main.center.webrings-main"
 SECTION = "WEBRINGS CENTRE ONLY — APPROVED SINGLE PANEL / 16-BIT HEADER"
 RINGS = ["Dinhe", "Hotline", "Hyperlink", "RETROWEB", "DotComBoom",
-         "IndieWebring", "Fediring", "CDRing", "Wii Ring"]
+         "IndieWebring", "Fediring", "CDRing", "Wii Ring", "BlogR Directory"]
 
 
 class WebringsCentrePanelTests(unittest.TestCase):
@@ -27,10 +27,29 @@ class WebringsCentrePanelTests(unittest.TestCase):
                          ["My Communities"])
         grid = main.xpath("./div[@class='trophy-room']/div[@class='trophy-grid']")
         self.assertEqual(len(grid), 1)
-        self.assertEqual(len(grid[0].xpath("./div[@class='trophy']")), 9)
+        self.assertEqual(len(grid[0].xpath("./div[@class='trophy']")), 10)
+        self.assertEqual(len(grid[0].xpath("./div[@class='trophy trophy-empty-slot']")), 2)
         names = ["".join(node.itertext()).replace("🏆", "").strip()
                  for node in grid[0].xpath("./div[@class='trophy']/div[@class='trophy-title']")]
         self.assertEqual(names, RINGS)
+
+    def test_blogr_badge_scales_inside_a_complete_three_slot_row(self):
+        page = html.parse(str(ROOT / "webrings.html"))
+        grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
+        slots = grid.xpath("./div[contains(concat(' ', normalize-space(@class), ' '), ' trophy ')]")
+        self.assertEqual(len(slots), 12)
+        self.assertEqual([slot.get("class") for slot in slots[-3:]],
+                         ["trophy", "trophy trophy-empty-slot", "trophy trophy-empty-slot"])
+        badge = slots[-3].xpath('./div[@class="webring-content"]/a[@class="blogr-directory-link"]')[0]
+        self.assertEqual(badge.get("href"), "https://blogr.directory")
+        self.assertEqual(badge.get("target"), "_blank")
+        self.assertEqual(set(badge.get("rel", "").split()), {"noopener", "noreferrer"})
+        image = badge.xpath("./img")[0]
+        self.assertEqual(image.get("src"), "https://blogr.directory/share-blogr-image.png")
+        self.assertEqual(image.get("alt"), "Listed on BlogR Directory")
+        self.assertEqual(image.get("width"), "250")
+        self.assertIn("max-width: 100%", image.get("style", ""))
+        self.assertTrue(all(slot.get("aria-hidden") == "true" for slot in slots[-2:]))
 
     def test_original_webring_links_and_widgets_preserved(self):
         page = html.parse(str(ROOT / "webrings.html"))

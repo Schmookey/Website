@@ -3891,6 +3891,23 @@ body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .troph
   line-height: 1.5;
 }
 
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .blogr-directory-link {
+  display: block;
+  width: 100%;
+  max-width: 250px;
+  min-width: 0;
+}
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .blogr-directory-link img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy.trophy-empty-slot {
+  opacity: .4;
+  border-style: dashed;
+  pointer-events: none;
+}
+
 body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy .ring-js-container,
 body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy iframe {
   max-width: 100%;
@@ -3906,6 +3923,9 @@ body .layout.site-panel-layout > main.center.webrings-main .trophy-room {
 @media (max-width: 900px) {
   body .layout.site-panel-layout > main.center.webrings-main > .trophy-room > .trophy-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy.trophy-empty-slot {
+    display: none;
   }
 }
 
