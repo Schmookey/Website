@@ -3902,6 +3902,20 @@ body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .blogr-d
   max-width: 100%;
   height: auto;
 }
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .linuxring-widget {
+  width: 100%;
+  min-width: 0;
+  text-align: center;
+}
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .linuxring-widget #nixring {
+  max-width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+body .layout.site-panel-layout > main.center.webrings-main .trophy-grid .linuxring-widget #nixring img {
+  max-width: 100%;
+  height: auto;
+}
 body .layout.site-panel-layout > main.center.webrings-main .trophy-grid > .trophy.trophy-empty-slot {
   opacity: .4;
   border-style: dashed;
