@@ -1,4 +1,4 @@
-"""Webrings redesign: one outer centre panel, approved header, all eleven featured sites intact."""
+"""Webrings redesign: one outer centre panel, approved header, all twelve featured sites intact."""
 from pathlib import Path
 import re
 import unittest
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCOPE = "body .layout.site-panel-layout > main.center.webrings-main"
 SECTION = "WEBRINGS CENTRE ONLY — APPROVED SINGLE PANEL / 16-BIT HEADER"
 RINGS = ["Dinhe", "Hotline", "Hyperlink", "RETROWEB", "DotComBoom",
-         "IndieWebring", "Fediring", "CDRing", "Wii Ring", "BlogR Directory", "*nixRing"]
+         "IndieWebring", "Fediring", "CDRing", "Wii Ring", "BlogR Directory", "*nixRing", "RSS Webring"]
 
 
 class WebringsCentrePanelTests(unittest.TestCase):
@@ -27,8 +27,8 @@ class WebringsCentrePanelTests(unittest.TestCase):
                          ["My Communities"])
         grid = main.xpath("./div[@class='trophy-room']/div[@class='trophy-grid']")
         self.assertEqual(len(grid), 1)
-        self.assertEqual(len(grid[0].xpath("./div[@class='trophy']")), 11)
-        self.assertEqual(len(grid[0].xpath("./div[@class='trophy trophy-empty-slot']")), 1)
+        self.assertEqual(len(grid[0].xpath("./div[@class='trophy']")), 12)
+        self.assertEqual(len(grid[0].xpath("./div[@class='trophy trophy-empty-slot']")), 0)
         names = ["".join(node.itertext()).replace("🏆", "").strip()
                  for node in grid[0].xpath("./div[@class='trophy']/div[@class='trophy-title']")]
         self.assertEqual(names, RINGS)
@@ -39,7 +39,7 @@ class WebringsCentrePanelTests(unittest.TestCase):
         slots = grid.xpath("./div[contains(concat(' ', normalize-space(@class), ' '), ' trophy ')]")
         self.assertEqual(len(slots), 12)
         self.assertEqual([slot.get("class") for slot in slots[-3:]],
-                         ["trophy", "trophy", "trophy trophy-empty-slot"])
+                         ["trophy", "trophy", "trophy"])
         badge = slots[-3].xpath('./div[@class="webring-content"]/a[@class="blogr-directory-link"]')[0]
         self.assertEqual(badge.get("href"), "https://blogr.directory")
         self.assertEqual(badge.get("target"), "_blank")
@@ -49,7 +49,7 @@ class WebringsCentrePanelTests(unittest.TestCase):
         self.assertEqual(image.get("alt"), "Listed on BlogR Directory")
         self.assertEqual(image.get("width"), "250")
         self.assertIn("max-width: 100%", image.get("style", ""))
-        self.assertEqual(slots[-1].get("aria-hidden"), "true")
+        self.assertEqual(slots[-1].get("class"), "trophy")
 
     def test_linuxring_mint_widget_fills_the_next_sticker_slot(self):
         page = html.parse(str(ROOT / "webrings.html"))
@@ -65,6 +65,28 @@ class WebringsCentrePanelTests(unittest.TestCase):
         css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         self.assertIn(".linuxring-widget #nixring", css)
         self.assertIn("flex-wrap: wrap;", css)
+
+    def test_rss_web_ring_uses_own_site_url_and_fills_last_slot(self):
+        page = html.parse(str(ROOT / "webrings.html"))
+        grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
+        cards = grid.xpath("./div[@class='trophy']")
+        self.assertEqual(len(cards), 12)
+        rss = cards[-1]
+        self.assertEqual(rss.xpath("./div[@class='trophy-title']/text()"), ["🏆 RSS Webring"])
+        links = rss.xpath(".//nav[@class='rssring-nav']/a")
+        self.assertEqual(len(links), 3)
+        for link, action in zip(links, ("previous", "random", "next")):
+            self.assertEqual(
+                link.get("href"),
+                "https://webri.ng/webring/rssring/" + action
+                + "?via=https%3A%2F%2Fschmookey.xyz%2F")
+        self.assertNotIn("bohemiansultriness", html.tostring(rss, encoding="unicode"))
+        self.assertEqual(rss.xpath(".//p[@class='rssring-label']/a/@href"),
+                         ["https://webri.ng/webring/rssring"])
+        self.assertEqual(grid.xpath("./div[@class='trophy trophy-empty-slot']"), [])
+        css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
+        self.assertIn(".rssring-nav", css)
+        self.assertIn("grid-template-columns: repeat(3, minmax(0, 1fr));", css)
 
     def test_original_webring_links_and_widgets_preserved(self):
         page = html.parse(str(ROOT / "webrings.html"))
