@@ -112,9 +112,15 @@ TOP MARQUEE
   text-shadow:0 0 6px rgba(77,163,255,.6);
 }
 
+/* Each pass should start outside the right edge and finish outside the left.
+   Hide the duplicate copy originally used for the half-width looping ticker. */
+.marquee-text + .marquee-text{
+  display:none;
+}
+
 @keyframes marqueeScroll{
-  from{ transform:translateX(0); }
-  to{ transform:translateX(-50%); }
+  from{ transform:translateX(100vw); }
+  to{ transform:translateX(-100%); }
 }
 
 /* =========================================
