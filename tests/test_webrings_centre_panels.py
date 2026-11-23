@@ -1,4 +1,4 @@
-"""Webrings redesign: one outer centre panel, approved header, all ten featured sites intact."""
+"""Webrings redesign: one outer centre panel, approved header, all eleven featured sites intact."""
 from pathlib import Path
 import re
 import unittest
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCOPE = "body .layout.site-panel-layout > main.center.webrings-main"
 SECTION = "WEBRINGS CENTRE ONLY — APPROVED SINGLE PANEL / 16-BIT HEADER"
 RINGS = ["Dinhe", "Hotline", "Hyperlink", "RETROWEB", "DotComBoom",
-         "IndieWebring", "Fediring", "CDRing", "Wii Ring", "BlogR Directory"]
+         "IndieWebring", "Fediring", "CDRing", "Wii Ring", "BlogR Directory", "*nixRing"]
 
 
 class WebringsCentrePanelTests(unittest.TestCase):
@@ -27,8 +27,8 @@ class WebringsCentrePanelTests(unittest.TestCase):
                          ["My Communities"])
         grid = main.xpath("./div[@class='trophy-room']/div[@class='trophy-grid']")
         self.assertEqual(len(grid), 1)
-        self.assertEqual(len(grid[0].xpath("./div[@class='trophy']")), 10)
-        self.assertEqual(len(grid[0].xpath("./div[@class='trophy trophy-empty-slot']")), 2)
+        self.assertEqual(len(grid[0].xpath("./div[@class='trophy']")), 11)
+        self.assertEqual(len(grid[0].xpath("./div[@class='trophy trophy-empty-slot']")), 1)
         names = ["".join(node.itertext()).replace("🏆", "").strip()
                  for node in grid[0].xpath("./div[@class='trophy']/div[@class='trophy-title']")]
         self.assertEqual(names, RINGS)
@@ -39,7 +39,7 @@ class WebringsCentrePanelTests(unittest.TestCase):
         slots = grid.xpath("./div[contains(concat(' ', normalize-space(@class), ' '), ' trophy ')]")
         self.assertEqual(len(slots), 12)
         self.assertEqual([slot.get("class") for slot in slots[-3:]],
-                         ["trophy", "trophy trophy-empty-slot", "trophy trophy-empty-slot"])
+                         ["trophy", "trophy", "trophy trophy-empty-slot"])
         badge = slots[-3].xpath('./div[@class="webring-content"]/a[@class="blogr-directory-link"]')[0]
         self.assertEqual(badge.get("href"), "https://blogr.directory")
         self.assertEqual(badge.get("target"), "_blank")
@@ -49,14 +49,29 @@ class WebringsCentrePanelTests(unittest.TestCase):
         self.assertEqual(image.get("alt"), "Listed on BlogR Directory")
         self.assertEqual(image.get("width"), "250")
         self.assertIn("max-width: 100%", image.get("style", ""))
-        self.assertTrue(all(slot.get("aria-hidden") == "true" for slot in slots[-2:]))
+        self.assertEqual(slots[-1].get("aria-hidden"), "true")
+
+    def test_linuxring_mint_widget_fills_the_next_sticker_slot(self):
+        page = html.parse(str(ROOT / "webrings.html"))
+        grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
+        linuxring = grid.xpath("./div[@class='trophy'][div[@class='trophy-title'][contains(., '*nixRing')]]")
+        self.assertEqual(len(linuxring), 1)
+        script = linuxring[0].xpath(".//div[contains(@class, 'linuxring-widget')]/script")[0]
+        self.assertEqual(script.get("src"), "https://softmachine.dev/webring/linuxring/ring.js")
+        self.assertEqual(script.get("data-icon"), "mint")
+        self.assertIsNotNone(script.get("defer"))
+        fallback = linuxring[0].xpath(".//noscript/a")[0]
+        self.assertEqual(fallback.get("href"), "https://softmachine.dev/webring/linuxring/")
+        css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
+        self.assertIn(".linuxring-widget #nixring", css)
+        self.assertIn("flex-wrap: wrap;", css)
 
     def test_original_webring_links_and_widgets_preserved(self):
         page = html.parse(str(ROOT / "webrings.html"))
         grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
         self.assertGreaterEqual(len(grid.xpath(".//a[@href]")), 10)
         self.assertEqual(len(grid.xpath(".//iframe[@src]")), 2)
-        self.assertEqual(len(grid.xpath(".//script[@src]")), 3)
+        self.assertEqual(len(grid.xpath(".//script[@src]")), 4)
         self.assertEqual(len(page.xpath("//script[@src='/assets/js/main.js']")), 1)
         self.assertEqual(len(page.xpath("//aside[contains(@class,'site-panel-sidebar')]")), 1)
         self.assertEqual(len(page.xpath("//aside//section[@class='site-search-widget']")), 1)
