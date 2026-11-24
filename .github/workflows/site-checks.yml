@@ -73,6 +73,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_about_right_media_panels.py' -v
       - name: Check ListenBrainz badge sits beside GOG on all pages
         run: python -m unittest discover -s tests -p 'test_listenbrainz_socials_position.py' -v
+      - name: Verify self-hosted fonts (offline)
+        run: python -m unittest discover -s tests -p 'test_local_fonts.py' -v
       - name: Verify site assets and links
         run: python tests/validate_site.py
       - name: Check JavaScript syntax
