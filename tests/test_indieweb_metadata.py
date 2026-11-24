@@ -74,8 +74,11 @@ class IndieWebMetadataTests(unittest.TestCase):
         book_cards = doc.xpath('//article[contains(concat(" ", normalize-space(@class), " "), " h-entry ")][.//*[contains(concat(" ", normalize-space(@class), " "), " p-read-of ")]]')
         self.assertEqual(len(book_cards), 1)
         self.assertTrue(book_cards[0].xpath('.//*[contains(concat(" ", normalize-space(@class), " "), " h-cite ")]'))
-        self.assertTrue(book_cards[0].xpath('.//img[contains(@src, "Walking Practice by Dolki Min.jpeg")]'))
-        self.assertTrue(book_cards[0].xpath('.//a[@href="https://bookwyrm.social/book/902505/s/walking-practice"]'))
+        self.assertTrue(book_cards[0].xpath('.//img[contains(@src, "Rex_Juba.webp")]'))
+        self.assertTrue(book_cards[0].xpath('.//a[@href="https://bookwyrm.social/book/2435241/s/rex-juba"]'))
+        self.assertEqual(len(book_cards[0].xpath('.//div[@class="media-meta"]/p/a[@href="https://bookwyrm.social/book/2435241/s/rex-juba"]')), 2)
+        self.assertTrue(book_cards[0].xpath('.//a[@href="https://bookwyrm.social/author/462729/s/andrew-kenrick"]'))
+        self.assertTrue(book_cards[0].xpath('.//span[@class="p-name" and text()="Rex Juba: 15 Glimpses of an African King"]'))
         self.assertTrue(doc.xpath('//*[@id="latest-listen"]'))
         self.assertTrue(doc.xpath('//*[@id="trakt-latest-card"]'))
 
