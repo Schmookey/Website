@@ -45,7 +45,7 @@ class WebringsCentrePanelTests(unittest.TestCase):
         self.assertEqual(badge.get("target"), "_blank")
         self.assertEqual(set(badge.get("rel", "").split()), {"noopener", "noreferrer"})
         image = badge.xpath("./img")[0]
-        self.assertEqual(image.get("src"), "https://blogr.directory/share-blogr-image.png")
+        self.assertEqual(image.get("src"), "/assets/images/share-blogr-image.png")
         self.assertEqual(image.get("alt"), "Listed on BlogR Directory")
         self.assertEqual(image.get("width"), "250")
         self.assertIn("max-width: 100%", image.get("style", ""))
