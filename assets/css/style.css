@@ -732,6 +732,47 @@ POST MEDIA (IMAGE + VIDEO)
   border:0;
 }
 
+/* Local, click-to-load video placeholder; no external thumbnail. */
+.video-embed .video-load{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  width:100%;
+  min-height:180px;
+  aspect-ratio:16/9;
+  padding:16px;
+  text-align:center;
+  background:#0b0f1f;
+  color:#e6ecff;
+  font-size:11px;
+  line-height:1.7;
+  text-decoration:none;
+}
+
+.video-embed .video-load-icon{
+  font-size:24px;
+  color:#9fb3ff;
+}
+
+.video-embed .video-load-title,
+.video-embed .video-load-note{
+  font-family:Arial,sans-serif;
+  font-size:14px;
+}
+
+.video-embed .video-load-note{
+  color:#b9c9ff;
+}
+
+.video-embed .video-load:hover,
+.video-embed .video-load:focus-visible{
+  outline:2px solid #9fb3ff;
+  outline-offset:-2px;
+  text-decoration:underline;
+}
+
 /* =========================================
 POST TAGS
 ========================================= */
