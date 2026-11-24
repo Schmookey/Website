@@ -95,6 +95,28 @@ class VerifiedSyndicationTests(unittest.TestCase):
         with self.assertRaises(module.PublicationError):
             module.verify_live(self.root, target, Opener(bad))
 
+    def test_extensionless_redirect_preserves_canonical_and_content_checks(self):
+        target = next(module.candidates(self.root))
+        response = Response(self.path.removesuffix(".html"), self.html)
+        self.assertEqual(module.verify_live(self.root, target, Opener(response)),
+                         module.BASE + self.path)
+        response.body = self.html.replace("An entirely new article", "Stale article").encode()
+        with self.assertRaises(module.PublicationError):
+            module.verify_live(self.root, target, Opener(response))
+
+    def test_redirect_handler_blocks_unexpected_destinations(self):
+        handler = module.PublicationRedirect(self.path)
+        req = module.request.Request(module.BASE + self.path)
+        for url in ("https://example.org" + self.path,
+                    "http://schmookey.xyz" + self.path,
+                    module.BASE + "/wrong.html",
+                    module.BASE + self.path + "?unexpected=1"):
+            with self.subTest(url=url), self.assertRaises(module.PublicationError):
+                handler.redirect_request(req, None, 301, "Moved", {}, url)
+        result = handler.redirect_request(
+            req, None, 301, "Moved", {}, module.BASE + self.path.removesuffix(".html"))
+        self.assertEqual(result.full_url, module.BASE + self.path.removesuffix(".html"))
+
     def test_preview_never_posts_or_fetches_and_pending_prevents_retries(self):
         with patch.object(module, "verify_live", side_effect=AssertionError("network")):
             module.run(self.root)
