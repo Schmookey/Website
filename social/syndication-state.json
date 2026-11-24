@@ -1,4 +1,29 @@
 {
   "version": 1,
-  "entries": {}
+  "entries": {
+    "/notes/2026-11-19-174741-44580942816.html": {
+      "mastodon": {
+        "status": "manual-review",
+        "permalink": "https://schmookey.xyz/notes/2026-11-19-174741-44580942816.html",
+        "reason": "Owner reported sharing manually; hold automatic posting until per-platform history is reconciled"
+      },
+      "bluesky": {
+        "status": "manual-review",
+        "permalink": "https://schmookey.xyz/notes/2026-11-19-174741-44580942816.html",
+        "reason": "Owner reported sharing manually; hold automatic posting until per-platform history is reconciled"
+      }
+    },
+    "/notes/2026-11-20-221942-44827999947.html": {
+      "mastodon": {
+        "status": "manual-review",
+        "permalink": "https://schmookey.xyz/notes/2026-11-20-221942-44827999947.html",
+        "reason": "Owner reported sharing manually; hold automatic posting until per-platform history is reconciled"
+      },
+      "bluesky": {
+        "status": "manual-review",
+        "permalink": "https://schmookey.xyz/notes/2026-11-20-221942-44827999947.html",
+        "reason": "Owner reported sharing manually; hold automatic posting until per-platform history is reconciled"
+      }
+    }
+  }
 }
