@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 HEADINGS = [
     "[OVERVIEW]", "[DATA_COLLECTION]", "[LOCAL_STORAGE]",
     "[LISTENBRAINZ]", "[TRAKT]", "[THIRD_PARTY_MEDIA]",
-    "[PUBLIC_ACTIVITY]", "[EXTERNAL_LINKS]", "[CHANGES]", "[CONTACT]",
+    "[OTHER_EXTERNAL_SERVICES]", "[PUBLIC_ACTIVITY]", "[EXTERNAL_LINKS]", "[CHANGES]", "[CONTACT]",
 ]
 PRIVACY_LINKS = {"https://metabrainz.org/privacy", "https://trakt.tv/privacy"}
 
@@ -29,7 +29,7 @@ class PrivacySingleDocumentTests(unittest.TestCase):
                          ["SYSTEM FILE — PRIVACY POLICY"])
         self.assertEqual(header[0].xpath("./p[@class='privacy-16bit-updated']/strong/text()"),
                          ["Last updated:"])
-        self.assertIn("11 November 2026", "".join(header[0].itertext()))
+        self.assertIn("24 November 2026", "".join(header[0].itertext()))
         articles = main.xpath('./article[@class="privacy-document"]')
         self.assertEqual(len(articles), 1)
         article = articles[0]
@@ -49,6 +49,10 @@ class PrivacySingleDocumentTests(unittest.TestCase):
             "My website retrieves this information from my public ListenBrainz profile.",
             "The integration is designed to periodically retrieve my viewing activity",
             "You can browse the website without connecting your music or television accounts.",
+            "Google Fonts may load typefaces",
+            "Webmention.io may",
+            "The Webrings page embeds third-party scripts",
+            "remember your chosen light or dark theme",
             "Questions? Use the contact links available on the website.",
         ]:
             self.assertIn(phrase, " ".join(article.itertext()))

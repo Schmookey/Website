@@ -128,6 +128,7 @@ class WebringsCentrePanelTests(unittest.TestCase):
         grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
         self.assertGreaterEqual(len(grid.xpath(".//a[@href]")), 10)
         self.assertEqual(len(grid.xpath(".//iframe[@src]")), 2)
+        self.assertEqual(grid.xpath(".//iframe/@title"), ["Hyperlink Webring navigation", "Wii Ring navigation"])
         self.assertEqual(grid.xpath(".//script[@src]/@src"), [
             "https://dotcomboom.neocities.org/linux/ring.js",
             "https://cdring.neocities.org/cdring/onionring-variables.js",
