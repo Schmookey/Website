@@ -84,6 +84,8 @@ jobs:
           node --check assets/js/trakt-history.js
       - name: Test URL validation and script loading safeguards
         run: node tests/test_security.js
+      - name: Test website health response classifications (offline)
+        run: python -m unittest discover -s tests -p 'test_site_health.py' -v
       - name: Test IndexNow live-page monitoring (offline)
         run: python -m unittest discover -s tests -p 'test_indexnow_live.py' -v
       - name: Test verified social syndication safeguards
