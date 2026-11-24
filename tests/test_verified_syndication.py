@@ -127,6 +127,17 @@ class VerifiedSyndicationTests(unittest.TestCase):
         with patch.object(module, "verify_live", side_effect=AssertionError("network")):
             module.run(self.root, execute=False)
 
+    def test_manual_review_hold_prevents_duplicate_posting(self):
+        ledger = module.read_ledger(self.root)
+        ledger["entries"][self.path] = {
+            platform: {"status": "manual-review"} for platform in ("mastodon", "bluesky")
+        }
+        (self.root / module.LEDGER).write_text(json.dumps(ledger), encoding="utf-8")
+        with patch.object(module, "verify_live", side_effect=AssertionError("network")), \
+             patch.object(module, "mastodon", side_effect=AssertionError("post")), \
+             patch.object(module, "bluesky", side_effect=AssertionError("post")):
+            module.run(self.root, execute=True)
+
     def test_execution_requires_explicit_activation_before_network(self):
         with patch.dict("os.environ", {"SOCIAL_SYNDICATION_ENABLED": "false"}):
             with patch.object(module, "verify_live", side_effect=AssertionError("network")):
@@ -143,7 +154,7 @@ class VerifiedSyndicationTests(unittest.TestCase):
                 with self.assertRaises(module.PublicationError):
                     module.mastodon(target, module.BASE + self.path)
 
-    def test_production_ledger_is_initially_empty(self):
+    def test_production_ledger_has_valid_shape(self):
         ledger = module.read_ledger(ROOT)
         self.assertEqual(ledger["version"], 1)
         self.assertIsInstance(ledger["entries"], dict)
