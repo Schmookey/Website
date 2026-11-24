@@ -7,7 +7,7 @@ from lxml import html
 ROOT = Path(__file__).resolve().parents[1]
 SCOPE = "body .layout.site-panel-layout > main.center.webrings-main"
 SECTION = "WEBRINGS CENTRE ONLY — APPROVED SINGLE PANEL / 16-BIT HEADER"
-RINGS = ["Dinhe", "Hotline", "Hyperlink", "RETROWEB", "DotComBoom",
+RINGS = ["Dinhe", "Hotline", "CSS JOY Webring", "RETROWEB", "DotComBoom",
          "IndieWebring", "Fediring", "CDRing", "Wii Ring", "BlogR Directory", "*nixRing", "RSS Webring", "1.44MB Webring", "SOGMA"]
 
 
@@ -32,6 +32,20 @@ class WebringsCentrePanelTests(unittest.TestCase):
         names = ["".join(node.itertext()).replace("🏆", "").strip()
                  for node in grid[0].xpath("./div[@class='trophy']/div[@class='trophy-title']")]
         self.assertEqual(names, RINGS)
+
+    def test_cssjoy_replaces_hyperlink_in_existing_slot(self):
+        page = html.parse(str(ROOT / "webrings.html"))
+        cards = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]/div[@class="trophy"]')
+        card = cards[2]
+        self.assertEqual(card.xpath("./div[@class='trophy-title']/text()"), ["🏆 CSS JOY Webring"])
+        nav = card.xpath(".//nav[@aria-label='CSS JOY Webring sites']")[0]
+        self.assertEqual(nav.xpath("./a/@href"), [
+            "https://webri.ng/webring/cssjoy/" + action
+            + "?via=https%3A%2F%2Fschmookey.xyz%2Fwebrings"
+            for action in ("previous", "random", "next")
+        ])
+        self.assertEqual(nav.xpath("./a/text()"), ["Previous Site", "Random Site", "Next Site"])
+        self.assertFalse(page.xpath("//iframe[contains(@src, 'hyperlink-webring')]"))
 
     def test_blogr_badge_scales_inside_a_complete_three_slot_row(self):
         page = html.parse(str(ROOT / "webrings.html"))
@@ -127,8 +141,8 @@ class WebringsCentrePanelTests(unittest.TestCase):
         page = html.parse(str(ROOT / "webrings.html"))
         grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
         self.assertGreaterEqual(len(grid.xpath(".//a[@href]")), 10)
-        self.assertEqual(len(grid.xpath(".//iframe[@src]")), 2)
-        self.assertEqual(grid.xpath(".//iframe/@title"), ["Hyperlink Webring navigation", "Wii Ring navigation"])
+        self.assertEqual(len(grid.xpath(".//iframe[@src]")), 1)
+        self.assertEqual(grid.xpath(".//iframe/@title"), ["Wii Ring navigation"])
         self.assertEqual(grid.xpath(".//script[@src]/@src"), [
             "https://dotcomboom.neocities.org/linux/ring.js",
             "https://cdring.neocities.org/cdring/onionring-variables.js",
