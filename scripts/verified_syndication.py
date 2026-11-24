@@ -84,37 +84,47 @@ def local_sample(root: Path, target: dict) -> str:
     return sample
 
 
-class NoRedirect(request.HTTPRedirectHandler):
+def publication_urls(path: str) -> set[str]:
+    """Only the known HTML permalink and its extensionless equivalent."""
+    return {BASE + path, BASE + path.removesuffix(".html")}
+
+
+class PublicationRedirect(request.HTTPRedirectHandler):
+    def __init__(self, path: str):
+        self.path = path
+
     def redirect_request(self, req, fp, code, msg, headers, newurl):
-        raise PublicationError("Live URL redirected; canonical publication not confirmed")
+        if newurl not in publication_urls(self.path):
+            raise PublicationError(f"Unexpected live redirect for {BASE + self.path}")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
 def verify_live(root: Path, target: dict, opener=None) -> str:
-    """Require HTTPS 200, the exact canonical URL and matching authored text."""
+    """Require HTTPS 200, a safe permalink, exact canonical URL and matching authored text."""
     path = target["path"]
     sample = local_sample(root, target)
-    opener = opener or request.build_opener(NoRedirect())
+    opener = opener or request.build_opener(PublicationRedirect(path))
     req = request.Request(BASE + path, headers={
         "User-Agent": "Schmookey-Publication-Verifier/1.0",
         "Accept": "text/html", "Cache-Control": "no-cache",
     })
     try:
         with opener.open(req, timeout=20) as response:
-            if response.status != 200 or response.geturl() != BASE + path:
-                raise PublicationError("Live URL did not return the expected page")
+            if response.status != 200 or response.geturl() not in publication_urls(path):
+                raise PublicationError(f"Live URL did not return the expected page: {BASE + path}")
             if "text/html" not in response.headers.get("Content-Type", "").lower():
-                raise PublicationError("Live URL did not return HTML")
+                raise PublicationError(f"Live URL did not return HTML: {BASE + path}")
             body = response.read(2_000_001)
             if len(body) > 2_000_000:
-                raise PublicationError("Live page exceeded size limit")
+                raise PublicationError(f"Live page exceeded size limit: {BASE + path}")
     except (error.HTTPError, error.URLError, TimeoutError, OSError) as exc:
-        raise PublicationError("Live URL could not be verified") from exc
+        raise PublicationError(f"Live URL could not be verified: {BASE + path}") from exc
     doc = html.fromstring(body)
     if doc.xpath('//link[@rel="canonical"]/@href') != [BASE + path]:
-        raise PublicationError("Live page canonical does not match")
+        raise PublicationError(f"Live page canonical does not match: {BASE + path}")
     blocks = doc.xpath('//*[contains(concat(" ", normalize-space(@class), " "), " e-content ")]')
     if not blocks or not " ".join(blocks[0].text_content().split()).startswith(sample):
-        raise PublicationError("Live page content is stale or unexpected")
+        raise PublicationError(f"Live page content is stale or unexpected: {BASE + path}")
     return BASE + path
 
 
