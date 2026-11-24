@@ -70,3 +70,8 @@ New Blog posts and opted-in Notes only. No automatic backfill of old blog posts;
 no syndication of Now, Changelog, Privacy, RSS, Trakt, or existing Notes. Site
 content always remains the canonical source. Social networks are used only for
 optional syndication; the website works without them.
+
+
+## Previously shared content
+
+The ledger may contain `manual-review` holds for content the owner has already shared manually. These entries suppress automatic publishing for the indicated platform without claiming a confirmed social post URL. Inspect the actual social account before removing any hold; leave it in place if the post already exists. Manual verify-only mode checks eligible, unheld content live and never publishes. Keep `SOCIAL_SYNDICATION_ENABLED` disabled until the account history and credentials have been reviewed.
