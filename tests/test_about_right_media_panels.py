@@ -32,7 +32,7 @@ class AboutRightMediaPanelsTests(unittest.TestCase):
         book = panels[1].xpath('.//article[contains(concat(" ",normalize-space(@class)," ")," h-entry ")]')
         self.assertEqual(len(book), 1)
         self.assertEqual(book[0].xpath('.//a[contains(@href,"bookwyrm.social/book/")]/@href')[0],
-                         "https://bookwyrm.social/book/902505/s/walking-practice")
+                         "https://bookwyrm.social/book/2435241/s/rex-juba")
         self.assertTrue(book[0].xpath('.//*[contains(concat(" ",normalize-space(@class)," ")," p-read-of ")]'))
         self.assertTrue(book[0].xpath('.//*[contains(concat(" ",normalize-space(@class)," ")," h-cite ")]'))
         self.assertEqual(len(panels[2].xpath('.//*[@id="trakt-latest-card"]')), 1)
