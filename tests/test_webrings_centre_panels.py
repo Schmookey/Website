@@ -1,4 +1,4 @@
-"""Webrings redesign: one outer centre panel, approved header, all thirteen featured sites intact."""
+"""Webrings redesign: one outer centre panel, approved header, all fourteen featured sites intact."""
 from pathlib import Path
 import re
 import unittest
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCOPE = "body .layout.site-panel-layout > main.center.webrings-main"
 SECTION = "WEBRINGS CENTRE ONLY — APPROVED SINGLE PANEL / 16-BIT HEADER"
 RINGS = ["Dinhe", "Hotline", "Hyperlink", "RETROWEB", "DotComBoom",
-         "IndieWebring", "Fediring", "CDRing", "Wii Ring", "BlogR Directory", "*nixRing", "RSS Webring", "1.44MB Webring"]
+         "IndieWebring", "Fediring", "CDRing", "Wii Ring", "BlogR Directory", "*nixRing", "RSS Webring", "1.44MB Webring", "SOGMA"]
 
 
 class WebringsCentrePanelTests(unittest.TestCase):
@@ -27,8 +27,8 @@ class WebringsCentrePanelTests(unittest.TestCase):
                          ["My Communities"])
         grid = main.xpath("./div[@class='trophy-room']/div[@class='trophy-grid']")
         self.assertEqual(len(grid), 1)
-        self.assertEqual(len(grid[0].xpath("./div[@class='trophy']")), 13)
-        self.assertEqual(len(grid[0].xpath("./div[@class='trophy trophy-empty-slot']")), 2)
+        self.assertEqual(len(grid[0].xpath("./div[@class='trophy']")), 14)
+        self.assertEqual(len(grid[0].xpath("./div[@class='trophy trophy-empty-slot']")), 1)
         names = ["".join(node.itertext()).replace("🏆", "").strip()
                  for node in grid[0].xpath("./div[@class='trophy']/div[@class='trophy-title']")]
         self.assertEqual(names, RINGS)
@@ -70,7 +70,7 @@ class WebringsCentrePanelTests(unittest.TestCase):
         page = html.parse(str(ROOT / "webrings.html"))
         grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
         cards = grid.xpath("./div[@class='trophy']")
-        self.assertEqual(len(cards), 13)
+        self.assertEqual(len(cards), 14)
         rss = cards[11]
         self.assertEqual(rss.xpath("./div[@class='trophy-title']/text()"), ["🏆 RSS Webring"])
         links = rss.xpath(".//nav[@class='rssring-nav']/a")
@@ -83,7 +83,7 @@ class WebringsCentrePanelTests(unittest.TestCase):
         self.assertNotIn("bohemiansultriness", html.tostring(rss, encoding="unicode"))
         self.assertEqual(rss.xpath(".//p[@class='rssring-label']/a/@href"),
                          ["https://webri.ng/webring/rssring"])
-        self.assertEqual(len(grid.xpath("./div[@class='trophy trophy-empty-slot']")), 2)
+        self.assertEqual(len(grid.xpath("./div[@class='trophy trophy-empty-slot']")), 1)
         css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         self.assertIn(".rssring-nav", css)
         self.assertIn("grid-template-columns: repeat(3, minmax(0, 1fr));", css)
@@ -94,7 +94,7 @@ class WebringsCentrePanelTests(unittest.TestCase):
         slots = grid.xpath("./div[contains(concat(' ', normalize-space(@class), ' '), ' trophy ')]")
         self.assertEqual(len(slots), 15)
         self.assertEqual([slot.get("class") for slot in slots[-3:]],
-                         ["trophy", "trophy trophy-empty-slot", "trophy trophy-empty-slot"])
+                         ["trophy", "trophy", "trophy trophy-empty-slot"])
         floppy = slots[-3]
         self.assertEqual(floppy.xpath("./div[@class='trophy-title']/text()"),
                          ["🏆 1.44MB Webring"])
@@ -103,17 +103,39 @@ class WebringsCentrePanelTests(unittest.TestCase):
                          ["https://1.44mb.club/prev", "https://1.44mb.club/next"])
         self.assertEqual(nav.xpath("./a/text()"), ["<<", ">>"])
         self.assertEqual(nav.xpath("./span/text()"), ["💾"])
-        self.assertTrue(all(slot.get("aria-hidden") == "true" for slot in slots[-2:]))
+        self.assertTrue(all(slot.get("aria-hidden") == "true" for slot in slots[-1:]))
         css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         self.assertIn(".trophy-grid .floppy-ring-nav", css)
         self.assertIn("flex-wrap: wrap;", css)
+
+    def test_sogma_fills_second_slot_and_loads_scripts_in_order(self):
+        page = html.parse(str(ROOT / "webrings.html"))
+        grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
+        cards = grid.xpath("./div[@class='trophy']")
+        sogma = cards[13]
+        self.assertEqual(sogma.xpath("./div[@class='trophy-title']/text()"), ["🏆 SOGMA"])
+        self.assertEqual(len(page.xpath("//*[@id='sogma']")), 1)
+        self.assertEqual(len(sogma.xpath(".//div[@id='sogma']")), 1)
+        self.assertEqual(sogma.xpath(".//script/@src"), [
+            "https://huroncelestial.neocities.org/onionring-variables.js",
+            "https://huroncelestial.neocities.org/onionring-widget.js",
+        ])
+        self.assertEqual(page.xpath("//head/link[@rel='stylesheet' and @href='https://huroncelestial.neocities.org/onionring.css']/@href"),
+                         ["https://huroncelestial.neocities.org/onionring.css"])
 
     def test_original_webring_links_and_widgets_preserved(self):
         page = html.parse(str(ROOT / "webrings.html"))
         grid = page.xpath('//main[contains(@class, "webrings-main")]//div[@class="trophy-grid"]')[0]
         self.assertGreaterEqual(len(grid.xpath(".//a[@href]")), 10)
         self.assertEqual(len(grid.xpath(".//iframe[@src]")), 2)
-        self.assertEqual(len(grid.xpath(".//script[@src]")), 4)
+        self.assertEqual(grid.xpath(".//script[@src]/@src"), [
+            "https://dotcomboom.neocities.org/linux/ring.js",
+            "https://cdring.neocities.org/cdring/onionring-variables.js",
+            "https://cdring.neocities.org/cdring/onionring-widget.js",
+            "https://softmachine.dev/webring/linuxring/ring.js",
+            "https://huroncelestial.neocities.org/onionring-variables.js",
+            "https://huroncelestial.neocities.org/onionring-widget.js",
+        ])
         self.assertEqual(len(page.xpath("//script[@src='/assets/js/main.js']")), 1)
         self.assertEqual(len(page.xpath("//aside[contains(@class,'site-panel-sidebar')]")), 1)
         self.assertEqual(len(page.xpath("//aside//section[@class='site-search-widget']")), 1)
