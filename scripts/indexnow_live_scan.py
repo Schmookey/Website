@@ -16,7 +16,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
-from urllib.request import Request, urlopen
+from urllib.request import Request, urlopen, build_opener, HTTPRedirectHandler
 from xml.etree import ElementTree
 
 HOST = "schmookey.xyz"
@@ -71,12 +71,29 @@ class RobotsMetadata(HTMLParser):
             self.in_head = False
 
 
+def equivalent_urls(url: str, expect: str) -> set[str]:
+    """Only allow the requested permalink or its exact extensionless alias."""
+    if expect == "html" and on_site(url) and url.endswith(".html"):
+        return {url, url.removesuffix(".html")}
+    return {url}
+
+
+class SafePageRedirect(HTTPRedirectHandler):
+    def __init__(self, url: str, expect: str):
+        self.allowed = equivalent_urls(url, expect)
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if newurl not in self.allowed:
+            raise ValueError("Unexpected redirect destination")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
 def fetch(url: str, expect: str) -> bytes | None:
     request = Request(url, headers={"User-Agent": "SchmookeyIndexNow/1.0"})
-    with urlopen(request, timeout=20) as response:
+    with build_opener(SafePageRedirect(url, expect)).open(request, timeout=20) as response:
         actual = response.geturl()
-        if actual != url and not on_site(actual):
-            raise ValueError("Refusing a redirect outside the verified domain")
+        if actual not in equivalent_urls(url, expect):
+            raise ValueError("Unexpected final URL")
         if response.status != 200:
             raise ValueError(f"Non-200 response: {response.status}")
         mime = response.headers.get_content_type()
@@ -159,7 +176,7 @@ def scan(state_file: Path, key: str, force_all: bool = False) -> dict[str, int]:
             body = fetch(url, "html")
         except (HTTPError, URLError, TimeoutError, ValueError, OSError) as exc:
             failures += 1
-            print(f"SKIP {url}: {type(exc).__name__}")
+            print(f"SKIP {url}: {type(exc).__name__}: {exc}")
             continue
         if body is None:
             print(f"SKIP {url}: noindex")
@@ -169,9 +186,9 @@ def scan(state_file: Path, key: str, force_all: bool = False) -> dict[str, int]:
             changed.append(url)
         observed[url] = digest
 
-    if not any(url in observed and (force_all or url in previous or not has_baseline)
-               for url in urls) and failures:
-        raise RuntimeError("All live page checks failed; no IndexNow state saved")
+    if failures:
+        raise RuntimeError(f"{failures} of {len(urls)} live page checks failed; "
+                           "no notifications or new fingerprints saved; retry next run")
 
     if not has_baseline and not force_all:
         print("Initial scan: storing a baseline; no unchanged pages will be submitted.")
