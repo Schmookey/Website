@@ -28,6 +28,35 @@ class IndexNowTests(unittest.TestCase):
                     "https://schmookey.xyz/about.html?test=1"):
             self.assertFalse(indexnow.on_site(url))
 
+    def test_redirects_only_allow_exact_extensionless_alias(self):
+        url = "https://schmookey.xyz/about.html"
+        handler = indexnow.SafePageRedirect(url, "html")
+        req = indexnow.Request(url)
+        alias = url.removesuffix(".html")
+        self.assertEqual(handler.redirect_request(req, None, 301, "Moved", {}, alias).full_url, alias)
+        for target in ("https://other.example/about", "http://schmookey.xyz/about",
+                       "https://schmookey.xyz/other", alias + "?x=1"):
+            with self.subTest(target=target), self.assertRaises(ValueError):
+                handler.redirect_request(req, None, 301, "Moved", {}, target)
+
+    def test_incomplete_scan_preserves_state_and_does_not_submit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            state = Path(tmp) / "pages.json"
+            with patch.object(indexnow, "fetch", side_effect=lambda u, k: SITEMAP if k == "sitemap" else b"original"):
+                indexnow.scan(state, "sample-key-123456")
+            original = state.read_bytes()
+            def fetch(url, kind):
+                if kind == "sitemap":
+                    return SITEMAP
+                if url.endswith("about.html"):
+                    raise ValueError("Unexpected redirect destination")
+                return b"changed"
+            with patch.object(indexnow, "fetch", side_effect=fetch), patch.object(indexnow, "submit") as submit:
+                with self.assertRaisesRegex(RuntimeError, "1 of 2"):
+                    indexnow.scan(state, "sample-key-123456")
+                submit.assert_not_called()
+                self.assertEqual(state.read_bytes(), original)
+
     def test_noindex_directive_in_head(self):
         parser = indexnow.RobotsMetadata()
         parser.feed('<head><meta name="robots" content="nofollow, noindex"></head>')
