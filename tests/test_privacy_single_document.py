@@ -49,7 +49,7 @@ class PrivacySingleDocumentTests(unittest.TestCase):
             "My website retrieves this information from my public ListenBrainz profile.",
             "The integration is designed to periodically retrieve my viewing activity",
             "You can browse the website without connecting your music or television accounts.",
-            "Google Fonts may load typefaces",
+            "The Press Start 2P typeface is hosted locally on this website",
             "Webmention.io may",
             "The Webrings page embeds third-party scripts",
             "remember your chosen light or dark theme",

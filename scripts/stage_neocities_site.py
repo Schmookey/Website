@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "public"
 ROOT_FILES = {
+    "assets/fonts/PressStart2P-Regular.ttf", "assets/fonts/OFL.txt",
     "404.html", "BingSiteAuth.xml", "about.html", "atom.xml",
     "blog-archive.html", "changelog.html", "feed.json", "feed.xml",
     "index.html", "listening.html", "music-archive.html", "search.html",
