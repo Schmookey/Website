@@ -12,6 +12,9 @@ import socket
 
 BASE = "https://schmookey.xyz/"
 ROOT = Path(__file__).resolve().parents[1]
+# Navigation endpoints need the actual registered member page, not a bare request.
+RING_NAVIGATION = {f"https://xn--sr8hvo.ws/{direction}" for direction in ("previous", "next")}
+RING_REFERRER = BASE + "webrings"
 
 def public_url(url):
     p = urlsplit(url)
@@ -61,6 +64,9 @@ def check(url, internal):
         public_url(url)
         opener = build_opener(ProxyHandler({}), Redirect())
         req = Request(url, headers={"User-Agent": "SchmookeySiteHealth/1.0", "Accept": "*/*"})
+        if url in RING_NAVIGATION:
+            # Do not forward this explicit Referer to the eventual neighbour.
+            req.add_unredirected_header("Referer", RING_REFERRER)
         with opener.open(req, timeout=12) as response:
             if internal:
                 expected = {url, url.removesuffix(".html")} if url.endswith(".html") else {url}
