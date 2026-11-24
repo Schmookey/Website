@@ -1,5 +1,20 @@
 [
   {
+    "id": "2026-11-20-221942-44827999947",
+    "date": "2026-11-20T22:19:42Z",
+    "content": "Tired and ready to call it a night early on Friday then you realise you have some saved TV to watch!",
+    "tags": [
+      "notes",
+      "indieweb",
+      "microblog",
+      "tv",
+      "tired"
+    ],
+    "syndicate": "both",
+    "image": "/assets/images/Yawn.gif",
+    "image_alt": "Tired little buddy"
+  },
+  {
     "id": "2026-11-19-174741-44580942816",
     "date": "2026-11-19T17:47:41Z",
     "content": "It's hard to believe it's been 20 years since this bad boy was released in the USA. In the UK, I got mine in January the next year for my birthday.",
@@ -56,18 +71,19 @@
     "image_alt": "My cross breed Malador dog Kai"
   },
   {
-    "id": "2026-11-20-221942-44827999947",
-    "date": "2026-11-20T22:19:42Z",
-    "content": "Tired and ready to call it a night early on Friday then you realise you have some saved TV to watch!",
+    "id": "2026-11-24-204811-45484502189",
+    "date": "2026-11-24T20:48:11Z",
+    "content": "From back when you didn't need a subscription to use tech or an 'always on' internet connection. 15 years and still going strong, gotta love my Kobo Touch E-Reader!",
     "tags": [
       "notes",
       "indieweb",
       "microblog",
-      "tv",
-      "tired"
+      "kobo",
+      "ereader",
+      "tech"
     ],
     "syndicate": "both",
-    "image": "/assets/images/Yawn.gif",
-    "image_alt": "Tired little buddy"
+    "image": "/assets/images/KoboTouch.jpg",
+    "image_alt": "A picture of my Kobo Touch E-reader"
   }
 ]
