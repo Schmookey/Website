@@ -11,6 +11,13 @@
   },
   "items": [
     {
+      "id": "urn:schmookey:post:30_well_spent",
+      "url": "https://schmookey.xyz/blog/posts/30_well_spent.html",
+      "title": "£30 Well Spent",
+      "content_text": "Why second-hand doesn't mean second best.",
+      "date_published": "2026-11-25T19:00:00Z"
+    },
+    {
       "id": "urn:schmookey:update:uniform-design-readable-rss-feeds:2026-11-18T17:41:00+00:00",
       "url": "https://schmookey.xyz/now.html",
       "title": "Uniform design, Readable RSS Feeds",
