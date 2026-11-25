@@ -15,6 +15,7 @@ import os
 from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://schmookey.xyz"
@@ -57,6 +58,49 @@ def note_url(note: dict) -> str:
     return f"/notes/{note['id']}.html"
 
 
+POST_TYPES = {
+    "note": ("", ""),
+    "like": ("u-like-of", "Liked"),
+    "repost": ("u-repost-of", "Reposted"),
+    "reply": ("u-in-reply-to", "In reply to"),
+    "bookmark": ("u-bookmark-of", "Bookmarked"),
+}
+
+
+def validate_interaction(kind: str, target: str, content: str, syndicate: str) -> None:
+    if kind not in POST_TYPES:
+        raise ValueError("Unknown note type")
+    if kind == "note":
+        if target:
+            raise ValueError("Ordinary notes cannot have a target URL")
+    else:
+        if (not isinstance(target, str) or not target or len(target) > 2048
+                or re.search(r'[\s\x00-\x1f<>"\\]', target)):
+            raise ValueError("Provide a valid public HTTP(S) target URL")
+        try:
+            parsed = urlsplit(target)
+            if (parsed.scheme not in {"http", "https"} or not parsed.hostname
+                    or parsed.username is not None or parsed.password is not None
+                    or parsed.port not in {None, 80, 443}):
+                raise ValueError("Invalid target URL")
+        except ValueError as exc:
+            raise ValueError("Provide a valid public HTTP(S) target URL") from exc
+        if syndicate != "none":
+            raise ValueError("Interaction posts must use manual social sharing (syndicate: none)")
+    if kind in {"note", "reply"} and not content.strip():
+        raise ValueError("Notes and replies require a message")
+
+
+def feed_text(note: dict) -> str:
+    kind = note.get("post_type", "note")
+    if kind == "note":
+        return note["content"]
+    label = POST_TYPES[kind][1]
+    return f'{label}: {note["target_url"]}' + (
+        "\n\n" + note["content"] if note["content"] else ""
+    )
+
+
 def read_notes(root: Path = ROOT) -> list[dict]:
     data = json.loads((root / SOURCE).read_text(encoding="utf-8"))
     if not isinstance(data, list):
@@ -73,9 +117,11 @@ def read_notes(root: Path = ROOT) -> list[dict]:
         if not key.startswith(date.strftime("%Y-%m-%d") + "-"):
             raise ValueError("Note identifier must match its UTC publication day")
         body = note.get("content")
-        if (not isinstance(body, str) or not body.strip() or len(body) > 2000
+        if (not isinstance(body, str) or len(body) > 2000
                 or re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", body)):
-            raise ValueError("Note content must contain 1–2000 characters")
+            raise ValueError("Note content must contain at most 2000 characters")
+        validate_interaction(note.get("post_type", "note"), note.get("target_url", ""), body,
+                             note.get("syndicate", "none"))
         picture = note.get("image", "")
         alt = note.get("image_alt", "")
         if picture:
@@ -94,10 +140,12 @@ def read_notes(root: Path = ROOT) -> list[dict]:
 
 
 def add_note(root: Path, content: str, tags: str, run_id: str,
-             image: str = "", image_alt: str = "", syndicate: str = "none") -> str:
-    if (not isinstance(content, str) or not content.strip() or len(content) > 2000
+             image: str = "", image_alt: str = "", syndicate: str = "none",
+             post_type: str = "note", target_url: str = "") -> str:
+    if (not isinstance(content, str) or len(content) > 2000
             or re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", content)):
-        raise ValueError("Note must contain 1–2000 safe plain-text characters")
+        raise ValueError("Note must contain at most 2000 safe plain-text characters")
+    validate_interaction(post_type, target_url, content, syndicate)
     if not re.fullmatch(r"\d+", run_id):
         raise ValueError("Publishing requires GitHub's numeric workflow run ID")
     if image:
@@ -117,6 +165,9 @@ def add_note(root: Path, content: str, tags: str, run_id: str,
         "content": content.strip(),
         "tags": parsed_tags,
     }
+    if post_type != "note":
+        note["post_type"] = post_type
+        note["target_url"] = target_url
     if syndicate != "none":
         note["syndicate"] = syndicate
     if image:
@@ -130,9 +181,13 @@ def add_note(root: Path, content: str, tags: str, run_id: str,
                     or existing.get("tags", []) != parsed_tags
                     or existing.get("image", "") != image
                     or existing.get("image_alt", "") != image_alt.strip()
-                    or existing.get("syndicate", "none") != syndicate):
+                    or existing.get("syndicate", "none") != syndicate
+                    or existing.get("post_type", "note") != post_type
+                    or existing.get("target_url", "") != target_url):
                 raise ValueError("This run ID already belongs to a different note")
             return note_url(existing)
+    if len(parsed_tags) > 10 or any(not re.fullmatch(r"[a-z0-9][a-z0-9 -]{0,39}", tag) for tag in parsed_tags):
+        raise ValueError("Invalid note tags")
     notes.append(note)
     (root / SOURCE).write_text(
         json.dumps(notes, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -142,6 +197,8 @@ def add_note(root: Path, content: str, tags: str, run_id: str,
 
 
 def paragraphs(body: str) -> str:
+    if not body.strip():
+        return ""
     blocks = re.split(r"\n\s*\n", body.strip())
     return "\n".join(
         "      <p>" + escape(block).replace("\n", "<br>\n") + "</p>"
@@ -158,6 +215,15 @@ def entry(note: dict) -> str:
         f'<a class="p-category" href="/notes/">{escape(tag)}</a> '
         for tag in note.get("tags", [])
     )
+    relation = ""
+    kind = note.get("post_type", "note")
+    if kind != "note":
+        prop, label = POST_TYPES[kind]
+        target = escape(note["target_url"], quote=True)
+        relation = (
+            f'    <p class="notes-interaction">{label}: '
+            f'<a class="{prop}" href="{target}">{target}</a></p>\n'
+        )
     photo = ""
     if note.get("image"):
         photo = (
@@ -169,6 +235,7 @@ def entry(note: dict) -> str:
     return (
         '  <article class="h-entry">\n'
         f'    <time class="dt-published" datetime="{machine}">{human}</time>\n'
+        f'{relation}'
         '    <div class="e-content">\n'
         f'{paragraphs(note["content"])}\n'
         f'{photo}'
@@ -217,6 +284,27 @@ def render_page(template: str, note: dict) -> str:
         '  <section class="notes-stream" aria-label="Note">\n'
         f'{entry(note)}\n'
         '  </section>\n'
+        f'''  <section class="comments-panel" aria-labelledby="comments">
+    <h2 id="comments" class="comments-title">💬 Replies Terminal</h2>
+    <div class="hud-meta" aria-label="Note interactions">
+      <span class="meta-pill">💬 <span class="visually-hidden">Replies: </span><span id="wm-replies">0</span></span>
+      <span class="meta-pill">❤️ <span class="visually-hidden">Likes: </span><span id="wm-likes">0</span></span>
+      <span class="meta-pill">🔁 <span class="visually-hidden">Reposts: </span><span id="wm-reposts">0</span></span>
+    </div>
+    <p class="comment-intro">Fediverse replies, boosts, likes and other Webmentions are logged below.</p>
+    <div id="comments-list" class="comments-list" aria-live="polite">
+      <noscript><p class="system-msg">JavaScript is required to load transmissions.</p></noscript>
+    </div>
+    <div class="comment-options">
+      <button class="comment-button" id="load-comments-btn" type="button">Reload Terminal</button>
+    </div>
+    <details class="fediverse-details">
+      <summary>Reply on Fediverse</summary>
+      <p>Paste this URL into your client:</p>
+      <pre class="fediverse-link-box">{canonical}</pre>
+    </details>
+  </section>
+'''
         '</main>'
     )
     page, count = main.subn(lambda _: replacement, template)
@@ -244,11 +332,11 @@ def rss_feed(notes: list[dict]) -> str:
         item = ET.SubElement(channel, "item")
         url = BASE + note_url(note)
         for name, value in (
-            ("title", note["content"].splitlines()[0][:90]),
+            ("title", feed_text(note).splitlines()[0][:90]),
             ("link", url),
             ("guid", url),
             ("pubDate", format_datetime(published(note["date"]), usegmt=True)),
-            ("description", note["content"]),
+            ("description", feed_text(note)),
         ):
             el = ET.SubElement(item, name)
             el.text = value
@@ -289,13 +377,13 @@ def atom_feed(notes: list[dict]) -> str:
         url = BASE + note_url(note)
         for name, value in (
             ("id", url),
-            ("title", note["content"].splitlines()[0][:90]),
+            ("title", feed_text(note).splitlines()[0][:90]),
             ("updated", published(note["date"]).isoformat(timespec="seconds").replace("+00:00", "Z")),
             ("published", published(note["date"]).isoformat(timespec="seconds").replace("+00:00", "Z")),
         ):
             ET.SubElement(entry_node, ns(name)).text = value
         ET.SubElement(entry_node, ns("link"), {"rel": "alternate", "href": url})
-        ET.SubElement(entry_node, ns("content"), {"type": "text"}).text = note["content"]
+        ET.SubElement(entry_node, ns("content"), {"type": "text"}).text = feed_text(note)
         for tag in note.get("tags", []):
             ET.SubElement(entry_node, ns("category"), {"term": tag})
     ET.indent(feed, space="  ")
@@ -341,7 +429,9 @@ def main() -> None:
         url = add_note(ROOT, os.environ.get("NOTE_CONTENT", ""),
                        os.environ.get("NOTE_TAGS", ""), os.environ.get("GITHUB_RUN_ID", ""),
                        os.environ.get("NOTE_IMAGE", ""), os.environ.get("NOTE_IMAGE_ALT", ""),
-                       os.environ.get("NOTE_SYNDICATE", "none"))
+                       os.environ.get("NOTE_SYNDICATE", "none"),
+                       os.environ.get("NOTE_POST_TYPE", "note"),
+                       os.environ.get("NOTE_TARGET_URL", "").strip())
         print("Prepared " + BASE + url)
     generate(ROOT, check=args.check)
 
