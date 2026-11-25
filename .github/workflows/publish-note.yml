@@ -5,8 +5,20 @@ on:
   workflow_dispatch:
     inputs:
       note:
-        description: "Plain-text note (up to 2000 characters)"
+        description: "Plain-text message (required for note/reply; optional for other types, up to 2000 characters)"
+        required: false
+        default: ""
+        type: string
+      post_type:
+        description: "Choose the kind of IndieWeb post"
         required: true
+        type: choice
+        options: [note, like, repost, reply, bookmark]
+        default: note
+      target_url:
+        description: "Original public HTTP(S) URL (required for interactions)"
+        required: false
+        default: ""
         type: string
       tags:
         description: "Optional comma-separated tags (for example: indieweb, linux)"
@@ -59,6 +71,8 @@ jobs:
       - name: Create note and regenerate static pages
         env:
           NOTE_CONTENT: ${{ inputs.note }}
+          NOTE_POST_TYPE: ${{ inputs.post_type }}
+          NOTE_TARGET_URL: ${{ inputs.target_url }}
           NOTE_TAGS: ${{ inputs.tags }}
           NOTE_IMAGE: ${{ inputs.image }}
           NOTE_IMAGE_ALT: ${{ inputs.image_alt }}
