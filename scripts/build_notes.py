@@ -262,6 +262,8 @@ def render_page(template: str, note: dict) -> str:
 '''
         '</main>'
     )
+    # Only the timeline requires the versioned multi-Note loader.
+    template = template.replace('src="/assets/js/main.js?v=notes-webmentions-2"', 'src="/assets/js/main.js"')
     page, count = main.subn(lambda _: replacement, template)
     if count != 1:
         raise ValueError("Cannot locate Notes main panel in template")
