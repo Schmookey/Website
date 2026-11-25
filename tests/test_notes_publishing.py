@@ -154,5 +154,54 @@ class NotesPublishingTests(unittest.TestCase):
             builder.read_notes(self.root)
 
 
+
+    def test_interaction_types_and_optional_commentary(self):
+        target = "https://example.org/post?a=1&b=2"
+        for i, (kind, prop) in enumerate((
+            ("like", "u-like-of"), ("repost", "u-repost-of"),
+            ("reply", "u-in-reply-to"), ("bookmark", "u-bookmark-of"),
+        )):
+            message = "My reply" if kind == "reply" else ""
+            url = builder.add_note(self.root, message, "", str(9000+i),
+                                   post_type=kind, target_url=target)
+            outputs = builder.outputs(self.root)
+            doc = html.fromstring(outputs[Path(url.lstrip("/"))])
+            self.assertEqual(doc.xpath(f'//article//a[@class="{prop}"]/@href'), [target])
+            self.assertEqual(len(doc.xpath('//*[@id="comments-list"]')), 1)
+            for counter in ("wm-replies", "wm-likes", "wm-reposts"):
+                self.assertEqual(len(doc.xpath(f'//*[@id="{counter}"]')), 1)
+            index = html.fromstring(outputs[Path("notes/index.html")])
+            self.assertFalse(index.xpath('//*[@id="comments-list"]'))
+            self.assertEqual(index.xpath(f'//article//a[@class="{prop}"]/@href'), [target])
+            rss = ET.fromstring(outputs[Path("notes/feed.xml")])
+            self.assertTrue(any(target in item.findtext("description") for item in rss.findall("./channel/item")))
+            atom = ET.fromstring(outputs[Path("notes/atom.xml")])
+            ns = "{http://www.w3.org/2005/Atom}"
+            self.assertTrue(any(target in item.findtext(ns+"content") for item in atom.findall(ns+"entry")))
+        builder.generate(self.root)
+        builder.generate(self.root, check=True)
+
+    def test_interaction_validation_and_idempotence(self):
+        for kind, target, content, syndicate in (
+            ("like", "javascript:alert(1)", "", "none"),
+            ("repost", "https://user:pass@example.org/", "", "none"),
+            ("like", "https://example.org/\"bad", "", "none"),
+            ("reply", "https://example.org/", "", "none"),
+            ("note", "https://example.org/", "Text", "none"),
+            ("like", "", "", "none"),
+            ("like", "https://example.org/", "", "both"),
+        ):
+            with self.subTest(kind=kind, target=target), self.assertRaises(ValueError):
+                builder.add_note(self.root, content, "", "123", syndicate=syndicate,
+                                 post_type=kind, target_url=target)
+        first = builder.add_note(self.root, "", "", "123", post_type="like",
+                                 target_url="https://example.org/")
+        self.assertEqual(first, builder.add_note(self.root, "", "", "123", post_type="like",
+                                                target_url="https://example.org/"))
+        with self.assertRaises(ValueError):
+            builder.add_note(self.root, "", "", "123", post_type="repost",
+                             target_url="https://example.org/")
+
+
 if __name__ == "__main__":
     unittest.main()
