@@ -42,3 +42,11 @@ html[data-schmookey-theme="light"] .hud-icon-meta .hud-icon-comments { backgroun
 html[data-schmookey-theme="light"] .hud-icon-meta .hud-icon-likes { background-image: url("/assets/images/icons/hud/light/likes.svg"); }
 .hud-icon-meta .hud-icon-shares { background-image: url("/assets/images/icons/hud/dark/shares.svg"); }
 html[data-schmookey-theme="light"] .hud-icon-meta .hud-icon-shares { background-image: url("/assets/images/icons/hud/light/shares.svg"); }
+
+/* Article metric boxes share the parent HUD's colour in both console themes.
+   Keep Notes metric backgrounds unchanged. */
+.retro-post-hud .hud-icon-meta .hud-stat,
+html[data-schmookey-theme="light"] body .retro-post-hud .hud-icon-meta .hud-stat {
+  background: transparent;
+  color: inherit;
+}
