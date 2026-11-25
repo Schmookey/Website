@@ -76,6 +76,13 @@ def check(url, internal):
                     return "FAIL", url, "not HTML"
             return "OK", url, str(response.status)
     except HTTPError as exc:
+        # Owner confirmed this exact profile works in Firefox on 2026-11-24.
+        # A runner-specific 404 remains visible for manual review; never
+        # suppress 410, other Codeberg paths, or any internal-page failure.
+        if (not internal and exc.code == 404
+                and url == "https://codeberg.org/schmookey"
+                and exc.geturl() == url):
+            return "REVIEW", url, "HTTP 404; owner-confirmed profile, verify in browser"
         if not internal and exc.code not in (404, 410):
             return "REVIEW", url, f"HTTP {exc.code}"
         return "FAIL", url, f"HTTP {exc.code}"
