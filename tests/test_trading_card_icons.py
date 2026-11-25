@@ -21,7 +21,20 @@ class TradingCardIconsTests(unittest.TestCase):
         for emoji in ("☕", "⚡", "🌙", "🎮", "📖", "📍"):
             self.assertNotIn(emoji, card.text_content())
         self.assertEqual(card.xpath('.//h1[@class="p-name"]/text()'), ["Schmookey"])
-        self.assertEqual(card.xpath('.//img[@class="u-photo"]/@src'), ["/assets/images/schmookey_trading_card.png"])
+        portrait, = card.xpath('.//div[@class="profile-card-portrait"]/img[@class="u-photo"]')
+        self.assertEqual(portrait.get("src"), "/assets/images/allen_16bit_portrait.png")
+        self.assertEqual((portrait.get("width"), portrait.get("height")), ("624", "624"))
+        self.assertTrue((ROOT / portrait.get("src").lstrip("/")).is_file())
+        for service in ("fediverse", "mastodon", "bluesky"):
+            src = "/assets/images/" + service + "-16bit.svg"
+            asset = etree.parse(str(ROOT / src.lstrip("/"))).getroot()
+            self.assertEqual(asset.get("viewBox"), "0 0 32 32")
+            self.assertEqual(asset.get("shape-rendering"), "crispEdges")
+            logo, = card.xpath('.//a/img[@class="profile-card-logo" and @src=$src]', src=src)
+            self.assertEqual(logo.get("alt"), "")
+            self.assertEqual((logo.get("width"), logo.get("height")), ("32", "32"))
+            self.assertIn(service, logo.getparent().text_content().lower())
+            self.assertEqual(logo.getparent().get("rel"), "me")
         for name, value in (("coffee", 85), ("energy", 70), ("sleep", 30)):
             bar, = card.xpath('.//*[@role="progressbar" and @aria-labelledby=$label]', label="card-" + name)
             self.assertEqual(bar.get("aria-valuenow"), str(value))
@@ -35,6 +48,10 @@ class TradingCardIconsTests(unittest.TestCase):
         self.assertNotIn('.profile-cassette::before', css)
         self.assertNotIn('.profile-cassette::after', css)
         self.assertNotIn('data-schmookey-theme', css)
+        self.assertIn('.about-page .profile-card-portrait::after', css)
+        self.assertIn('border: 5px solid #ffcf51;', css)
+        self.assertIn('object-fit: cover;', css)
+        self.assertIn('pointer-events: none;', css)
 
 if __name__ == "__main__":
     unittest.main()
