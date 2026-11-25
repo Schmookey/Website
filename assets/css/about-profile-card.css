@@ -103,25 +103,38 @@
   margin: 12px 0 16px;
 }
 .about-page .profile-card-portrait {
+  position: relative;
   min-width: 0;
-  /* Keep the decorative border, but remove the inset around the actual artwork. */
+  aspect-ratio: 1 / 1;
   padding: 0;
-  border: 5px solid #ffcf51;
+  border: 0;
   border-radius: 21px;
   background: #200e3d;
-  box-shadow: inset 0 0 0 2px white, 0 5px 0 #461356, 0 0 0 2px #532383;
+  box-shadow: 0 5px 0 #461356, 0 0 0 2px #532383;
   overflow: hidden;
+}
+/* The artwork extends beneath the entire gold frame, not merely up to
+   its inner edge. The overlay masks the join and follows the outer radius. */
+.about-page .profile-card-portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  border: 5px solid #ffcf51;
+  border-radius: inherit;
+  pointer-events: none;
 }
 .about-page .profile-card-portrait .u-photo {
   display: block;
   width: 100%;
-  height: auto;
-  /* Use the image's real proportions: no forced crop or empty letterboxing. */
-  aspect-ratio: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
   image-rendering: pixelated;
-  border-radius: 15px;
+  border: 0;
+  border-radius: 0;
   margin: 0;
+  padding: 0;
 }
 .about-page .profile-card-identity { min-width: 0; text-align: center; }
 .about-page .profile-card-identity .p-name {
@@ -191,20 +204,18 @@
   gap: 8px;
 }
 .about-page .profile-card-socials .profile-card-link { padding-inline: 6px; }
-/* Transparent social service logos, scaled without stretching. */
+/* One local 32px pixel-art logo for each service, in both themes. */
 .about-page .profile-card-link .profile-card-logo {
   display: block;
-  flex: 0 0 auto;
-  width: 28px;
-  height: 28px;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
   max-width: 100%;
   object-fit: contain;
+  image-rendering: pixelated;
   margin: 0;
   background: transparent;
-}
-.about-page .profile-card-link-primary .profile-card-logo {
-  width: 30px;
-  height: 30px;
+  border: 0;
 }
 .about-page .profile-card-section-title {
   color: #25143d;
