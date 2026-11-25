@@ -1,0 +1,22 @@
+// Use the real reading-time function with a minimal DOM.
+const fs = require("node:fs");
+const assert = require("node:assert/strict");
+const vm = require("node:vm");
+const path = require("node:path");
+const src = fs.readFileSync(path.join(__dirname, "../assets/js/main.js"), "utf8");
+const fn = src.slice(src.indexOf("function initReadingTime()"), src.indexOf("/* =====================================================\n   SECTION 12:"));
+const content = {textContent: Array(1750).fill("word").join(" ")};
+const time = {textContent: "", closest: () => null};
+const words = {textContent: ""};
+const doc = {querySelector: () => content, getElementById: id => id === "reading-time" ? time : id === "word-count" ? words : null};
+vm.runInNewContext(fn + "\ninitReadingTime();", {document:doc});
+assert.equal(time.textContent, "8 mins");
+assert.equal(words.textContent, "1,750");
+content.textContent = "Hello world";
+vm.runInNewContext(fn + "\ninitReadingTime();", {document:doc});
+assert.equal(time.textContent, "1 min");
+assert.equal(words.textContent, "2");
+doc.getElementById = id => id === "reading-time" ? time : null;
+vm.runInNewContext(fn + "\ninitReadingTime();", {document:doc});
+assert.equal(time.textContent, "1 min read · 2 words");
+console.log("PASS: separate reading time, British word counts and legacy draft support");

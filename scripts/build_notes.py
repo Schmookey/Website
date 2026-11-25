@@ -154,10 +154,10 @@ def paragraphs(body: str) -> str:
 def timeline_webmentions(note: dict) -> str:
     canonical = BASE + note_url(note)
     return f'''    <section class="note-webmentions" data-note-target="{canonical}" aria-label="Note interactions">
-      <div class="hud-meta">
-        <span class="meta-pill">💬 <span class="visually-hidden">Replies: </span><span data-wm-replies>–</span></span>
-        <span class="meta-pill">❤️ <span class="visually-hidden">Likes: </span><span data-wm-likes>–</span></span>
-        <span class="meta-pill">🔁 <span class="visually-hidden">Reposts: </span><span data-wm-reposts>–</span></span>
+      <div class="hud-meta hud-icon-meta">
+        <span class="meta-pill hud-stat" title="Replies"><span class="hud-icon hud-icon-comments" aria-hidden="true"></span><span class="visually-hidden">Replies: </span><span data-wm-replies>–</span></span>
+        <span class="meta-pill hud-stat" title="Likes"><span class="hud-icon hud-icon-likes" aria-hidden="true"></span><span class="visually-hidden">Likes: </span><span data-wm-likes>–</span></span>
+        <span class="meta-pill hud-stat" title="Reposts"><span class="hud-icon hud-icon-shares" aria-hidden="true"></span><span class="visually-hidden">Reposts: </span><span data-wm-reposts>–</span></span>
       </div>
       <details>
         <summary>Replies Terminal</summary>
@@ -241,10 +241,10 @@ def render_page(template: str, note: dict) -> str:
         '  </section>\n'
         f'''  <section class="comments-panel" aria-labelledby="comments">
     <h2 id="comments" class="comments-title">💬 Replies Terminal</h2>
-    <div class="hud-meta" aria-label="Note interactions">
-      <span class="meta-pill">💬 <span class="visually-hidden">Replies: </span><span id="wm-replies">0</span></span>
-      <span class="meta-pill">❤️ <span class="visually-hidden">Likes: </span><span id="wm-likes">0</span></span>
-      <span class="meta-pill">🔁 <span class="visually-hidden">Reposts: </span><span id="wm-reposts">0</span></span>
+    <div class="hud-meta hud-icon-meta" aria-label="Note interactions">
+      <span class="meta-pill hud-stat" title="Replies"><span class="hud-icon hud-icon-comments" aria-hidden="true"></span><span class="visually-hidden">Replies: </span><span id="wm-replies">0</span></span>
+      <span class="meta-pill hud-stat" title="Likes"><span class="hud-icon hud-icon-likes" aria-hidden="true"></span><span class="visually-hidden">Likes: </span><span id="wm-likes">0</span></span>
+      <span class="meta-pill hud-stat" title="Reposts"><span class="hud-icon hud-icon-shares" aria-hidden="true"></span><span class="visually-hidden">Reposts: </span><span id="wm-reposts">0</span></span>
     </div>
     <p class="comment-intro">Fediverse replies, boosts, likes and other Webmentions are logged below.</p>
     <div id="comments-list" class="comments-list" aria-live="polite">
@@ -262,8 +262,6 @@ def render_page(template: str, note: dict) -> str:
 '''
         '</main>'
     )
-    # Only the timeline requires the versioned multi-Note loader.
-    template = template.replace('src="/assets/js/main.js?v=notes-webmentions-2"', 'src="/assets/js/main.js"')
     page, count = main.subn(lambda _: replacement, template)
     if count != 1:
         raise ValueError("Cannot locate Notes main panel in template")

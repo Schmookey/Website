@@ -41,6 +41,7 @@
 <link rel="pingback" href="https://webmention.io/schmookey.xyz/xmlrpc">
 
 <link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/hud-icons.css">
 </head>
 
 <body class="h-card light">
@@ -192,19 +193,12 @@
   Wed 1 Apr 2026 16:20 BST
 </time>
 
-          <div class="hud-meta">
-            <span class="meta-pill">
-              ⏱ <span id="reading-time">– min read</span>
-            </span>
-            <span class="meta-pill">
-              💬 <span class="visually-hidden">Replies: </span><span id="wm-replies">0</span>
-            </span>
-            <span class="meta-pill">
-              ❤️ <span id="wm-likes">0</span>
-            </span>
-            <span class="meta-pill">
-              🔁 <span id="wm-reposts">0</span>
-            </span>
+          <div class="hud-meta hud-icon-meta">
+            <span class="meta-pill hud-stat" title="Reading time"><span class="hud-icon hud-icon-time" aria-hidden="true"></span><span class="visually-hidden">Reading time: </span><span id="reading-time">– mins</span></span>
+            <span class="meta-pill hud-stat" title="Word count"><span class="hud-icon hud-icon-words" aria-hidden="true"></span><span class="visually-hidden">Word count: </span><span id="word-count">–</span></span>
+            <span class="meta-pill hud-stat" title="Replies"><span class="hud-icon hud-icon-comments" aria-hidden="true"></span><span class="visually-hidden">Replies: </span><span id="wm-replies">0</span></span>
+            <span class="meta-pill hud-stat" title="Likes"><span class="hud-icon hud-icon-likes" aria-hidden="true"></span><span class="visually-hidden">Likes: </span><span id="wm-likes">0</span></span>
+            <span class="meta-pill hud-stat" title="Reposts"><span class="hud-icon hud-icon-shares" aria-hidden="true"></span><span class="visually-hidden">Reposts: </span><span id="wm-reposts">0</span></span>
           </div>
         </div>
       </header>
@@ -348,6 +342,6 @@
 </footer>
 
 <script src="/assets/js/article-sidebar.js"></script>
-<script src="../../assets/js/main.js"></script>
+<script src="../../assets/js/main.js?v=hud-16bit-1"></script>
 </body>
 </html>

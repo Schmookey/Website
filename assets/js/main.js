@@ -447,6 +447,14 @@ function initReadingTime() {
   const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
   const minutes = Math.max(1, Math.round(words / 210));
 
+  const wordCount = document.getElementById("word-count");
+  if (wordCount) {
+    output.textContent = minutes === 1 ? "1 min" : `${minutes} mins`;
+    wordCount.textContent = words.toLocaleString("en-GB");
+    return;
+  }
+
+  // Retain the combined display for older offline article drafts.
   output.textContent = `${minutes} min read · ${words.toLocaleString("en-GB")} ${words === 1 ? "word" : "words"}`;
 
   // Use the same emoji style as the comments and likes indicators.
