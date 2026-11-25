@@ -60,7 +60,7 @@ class ArticleFooterBadgeTests(unittest.TestCase):
                 self.assertEqual(doc.xpath('//a[img[@src="/assets/images/88x31_Microformats.png"]]/@title'), ["learn more about Microformats"])
 
     def test_webmention_speech_bubble_uses_existing_reply_count(self):
-        """Only one visible reply counter, in the original bubble position."""
+        """Exactly one reply counter, after the two reading metrics."""
         stylesheet = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         self.assertNotIn(".hud-meta #mention-count", stylesheet)
 
@@ -81,13 +81,21 @@ class ArticleFooterBadgeTests(unittest.TestCase):
                 hud = doc.xpath('//div[contains(concat(" ",normalize-space(@class)," ")," hud-meta ")]')
                 self.assertEqual(len(hud), 1)
                 pills = hud[0].xpath('./span[contains(concat(" ",normalize-space(@class)," ")," meta-pill ")]')
-                self.assertEqual(len(pills), 4, "Reading time, replies, likes and reposts")
-                self.assertIn("⏱", pills[0].text_content())
-                self.assertIn("💬", pills[1].text_content())
-                self.assertIn("Replies:", pills[1].text_content())
-                self.assertEqual(len(pills[1].xpath('./span[@id="wm-replies"]')), 1)
-                self.assertIn("❤️", pills[2].text_content())
-                self.assertIn("🔁", pills[3].text_content())
+                self.assertEqual(len(pills), 5, "Reading time, words, replies, likes and reposts")
+                expected = [
+                    ("time", "reading-time", "Reading time"),
+                    ("words", "word-count", "Word count"),
+                    ("comments", "wm-replies", "Replies"),
+                    ("likes", "wm-likes", "Likes"),
+                    ("shares", "wm-reposts", "Reposts"),
+                ]
+                for pill, (icon, identifier, label) in zip(pills, expected):
+                    self.assertEqual(pill.xpath('./span[@aria-hidden="true"]/@class'),
+                                     ["hud-icon hud-icon-" + icon])
+                    self.assertEqual(pill.get("title"), label)
+                    self.assertIn(label + ":", pill.text_content())
+                    self.assertEqual(len(pill.xpath('./span[@id=$id]', id=identifier)), 1)
+                    self.assertEqual(len(doc.xpath('//*[@id=$id]', id=identifier)), 1)
                 self.assertEqual(doc.xpath('//*[@id="mention-count"]'), [])
                 self.assertEqual(len(doc.xpath('//*[@id="comments-list"]')), 1)
                 self.assertEqual(len(doc.xpath('//*[@id="load-comments-btn"]')), 1)

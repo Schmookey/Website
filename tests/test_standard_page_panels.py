@@ -59,7 +59,7 @@ class StandardPagePanelTests(unittest.TestCase):
                     '//aside[contains(concat(" ",normalize-space(@class)," ")," right ")]'
                     '//h2[normalize-space()="LIKES"]'
                 ))
-                script_url = "/assets/js/main.js?v=notes-webmentions-2" if name == "notes/index.html" else "/assets/js/main.js"
+                script_url = "/assets/js/main.js?v=hud-16bit-1" if name == "notes/index.html" else "/assets/js/main.js"
                 self.assertEqual(doc.xpath('//script[@src=$src]/@src', src=script_url), [script_url])
 
     def test_about_button_is_unique_and_copy_behaviour_preserved(self):

@@ -56,6 +56,11 @@ jobs:
 
       - name: Test individual Notes Webmention counters (offline)
         run: node tests/test_note_webmentions.js
+
+      - name: Verify custom 16-bit HUD icons and separate reading metrics
+        run: |
+          python -m unittest discover -s tests -p 'test_hud_icons.py' -v
+          node tests/test_hud_metrics.js
       - name: Verify Privacy Policy remains one continuous 16-bit document
         run: python -m unittest discover -s tests -p 'test_privacy_single_document.py' -v
       - name: Verify Webrings single centre panel and preserved rings

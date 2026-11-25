@@ -108,6 +108,7 @@ STYLES
 <link rel="stylesheet" href="/assets/css/notes-16bit-header.css">
 
 <link rel="me" href="https://bsky.app/profile/schmookey.xyz">
+<link rel="stylesheet" href="/assets/css/hud-icons.css">
 </head>
 
 <body class="h-card light">
@@ -248,10 +249,10 @@ LEFT SIDEBAR (DO NOT TOUCH STRUCTURE)
   </section>
   <section class="comments-panel" aria-labelledby="comments">
     <h2 id="comments" class="comments-title">💬 Replies Terminal</h2>
-    <div class="hud-meta" aria-label="Note interactions">
-      <span class="meta-pill">💬 <span class="visually-hidden">Replies: </span><span id="wm-replies">0</span></span>
-      <span class="meta-pill">❤️ <span class="visually-hidden">Likes: </span><span id="wm-likes">0</span></span>
-      <span class="meta-pill">🔁 <span class="visually-hidden">Reposts: </span><span id="wm-reposts">0</span></span>
+    <div class="hud-meta hud-icon-meta" aria-label="Note interactions">
+      <span class="meta-pill hud-stat" title="Replies"><span class="hud-icon hud-icon-comments" aria-hidden="true"></span><span class="visually-hidden">Replies: </span><span id="wm-replies">0</span></span>
+      <span class="meta-pill hud-stat" title="Likes"><span class="hud-icon hud-icon-likes" aria-hidden="true"></span><span class="visually-hidden">Likes: </span><span id="wm-likes">0</span></span>
+      <span class="meta-pill hud-stat" title="Reposts"><span class="hud-icon hud-icon-shares" aria-hidden="true"></span><span class="visually-hidden">Reposts: </span><span id="wm-reposts">0</span></span>
     </div>
     <p class="comment-intro">Fediverse replies, boosts, likes and other Webmentions are logged below.</p>
     <div id="comments-list" class="comments-list" aria-live="polite">
@@ -298,7 +299,7 @@ FOOTER
 </footer>
 
 
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/main.js?v=hud-16bit-1"></script>
 
 </body>
 </html>
