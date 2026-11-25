@@ -522,12 +522,12 @@ function getWebmentionTarget() {
   return url.toString();
 }
 
-function initWebmentions() {
-  const container = document.getElementById("comments-list");
-  const likesEl = document.getElementById("wm-likes");
-  const repostsEl = document.getElementById("wm-reposts");
-  const repliesEl = document.getElementById("wm-replies");
-  const loadBtn = document.getElementById("load-comments-btn");
+function initWebmentions(panel = null) {
+  const container = panel ? panel.querySelector("[data-wm-comments]") : document.getElementById("comments-list");
+  const likesEl = panel ? panel.querySelector("[data-wm-likes]") : document.getElementById("wm-likes");
+  const repostsEl = panel ? panel.querySelector("[data-wm-reposts]") : document.getElementById("wm-reposts");
+  const repliesEl = panel ? panel.querySelector("[data-wm-replies]") : document.getElementById("wm-replies");
+  const loadBtn = panel ? panel.querySelector("[data-wm-reload]") : document.getElementById("load-comments-btn");
 
   if (!container) return;
 
@@ -661,7 +661,7 @@ function initWebmentions() {
     `;
 
     try {
-      const targetUrl = getWebmentionTarget();
+      const targetUrl = panel ? panel.dataset.noteTarget : getWebmentionTarget();
       const target = encodeURIComponent(targetUrl);
 
       console.log("Webmention target:", targetUrl);
@@ -748,6 +748,36 @@ function initWebmentions() {
   }
 
   loadWebmentions();
+}
+
+function initNoteWebmentions() {
+  const panels = document.querySelectorAll(".note-webmentions[data-note-target]");
+  const started = new WeakSet();
+  function start(panel) {
+    if (started.has(panel)) return;
+    started.add(panel);
+    initWebmentions(panel);
+  }
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        start(entry.target);
+      }
+    }, {rootMargin: "100px"});
+    panels.forEach(panel => {
+      observer.observe(panel);
+      panel.querySelector("details")?.addEventListener("toggle", () => {
+        if (panel.querySelector("details").open) {
+          observer.unobserve(panel);
+          start(panel);
+        }
+      });
+    });
+  } else {
+    panels.forEach(start);
+  }
 }
 
 /* =====================================================
@@ -1117,6 +1147,7 @@ function initPage() {
   initReadingTime();
   initReadingCounter();
   initWebmentions();
+  initNoteWebmentions();
 
   loadActivityFeed();
   loadRecentPosts();
