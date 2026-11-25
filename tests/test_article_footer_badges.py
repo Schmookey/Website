@@ -1,4 +1,5 @@
 """Keep five independent 88x31 buttons in each article's original footer row."""
+import json
 from pathlib import Path
 import unittest
 
@@ -24,7 +25,12 @@ LINKS = {
 
 class ArticleFooterBadgeTests(unittest.TestCase):
     def test_badges_are_in_existing_row_above_navigation(self):
-        self.assertEqual(len(POSTS), 11)
+        records = json.loads((ROOT / "assets/data/posts.json").read_text(encoding="utf-8"))
+        self.assertTrue(records, "Post metadata must not be empty")
+        expected_pages = {ROOT / post["url"].lstrip("/") for post in records}
+        expected_pages.add(ROOT / "blog/posts/blog-template.html")
+        self.assertEqual(set(POSTS), expected_pages,
+                         "Every indexed article and template must be checked; no unindexed article files")
         for page in POSTS:
             with self.subTest(page=page.relative_to(ROOT).as_posix()):
                 doc = html.parse(str(page))
