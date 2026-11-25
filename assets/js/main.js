@@ -750,14 +750,18 @@ function initWebmentions(panel = null) {
   loadWebmentions();
 }
 
+const startedNoteWebmentions = new WeakSet();
+
 function initNoteWebmentions() {
-  const panels = document.querySelectorAll(".note-webmentions[data-note-target]");
-  const started = new WeakSet();
+  const panels = Array.from(document.querySelectorAll(".note-webmentions[data-note-target]"));
   function start(panel) {
-    if (started.has(panel)) return;
-    started.add(panel);
+    if (startedNoteWebmentions.has(panel)) return;
+    startedNoteWebmentions.add(panel);
     initWebmentions(panel);
   }
+  // Start the first visible cards immediately; do not depend entirely on the observer.
+  panels.slice(0, 2).forEach(start);
+  const remaining = panels.slice(2);
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
@@ -765,18 +769,19 @@ function initNoteWebmentions() {
         observer.unobserve(entry.target);
         start(entry.target);
       }
-    }, {rootMargin: "100px"});
-    panels.forEach(panel => {
+    }, {rootMargin: "300px"});
+    remaining.forEach(panel => {
       observer.observe(panel);
-      panel.querySelector("details")?.addEventListener("toggle", () => {
-        if (panel.querySelector("details").open) {
+      const details = panel.querySelector("details");
+      details?.addEventListener("toggle", () => {
+        if (details.open) {
           observer.unobserve(panel);
           start(panel);
         }
       });
     });
   } else {
-    panels.forEach(start);
+    remaining.forEach(start);
   }
 }
 
@@ -1141,13 +1146,15 @@ function initPage() {
   try { loadListeningJournal("jon_cass", 100); }
   catch (error) { console.warn("Listening journal initialisation error:", error); }
 
+  try { initNoteWebmentions(); }
+  catch (error) { console.warn("Note Webmention initialisation error:", error); }
+
   initWebringScripts();
   initSmartDates();
   initPostHUD();
   initReadingTime();
   initReadingCounter();
   initWebmentions();
-  initNoteWebmentions();
 
   loadActivityFeed();
   loadRecentPosts();
