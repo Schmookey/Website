@@ -1,4 +1,5 @@
 """Ensure ListenBrainz is alongside GOG in Socials, never in Likes."""
+import json
 from pathlib import Path
 import unittest
 from lxml import html
@@ -17,8 +18,14 @@ LB_PROFILE = "https://listenbrainz.org/user/jon_cass/"
 
 
 class ListenBrainzLocationTests(unittest.TestCase):
-    def test_all_27_panels_place_listenbrainz_immediately_after_gog(self):
-        self.assertEqual(len(PAGES), 27)
+    def test_all_panels_place_listenbrainz_immediately_after_gog(self):
+        records = json.loads((ROOT / "assets/data/posts.json").read_text(encoding="utf-8"))
+        self.assertTrue(records, "Post metadata must not be empty")
+        expected_pages = {ROOT / post["url"].lstrip("/") for post in records}
+        expected_pages.add(ROOT / "blog/posts/blog-template.html")
+        expected_pages.update(ROOT / name for name in STANDARD)
+        self.assertEqual(set(PAGES), expected_pages,
+                         "Every indexed article and template must be checked; no unindexed article files")
         self.assertTrue((ROOT / LB_IMAGE.lstrip("/")).is_file())
         for path in PAGES:
             with self.subTest(path=path.relative_to(ROOT).as_posix()):

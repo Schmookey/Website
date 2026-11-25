@@ -1,4 +1,5 @@
 """Match the Changelog's Likes badges on every blog and music article."""
+import json
 from pathlib import Path
 import unittest
 from lxml import html
@@ -25,7 +26,12 @@ class LikesPanelTests(unittest.TestCase):
         self.assertEqual(len(original), 1)
         expected = badge_links(original[0])
         self.assertEqual(len(expected), 6)
-        self.assertEqual(len(ARTICLES), 11)
+        records = json.loads((ROOT / "assets/data/posts.json").read_text(encoding="utf-8"))
+        self.assertTrue(records, "Post metadata must not be empty")
+        expected_pages = {ROOT / post["url"].lstrip("/") for post in records}
+        expected_pages.add(ROOT / "blog/posts/blog-template.html")
+        self.assertEqual(set(ARTICLES), expected_pages,
+                         "Every indexed article and template must be checked; no unindexed article files")
 
         for page in ARTICLES:
             with self.subTest(page=page.relative_to(ROOT).as_posix()):
