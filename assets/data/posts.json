@@ -1,5 +1,23 @@
 [
   {
+    "title": "£30 Well Spent",
+    "url": "/blog/posts/30_well_spent.html",
+    "date": "2026-11-25T19:00:00+00:00",
+    "readingTime": 8,
+    "section": "blog",
+    "tags": [
+      "blog",
+      "kobo",
+      "ereaders",
+      "reading",
+      "digital ownership",
+      "retro technology"
+    ],
+    "cardImage": "/assets/images/KoboTouch.jpg",
+    "cardImageAlt": "My second-hand Kobo Touch e-reader",
+    "cardBlurb": "Around four years ago, I started having a niggling feeling that I should read more, or certainly I should read with more intention."
+  },
+  {
     "title": "November Update",
     "url": "/blog/posts/november_update.html",
     "date": "2026-11-15T12:00:00+00:00",
