@@ -154,54 +154,37 @@ class NotesPublishingTests(unittest.TestCase):
             builder.read_notes(self.root)
 
 
-
-    def test_interaction_types_and_optional_commentary(self):
-        target = "https://example.org/post?a=1&b=2"
-        for i, (kind, prop) in enumerate((
-            ("like", "u-like-of"), ("repost", "u-repost-of"),
-            ("reply", "u-in-reply-to"), ("bookmark", "u-bookmark-of"),
-        )):
-            message = "My reply" if kind == "reply" else ""
-            url = builder.add_note(self.root, message, "", str(9000+i),
-                                   post_type=kind, target_url=target)
-            outputs = builder.outputs(self.root)
+    def test_each_note_has_its_own_incoming_webmentions(self):
+        urls = [builder.add_note(self.root, "Note " + str(i), "", str(9000+i))
+                for i in range(2)]
+        outputs = builder.outputs(self.root)
+        index = html.fromstring(outputs[Path("notes/index.html")])
+        panels = index.xpath('//article[@class="h-entry"]/section[@data-note-target]')
+        self.assertEqual({p.get("data-note-target") for p in panels},
+                         {builder.BASE + url for url in urls})
+        self.assertEqual(len(panels), 2)
+        self.assertFalse(index.xpath('//*[@id="comments-list" or @id="wm-replies"]'))
+        for p in panels:
+            for attr in ("data-wm-replies", "data-wm-likes", "data-wm-reposts",
+                         "data-wm-comments", "data-wm-reload"):
+                self.assertEqual(len(p.xpath(f'.//*[@{attr}]')), 1)
+            self.assertEqual(p.getparent().xpath('.//a[@class="u-url"]/@href'),
+                             [p.get("data-note-target").removeprefix(builder.BASE)])
+        for url in urls:
             doc = html.fromstring(outputs[Path(url.lstrip("/"))])
-            self.assertEqual(doc.xpath(f'//article//a[@class="{prop}"]/@href'), [target])
-            self.assertEqual(len(doc.xpath('//*[@id="comments-list"]')), 1)
-            for counter in ("wm-replies", "wm-likes", "wm-reposts"):
-                self.assertEqual(len(doc.xpath(f'//*[@id="{counter}"]')), 1)
-            index = html.fromstring(outputs[Path("notes/index.html")])
-            self.assertFalse(index.xpath('//*[@id="comments-list"]'))
-            self.assertEqual(index.xpath(f'//article//a[@class="{prop}"]/@href'), [target])
-            rss = ET.fromstring(outputs[Path("notes/feed.xml")])
-            self.assertTrue(any(target in item.findtext("description") for item in rss.findall("./channel/item")))
-            atom = ET.fromstring(outputs[Path("notes/atom.xml")])
-            ns = "{http://www.w3.org/2005/Atom}"
-            self.assertTrue(any(target in item.findtext(ns+"content") for item in atom.findall(ns+"entry")))
+            self.assertEqual(doc.xpath('//link[@rel="canonical"]/@href'), [builder.BASE + url])
+            for identifier in ("comments-list", "wm-replies", "wm-likes",
+                               "wm-reposts", "load-comments-btn"):
+                self.assertEqual(len(doc.xpath(f'//*[@id="{identifier}"]')), 1)
+            self.assertFalse(doc.xpath('//*[@data-note-target]'))
         builder.generate(self.root)
         builder.generate(self.root, check=True)
 
-    def test_interaction_validation_and_idempotence(self):
-        for kind, target, content, syndicate in (
-            ("like", "javascript:alert(1)", "", "none"),
-            ("repost", "https://user:pass@example.org/", "", "none"),
-            ("like", "https://example.org/\"bad", "", "none"),
-            ("reply", "https://example.org/", "", "none"),
-            ("note", "https://example.org/", "Text", "none"),
-            ("like", "", "", "none"),
-            ("like", "https://example.org/", "", "both"),
-        ):
-            with self.subTest(kind=kind, target=target), self.assertRaises(ValueError):
-                builder.add_note(self.root, content, "", "123", syndicate=syndicate,
-                                 post_type=kind, target_url=target)
-        first = builder.add_note(self.root, "", "", "123", post_type="like",
-                                 target_url="https://example.org/")
-        self.assertEqual(first, builder.add_note(self.root, "", "", "123", post_type="like",
-                                                target_url="https://example.org/"))
-        with self.assertRaises(ValueError):
-            builder.add_note(self.root, "", "", "123", post_type="repost",
-                             target_url="https://example.org/")
-
+    def test_publishing_form_remains_plain_notes(self):
+        workflow = (ROOT / ".github/workflows/publish-note.yml").read_text()
+        self.assertNotIn("post_type:", workflow)
+        self.assertNotIn("target_url:", workflow)
+        self.assertIn("Plain-text note", workflow)
 
 if __name__ == "__main__":
     unittest.main()
