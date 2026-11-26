@@ -240,7 +240,7 @@ def render_page(template: str, note: dict) -> str:
         f'{entry(note)}\n'
         '  </section>\n'
         f'''  <section class="comments-panel" aria-labelledby="comments">
-    <h2 id="comments" class="comments-title">💬 Replies Terminal</h2>
+    <h2 id="comments" class="comments-title"><img class="replies-title-icon" src="/assets/images/icons/hud/dark/comments.svg" alt="" width="24" height="24"> Replies Terminal</h2>
     <div class="hud-meta hud-icon-meta" aria-label="Note interactions">
       <span class="meta-pill hud-stat" title="Replies"><span class="hud-icon hud-icon-comments" aria-hidden="true"></span><span class="visually-hidden">Replies: </span><span id="wm-replies">0</span></span>
       <span class="meta-pill hud-stat" title="Likes"><span class="hud-icon hud-icon-likes" aria-hidden="true"></span><span class="visually-hidden">Likes: </span><span id="wm-likes">0</span></span>
