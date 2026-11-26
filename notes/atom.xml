@@ -4,10 +4,24 @@
   <id>https://schmookey.xyz/notes/</id>
   <link rel="alternate" href="https://schmookey.xyz/notes/" />
   <link rel="self" href="https://schmookey.xyz/notes/atom.xml" />
-  <updated>2026-11-25T18:15:03Z</updated>
+  <updated>2026-11-26T17:14:05Z</updated>
   <author>
     <name>Schmookey</name>
   </author>
+  <entry>
+    <id>https://schmookey.xyz/notes/2026-11-26-171405-45865941776.html</id>
+    <title>Just got my new favourite T-shirt. Shadow the Hedgehog! I'm such a Sonic Stan though :D</title>
+    <updated>2026-11-26T17:14:05Z</updated>
+    <published>2026-11-26T17:14:05Z</published>
+    <link rel="alternate" href="https://schmookey.xyz/notes/2026-11-26-171405-45865941776.html" />
+    <content type="text">Just got my new favourite T-shirt. Shadow the Hedgehog! I'm such a Sonic Stan though :D</content>
+    <category term="notes" />
+    <category term="indieweb" />
+    <category term="microblog" />
+    <category term="shadow" />
+    <category term="sega" />
+    <category term="videogames" />
+  </entry>
   <entry>
     <id>https://schmookey.xyz/notes/2026-11-25-181503-45673165101.html</id>
     <title>Early Christmas present to myself. 8bitDo mechanical keyboard and mouse. Been a dream to u</title>

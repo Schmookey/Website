@@ -1,5 +1,22 @@
 [
   {
+    "id": "2026-11-25-181503-45673165101",
+    "date": "2026-11-25T18:15:03Z",
+    "content": "Early Christmas present to myself. 8bitDo mechanical keyboard and mouse. Been a dream to use so far and loving the click clack clunk of it!",
+    "tags": [
+      "notes",
+      "indieweb",
+      "microblog",
+      "8bitdo",
+      "keyboard",
+      "mouse",
+      "tech"
+    ],
+    "syndicate": "both",
+    "image": "/assets/images/8bitdo_keyboard_mouse.jpg",
+    "image_alt": "a picture of my new 8BitDo mechanical keyboard and mouse"
+  },
+  {
     "id": "2026-11-24-204811-45484502189",
     "date": "2026-11-24T20:48:11Z",
     "content": "From back when you didn't need a subscription to use tech or an 'always on' internet connection. 15 years and still going strong, gotta love my Kobo Touch E-Reader!",
@@ -87,20 +104,19 @@
     "image_alt": "My cross breed Malador dog Kai"
   },
   {
-    "id": "2026-11-25-181503-45673165101",
-    "date": "2026-11-25T18:15:03Z",
-    "content": "Early Christmas present to myself. 8bitDo mechanical keyboard and mouse. Been a dream to use so far and loving the click clack clunk of it!",
+    "id": "2026-11-26-171405-45865941776",
+    "date": "2026-11-26T17:14:05Z",
+    "content": "Just got my new favourite T-shirt. Shadow the Hedgehog! I'm such a Sonic Stan though :D",
     "tags": [
       "notes",
       "indieweb",
       "microblog",
-      "8bitdo",
-      "keyboard",
-      "mouse",
-      "tech"
+      "shadow",
+      "sega",
+      "videogames"
     ],
     "syndicate": "both",
-    "image": "/assets/images/8bitdo_keyboard_mouse.jpg",
-    "image_alt": "a picture of my new 8BitDo mechanical keyboard and mouse"
+    "image": "/assets/images/20261126_165510.jpg",
+    "image_alt": "a picture of me wearing my new Shadow the Hedgehog T-shirt"
   }
 ]
