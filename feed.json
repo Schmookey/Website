@@ -11,6 +11,13 @@
   },
   "items": [
     {
+      "id": "urn:schmookey:update:web-banner-profile-16bit-icons:2026-11-26T16:30:00+00:00",
+      "url": "https://schmookey.xyz/changelog.html",
+      "title": "Web Banner, Profile, 16bit Icons",
+      "content_text": "More cohesive web banner/favicon design, 16bit rpg profile character and new 16bit icons.",
+      "date_published": "2026-11-26T16:30:00Z"
+    },
+    {
       "id": "urn:schmookey:post:30_well_spent",
       "url": "https://schmookey.xyz/blog/posts/30_well_spent.html",
       "title": "£30 Well Spent",
@@ -19,7 +26,7 @@
     },
     {
       "id": "urn:schmookey:update:uniform-design-readable-rss-feeds:2026-11-18T17:41:00+00:00",
-      "url": "https://schmookey.xyz/now.html",
+      "url": "https://schmookey.xyz/changelog.html",
       "title": "Uniform design, Readable RSS Feeds",
       "content_text": "Simple uniform retro design across site and human/machine readable RSS feeds.",
       "date_published": "2026-11-18T17:41:00Z"

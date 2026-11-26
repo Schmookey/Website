@@ -3,11 +3,19 @@
   <ns0:title>Schmookey's World</ns0:title>
   <ns0:link href="https://schmookey.xyz/" rel="alternate" />
   <ns0:link href="https://schmookey.xyz/atom.xml" rel="self" />
-  <ns0:updated>2026-11-25T19:00:00Z</ns0:updated>
+  <ns0:updated>2026-11-26T16:30:00Z</ns0:updated>
   <ns0:id>https://schmookey.xyz/</ns0:id>
   <ns0:author>
     <ns0:name>Schmookey</ns0:name>
   </ns0:author>
+  <ns0:entry>
+    <ns0:title>Web Banner, Profile, 16bit Icons</ns0:title>
+    <ns0:link href="https://schmookey.xyz/changelog.html" rel="alternate" />
+    <ns0:id>urn:schmookey:update:web-banner-profile-16bit-icons:2026-11-26T16:30:00+00:00</ns0:id>
+    <ns0:updated>2026-11-26T16:30:00Z</ns0:updated>
+    <ns0:published>2026-11-26T16:30:00Z</ns0:published>
+    <ns0:summary>More cohesive web banner/favicon design, 16bit rpg profile character and new 16bit icons.</ns0:summary>
+  </ns0:entry>
   <ns0:entry>
     <ns0:title>£30 Well Spent</ns0:title>
     <ns0:link href="https://schmookey.xyz/blog/posts/30_well_spent.html" rel="alternate" />
@@ -18,7 +26,7 @@
   </ns0:entry>
   <ns0:entry>
     <ns0:title>Uniform design, Readable RSS Feeds</ns0:title>
-    <ns0:link href="https://schmookey.xyz/now.html" rel="alternate" />
+    <ns0:link href="https://schmookey.xyz/changelog.html" rel="alternate" />
     <ns0:id>urn:schmookey:update:uniform-design-readable-rss-feeds:2026-11-18T17:41:00+00:00</ns0:id>
     <ns0:updated>2026-11-18T17:41:00Z</ns0:updated>
     <ns0:published>2026-11-18T17:41:00Z</ns0:published>

@@ -6,8 +6,15 @@
     <link>https://schmookey.xyz/</link>
     <description>Retro personal website — music, gaming, tech, and updates.</description>
     <language>en-gb</language>
-    <lastBuildDate>Wed, 25 Nov 2026 19:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 16:30:00 GMT</lastBuildDate>
     <ns0:link href="https://schmookey.xyz/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Web Banner, Profile, 16bit Icons</title>
+      <link>https://schmookey.xyz/changelog.html</link>
+      <guid isPermaLink="false">urn:schmookey:update:web-banner-profile-16bit-icons:2026-11-26T16:30:00+00:00</guid>
+      <pubDate>Thu, 26 Nov 2026 16:30:00 GMT</pubDate>
+      <description>More cohesive web banner/favicon design, 16bit rpg profile character and new 16bit icons.</description>
+    </item>
     <item>
       <title>£30 Well Spent</title>
       <link>https://schmookey.xyz/blog/posts/30_well_spent.html</link>
@@ -17,7 +24,7 @@
     </item>
     <item>
       <title>Uniform design, Readable RSS Feeds</title>
-      <link>https://schmookey.xyz/now.html</link>
+      <link>https://schmookey.xyz/changelog.html</link>
       <guid isPermaLink="false">urn:schmookey:update:uniform-design-readable-rss-feeds:2026-11-18T17:41:00+00:00</guid>
       <pubDate>Wed, 18 Nov 2026 17:41:00 GMT</pubDate>
       <description>Simple uniform retro design across site and human/machine readable RSS feeds.</description>
