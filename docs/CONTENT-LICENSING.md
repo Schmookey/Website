@@ -1,6 +1,7 @@
 # Licensing and asset review
 
 - **Website source code:** MIT, as stated in the root `LICENSE`.
+- **Original 16-bit SVG icons:** GPL-3.0-or-later, limited to the navigation, inventory and HUD icons and their mapped website copies. See [icon licence](../16bit-icons/LICENCE.md). Social-platform icons are excluded.
 - **Original articles, written content and personal imagery:** Do not assume the MIT code licence applies. A CC BY-NC badge appears on the website, but this document does not grant a new licence or change the creator's existing content terms. Confirm and document the intended licence before publicly redistributing the content.
 - **Third-party logos, badges and images:** Retain original attributions and follow each rights holder's terms. Examples include platform badges/logos, webring badges and media stills/photographs. MIT does not override their licences.
 - **External fonts, third-party scripts and embeds:** Follow their respective copyright and service terms; the repository may link to them without bundling their code.
