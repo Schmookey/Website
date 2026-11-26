@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" shape-rendering="crispEdges">
+  <title>Comments</title>
+  <path fill="#24152f" d="M5 3H19V4H21V6H23V15H21V17H19V18H10V20H8V22H5V18H3V17H1V6H3V4H5Z"/>
+  <path fill="#c5afe8" d="M5 4H19V5H21V7H22V15H20V17H10V19H8V21H6V17H4V16H2V7H4V5H5Z"/>
+  <path fill="#fffaff" d="M5 5H19V6H21V14H19V16H9V18H7V19H7V16H4V15H3V7H5Z"/>
+  <path fill="#ffffff" d="M6 5H18V6H6Z M4 7H5V12H4Z"/>
+  <path fill="#402963" d="M6 9H9V12H6Z M11 9H14V12H11Z M16 9H19V12H16Z"/>
+</svg>

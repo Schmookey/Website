@@ -2,6 +2,10 @@
 
 The source for [schmookey.xyz](https://schmookey.xyz), a small personal website about technology, music, television, books, and independent publishing. The site is **static**, with no PHP, server-side database, build process, or npm publishing requirement.
 
+## 16-bit icon collection
+
+Browse the [evolving 16-bit SVG icon collection](16bit-icons/README.md), including a printable reference sheet and individual assets.
+
 ## Local preview
 
 From the repository root, run:
