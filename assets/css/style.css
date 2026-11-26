@@ -878,6 +878,26 @@ RETRO POST FOOTER HUD
   transition:.15s;
 }
 
+/* Decorative 16-bit article navigation and replies icons. */
+.center img.footer-nav-icon,
+.center img.replies-title-icon,
+img.footer-nav-icon,
+img.replies-title-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  vertical-align: -0.12em;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
 .footer-btn:hover{
   background:#ff2a2a;
   transform:translateY(-1px);
@@ -4321,24 +4341,4 @@ body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-up
   body .layout.site-panel-layout.site-panel-three-col > main.center.panel #site-updates > .activity-card {
     padding: 16px 14px;
   }
-}
-
-/* Decorative 16-bit article navigation and replies icons. */
-.center img.footer-nav-icon,
-.center img.replies-title-icon,
-img.footer-nav-icon,
-img.replies-title-icon {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  max-width: none;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  background: transparent;
-  vertical-align: -0.12em;
-  object-fit: contain;
-  image-rendering: pixelated;
 }
