@@ -1,8 +1,15 @@
 [
   {
     "type": "Changelog",
+    "title": "Web Banner, Profile, 16bit Icons",
+    "url": "/changelog.html",
+    "date": "2026-11-26T16:30:00+00:00",
+    "summary": "More cohesive web banner/favicon design, 16bit rpg profile character and new 16bit icons."
+  },
+  {
+    "type": "Changelog",
     "title": "Uniform design, Readable RSS Feeds",
-    "url": "/now.html",
+    "url": "/changelog.html",
     "date": "2026-11-18T17:41:00+00:00",
     "summary": "Simple uniform retro design across site and human/machine readable RSS feeds."
   },
