@@ -4,7 +4,7 @@ The source for [schmookey.xyz](https://schmookey.xyz), a small personal website 
 
 ## 16-bit icon collection
 
-Browse the [evolving 16-bit SVG icon collection](16bit-icons/README.md), including a printable reference sheet and individual assets.
+Browse the [evolving 16-bit SVG icon collection](16bit-icons/README.md), including a printable reference sheet and individual assets. Original icons are GPL-3.0-or-later; social marks are excluded.
 
 ## Local preview
 

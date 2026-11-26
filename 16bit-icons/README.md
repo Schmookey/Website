@@ -41,7 +41,9 @@ An evolving collection of retro pixel-art SVGs used on [schmookey.xyz](https://s
 
 ## Reuse and licensing
 
-This collection is intended to make the icons easy to discover and reuse. The repository's MIT licence applies to website source code; a separate licence for the original icon artwork has not yet been specified. Confirm the artwork licence with the maintainer before redistribution or other reuse. Social-platform marks are provided separately for identification; their respective rights holders' terms and trademark guidelines still apply. See [content licensing](../docs/CONTENT-LICENSING.md).
+Copyright (C) 2026 Schmookey. The original SVG icons in navigation/, inventory/ and hud/ (including both themes), and the corresponding website copies listed in sources.tsv, are licensed under the GNU General Public License, version 3 or (at your option) any later version (SPDX: GPL-3.0-or-later). The social/ icons and their website counterparts are excluded; their respective rights holders' terms and trademark rules apply. No licence is granted here for third-party marks. The website source code remains MIT-licensed.
+
+You may use, modify and redistribute the original icons, including commercially, without paying a licence fee. When distributing covered icons or modifications, comply with GPL conditions, including preserving notices, providing the preferred editable source and licensing covered modifications under the GPL. See [COPYING](COPYING) for the full licence and [LICENCE.md](LICENCE.md) for scope. The social marks are not included in this grant.
 
 ## Adding icons
 
