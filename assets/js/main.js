@@ -368,20 +368,33 @@ function initWebringScripts() {
 ===================================================== */
 
 function initSmartDates() {
+  const now = new Date();
+
   document.querySelectorAll(".auto-date").forEach(el => {
-    const date = el.dataset.date ? new Date(el.dataset.date) : new Date();
+    // A missing date must never appear to be a newly published entry.
+    // YYYY-MM is supported for historical entries with unknown exact days.
+    const raw = el.dataset.date || "";
+    if (!/^\d{4}-(0[1-9]|1[0-2])(?:-(0[1-9]|[12]\d|3[01]))?$/.test(raw)) {
+      el.textContent = "Date not recorded";
+      return;
+    }
 
-    if (isNaN(date)) return;
+    const iso = raw.length === 7 ? raw + "-01" : raw;
+    const date = new Date(iso + "T00:00:00Z");
+    if (isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== iso) {
+      el.textContent = "Date not recorded";
+      return;
+    }
 
-    const formatDate = d =>
-      d.toLocaleDateString("en-GB", {
-        year: "numeric",
-        month: "long"
-      });
+    const formatted = date.toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "long",
+      timeZone: "UTC"
+    });
 
     const diffMonths =
-      (new Date().getFullYear() - date.getFullYear()) * 12 +
-      (new Date().getMonth() - date.getMonth());
+      (now.getFullYear() - date.getUTCFullYear()) * 12 +
+      (now.getMonth() - date.getUTCMonth());
 
     const timeAgo =
       diffMonths <= 0 ? "this month" :
@@ -389,7 +402,7 @@ function initSmartDates() {
       diffMonths < 12 ? `${diffMonths} months ago` :
       `${Math.floor(diffMonths / 12)} year(s) ago`;
 
-    el.textContent = `${formatDate(date)} (${timeAgo})`;
+    el.textContent = `${formatted} (${timeAgo})`;
   });
 }
 
