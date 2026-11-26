@@ -405,6 +405,22 @@ BLOG FEED CARDS
   transition:background 0.2s ease;
 }
 
+.h-feed > .post-card > .post-content .read-more img.read-more-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  vertical-align: -0.12em;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
 .read-more:hover{
   background:#333;
 }

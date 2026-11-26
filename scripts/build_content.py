@@ -207,7 +207,7 @@ def make_card(root: Path, post: dict, doc) -> str:
         f'      <h2 class="p-name"><a href="{link}">{escape(title)}</a></h2>\n'
         f'      <time class="dt-published" datetime="{escape(post["date"], quote=True)}">{date_label}</time>\n'
         f'      <p class="p-summary">{escape(blurb)}</p>\n'
-        f'      <a class="read-more" href="{link}">Read More →</a>\n'
+        f'      <a class="read-more" href="{link}">Read More <img class="read-more-icon" src="/assets/images/forward.svg" alt="" width="24" height="24"></a>\n'
         '    </div>\n'
         f'    <a class="post-card-area-link" href="{link}" aria-hidden="true" tabindex="-1"></a>\n'
         '  </article>\n'
