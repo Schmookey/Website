@@ -44,6 +44,50 @@ class ChangelogCentrePanelTests(unittest.TestCase):
         self.assertEqual(len(page.xpath("//script[@src='/assets/js/main.js']")), 1)
         self.assertFalse(main[0].xpath(".//*[@class='jrpg-window']"))
 
+    def test_changelog_dates_are_explicit_and_readable_without_javascript(self):
+        import re
+        from datetime import date
+
+        page = html.parse(str(ROOT / "changelog.html"))
+        dates = page.xpath("//div[@class='changelog-card-title']/span[@class='auto-date']")
+        self.assertTrue(dates)
+        for element in dates:
+            raw = element.get("data-date", "")
+            self.assertRegex(raw, r"^\d{4}-\d{2}(?:-\d{2})?$")
+            parsed = date.fromisoformat(raw + "-01" if len(raw) == 7 else raw)
+            months = ("January", "February", "March", "April", "May", "June",
+                      "July", "August", "September", "October", "November", "December")
+            self.assertEqual(element.text_content().strip(),
+                             f"{months[parsed.month - 1]} {parsed.year}")
+
+    def test_smart_dates_do_not_invent_publication_dates(self):
+        import re
+        import subprocess
+
+        js = (ROOT / "assets/js/main.js").read_text(encoding="utf-8")
+        function = re.search(r"function initSmartDates\(\) \{[\s\S]*?\n\}", js)
+        self.assertIsNotNone(function)
+        harness = """
+const assert = require("node:assert/strict");
+const entries = ["2026-03-31", "2026-03", "", "2026-02-30", "2026-11-26"]
+  .map(date => ({dataset: {date}, textContent: ""}));
+global.document = {querySelectorAll: () => entries};
+const RealDate = Date;
+global.Date = class extends RealDate {
+  constructor(...args) {
+    super(...(args.length ? args : ["2026-12-15T12:00:00Z"]));
+  }
+};
+initSmartDates();
+assert.equal(entries[0].textContent, "March 2026 (9 months ago)");
+assert.equal(entries[1].textContent, entries[0].textContent);
+assert.equal(entries[2].textContent, "Date not recorded");
+assert.equal(entries[3].textContent, "Date not recorded");
+assert.equal(entries[4].textContent, "November 2026 (1 month ago)");
+"""
+        subprocess.run(["node", "-e", function.group(0) + "\n" + harness],
+                       check=True, cwd=ROOT)
+
     def test_css_is_scoped_and_preserves_hover_movement(self):
         css = (ROOT / "assets/css/style.css").read_text(encoding="utf-8")
         self.assertEqual(css.count(SECTION), 1)
