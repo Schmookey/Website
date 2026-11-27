@@ -6,6 +6,10 @@ The source for [schmookey.xyz](https://schmookey.xyz), a small personal website 
 
 Browse the [evolving 16-bit SVG icon collection](16bit-icons/README.md), including a printable reference sheet and individual assets. Original icons are GPL-3.0-or-later; social marks are excluded.
 
+## 88×31 pin collection
+
+Browse the [88×31 website button archive](88x31-pins/README.md), including unused and alternate badges, original files and a printable reference sheet. Third-party badges retain their respective rights holders' terms.
+
 ## Local preview
 
 From the repository root, run:
