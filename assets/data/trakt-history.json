@@ -1,7 +1,18 @@
 {
-  "generated_at": "2026-11-27T14:23:44+00:00",
+  "generated_at": "2026-11-27T21:59:56+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Carnivàle",
+      "type": "TV Show",
+      "episode": "Milfay",
+      "season": 1,
+      "episode_number": 1,
+      "year": 2003,
+      "link": "https://trakt.tv/shows/carnivale",
+      "cover": "https://image.tmdb.org/t/p/w200/5pKvfZ3qLuKJd8PQfKcPxN9jTO9.jpg",
+      "watched_at": "2026-11-27T22:24:00.000Z"
+    },
     {
       "title": "Shetland",
       "type": "TV Show",
@@ -320,17 +331,6 @@
       "link": "https://trakt.tv/shows/the-celebrity-traitors",
       "cover": "https://image.tmdb.org/t/p/w200/uziPOqxQotCE9g0wBgDvHCOvRhP.jpg",
       "watched_at": "2026-10-29T22:25:00.000Z"
-    },
-    {
-      "title": "Mock the Week",
-      "type": "TV Show",
-      "episode": "Rhys James, Neil Delamere, Milton Jones, Zoe Lyons, Sara Pascoe and Ahir Shah",
-      "season": 2,
-      "episode_number": 7,
-      "year": 2026,
-      "link": "https://trakt.tv/shows/mock-the-week-2026",
-      "cover": "https://image.tmdb.org/t/p/w200/gou7RoRz88v58UYeSiTMp5OS1iy.jpg",
-      "watched_at": "2026-10-27T08:56:00.000Z"
     }
   ]
 }
