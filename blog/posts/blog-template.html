@@ -1,22 +1,34 @@
 <!DOCTYPE html>
 <html lang="en-GB">
+<!--
+  BLOG TEMPLATE — aligned with £30 Well Spent (November 2026).
+  BEFORE PUBLISHING:
+  1. Save as your new article filename in blog/posts/.
+  2. Replace all occurrences of blog-template.html with that filename.
+  3. Replace ARTICLE TITLE, ARTICLE SUMMARY and publication date/time placeholders.
+     Keep the JSON-LD datePublished and dt-published datetime identical; use the correct GMT/BST offset.
+  4. Set the featured image URL and alt text in Open Graph and JSON-LD; add your article and tags below.
+  5. Remove the noindex, nofollow meta tag from the finished article (not this master template).
+  6. Add the matching article entry to /assets/data/posts.json. Keep generated sidebar markers intact.
+  7. Add real u-syndication URLs only after publishing the corresponding social posts.
+-->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reply to XXXXXX | SCHMOOKEY</title>
+<title>ARTICLE TITLE | SCHMOOKEY</title>
 
 <meta name="description"
-      content="A reply post on Schmookey's World.">
+      content="ARTICLE SUMMARY">
 <meta name="author" content="Schmookey">
 
 <link rel="canonical"
       href="https://schmookey.xyz/blog/posts/blog-template.html">
 
 <meta property="og:title"
-      content="Reply to XXXXXX | SCHMOOKEY">
+      content="ARTICLE TITLE | SCHMOOKEY">
 <meta property="og:description"
-      content="A reply post on Schmookey's World.">
+      content="ARTICLE SUMMARY">
 <meta property="og:type" content="article">
 <meta property="og:url"
       content="https://schmookey.xyz/blog/posts/blog-template.html">
@@ -35,11 +47,11 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "",
-  "description": "",
-  "url": "https://schmookey.xyz/blog/posts/xxxxxx",
-  "image": "https://schmookey.xyz/assets/images/home.png",
-  "datePublished": "2026-xx-xxTxx:xx:00+00:00",
+  "headline": "ARTICLE TITLE",
+  "description": "ARTICLE SUMMARY",
+  "url": "https://schmookey.xyz/blog/posts/blog-template.html",
+  "image": "https://schmookey.xyz/assets/images/Schmookey.jpg",
+  "datePublished": "YYYY-MM-DDTHH:MM:00+00:00",
   "author": {
     "@type": "Person",
     "name": "Schmookey",
@@ -191,22 +203,22 @@
           <a class="u-author" href="https://schmookey.xyz" hidden></a>
 
           <p class="p-summary" hidden>
-            A post about my week 23-29 March.
+            ARTICLE SUMMARY
           </p>
 
           <div class="hud-title">
             <p class="hud-kicker">BLOG ENTRY</p>
-            <h1 class="p-name post-title">XXXXXXXXXXX</h1>
+            <h1 class="p-name post-title">ARTICLE TITLE</h1>
           </div>
 
           <div class="hud-clock">
             <span class="hud-stamp-label">UPDATED</span>
-            <span id="hudDate">Sun 29 Mar 2026</span>
-            <span id="hudTime">22:20</span>
+            <span id="hudDate">DAY DD MMM YYYY</span>
+            <span id="hudTime">HH:MM</span>
           </div>
 
-          <time class="dt-published visually-hidden" datetime="2026-03-29T22:20:00+01:00">
-            2026-03-29 22:20 BST
+          <time class="dt-published visually-hidden" datetime="YYYY-MM-DDTHH:MM:00+00:00">
+            YYYY-MM-DD HH:MM GMT/BST
           </time>
 
           <div class="hud-meta hud-icon-meta">
@@ -221,29 +233,33 @@
 
       <div class="e-content">
 
-        <!-- Add Mastodon u-syndication markup only once a real status URL is available. -->
+        <!-- Add Mastodon u-syndication markup only once a real status URL is available.
+        <a rel="syndication" class="u-syndication" href="MASTODON-STATUS-URL" hidden></a>
+        -->
 
-        <!-- Add Bluesky u-syndication markup only once a real post URL is available. -->
+        <!-- Add Bluesky u-syndication markup only once a real post URL is available.
+        <a rel="syndication" class="u-syndication" href="BLUESKY-POST-URL" hidden></a>
+        -->
 
         <a href="https://brid.gy/publish/mastodon" hidden></a>
         <a href="https://brid.gy/publish/bluesky" hidden></a>
         
+        <!-- OPTIONAL FEATURED IMAGE: uncomment and replace filename, alt text and caption.
         <figure class="post-image">
-          <img src="/assets/images/placeholder-cover.png" alt="Illustrated book cover for Tower by author Bae Myung-Hoon" loading="lazy" decoding="async">
-          <figcaption>Illustrated book cover for Tower by author Bae Myung-Hoon</figcaption>
+          <img src="/assets/images/IMAGE-FILENAME.webp" alt="IMAGE DESCRIPTION" loading="lazy" decoding="async">
+          <figcaption>IMAGE CAPTION</figcaption>
         </figure>
-      
-      
-       
+        -->
 
-        <h3 class="tag-heading"></h3>
+        <!-- BEGIN ARTICLE TEXT -->
+
+        <!-- Write your article here using <p>...</p> paragraphs. -->
+
+        <!-- END ARTICLE TEXT -->
 
         <ul class="post-tags">
           <li><span class="p-category">blog</span></li>
-          <li><span class="p-category">website</span></li>
-          <li><span class="p-category">tower</span></li>
-          <li><span class="p-category">listenbrainz</span></li>
-          <li><span class="p-category">bookwyrm</span></li>
+          <!-- Add your article's tags here. Example: <li><span class="p-category">technology</span></li> -->
         </ul>
 
         </div> <!-- end e-content -->
