@@ -35,6 +35,26 @@ class TradingCardIconsTests(unittest.TestCase):
             self.assertEqual((logo.get("width"), logo.get("height")), ("32", "32"))
             self.assertIn(service, logo.getparent().text_content().lower())
             self.assertEqual(logo.getparent().get("rel"), "me")
+        nav, = card.xpath('.//nav[@class="profile-card-socials"]')
+        links = nav.xpath('./a')
+        self.assertEqual([link.text_content().strip() for link in links],
+                         ["Fediverse", "GitHub", "Mastodon", "Bluesky"])
+        self.assertEqual([link.get("href") for link in links], [
+            "https://fed.brid.gy/ap/@schmookey@mastodon.social",
+            "https://github.com/Schmookey",
+            "https://mastodon.social/@schmookey",
+            "https://bsky.app/profile/schmookey.xyz",
+        ])
+        self.assertIn("u-url", links[0].get("class").split())
+        for link in links:
+            self.assertIn("profile-card-link", link.get("class").split())
+            self.assertEqual(link.get("rel"), "me")
+            logo, = link.xpath('./img[@class="profile-card-logo"]')
+            self.assertEqual((logo.get("width"), logo.get("height")), ("32", "32"))
+            self.assertEqual(logo.get("alt"), "")
+        github_logo, = links[1].xpath('./img')
+        self.assertEqual(github_logo.get("src"), "/assets/images/github.png")
+        self.assertTrue((ROOT / "assets/images/github.png").is_file())
         for name, value in (("coffee", 85), ("energy", 70), ("sleep", 30)):
             bar, = card.xpath('.//*[@role="progressbar" and @aria-labelledby=$label]', label="card-" + name)
             self.assertEqual(bar.get("aria-valuenow"), str(value))
