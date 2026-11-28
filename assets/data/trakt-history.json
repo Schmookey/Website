@@ -1,7 +1,29 @@
 {
-  "generated_at": "2026-11-28T04:58:35+00:00",
+  "generated_at": "2026-11-28T12:21:44+00:00",
   "source": "Trakt public watch history (cached by GitHub Actions)",
   "items": [
+    {
+      "title": "Have I Got News for You",
+      "type": "TV Show",
+      "episode": "Alexander Armstrong, Chris McCausland, Cindy Yu",
+      "season": 72,
+      "episode_number": 8,
+      "year": 1990,
+      "link": "https://trakt.tv/shows/have-i-got-news-for-you",
+      "cover": "https://image.tmdb.org/t/p/w200/gYrG6F8OXBa8C0Lfx10XaZsHKaw.jpg",
+      "watched_at": "2026-11-28T09:42:00.000Z"
+    },
+    {
+      "title": "Honey",
+      "type": "TV Show",
+      "episode": "Episode 4",
+      "season": 1,
+      "episode_number": 4,
+      "year": 2026,
+      "link": "https://trakt.tv/shows/honey",
+      "cover": "https://image.tmdb.org/t/p/w200/wKrubUacVFYxSjYBkiZYrgiCjXh.jpg",
+      "watched_at": "2026-11-28T08:32:00.000Z"
+    },
     {
       "title": "Carnivàle",
       "type": "TV Show",
@@ -309,28 +331,6 @@
       "link": "https://trakt.tv/shows/have-i-got-news-for-you",
       "cover": "https://image.tmdb.org/t/p/w200/gYrG6F8OXBa8C0Lfx10XaZsHKaw.jpg",
       "watched_at": "2026-10-30T21:49:00.000Z"
-    },
-    {
-      "title": "The Celebrity Traitors: Uncloaked",
-      "type": "TV Show",
-      "episode": "Episode #2.9",
-      "season": 2,
-      "episode_number": 9,
-      "year": 2025,
-      "link": "https://trakt.tv/shows/the-celebrity-traitors-uncloaked",
-      "cover": "https://image.tmdb.org/t/p/w200/8AOr0ufWDn2pMtgdcXpoUYnnik7.jpg",
-      "watched_at": "2026-10-29T22:48:00.000Z"
-    },
-    {
-      "title": "The Celebrity Traitors",
-      "type": "TV Show",
-      "episode": "Episode 9",
-      "season": 2,
-      "episode_number": 9,
-      "year": 2025,
-      "link": "https://trakt.tv/shows/the-celebrity-traitors",
-      "cover": "https://image.tmdb.org/t/p/w200/uziPOqxQotCE9g0wBgDvHCOvRhP.jpg",
-      "watched_at": "2026-10-29T22:25:00.000Z"
     }
   ]
 }
