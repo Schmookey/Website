@@ -53,8 +53,10 @@ class TradingCardIconsTests(unittest.TestCase):
             self.assertEqual((logo.get("width"), logo.get("height")), ("32", "32"))
             self.assertEqual(logo.get("alt"), "")
         github_logo, = links[1].xpath('./img')
-        self.assertEqual(github_logo.get("src"), "/assets/images/github.png")
-        self.assertTrue((ROOT / "assets/images/github.png").is_file())
+        self.assertEqual(github_logo.get("src"), "/assets/images/github.svg")
+        github_asset = etree.parse(str(ROOT / "assets/images/github.svg")).getroot()
+        self.assertEqual(github_asset.get("viewBox"), "0 0 32 32")
+        self.assertEqual(github_asset.get("shape-rendering"), "crispEdges")
         for name, value in (("coffee", 85), ("energy", 70), ("sleep", 30)):
             bar, = card.xpath('.//*[@role="progressbar" and @aria-labelledby=$label]', label="card-" + name)
             self.assertEqual(bar.get("aria-valuenow"), str(value))
