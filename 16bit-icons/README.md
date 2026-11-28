@@ -34,10 +34,10 @@ An evolving collection of retro pixel-art SVGs used on [schmookey.xyz](https://s
 
 ## Social platforms
 
-| Bluesky | Fediverse | Mastodon |
-| :---: | :---: | :---: |
-| [<img src="social/bluesky-16bit.svg" width="48" height="48" alt="Bluesky">](social/bluesky-16bit.svg) | [<img src="social/fediverse-16bit.svg" width="48" height="48" alt="Fediverse">](social/fediverse-16bit.svg) | [<img src="social/mastodon-16bit.svg" width="48" height="48" alt="Mastodon">](social/mastodon-16bit.svg) |
-| [SVG](social/bluesky-16bit.svg) | [SVG](social/fediverse-16bit.svg) | [SVG](social/mastodon-16bit.svg) |
+| Bluesky | Fediverse | Mastodon | GitHub |
+| :---: | :---: | :---: | :---: |
+| [<img src="social/bluesky-16bit.svg" width="48" height="48" alt="Bluesky">](social/bluesky-16bit.svg) | [<img src="social/fediverse-16bit.svg" width="48" height="48" alt="Fediverse">](social/fediverse-16bit.svg) | [<img src="social/mastodon-16bit.svg" width="48" height="48" alt="Mastodon">](social/mastodon-16bit.svg) | [<img src="social/github-16bit.svg" width="48" height="48" alt="GitHub">](social/github-16bit.svg) |
+| [SVG](social/bluesky-16bit.svg) | [SVG](social/fediverse-16bit.svg) | [SVG](social/mastodon-16bit.svg) | [SVG](social/github-16bit.svg) |
 
 ## Reuse and licensing
 
