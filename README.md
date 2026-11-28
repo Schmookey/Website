@@ -10,6 +10,10 @@ Browse the [evolving 16-bit SVG icon collection](16bit-icons/README.md), includi
 
 Browse the [88×31 website button archive](88x31-pins/README.md), including unused and alternate badges, original files and a printable reference sheet. Third-party badges retain their respective rights holders' terms.
 
+## Optional article image carousel
+
+Use the [chunky 16-bit carousel authoring guide](docs/IMAGE-CAROUSEL.md) to add image galleries with simple figure and caption markup. Shared assets are loaded only for pages containing a carousel.
+
 ## Local preview
 
 From the repository root, run:
