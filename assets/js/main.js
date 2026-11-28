@@ -456,7 +456,13 @@ function initReadingTime() {
 
   if (!content || !output) return;
 
-  const text = (content.textContent || "").trim();
+  // Generated gallery labels and counters are controls, not article words.
+  // Retain every original caption, including those on hidden slides.
+  const countContent = content.querySelector?.("[data-carousel-ui]") ? content.cloneNode(true) : content;
+  if (countContent !== content) {
+    countContent.querySelectorAll("[data-carousel-ui]").forEach(node => node.remove());
+  }
+  const text = (countContent.textContent || "").trim();
   const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
   const minutes = Math.max(1, Math.round(words / 210));
 
@@ -1403,4 +1409,27 @@ window.SCHMOOKEY_initPage = initPage;
   script.src = "/assets/js/site-theme.js";
   script.dataset.schmookeyThemeScript = "true";
   document.head.appendChild(script);
+})();
+
+// Optional image galleries: load local component assets only when requested
+// by article markup. Keep the figures visible if CSS or JS cannot load.
+(function loadImageCarousel() {
+  function load() {
+    if (!document.querySelector(".image-carousel") ||
+        document.querySelector("link[data-image-carousel]")) return;
+    const style = document.createElement("link");
+    style.rel = "stylesheet";
+    style.href = "/assets/css/image-carousel.css";
+    style.setAttribute("data-image-carousel", "");
+    style.onload = () => {
+      if (document.querySelector("script[data-image-carousel]")) return;
+      const script = document.createElement("script");
+      script.src = "/assets/js/image-carousel.js";
+      script.setAttribute("data-image-carousel", "");
+      document.head.appendChild(script);
+    };
+    document.head.appendChild(style);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", load, {once:true});
+  else load();
 })();

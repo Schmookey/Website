@@ -96,6 +96,9 @@ jobs:
           node --check assets/js/archive.js
           node --check assets/js/trakt-history.js
           node --check assets/js/video-embed.js
+          node --check assets/js/image-carousel.js
+      - name: Test optional chunky image carousel (offline)
+        run: node tests/test_image_carousel.js
       - name: Test click-to-load video privacy (offline)
         run: node tests/test_video_embed.js
       - name: Test URL validation and script loading safeguards
